@@ -16,7 +16,7 @@ import sys
 import time
 
 STEPS = [('meta', '영상 정보 확인', 5), ('stt', '받아쓰기', 15), ('plan', '인사이트 정리', 30),
-         ('voice', '목소리 입히기', 15), ('img', '장면 그림', 12), ('vid', '장면 영상', 12), ('render', '영상 만들기', 15), ('upload', '올리기', 5)]
+         ('voice', '목소리 입히기', 15), ('img', '장면 그림', 12), ('vid', '장면 영상', 12), ('mgd', '모션 디자인', 10), ('render', '영상 만들기', 15), ('upload', '올리기', 5)]
 KEYS = [k for k, _l, _w in STEPS]
 LOCAL = '/tmp/ys_progress.json'
 
@@ -34,7 +34,8 @@ def budgets(img='codex', stt='scribe', voice='eleven', ln=60, dur=0):
         'voice': int(40 + ln) if voice == 'eleven' else int(30 + 0.6 * ln),
         'img': 70 * scenes if img in ('codex', 'depth', 'grok') else 0,   # 맥 Codex 한 장씩(그록 = 첫 프레임용 세로 그림)
         'vid': 90 + 60 * -(-scenes // 3) if img == 'grok' else 0,   # 그록 장면 영상 = 3발 동시 · 한 판 ≈ 1분(실측 전 추정)
-        'render': int(120 + 1.5 * ln) + {'motion': 300, 'depth': int(60 + 1.5 * ln), 'grok': 60}.get(img, 0),   # 모션 = 장면당 프레임 캡처 · 입체 = 깊이 추정+워핑(≈ 실시간 1.3배) · 그록 = 영상 합성
+        'mgd': 240 if img == 'motion' else 0,   # Opus 5.5 high 모션 디자이너 1콜(장면 코드) — 맥·그록 대체 때는 그 단계가 스스로 켠다
+        'render': int(120 + 1.5 * ln) + {'motion': int(60 + 3 * ln), 'depth': int(60 + 1.5 * ln), 'grok': 60}.get(img, 0),   # 모션 = 장면당 프레임 캡처 · 입체 = 깊이 추정+워핑(≈ 실시간 1.3배) · 그록 = 영상 합성
         'upload': 20,
     }
 
@@ -121,6 +122,8 @@ def main(argv):
             doc['steps'][KEYS.index('img')]['st'] = 'skip'
         if img != 'grok':
             doc['steps'][KEYS.index('vid')]['st'] = 'skip'
+        if img != 'motion':   # GPT·입체·그록 = 대체가 필요할 때만 모션 디자인 단계가 run 으로 스스로 켠다
+            doc['steps'][KEYS.index('mgd')]['st'] = 'skip'
         apply_budget(doc)
     elif cmd == 'budget':   # 영상 길이를 안 뒤(meta) 받아쓰기 예산 재계산
         kv = dict(a.split('=', 1) for a in argv[3:] if '=' in a)

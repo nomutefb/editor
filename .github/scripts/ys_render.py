@@ -9,7 +9,8 @@
   장면 화면 = 3방식(운영자 260928 «모션 그래픽 · GPT · 그록»):
     --vid-dir 에 s{i}.mp4 가 있으면 = 그록 영상 전면(9:16 꽉 채움 · 태그·자막만 얹고 큰 글자는 첫 2초만)
     --img-dir 에 s{i}.png|jpg 가 있으면 = 위쪽 칸에 그림(맥 Codex) + 아래 글자 · --depth on 이면 그 그림을 2.5D 입체 시차 영상으로(ys_depth.py)
-    둘 다 없으면 = 위쪽 칸에 모션 그래픽(장면 mg 사양 · ys_mg.py) + 아래 글자
+    둘 다 없으면 = 모션 그래픽 = 화면 글자 없이 자막 위 무대 전체(운영자 260928) — --motion motion.json(Opus 모션 디자이너) 장면이면 그 코드,
+      없거나 검문 실패면 틀 도식(ys_mg · 장면 mg 사양)
 
 디자인 값은 창작하지 않는다 — viewer/index.html `:root` 원문을 그대로 인라인(mg_render.root_tokens 계승)하고
 var(--bg)·var(--fg)·var(--mut)·var(--accent)·var(--line)만 쓴다. 폰트 = assets/fonts/pretendard.woff2(정본 사본 0).
@@ -26,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from mg_render import root_tokens   # noqa: E402  디자인 토큰 SSOT 추출기(값 창작 0)
 import ys_mg   # noqa: E402  장면 모션 그래픽(도식 8종 · 프레임 구동 캡처)
-import ys_depth   # noqa: E402  GPT 입체(깊이 추정 + 시차 워핑)
+import ys_motion   # noqa: E402  모션 디자이너 산출(motion.json) · 무대 크기(ys_depth = 입체 분기 안에서만 늦게 부른다 = numpy 없는 러너에서도 나머지 방식이 산다)
 
 ROOT = Path(__file__).resolve().parents[2]
 FONT = ROOT / 'assets' / 'fonts' / 'pretendard.woff2'
@@ -166,6 +167,11 @@ html,body{{height:{H}px;background:transparent;overflow:hidden}}
 </style></head><body><div class=t><div class=big>{br(big)}</div><div class=head>{br(head)}</div></div></body></html>"""
 
 
+def bg_html(tokens):
+    """모션 그래픽 장면 바탕 = 글자 0(운영자 260928 «모션 그래픽일 땐 화면 텍스트 없이») · 자막 자리까지 같은 바탕."""
+    return f"""<!doctype html><html><head><meta charset=utf-8><style>{tokens}html,body{{margin:0;width:{W}px;height:{H}px;background:var(--bg)}}</style></head><body></body></html>"""
+
+
 def caption_html(tokens, text):
     return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
 html,body{{height:{H}px;background:transparent;overflow:hidden}}
@@ -257,6 +263,12 @@ def main(argv):
     args, flags = parse_args(argv)
     img_dir = Path(flags['img-dir']) if flags.get('img-dir') else None
     vid_dir = Path(flags['vid-dir']) if flags.get('vid-dir') else None
+    motion_by = {}
+    if flags.get('motion') and Path(flags['motion']).exists():
+        try:
+            motion_by = {int(x['i']): x for x in json.load(open(flags['motion'], encoding='utf-8')).get('scenes') or []}
+        except Exception as e:  # noqa: BLE001
+            print(f'::warning::motion.json 읽기 실패 — 틀 도식으로 ({type(e).__name__})')
     depth = flags.get('depth') == 'on'
     dep_model = os.environ.get('YS_DEPTH_MODEL', '')
     FAMILY = FONTS.get(flags.get('font', ''), FONTS['pretendard'])
@@ -281,8 +293,9 @@ def main(argv):
         print(f"::error::나레이션 장면 수({len(timing['scenes'])}) ≠ 대본 장면 수({len(scenes)})")
         return 1
     credit = f"원본 · {meta.get('channel', '')} 「{meta.get('title', '')}」"   # 마지막 장면 윗줄(쪽수 자리) 한 줄 = 글자 덩이 밖(넘쳐 잘리던 자리 · 260928 평의회)
-    imgs_used = vids_used = mgs_used = deps_used = 0
+    imgs_used = vids_used = mgs_used = deps_used = design_used = 0
     dep_notes = []
+    MW, MH = ys_motion.canvas('16:9' if LAND else '9:16')   # 모션 무대 = 자막 자리 위 전체
     kinds, mgcap, posters = [], [], []
     font_css = f"@font-face{{font-family:NMP;src:url('file://{FONT}') format('woff2');font-weight:100 900}}"
     from playwright.sync_api import sync_playwright
@@ -328,11 +341,15 @@ def main(argv):
                 mgcap.append(None)
             elif img and depth:   # GPT 입체 = 그림 칸 배치 · 칸 안 = 깊이 시차 영상(둥근 모서리 가림막으로 겹침)
                 bx, by, bw, bh = box_rect(layout(True))
-                ok, why = ys_depth.parallax_clip(img, work / f'dep{i}.mp4', bw, bh, d, dep_model)
+                try:   # 입체 도구(numpy·opencv·onnxruntime)가 없거나 깨져도 = 정지 그림으로 대체(렌더 전체는 산다)
+                    import ys_depth
+                    ok, why = ys_depth.parallax_clip(img, work / f'dep{i}.mp4', bw, bh, d, dep_model)
+                except Exception as e:  # noqa: BLE001
+                    ok, why = False, f'입체 도구 없음({type(e).__name__})'
                 if ok:
                     imgs_used += 1
-                    deps_used += 1
-                    if why:
+                    deps_used += 0 if why else 1   # 평면 확대로 강하한 장면은 입체로 세지 않는다(표시 정직)
+                    if why and why not in dep_notes:
                         dep_notes.append(why)
                     kinds.append(('dep', str(work / f'dep{i}.mp4')))
                     shot(pg, slide_html(tokens, sc, i, len(scenes), None, credit if last else '', box=True), work / f's{i}.png')
@@ -348,16 +365,28 @@ def main(argv):
                 kinds.append(('img', img))
                 shot(pg, slide_html(tokens, sc, i, len(scenes), img, credit if last else ''), work / f's{i}.png')
                 mgcap.append(None)
-            else:
+            else:   # 모션 그래픽 = 글자 없는 전체 무대(Opus 모션 디자이너 코드 → 검문 실패면 틀 도식)
                 mgs_used += 1
                 kinds.append(('mg', None))
-                shot(pg, slide_html(tokens, sc, i, len(scenes), None, credit if last else '', box=True), work / f's{i}.png')
-                bx, by, bw, bh = box_rect(layout(True))
-                mg = ys_mg.normalize_mg(sc.get('mg'), sc)
-                hp = work / f'mg{i}.html'
-                hp.write_text(ys_mg.mg_html(tokens, font_css, FAMILY, mg, bw, bh), encoding='utf-8')
-                n, ef, lf = ys_mg.capture(mgp, hp, work / f'mg{i}', d, bw, bh)
-                mgcap.append({'dir': work / f'mg{i}', 'n': n, 'ef': ef, 'lf': lf, 'x': bx, 'y': by, 'type': mg['type']})
+                shot(pg, bg_html(tokens), work / f's{i}.png')
+                hp, n, spec = work / f'mg{i}.html', 0, motion_by.get(i)
+                if spec:
+                    hp.write_text(ys_mg.motion_page(tokens, font_css, FAMILY, spec['css'], spec['html'], MW, MH, credit if last else ''), encoding='utf-8')
+                    try:
+                        n = ys_mg.capture_full(mgp, hp, work / f'mg{i}', d, MW, MH)
+                    except Exception as e:  # noqa: BLE001
+                        n = 0
+                        print(f'::warning::장면 {i + 1} 모션 디자인 렌더 실패({type(e).__name__}) — 틀 도식으로')
+                    if n:
+                        design_used += 1
+                        mgcap.append({'dir': work / f'mg{i}', 'n': n, 'ef': 0, 'lf': 0, 'x': 0, 'y': 0, 'type': 'design'})
+                    else:
+                        dep_notes.append(f'장면 {i + 1} 모션 디자인이 검문을 못 넘어 기본 도식으로 만들었어')
+                if not n:
+                    mg = ys_mg.textless(ys_mg.normalize_mg(sc.get('mg'), sc))
+                    hp.write_text(ys_mg.mg_html(tokens, font_css, FAMILY, mg, MW, MH, credit if last else ''), encoding='utf-8')
+                    n, ef, lf = ys_mg.capture(mgp, hp, work / f'mg{i}', d, MW, MH)
+                    mgcap.append({'dir': work / f'mg{i}', 'n': n, 'ef': ef, 'lf': lf, 'x': 0, 'y': 0, 'type': mg['type']})
             caps = []
             for a, z, t in timing['scenes'][i]['sents']:
                 caps += split_caption(t, a, z)
@@ -377,7 +406,7 @@ def main(argv):
             slow = min(1.15, d / vd) if 0 < vd < d else 1.0   # 짧으면 1.15배까지만 늦추고 나머지는 마지막 프레임 멈춤(억지 보간 0)
             ins = ['-i', src, '-i', wav, '-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', str(work / f's{i}o.png'),
                    '-loop', '1', '-framerate', str(FPS), '-t', f'{d:.3f}', '-i', str(work / f's{i}t.png')]
-            fc = (f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,fps={FPS},setpts={slow:.4f}*(PTS-STARTPTS),"
+            fc = (f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},setsar=1,setpts={slow:.4f}*(PTS-STARTPTS),fps={FPS},"
                   f"tpad=stop_mode=clone:stop_duration={d:.3f},trim=duration={d:.3f},setpts=PTS-STARTPTS,format=rgba[bv]"
                   f";[3:v]format=rgba,fade=t=in:st=0:d=0.3:alpha=1,fade=t=out:st=1.7:d=0.5:alpha=1[tt]"
                   f";[bv][2:v]overlay=0:0[bo];[bo][tt]overlay=0:0:enable='lte(t,2.3)'[v0]")
@@ -400,12 +429,12 @@ def main(argv):
                 src0, base = '[bm]', 4
             if kind == 'mg':
                 m = mgcap[i]
-                ins += ['-framerate', str(FPS), '-i', str(m['dir'] / 'f%04d.png')]
+                ins += ['-framerate', str(FPS), '-i', str(m['dir'] / 'f%04d.jpg')]
                 rep_f = (f"loop=loop=-1:size={m['lf']}:start={m['ef']},setpts=N/{FPS}/TB" if m['lf']
                          else f"tpad=stop_mode=clone:stop_duration={d:.3f}")
                 fc = f"[2:v]format=rgba,{rep_f},trim=duration={d:.3f}[mg];[0:v][mg]overlay={m['x']}:{m['y']}[bm];"
                 src0, base = '[bm]', 3
-            zm = 0 if kind == 'dep' else ZOOM   # 입체 장면 = 칸 영상이 이미 움직인다(바탕까지 확대하면 두 움직임이 겹쳐 어지럽다)
+            zm = 0 if kind in ('dep', 'mg') else ZOOM   # 입체·모션 = 무대가 이미 움직인다(바탕까지 확대하면 두 움직임이 겹쳐 어지럽다)
             fc += f"{src0}scale=w='{W}*(1+{zm}*t/{d:.3f})':h=-2:eval=frame,crop={W}:{H},setsar=1,format=rgba[v0]"
         lastv = 'v0'
         for k, (a, _z, _t) in enumerate(caps):
@@ -441,8 +470,8 @@ def main(argv):
         pfc = f"[1:v]format=rgba[dv];[2:v]format=gray[mk];[dv][mk]alphamerge[dm];[0:v][dm]overlay={m['x']}:{m['y']},{pw_}"
     elif k0 == 'mg':  # 등장이 끝난 모션 그래픽 한 장을 칸에 겹친다
         m = mgcap[0]
-        fr = min(m['n'], m['ef']) - 1
-        pin = ['-i', str(work / 's0.png'), '-i', str(m['dir'] / f'f{max(0, fr):04d}.png')]
+        fr = (min(m['n'], m['ef']) - 1) if m['ef'] else min(m['n'] - 1, 45)   # 틀 = 등장 끝 · 디자이너 장면 = 1.5초 지점
+        pin = ['-i', str(work / 's0.png'), '-i', str(m['dir'] / f'f{max(0, fr):04d}.jpg')]
         pfc = f"[0:v][1:v]overlay={m['x']}:{m['y']},{pw_}"
     else:
         pin, pfc = ['-i', str(work / 's0.png')], pw_
@@ -452,7 +481,7 @@ def main(argv):
         print('::error::최종 영상 길이 0')
         return 1
     json.dump({'dur': round(dur, 2), 'scenes': len(scenes), 'img_used': imgs_used, 'vid_used': vids_used, 'mg_used': mgs_used,
-               'depth_used': deps_used, 'notes': sorted(set(dep_notes))[:3],
+               'depth_used': deps_used, 'design_used': design_used, 'notes': sorted(set(dep_notes))[:3],
                'ratio': '16:9' if LAND else '9:16', 'captions': sum(len(c) for c in caps_all),
                'mg_types': [m['type'] for m in mgcap if m and 'type' in m]}, open(out / 'render.json', 'w'), ensure_ascii=False)
     print(f'렌더 완료 — {dur:.1f}초 · 장면 {len(scenes)} · 영상 {vids_used} · 그림 {imgs_used} · 모션 {mgs_used} · 자막 {sum(len(c) for c in caps_all)}덩이')

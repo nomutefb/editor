@@ -61,6 +61,7 @@ jobs:
             assets/fonts
             viewer
             metrics
+            messages
 
       - name: 입력 검문 + 진행 시작
         env:   # 입력은 env 로만 받는다(run 줄에 ${{ }} 직삽입 = 셸 인젝션 축)
@@ -297,8 +298,9 @@ jobs:
         run: python3 .github/scripts/ys_images.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/img
 
       - name: 장면 영상 (그록 · 장면 1개 = 클립 1개)
-        if: ${{ env.YS_IMG == 'grok' }}
+        if: ${{ env.YS_IMG == 'grok' && contains(inputs.opts, '"img":"grok"') }}   # 잠금 줄(nm-grok-key) 식과 같은 조건 = 줄 밖에서 그록을 열지 않는다
         timeout-minutes: 25
+        continue-on-error: true   # 그록이 늦거나 죽어도 = 렌더가 그림·모션 그래픽으로 채운다(영상은 항상 나온다 · 사유는 vid.json)
         env:
           XAI_REFRESH_TOKEN: ${{ secrets.XAI_REFRESH_TOKEN }}
           XAI_TOKEN_STORE: ${{ runner.temp }}/grok_token.json
@@ -309,8 +311,49 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
-          pip install --quiet requests pynacl || echo "::warning::그록 보조 패키지 설치 실패(자격 되쓰기만 생략될 수 있음)"
-          python3 .github/scripts/ys_grok.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys/img /tmp/ys/vid "$YS_RATIO"
+          pip install --quiet pynacl || echo "::warning::pynacl 설치 실패 — 그록 열쇠 되쓰기가 안 되면 다음 그록 발사(콘티 포함)가 자격 오류로 죽을 수 있음"
+          python3 .github/scripts/ys_grok.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys/img /tmp/ys/vid "$YS_RATIO"; rc=$?
+          rm -f "$XAI_TOKEN_STORE" 2>/dev/null   # 방금 회전된 살아 있는 열쇠 평문 = 러너에 남기지 않는다
+          exit $rc
+
+      - name: 모션 디자인 (Opus 5.5 high · 글자 없는 장면 연기)
+        timeout-minutes: 22
+        continue-on-error: true   # 실패 = 틀 도식으로 대체(사유 = motion_err.txt → notes)
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
+          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          # 모션 그래픽이 필요한 장면 = 모션 방식 전 장면 · 그 밖 = 맥 그림·그록 영상이 못 채운 장면만(대체 장면도 글자 없는 연기로)
+          ONLY="$(python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          n = len(json.load(open('/tmp/ys/plan.json'))['scenes'])
+          mode = os.environ.get('YS_IMG', 'codex')
+          if mode == 'motion':
+              print('ALL')
+          else:
+              miss = [i for i in range(n) if not (Path(f'/tmp/ys/vid/s{i}.mp4').exists() or any(Path(f'/tmp/ys/img/s{i}.{e}').exists() for e in ('png', 'jpg', 'jpeg', 'webp')))]
+              print(','.join(map(str, miss)))
+          PY
+          )"
+          if [ -z "$ONLY" ]; then echo "모든 장면이 그림·영상으로 채워짐 — 모션 디자인 생략"; exit 0; fi
+          [ "$ONLY" = ALL ] && ONLY=""
+          export YS_MOTION_ONLY="$ONLY"
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+          python3 .github/scripts/ys_progress.py "$YS_ID" mgd run "Opus가 장면 연기 설계 중${ONLY:+ · 대체 장면 $ONLY}" "p=0.1"
+          if bash .github/scripts/ys_motion.sh /tmp/ys "$YS_RATIO"; then
+            python3 .github/scripts/ys_progress.py "$YS_ID" mgd done "$(python3 -c "import json;print(f\"장면 {len(json.load(open('/tmp/ys/motion.json'))['scenes'])}개 설계\")")"
+          else
+            python3 .github/scripts/ys_progress.py "$YS_ID" mgd done "기본 도식으로 대체"
+            cat /tmp/ys/motion_err.txt >> /tmp/ys_notes.txt 2>/dev/null || true
+          fi
 
       - name: 영상 만들기
         timeout-minutes: 25
@@ -324,12 +367,21 @@ jobs:
           python3 .github/scripts/ys_progress.py "$YS_ID" render run "슬라이드 그리는 중" "p=0.02"
           IMGARG=""; [ -d /tmp/ys/img ] && IMGARG="--img-dir /tmp/ys/img"
           [ -d /tmp/ys/vid ] && IMGARG="$IMGARG --vid-dir /tmp/ys/vid"
+          [ -s /tmp/ys/motion.json ] && IMGARG="$IMGARG --motion /tmp/ys/motion.json"
+          if [ "$YS_IMG" = grok ] && [ ! -s /tmp/ys/vid/vid.json ]; then   # 그록 스텝이 시간 벽·설치 실패로 끝남 = 진행 단계를 닫고 사유를 남긴다
+            python3 .github/scripts/ys_progress.py "$YS_ID" vid done "그록 단계가 끝나지 못함" || true
+            echo "그록 단계가 시간 안에 끝나지 못해 그림·모션 그래픽으로 만들었어(그록 서버 지연 추정)." >> /tmp/ys_notes.txt
+          fi
           if [ "$YS_IMG" = depth ]; then   # GPT 입체 = 깊이 모델(Depth Anything V2 Small · ONNX 27MB · Apache-2.0) + 워핑 도구
             pip install --quiet onnxruntime opencv-python-headless pillow || echo "::warning::입체 패키지 설치 실패 — 정지 그림으로 대체될 수 있음"
-            curl -fsSL --retry 3 --max-time 180 -o /tmp/ys_depth.onnx \
-              "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model_quantized.onnx" \
-              && echo "YS_DEPTH_MODEL=/tmp/ys_depth.onnx" >> "$GITHUB_ENV" && export YS_DEPTH_MODEL=/tmp/ys_depth.onnx \
-              || echo "깊이 모델을 못 받아 GPT 입체가 평면 확대로 만들어졌어." >> /tmp/ys_notes.txt
+            # 모델 = 커밋 고정 주소 + sha256 검증(가변 main 참조 = 공급망 축 · 260928 평의회) · Apache-2.0
+            if curl -fsSL --retry 3 --max-time 180 -o /tmp/ys_depth.onnx \
+                 "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/4472b7362082ad9968fee890ca0f1e5aca36b93d/onnx/model_quantized.onnx" \
+               && echo "fcf51f1b230362b28690bb9d1809bf0431f29cad20534e3f589bd7285547f20d  /tmp/ys_depth.onnx" | sha256sum -c --quiet; then
+              echo "YS_DEPTH_MODEL=/tmp/ys_depth.onnx" >> "$GITHUB_ENV"; export YS_DEPTH_MODEL=/tmp/ys_depth.onnx
+            else
+              rm -f /tmp/ys_depth.onnx; echo "깊이 모델을 받지 못해(또는 검증 실패) GPT 입체가 평면 확대로 만들어졌어." >> /tmp/ys_notes.txt
+            fi
             IMGARG="$IMGARG --depth on"
           fi
           # 고른 폰트가 러너에 없으면 조용히 대체되지 않게 = 프리텐다드(레포 동봉)로 바꾸고 사유를 남긴다(ly-make 폰트 검문 선례)
@@ -382,7 +434,8 @@ jobs:
           except Exception:
               pass
           vid_short = vid.get('note') and (vid.get('used', 0) < vid.get('total', 0) or '글→영상' in str(vid.get('note')))
-          notes = (extra + list(tim.get('notes') or []) + ([img['note']] if img_short else []) + ([vid['note']] if vid_short else [])
+          grok = os.environ.get('YS_IMG') == 'grok'   # 그록 = 맥 그림은 첫 프레임 재료일 뿐 → 결과 문구는 vid.json 이 말한다
+          notes = (extra + list(tim.get('notes') or []) + ([img['note']] if img_short and not grok else []) + ([vid['note']] if (vid_short or (grok and vid.get('used', 0) == 0)) and vid.get('note') else [])
                    + list(ren.get('notes') or []))
           tgt = int(os.environ.get('YS_LEN') or 60)
           if ren['dur'] > tgt * 1.5:
@@ -392,6 +445,7 @@ jobs:
                  'channel': meta.get('channel', ''), 'src_title': meta.get('title', ''), 'src_url': meta.get('url', ''), 'uploaded': meta.get('uploaded', ''),
                  'dur': ren['dur'], 'scenes': ren['scenes'], 'voice': tim.get('engine'), 'img': os.environ.get('YS_IMG'), 'img_used': ren.get('img_used', 0),
                  'vid_used': ren.get('vid_used', 0), 'depth_used': ren.get('depth_used', 0), 'mg_used': ren.get('mg_used', 0), 'mg_types': ren.get('mg_types', []),
+                 'design_used': ren.get('design_used', 0), 'grok_cost_usd': vid.get('cost_usd', 0),
                  'font': os.environ.get('YS_FONT_USED') or os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
                  'subop': int(os.environ.get('YS_SUBOP') or 100), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
                  'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',
@@ -448,6 +502,7 @@ jobs:
           git config user.email "bot@nomute.local"
           git add "viewer/ys_out/${YS_ID}" 2>/dev/null || true
           git add metrics 2>/dev/null || true
+          git add messages 2>/dev/null || true   # 그록 열쇠 되쓰기 실패 알림(shared/grok_api _persist_alarm) = 운영자에게 가는 유일한 신호(sb-make 동문)
           git commit -m "ys: ${YS_ID} 유튜브 숏폼" || { echo "커밋할 것 없음"; exit 0; }
           pushed=0
           for i in 1 2 3 4 5; do

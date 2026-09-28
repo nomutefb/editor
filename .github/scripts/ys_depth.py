@@ -41,6 +41,10 @@ def depth_map(rgb, model):
     import cv2
     try:
         import onnxruntime as ort
+    except ImportError:
+        print('::warning::입체 도구(onnxruntime) 설치 실패 — 평면 확대로 강하')
+        return None
+    try:
         sess = ort.InferenceSession(model, providers=['CPUExecutionProvider'])
         x = cv2.resize(rgb, (518, 518), interpolation=cv2.INTER_CUBIC).astype(np.float32) / 255.0
         x = ((x - MEAN) / STD).transpose(2, 0, 1)[None]
@@ -62,16 +66,26 @@ def ease(p):
 
 def parallax_clip(img_path, out_mp4, w, h, dur, model=None):
     """반환 = (성공 여부, 사유 문자열 · 성공이면 '' 또는 강하 사유)."""
-    import cv2
+    try:
+        import cv2
+    except ImportError:
+        return False, '입체 도구(opencv) 설치 실패'
+    try:
+        import onnxruntime  # noqa: F401
+        has_ort = True
+    except ImportError:
+        has_ort = False
     src = cv2.imread(str(img_path), cv2.IMREAD_COLOR)
     if src is None:
         return False, '그림을 못 읽었어'
     src = _cover(cv2.cvtColor(src, cv2.COLOR_BGR2RGB), w, h)
     note = ''
-    dep = depth_map(src, model) if model and os.path.exists(model) else None
+    have = bool(model and os.path.exists(model))
+    dep = depth_map(src, model) if have else None
     if dep is None:
         dep = np.zeros(src.shape[:2], np.float32)
-        note = '깊이 모델이 없어 평면 확대로 만들었어'
+        note = ('입체 도구(onnxruntime)가 없어 평면 확대로 만들었어' if not has_ort
+                else '깊이 추정이 실패해 평면 확대로 만들었어' if have else '깊이 모델이 없어 평면 확대로 만들었어')
     sh, sw = src.shape[:2]
     cx, cy = sw / 2.0, sh / 2.0
     ys, xs = np.mgrid[0:h, 0:w].astype(np.float32)

@@ -52,6 +52,15 @@ export async function onRequestPost({ request, env }) {
 
   const rl = await rateGate(GH, env.GH_TOKEN, 'ys-make.yml');   // 발사 레이트리밋(파이프 공통 문법 · fail-open)
   if (rl) return json({ ok: false, error: rl.error }, 429);
+  if (o.img === 'grok') {   // 그록 줄(nm-grok-key · 콘티 레인 공유)은 대기 1자리 — 이미 대기 판이 있으면 새 발사가 그 판을 조용히 취소한다(GitHub 규칙) → 발사 전에 막는다
+    try {
+      for (const yml of ['ys-make.yml', 'sb-make.yml']) {
+        const r = await GH(env.GH_TOKEN, `actions/workflows/${yml}/runs?status=pending&per_page=1`, 'GET');
+        if (r.ok && ((await r.json()).total_count || 0) > 0)
+          return json({ ok: false, error: '그록 줄에 이미 기다리는 작업이 있어 — 앞 작업이 시작된 뒤 다시 눌러줘(겹치면 기다리던 작업이 취소돼).' }, 429);
+      }
+    } catch { /* 조회 실패 = 막지 않는다(fail-open · rateGate 동문) */ }
+  }
 
   const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // KST(+9h · pick.js 규칙)
   const inputs = { id, url, ask, opts: JSON.stringify(o) };   // 옵션 = JSON 1칸(디스패치 입력 개수 상한 여유 · vd opts 선례) — 워크플로가 한 번 더 화이트리스트

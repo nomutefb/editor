@@ -86,8 +86,9 @@ def main(argv):
     total = len(plan['scenes'])
     if st != 'on':
         progress(id_, 'skip', why)
-        alt = '그록이 그림 없이 바로 영상으로' if os.environ.get('YS_IMG') == 'grok' else '모션 그래픽으로'
-        msg = {'off': '맥이 꺼져 있어서', 'nologin': '맥 Codex가 ChatGPT로 로그인돼 있지 않아서', 'err': '저장소에서 맥 신호를 못 읽어서'}[st] + f' {alt} 만들었어. (' + why + ')'
+        head = {'off': '맥이 꺼져 있어서', 'nologin': '맥 Codex가 ChatGPT로 로그인돼 있지 않아서', 'err': '저장소에서 맥 신호를 못 읽어서'}[st]
+        msg = (f'{head} 첫 프레임 그림 0/{total}장. (' + why + ')') if os.environ.get('YS_IMG') == 'grok' \
+            else f'{head} 모션 그래픽으로 만들었어. (' + why + ')'   # 그록 = 사실(첫 그림 수)만 · 최종 결과 문구는 ys_grok 몫
         return done(outdir, 0, msg, total)
     scenes = [{'i': i, 'prompt': clean(f"{clean(sc.get('img') or sc.get('head'))}. {STYLE}")}
               for i, sc in enumerate(plan['scenes']) if clean(sc.get('img') or sc.get('head'))]

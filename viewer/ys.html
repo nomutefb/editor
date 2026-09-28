@@ -677,7 +677,7 @@ function paintMac() {
 function paintImgNote() {   // 장면 그림을 골랐는데 맥이 못 그리는 상태 = 막지 않고 한 줄만 알린다(운영자 260928)
   const macDown = MAC.st === 'off' || MAC.st === 'login';
   if ((opts.img === 'codex' || opts.img === 'depth') && macDown) setMsg('#optMsg', MAC.st === 'off' ? '맥이 꺼져 있어서 모션 그래픽으로 만들어져.' : '맥 Codex 로그인이 필요해서 지금은 모션 그래픽으로 만들어져.', 'warn');
-  else if (opts.img === 'grok' && macDown) setMsg('#optMsg', '맥이 꺼져 있어서 첫 장면 그림 없이 그록이 바로 영상을 만들어(장면마다 화풍이 조금 흔들릴 수 있어).', 'warn');
+  else if (opts.img === 'grok' && macDown) setMsg('#optMsg', (MAC.st === 'off' ? '맥이 꺼져 있어서' : '맥 Codex 로그인이 필요해서') + ' 첫 장면 그림 없이 그록이 바로 영상을 만들어(장면마다 화풍이 조금 흔들릴 수 있어).', 'warn');
   else setMsg('#optMsg', '');
 }
 let _macT = null;
@@ -719,6 +719,7 @@ const STEPS = [
   { k: 'voice', label: '목소리 입히기', ing: '목소리 입히는 중…' },
   { k: 'img', label: '장면 그림', ing: '장면 그림 그리는 중…' },
   { k: 'vid', label: '장면 영상', ing: '장면 영상 만드는 중…' },
+  { k: 'mgd', label: '모션 디자인', ing: 'Opus가 장면 연기 설계 중…' },
   { k: 'render', label: '영상 만들기', ing: '영상 만드는 중…' },
   { k: 'upload', label: '올리기', ing: '올리는 중…' },
 ];
@@ -732,7 +733,7 @@ async function getJSON(u) {
     return await r.json();
   } catch (e) { return null; }
 }
-const POLL_MS = 5000, STALL_MS = 50 * 60e3, LIMIT_MS = 100 * 60e3;   // 무갱신 50분(받아쓰기 한 단계 최장 45분) · 절대 100분(잡 상한 75분 + 대기) — 성공할 작업을 먼저 실패로 굳히지 않는다
+const POLL_MS = 5000, STALL_MS = 50 * 60e3, LIMIT_MS = 120 * 60e3;   // 무갱신 50분(받아쓰기 한 단계 최장 45분) · 절대 120분(잡 상한 95분 + 대기) — 성공할 작업을 먼저 실패로 굳히지 않는다
 async function poll(id) {
   let stop = false;
   try { if (window.nmJobs && !nmJobs.hold(JKEY, id, () => { stop = true; })) return; } catch (e) {}
@@ -751,7 +752,7 @@ async function poll(id) {
         if (d && typeof d === 'object' && (d.error || d.video)) { land(id, d); return; }
       }
       if (p && p.state === 'fail') { failJob(id, failWhy(p), stepFailed(p)); return; }
-      if (late) { failJob(id, '오래 진행 소식이 없어 추적을 멈췄어 — 나중에 완성되면 완성작 목록에 저절로 올라와.', 'timeout'); return; }
+      if (late) { failJob(id, '오래 진행 소식이 없어 추적을 멈췄어 — 결과가 오면 완성작 목록에 올라오고, 끝내 안 오면 GitHub Actions 실행 기록 확인이 필요해.', 'timeout'); return; }
       await sleep(POLL_MS);
     }
   } finally { try { if (window.nmJobs) nmJobs.free(JKEY, id); } catch (e) {} }
@@ -767,7 +768,7 @@ function learn(id, p) {   // 진행에서 알게 된 제목 = 작업 이름표(�
 function land(id, d) {
   if (d.error) { failJob(id, String(d.error), stepFailed(PROG[id] || {})); return; }
   const res = { title: d.title || '', channel: d.channel || '', src_url: d.src_url || '', dur: +d.dur || 0, video: d.video || '', poster: d.poster || '',
-    infographic: d.infographic || '', report: d.report || '', scenes: +d.scenes || 0, voice: d.voice || '', img: d.img || '', img_used: +d.img_used || 0, vid_used: +d.vid_used || 0,
+    infographic: d.infographic || '', report: d.report || '', scenes: +d.scenes || 0, voice: d.voice || '', img: d.img || '', img_used: +d.img_used || 0, vid_used: +d.vid_used || 0, depth_used: +d.depth_used || 0, mg_used: +d.mg_used || 0, design_used: +d.design_used || 0,
     ratio: d.ratio === '16:9' || d.ratio === '9:16' ? d.ratio : '', voice_name: d.voice_name ? String(d.voice_name).slice(0, 60) : '', voice_why: d.voice_why ? String(d.voice_why).slice(0, 160) : '', tr_src: d.tr_src || '', notes: Array.isArray(d.notes) ? d.notes.slice(0, 12).map(String) : [], generated: d.generated || '' };
   mutate(a => { const x = a.find(y => y.id === id); if (!x) return;
     x.status = 'done'; x.t1 = Date.now(); x.res = res; if (res.title) { x.title = res.title.slice(0, 80); x.lbl = x.title; }
@@ -842,7 +843,7 @@ function normSteps(j, p) {
   const src = (p && Array.isArray(p.steps)) ? p.steps : (Array.isArray(j.steps) ? j.steps : []);
   const by = {}; src.forEach(s => { if (s && s.k) by[s.k] = s; });
   const mode = ((j.opts && j.opts.img) || DEF.img) === 'none' ? 'motion' : ((j.opts && j.opts.img) || DEF.img);
-  const off = k => (k === 'img' && mode === 'motion') || (k === 'vid' && mode !== 'grok');   // 그 방식에 없는 단계 = 건너뜀
+  const off = k => (k === 'img' && mode === 'motion') || (k === 'vid' && mode !== 'grok') || (k === 'mgd' && mode !== 'motion');   // 그 방식에 없는 단계 = 건너뜀(대체로 모션 디자인이 켜지면 진행 기록이 알려 준다)
   return STEPS.map(d => {
     const s = by[d.k] || {};
     let st = ST_OK.includes(s.st) ? s.st : 'wait';
@@ -1003,8 +1004,11 @@ async function paintRes() {
   $('#resMeta').textContent = [r.channel, fmtDur(r.dur)].filter(Boolean).join(' · ');
   $('#resT').textContent = r.title || j.title || '';
   $('#resVoice').textContent = r.voice_name ? '목소리: ' + r.voice_name + (r.voice_why ? ' · ' + r.voice_why : '') : '';   // 실제 쓴 목소리 + AI가 고른 이유(있을 때)
-  const imgNote = r.img === 'grok' ? ('그록 영상 ' + (r.vid_used || 0) + '장면' + (r.img_used ? ' · 첫 그림 ' + r.img_used + '장' : ''))
-    : (r.img === 'codex' || r.img === 'depth') ? (r.img_used ? (r.img === 'depth' ? 'GPT 입체 ' : 'GPT 이미지 ') + r.img_used + '장' : '모션 그래픽(맥 대체)') : (r.img === 'motion' || r.img === 'none') ? '모션 그래픽' : '';
+  const mgPart = r.mg_used ? ' · 모션 그래픽 ' + r.mg_used : '';   // 실제로 나온 방식 그대로(고른 방식 이름만 내세우지 않는다)
+  const imgNote = r.img === 'grok' ? ('그록 영상 ' + (r.vid_used || 0) + '/' + (r.scenes || '?') + '장면' + (r.img_used ? ' · 그림 대체 ' + r.img_used : '') + mgPart)
+    : r.img === 'depth' ? ((r.depth_used ? 'GPT 입체 ' + r.depth_used : 'GPT 입체 0') + (r.img_used > r.depth_used ? ' · 정지 그림 대체 ' + (r.img_used - r.depth_used) : '') + mgPart)
+    : r.img === 'codex' ? ((r.img_used ? 'GPT 이미지 ' + r.img_used : 'GPT 이미지 0') + mgPart)
+    : (r.img === 'motion' || r.img === 'none') ? ('모션 그래픽' + (r.design_used ? ' · Opus 설계 ' + r.design_used + '장면' : ' · 기본 도식')) : '';
   const ratio = r.ratio || (j.opts && j.opts.ratio) || '9:16';
   $('#resRows').innerHTML = (r.video ? row('숏폼', [ratio, imgNote].filter(Boolean).join(' · '), r.video, 'short.mp4') : '')
     + (r.infographic ? row('인포그래픽', 'PNG', r.infographic, 'infographic.png') : '')

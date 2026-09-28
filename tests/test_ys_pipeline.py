@@ -97,13 +97,13 @@ class Progress(unittest.TestCase):
     def test_flow_and_pct(self):
         ys_progress.main(['x', 'id1', 'init', 'img=none'])
         d = self.doc()
-        self.assertEqual([s['k'] for s in d['steps']], ['meta', 'stt', 'plan', 'voice', 'img', 'vid', 'render', 'upload'])
+        self.assertEqual([s['k'] for s in d['steps']], ['meta', 'stt', 'plan', 'voice', 'img', 'vid', 'mgd', 'render', 'upload'])
         self.assertEqual((d['steps'][4]['st'], d['steps'][5]['st']), ('skip', 'skip'))   # 옛 'none' = 모션 그래픽 = 그림·영상 단계 없음(분모에서 빠짐)
         ys_progress.main(['x', 'id1', 'meta', 'done', '15분 36초'])
         ys_progress.main(['x', 'id1', 'stt', 'done'])
         ys_progress.main(['x', 'id1', 'plan', 'run', '쓰는 중', 'p=0.5'])
         d = self.doc()
-        self.assertEqual(d['pct'], round(100 * (5 + 15 + 15) / 85))       # 가중 = 완료 20 + 진행 절반 15 / 85
+        self.assertEqual(d['pct'], round(100 * (5 + 15 + 15) / 95))       # 가중 = 완료 20 + 진행 절반 15 / 95(모션 = 모션 디자인 10 포함)
         self.assertEqual(d['steps'][2]['note'], '쓰는 중')
         ys_progress.main(['x', 'id1', 'fail', '인사이트 정리 실패'])
         d = self.doc()
@@ -115,7 +115,7 @@ class Progress(unittest.TestCase):
         ys_progress.main(['x', 'id2', 'finish'])
         d = self.doc()
         self.assertEqual((d['state'], d['pct']), ('done', 100))
-        self.assertTrue(all(s['st'] == ('skip' if s['k'] == 'vid' else 'done') for s in d['steps']))   # GPT 이미지 = 그록 영상 단계 없음
+        self.assertTrue(all(s['st'] == ('skip' if s['k'] in ('vid', 'mgd') else 'done') for s in d['steps']))   # GPT 이미지 = 그록 영상·모션 디자인 단계 없음(대체 때만 스스로 켬)
 
     def test_grok_keeps_vid_step(self):
         ys_progress.main(['x', 'id3', 'init', 'img=grok', 'len=60'])
@@ -239,6 +239,30 @@ class SceneModes(unittest.TestCase):
             mg = ys_mg.normalize_mg(spec)
             self.assertEqual(mg['type'], t)
             self.assertIn('<div class=box>', ys_mg.mg_html(':root{}', '', 'sans-serif', mg, 920, 740))
+
+    def test_mg_numbers_and_textless(self):
+        import ys_mg
+        self.assertEqual([ys_mg._fmt(v) for v in (3.14, 0.03, 99.95, 2.25, 12.0)], ['3.14', '0.03', '99.95', '2.25', '12'])   # 반올림 왜곡 0
+        self.assertEqual(ys_mg.normalize_mg({'type': 'number', 'value': '80%', 'unit': '%'})['value'], 80)
+        self.assertEqual(ys_mg.textless({'type': 'quote', 'text': '긴 인용 문장', 'by': '저자'})['type'], 'icon')   # 모션 모드 대체 도식 = 문장 글자 0
+        self.assertEqual(ys_mg.textless({'type': 'icon', 'icon': 'sun', 'label': 'x', 'sub': '보조 문장'})['sub'], '')
+
+    def test_motion_designer_gate(self):
+        import ys_motion
+        raw = '```json\n' + json.dumps({'scenes': [
+            {'i': 0, 'css': '.s .a{animation:k0 3s infinite;background:url(http://x)} @import "y"; .s .b{transition:all 1s}@keyframes k0{to{opacity:1}}',
+             'html': '<div class="a" onclick="x()"><script>alert(1)</script><img src="http://x"><svg><use href="http://evil"/><use href="#ok"/></svg></div>'},
+            {'i': 1, 'css': '@keyframes k1{}', 'html': '<div>' + '가' * 60 + '</div>'},                         # 글자 과다 = 버림
+            {'i': 2, 'css': '.s{}', 'html': '<div></div>'},                                                     # 움직임 없음 = 버림
+            {'i': 9, 'css': '@keyframes k9{}', 'html': '<div></div>'}]}) + '\n```'
+        keep, drop = ys_motion.normalize(ys_motion.extract(raw), 3)
+        self.assertEqual([k['i'] for k in keep], [0])
+        self.assertEqual(sorted(i for i, _ in drop), [1, 2])
+        css, html = keep[0]['css'], keep[0]['html']
+        for bad in ('url(', '@import', 'transition', 'onclick', '<script', '<img', 'http://'):
+            self.assertNotIn(bad, css + html)
+        self.assertIn('href="#ok"', html)                                                                   # 내부 참조는 유지
+        self.assertEqual(ys_motion.canvas('9:16'), (1080, 1440))
 
     def test_grok_seconds(self):
         import ys_grok
