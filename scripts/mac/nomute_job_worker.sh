@@ -22,17 +22,25 @@ ACC="$(get R2_ACCOUNT_ID)"; AK="$(get R2_ACCESS_KEY_ID)"; SK="$(get R2_SECRET_AC
 [ -n "$ACC" ] && [ -n "$AK" ] || exit 0
 B="https://$ACC.r2.cloudflarestorage.com/$BK"
 S3(){ curl -sS --max-time 60 --aws-sigv4 aws:amz:auto:s3 --user "$AK:$SK" "$@"; }
-[ -f "$HOME/nomute_ys_heartbeat.sh" ] && bash "$HOME/nomute_ys_heartbeat.sh" 2>/dev/null   # 유튜브 숏폼 맥 표시등(260928 · 자체 60초 스로틀 · 빈 큐에서도 갱신)
+if [ -f "$HOME/nomute_ys_heartbeat.sh" ]; then   # 유튜브 숏폼 맥 표시등(260928 · 자체 60초 스로틀 · 빈 큐에서도 갱신 · 30초 상한 = 다른 잡을 막지 않게)
+  if command -v timeout >/dev/null 2>&1; then timeout 30 bash "$HOME/nomute_ys_heartbeat.sh" 2>/dev/null; else bash "$HOME/nomute_ys_heartbeat.sh" 2>/dev/null; fi
+fi
 # 유튜브 숏폼 장면 그림(260928) — 전용 접두 queue/ysimg/ = 본 큐(head -6)에 오래 남은 잡이 있어도 굶지 않는다 · 회차당 1잡
 #   드라이버가 R2 키·Codex 로그인을 스스로 읽는다(아래 키 주입·git pull 불요) · 실패 = failed/ 이동(워크플로는 글자 화면으로 진행)
 YK=$(S3 "$B?list-type=2&prefix=queue/ysimg/" 2>/dev/null | grep -o '<Key>[^<]*</Key>' | sed 's/<Key>//;s/<\/Key>//' | head -1)
 if [ -n "$YK" ] && [ -f "$HOME/nomute_ys_driver.sh" ]; then
-  YJ="/tmp/nomute_ysimg.json"
-  if S3 "$B/$YK" -o "$YJ" 2>/dev/null; then
+  YJ=$(mktemp "${TMPDIR:-/tmp}/nomute_ysimg.XXXXXX") || YJ=""   # 예측 불가 이름 = 다른 프로세스가 미리 심은 링크로 덮이지 않게
+  if [ -n "$YJ" ] && S3 -f "$B/$YK" -o "$YJ" 2>/dev/null; then
     S3 -X DELETE "$B/$YK" >/dev/null 2>&1   # 먼저 집는다 = 10초 서브폴 재진입이 같은 잡을 두 번 돌리지 않게(잠금과 이중 방어)
     if timeout 3600 bash "$HOME/nomute_ys_driver.sh" "$YJ"; then echo "[job] $(date '+%H:%M:%S') ysimg 완료 ($YK)"
-    else S3 -X PUT "$B/queue/failed/$(basename "$YK")" --data-binary "@$YJ" >/dev/null 2>&1; echo "[job] $(date '+%H:%M:%S') ysimg 실패 — failed/ 이동"; fi
+    else yrc=$?; S3 -X PUT "$B/queue/failed/$(basename "$YK")" --data-binary "@$YJ" >/dev/null 2>&1
+      YID=$(basename "$YK" .json)   # 러너에 「끝남」을 알린다 = 900초 헛대기 대신 바로 모션 그래픽·글자 화면으로
+      case "$YID" in [0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f])
+        printf '{"ok":0,"fail":0,"notes":"맥 그림 작업이 멈췄어(rc=%s)"}' "$yrc" | S3 -X PUT -H 'Content-Type: application/json' --data-binary @- "$B/ys_img/$YID/done.json" >/dev/null 2>&1;;
+      esac
+      echo "[job] $(date '+%H:%M:%S') ysimg 실패 rc=$yrc — failed/ 이동"; fi
   fi
+  [ -n "$YJ" ] && rm -f "$YJ" 2>/dev/null
 fi
 KEYS=$(S3 "$B?list-type=2&prefix=queue/jobs/" 2>/dev/null | grep -o '<Key>[^<]*</Key>' | sed 's/<Key>//;s/<\/Key>//' | head -6)
 [ -n "$KEYS" ] || exit 0
@@ -194,6 +202,12 @@ PY
         S3 -X PUT "$B/queue/failed/$(basename "$K")" --data-binary "@$J" >/dev/null 2>&1; S3 -X DELETE "$B/$K" >/dev/null 2>&1
         echo "[job] $(date '+%H:%M:%S') $KIND 실패 rc=$wrc — failed/ 이동(뷰어엔 error.log 표시)"
       fi;;
+    ys)   # 유튜브 숏폼 발사 실패 착지분 = 재발사는 api/ys.js 회수(rescueJobs) 몫 · 여기선 24시간 넘은 고아만 치운다(목록 창 head -6 점유 방지)
+      YOLD=$(python3 -c 'import sys,datetime as d
+k=sys.argv[1].rsplit("/",1)[-1][:12]
+print(1 if k.isdigit() and (d.datetime.now()-d.datetime.strptime(k,"%y%m%d%H%M%S")).total_seconds()>86400 else 0)' "$K" 2>/dev/null)
+      if [ "$YOLD" = 1 ]; then S3 -X PUT "$B/queue/failed/$(basename "$K")" --data-binary "@$J" >/dev/null 2>&1; S3 -X DELETE "$B/$K" >/dev/null 2>&1
+        echo "[job] $(date '+%H:%M:%S') ys 24시간 미회수 → failed/ 이동"; fi;;
     *) : ;;   # 미구현 kind — 큐 보존(다음 확장)
   esac
   # [live] 산출 R2 즉시 게시(260815 3차) — 배포(≈40초+틱) 대기 없이 화면 반영(functions/*/[[path]].js R2 우선 서빙 짝).

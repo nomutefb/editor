@@ -32,8 +32,8 @@ def voices_block(voices):
     if not rows:
         return ''
     lines = '\n'.join(f"- {v['id']} | {v.get('name', '')} | {v.get('gender', '')} | {v.get('lang', '')} | {v.get('desc', '')}" for v in rows)
-    return ('\n\n[나레이션 목소리 후보] (ElevenLabs 계정 목소리 — 영상의 주제·분위기·나레이션 말투에 가장 맞는 1개를 골라 '
-            '`voice_id`에 id 그대로, `voice_why`에 이유 한 줄(≤40자). 한국어 목소리 우선)\n' + lines)
+    return ('\n\n[나레이션 목소리 후보] (ElevenLabs 계정 목소리 — 기본은 **남성** 목소리. 영상 화자·주제·분위기상 여성 목소리가 '
+            '분명히 더 맞을 때만 여성으로 바꿔라. 고른 1개를 `voice_id`에 id 그대로, `voice_why`에 이유 한 줄(≤40자). 한국어 목소리 우선)\n' + lines)
 
 
 def prompt_block(meta, tr, target, voices=None):
@@ -85,6 +85,13 @@ def _lines(v, cap, max_lines=2):
     return '\n'.join(parts)[:cap + max_lines - 1]
 
 
+def _img(v):
+    """그림 묘사 = 맥 Codex(도구 가진 에이전트)로 가는 신뢰 불가 문자열 → 영문 인쇄 문자만 · 프롬프트 표지 제거 · 한 줄 · 240자."""
+    v = re.sub(r'(?i)\b(begin|end)\s+prompt\b', ' ', _s(v, 600))
+    v = re.sub(r"[^A-Za-z0-9 ,.;:()'/-]+", ' ', v)
+    return re.sub(r'\s+', ' ', v).strip()[:240]
+
+
 def normalize(j, target, allowed_voices=()):
     """형식 게이트 — 필수 필드 부재·장면 부족 = ValueError(소리나는 실패). 자르기·빈 값 제거만 한다."""
     if not isinstance(j, dict):
@@ -105,11 +112,14 @@ def normalize(j, target, allowed_voices=()):
             'head': _lines(sc.get('head'), 24),
             'chips': [_s(c, 12) for c in (sc.get('chips') or [])[:3] if _s(c, 12)],
             'vo': vo,
-            'img': _s(sc.get('img'), 400),
+            'img': _img(sc.get('img')),
         })
     lo, _hi = SCENES_BY_LEN.get(int(target), SCENES_BY_LEN[60])
     if len(scenes) < max(3, lo - 2):
         raise ValueError(f'장면 부족({len(scenes)}개)')
+    vo_n = sum(len(re.sub(r'\s', '', s['vo'])) for s in scenes)
+    if vo_n > target * CPS * 1.6:   # 목표 60초에 100초+ 대본 = 폭주(렌더 시간 초과·길이 계약 위반) → 소리나는 실패
+        raise ValueError(f'나레이션이 목표보다 너무 김({vo_n}자 · 목표 ≈{int(target * CPS)}자)')
     ig = j.get('infographic') if isinstance(j.get('infographic'), dict) else {}
     panels = []
     for i, p in enumerate((ig.get('panels') or [])[:6]):
@@ -165,8 +175,8 @@ def main(argv):
             return 1
         try:
             plan, report = normalize(j, int(argv[3]), [v.get('id') for v in voices if isinstance(v, dict)])
-        except ValueError as e:
-            print(f'형식 이탈: {e}', file=sys.stderr)
+        except Exception as e:   # 필드 타입이 틀린 산출(TypeError 등)도 트레이스백 대신 실제 사유 한 줄로
+            print(f'형식 이탈: {e if isinstance(e, ValueError) else type(e).__name__ + ": " + str(e)}', file=sys.stderr)
             return 1
         os.makedirs(argv[4], exist_ok=True)
         for name, body in (('plan.json', json.dumps(plan, ensure_ascii=False, indent=1)), ('report.md', report.rstrip() + '\n')):

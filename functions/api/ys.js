@@ -3,7 +3,7 @@
 //   진행 = R2 ys_out/<id>/progress.json(워크플로가 단계마다 게시 · functions/ys_out = r2live 즉시 서빙).
 // 옵션은 여기서 화이트리스트로 자르고, 워크플로가 한 번 더 자른다(상류 신뢰 대신 최후 방어선 · vd/conv 선례).
 import { rateGate } from './_rate.js';
-import { dispatchWf } from './_fire.js';
+import { dispatchWf, rescueJobs } from './_fire.js';
 const REPO = 'nomutefb/editor';
 const REF = 'main';
 const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${REPO}/${path}`, {
@@ -64,4 +64,13 @@ export async function onRequestPost({ request, env }) {
     } catch { /* 아래 502 */ }
   }
   return json({ ok: false, error: `발사 실패 GitHub ${r.status}: ${(await r.text()).slice(0, 200)}` }, 502);
+}
+
+// GET /api/ys?rescue=1 = 발사 실패로 큐에 착지한 ys 잡 재발사(화면이 러너 소식 없는 동안 1분마다 부른다 · 회당 2건·임대 90초·24시간 = _fire.js 정본)
+export async function onRequestGet({ request, env }) {
+  const u = new URL(request.url);
+  const out = (o, st) => new Response(JSON.stringify(o), { status: st, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });   // seal-ok: 응답 JSON 헤더(위 json 헬퍼와 같은 모양 · GET 전용 캐시 금지)
+  if (u.searchParams.get('rescue') !== '1') return out({ ok: false, error: '잘못된 요청' }, 400);
+  await rescueJobs(env, 'ys');
+  return out({ ok: true }, 200);
 }

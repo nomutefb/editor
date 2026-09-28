@@ -100,6 +100,8 @@ def publish(doc):
 
 
 def main(argv):
+    # 바이트 절단된 한글(서로게이트 이스케이프)이 섞여도 utf-8 로 쓸 수 있게 = 실패 기록 단계가 여기서 죽지 않는다
+    argv = [a.encode('utf-8', 'surrogateescape').decode('utf-8', 'replace') for a in argv]
     if len(argv) < 3:
         print(__doc__, file=sys.stderr)
         return 2

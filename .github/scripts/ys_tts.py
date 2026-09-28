@@ -69,7 +69,7 @@ _voice_cache = {}
 
 
 def el_voice():
-    """목소리 = 레포 변수 YS_EL_VOICE(id) 우선 → 계정 목소리 중 한국어 표지 → 첫 목소리. 못 고르면 RuntimeError."""
+    """목소리 = 레포 변수 YS_EL_VOICE(id) 우선 → 계정 목소리 중 한국어 남성 → 한국어 → 첫 목소리. 못 고르면 RuntimeError."""
     if EL_VOICE:
         if 'name' not in _voice_cache and EL_KEY:
             try:   # 이름은 표시용(결과 화면 「고른 목소리」) — 실패해도 합성은 id 로 진행
@@ -82,8 +82,11 @@ def el_voice():
     vs = json.loads(_el_req('https://api.elevenlabs.io/v1/voices')).get('voices') or []
     def kor(v):
         lab = json.dumps(v.get('labels') or {}, ensure_ascii=False).lower() + ' ' + str(v.get('name', '')).lower()
-        return any(t in lab for t in ('korean', '"ko"', '한국'))
-    pick = next((v for v in vs if kor(v)), None) or (vs[0] if vs else None)
+        return any(t in lab for t in ('korean', '"ko"', '한국')) or str(v.get('name', '')).startswith('KO ')
+    def male(v):
+        return str((v.get('labels') or {}).get('gender', '')).lower() == 'male'
+    # 기본 = 한국어 남성(운영자 260928 «기본은 남성 · 영상 보고 AI가 바꿈» — AI가 못 고른 경우의 자리) → 한국어 → 첫 목소리
+    pick = next((v for v in vs if kor(v) and male(v)), None) or next((v for v in vs if kor(v)), None) or (vs[0] if vs else None)
     if not pick:
         raise RuntimeError('ElevenLabs 계정에 목소리가 없음')
     _voice_cache['v'] = pick['voice_id']

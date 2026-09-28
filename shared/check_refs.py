@@ -2125,6 +2125,7 @@ _URL_PH_EXEMPT = {
 _CLIP_EXEMPT_CLS = ('geni-ar-in', 'rsz-ar-in', 'opa-in', 'pin-in-h')   # N:N 비율칩·OPA 값칩·PIN 칸
 _CLIP_EXEMPT_ID = {
     ('viewer/index.html', 'pinInput'),   # #pindlg PIN 표시칸(readonly · 커스텀 키패드 = 붙여넣기 대상 아님)
+    ('viewer/ys.html', 'url'),           # 유튜브 주소 칸 = 클립 기능을 무대·레일이 대신 진다(운영자 260928 — 붙여넣기 = 무대 가운데 링크 버튼 · 지우기 = 레일 휴지통 · 칸 위 클립 = 같은 버튼 중복)
 }
 _CLIP_WIRE = ('attachCopyPaste', 'scnclip', 'urlclip', 'askclip', 'iobtn')
 _TA_RE = re.compile(r'<textarea\b[^>]*>', re.I)

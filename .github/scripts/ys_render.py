@@ -99,7 +99,7 @@ def slide_html(tokens, sc, idx, total, img=None, credit=''):
     L = layout(img)
     vis = f"<div class=pic style=\"background-image:url('file://{img}')\"></div>" if img else ''
     big_px, head_px = fit(big, L['big_cap'], L['tw']), fit(head, L['head_cap'], L['tw'])
-    cr = f'<div class=credit>{br(credit)}</div>' if credit else ''
+    step_or_credit = f'<span class=credit>{esc(credit)}</span>' if credit else f'<span class=step>{step}</span>'
     return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
 html,body{{height:{H}px;overflow:hidden;background:var(--bg)}}
 body{{background:radial-gradient(1200px 900px at {'30% 40%' if LAND else '50% 28%'},rgba(var(--accent-rgb),.13),transparent 60%),var(--bg)}}
@@ -110,18 +110,29 @@ body{{background:radial-gradient(1200px 900px at {'30% 40%' if LAND else '50% 28
 .txt{{position:absolute;left:80px;{L['txt']};display:flex;flex-direction:column;justify-content:{L['just']};gap:36px;overflow:hidden}}
 .big{{font-size:{big_px}px;line-height:1.12;font-weight:800;letter-spacing:-.03em;color:var(--accent)}}
 .head{{font-size:{head_px}px;line-height:1.22;font-weight:800;letter-spacing:-.03em}}
-.credit{{font-size:32px;line-height:1.5;color:var(--mut)}}
+.credit{{font-size:28px;line-height:1.3;color:var(--mut);max-width:{'1200' if LAND else '620'}px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right}}
 </style></head><body>
-<div class=top><span class=pill>{tag}</span><span class=step>{step}</span></div>
-{vis}<div class=txt><div class=big>{br(big)}</div><div class=head>{br(head)}</div><div class=chips>{chips}</div>{cr}</div>
+<div class=top><span class=pill>{tag}</span>{step_or_credit}</div>
+{vis}<div class=txt><div class=big>{br(big)}</div><div class=head>{br(head)}</div><div class=chips>{chips}</div></div>
 </body></html>"""
+
+
+FIT_JS = """() => {
+  const t = document.querySelector('.txt'); if (!t) return 0;
+  const over = () => { const r = t.getBoundingClientRect(), k = [...t.children].filter(c => c.offsetHeight);
+    if (!k.length) return false; return k[0].getBoundingClientRect().top < r.top - 1 || k[k.length - 1].getBoundingClientRect().bottom > r.bottom + 1; };
+  let n = 0;
+  while (over() && n < 8) { for (const s of ['.big', '.head']) { const e = t.querySelector(s); if (e) e.style.fontSize = (parseFloat(getComputedStyle(e).fontSize) * 0.9) + 'px'; } n++; }
+  if (over()) { const c = t.querySelector('.chips'); if (c) c.style.display = 'none'; return 'chips'; }
+  return n;
+}"""
 
 
 def caption_html(tokens, text):
     return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
 html,body{{height:{H}px;background:transparent;overflow:hidden}}
 .cap{{position:absolute;left:{'200' if LAND else '70'}px;right:{'200' if LAND else '70'}px;top:{'900' if LAND else '1480'}px;display:flex;justify-content:center}}
-.cap div{{{f'background:rgba(0,0,0,{SUB_OP:.2f});' if SUB_BG else 'text-shadow:0 2px 6px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.8);'}border-radius:20px;padding:22px 34px;font-size:{'46' if LAND else '50'}px;line-height:1.38;font-weight:700;text-align:center;letter-spacing:-.02em}}
+.cap div{{{f'background:rgba(0,0,0,{SUB_OP:.2f});' if SUB_BG else 'text-shadow:0 2px 6px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.8);'}border-radius:20px;padding:22px 34px;font-size:{'46' if LAND else '50'}px;line-height:1.38;font-weight:700;text-align:center;letter-spacing:-.02em;overflow-wrap:anywhere}}
 </style></head><body><div class=cap><div>{esc(text)}</div></div></body></html>"""
 
 
@@ -228,7 +239,7 @@ def main(argv):
     if len(timing['scenes']) != len(scenes):
         print(f"::error::나레이션 장면 수({len(timing['scenes'])}) ≠ 대본 장면 수({len(scenes)})")
         return 1
-    credit = f"원본 · {meta.get('channel', '')}\n「{meta.get('title', '')}」"
+    credit = f"원본 · {meta.get('channel', '')} 「{meta.get('title', '')}」"   # 마지막 장면 윗줄(쪽수 자리) 한 줄 = 글자 덩이 밖(넘쳐 잘리던 자리 · 260928 평의회)
     imgs_used = 0
     from playwright.sync_api import sync_playwright
     launch = {'args': ['--no-sandbox', '--font-render-hinting=none', '--force-color-profile=srgb']}
@@ -241,6 +252,10 @@ def main(argv):
         page.goto('file://' + str(f))
         page.evaluate('document.fonts.ready')
         page.wait_for_timeout(120)
+        if not full and not transparent:   # 장면 = 글자 덩이가 영역을 넘으면 큰 글자·보조 글자를 0.9배씩 줄이고(최대 8번) 그래도 넘치면 칩을 뺀다 = 조용한 잘림 0
+            r = page.evaluate(FIT_JS)
+            if r == 'chips':
+                print(f'::warning::{Path(path).stem} 글자가 많아 칩을 뺐어')
         page.screenshot(path=str(path), full_page=full, omit_background=transparent)
 
     caps_all = []

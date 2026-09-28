@@ -14,6 +14,7 @@ import os
 import subprocess
 import sys
 import tempfile
+import time
 
 KEY = 'ys_out/_hist.json'
 CAP = 60
@@ -27,14 +28,21 @@ def aws(*args):
 
 
 def read_items():
-    r = aws('s3', 'cp', f"s3://{os.environ['R2_BUCKET']}/{KEY}", '-')
-    if r.returncode != 0 or not r.stdout.strip():
-        return []
-    try:
-        items = json.loads(r.stdout).get('items') or []
-        return [x for x in items if isinstance(x, dict) and x.get('id')]
-    except ValueError:
-        return []
+    """기존 목록 → list · 아직 없음(첫 완성작) = [] · 그 밖의 읽기 실패·깨진 JSON = None(= 쓰지 않는다).
+    일시 장애 한 번에 빈 목록으로 덮으면 최대 59편이 모든 기기에서 사라진다 → 없을 때만 새로 만든다 · 읽기는 3번 시도."""
+    for k in range(3):
+        r = aws('s3', 'cp', f"s3://{os.environ['R2_BUCKET']}/{KEY}", '-')
+        err = (r.stderr or '')
+        if r.returncode != 0 and ('NoSuchKey' in err or '(404)' in err or 'Not Found' in err):
+            return []
+        if r.returncode == 0:
+            try:
+                items = json.loads(r.stdout or '').get('items')
+            except ValueError:
+                return None
+            return [x for x in (items or []) if isinstance(x, dict) and x.get('id')] if isinstance(items, list) else None
+        time.sleep(2 * (k + 1))
+    return None
 
 
 def entry(res):
@@ -61,7 +69,11 @@ def main(argv):
     if res.get('error') or not res.get('video'):
         return 0
     new = entry(res)
-    items = merge(read_items(), new)   # 쓰기 직전에 읽어 합친다(경합 창 = 이 두 줄 사이 수 초)
+    cur = read_items()
+    if cur is None:
+        print('::warning::완성작 목록을 읽지 못해 이번엔 갱신하지 않음(덮어쓰기 유실 방지 · 영상은 정상)')
+        return 0
+    items = merge(cur, new)   # 쓰기 직전에 읽어 합친다(경합 창 = 이 두 줄 사이 수 초)
     with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:
         json.dump({'items': items}, f, ensure_ascii=False, separators=(',', ':'))
     r = aws('s3', 'cp', f.name, f"s3://{os.environ['R2_BUCKET']}/{KEY}", '--content-type', 'application/json; charset=utf-8',

@@ -7,7 +7,7 @@
 # 인자: --force = 스로틀 무시(드라이버가 작업 중 busy 갱신에 쓴다) · --busy / --idle = busy 표기 강제.
 # bash 3.2 호환(launchd 레인 = /bin/bash 3.2.57 · self_update 문법 게이트) · 전 경로 fail-soft(exit 0).
 set -u
-export PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
+export PATH="$HOME/.local/bin:/opt/homebrew/bin:/opt/homebrew/opt/coreutils/libexec/gnubin:/usr/local/bin:/usr/bin:/bin:$PATH"   # gnubin = timeout
 ENVF="$HOME/nomute-action/환경변수.txt"
 ST="$HOME/.nomute_ys_hb_last"
 FORCE=0; BUSY_ARG=""
@@ -29,7 +29,8 @@ if command -v codex >/dev/null 2>&1; then
   STATE="signed-out"
   for D in "$HOME/.codex" "$HOME"/.codex-*; do
     [ -d "$D" ] || continue
-    OUT=$(CODEX_HOME="$D" codex login status 2>&1 | tr 'A-Z' 'a-z')
+    if command -v timeout >/dev/null 2>&1; then OUT=$(CODEX_HOME="$D" timeout 15 codex login status 2>&1 | tr 'A-Z' 'a-z')
+    else OUT=$(CODEX_HOME="$D" codex login status 2>&1 | tr 'A-Z' 'a-z'); fi   # 15초 상한 = 워커 잠금 안에서 codex 가 멈춰도 다른 잡이 안 막힌다
     case "$OUT" in
       *chatgpt*) N=$((N+1)); STATE="chatgpt";;
       *"api key"*|*api-key*|*apikey*) [ "$STATE" = "signed-out" ] && STATE="api-key";;
@@ -37,7 +38,7 @@ if command -v codex >/dev/null 2>&1; then
   done
 fi
 if [ -n "$BUSY_ARG" ]; then BUSY="$BUSY_ARG"
-elif [ -f "$HOME/.nomute_ys_busy" ]; then BUSY=true
+elif [ -n "$(find "$HOME/.nomute_ys_busy" -mmin -65 2>/dev/null)" ]; then BUSY=true   # 65분 넘은 표식 = 죽은 작업의 잔재(드라이버 상한 60분) → 무시
 else BUSY=false; fi
 
 BODY="{\"ts\":$NOW,\"codex\":\"$STATE\",\"accounts\":$N,\"busy\":$BUSY}"

@@ -17,6 +17,9 @@ import { rescueJobs } from './api/_fire.js';   // (260820) 발사 유실 봉합 
 const JOB_API = new Set(['pick', 'make-cards', 'genimg', 'moreimg', 'imgedit', 'thumbredo', 'thumb',
   'comp', 'compose', 'edit', 'vidl', 'vidlout', 'conv', 'k', 'resize', 'upscale', 'song', 'track', 'voice',
   'sb', 'ly', 'nb', 'framethumb', 'revise', 'revise-cards', 'cards-revise', 'tr', 'ys']);
+// 5xx 안전망 비대상(진행 원장·회수만) — 맥 잡 워커에 소비 분기가 없는 레인. ys = 발사 실패를 자기 R2 큐(queue/jobs/<id>-ys.json)에
+//   자기서술(wfYml·inputs)로 착지시키고 rescueJobs 가 재발사한다 → 안전망 레코드(본문만 담긴 <stamp>-ys-*.json)는 아무도 못 읽는 고아가 된다.
+const NO_SAFETY = new Set(['ys']);
 
 // ── 진행 중 작업 공유 원장(260817 · 운영자 "하드웨어를 바꾸든, 브라우저를 바꾸든 동시간에 들어가면 제작중인 내용이 동일하게 떠야")
 // 왜: 진행 중 슬롯이 **브라우저 로컬 저장소에만** 있었다(nm-jobs.js `nm_*_pend`) → 같은 사람이 폰에서 걸고 PC로 가면
@@ -76,6 +79,7 @@ export async function onRequest(context) {
       }
       return res;
     }
+    if (NO_SAFETY.has(m[1])) return res;   // 소비자 없는 레인 = 가짜 「접수됨」 대신 진짜 5xx 사유를 화면에 그대로
     try {
       const k = new Date(Date.now() + 9 * 3600e3).toISOString();   // KST 스탬프(픽 함수와 동일 규칙)
       const stamp = k.slice(2, 4) + k.slice(5, 7) + k.slice(8, 10) + '-' + k.slice(11, 13) + k.slice(14, 16) + k.slice(17, 19);

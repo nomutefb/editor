@@ -44,11 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 75   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤15 + 렌더 ~6 + 환경 ~8 + STT 폴백 백스톱
     env:
-      YS_ID: ${{ inputs.id }}
-      R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
-      R2_BUCKET: ${{ secrets.R2_BUCKET }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      YS_ID: ${{ inputs.id }}   # R2 키는 잡 전체가 아니라 쓰는 스텝에만 준다(설치 스크립트·npm postinstall 노출 0 · 레포 관례)
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -67,9 +63,17 @@ jobs:
       - name: 입력 검문 + 진행 시작
         env:   # 입력은 env 로만 받는다(run 줄에 ${{ }} 직삽입 = 셸 인젝션 축)
           IN_OPTS: ${{ inputs.opts }}
+          R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           set -e
           case "$YS_ID" in ''|*[!0-9a-f-]*) echo "::error::잘못된 id"; exit 1;; esac
+          # 저장소 설정 사전 점검 = 다 만들고 나서 깨진 주소로 「성공」 보고하는 길 차단(vidl-make 선례)
+          [ -n "$R2_BUCKET" ] && [ -n "$R2_PUBLIC_BASE" ] || { echo "서버 설정 문제(저장소 버킷·공개 주소 미설정) — 관리자 확인이 필요해." > /tmp/ys_err.txt; exit 1; }
+          : > /tmp/ys_notes.txt
           # api/ys.js cleanOpts 재검증(상류 신뢰 대신 최후 방어선 · vd opts 선례) — 벗어나면 기본값
           #   기본 = 운영자 260928 «60초 · 고급 음성 · 정밀 받아쓰기 · 맥 그림 · 9:16 · 자막 배경 켬 100%»
           python3 .github/scripts/ys_opts.py > /tmp/ys_opts.env
@@ -98,6 +102,11 @@ jobs:
           YT_COOKIES: ${{ secrets.YT_T_COOKIES }}
           YT_COOKIES_NAME: YT_T_COOKIES
           YS_MAX_SEC: ${{ vars.YS_MAX_SEC || 14400 }}
+          YS_STT_MAX_SEC: ${{ vars.YS_STT_MAX_SEC || 3600 }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           set -e
           python3 .github/scripts/ys_progress.py "$YS_ID" meta run
@@ -134,7 +143,11 @@ jobs:
           python3 .github/scripts/ys_progress.py "$YS_ID" budget "dur=$(python3 -c "import json;print(json.load(open('/tmp/ys_meta.json')).get('dur') or 0)")"
           python3 .github/scripts/ys_progress.py "$YS_ID" meta done "$(python3 -c "import json;m=json.load(open('/tmp/ys_meta.json'));print(f\"{m['dur']//60}분 {m['dur']%60}초\")")"
           python3 .github/scripts/ys_progress.py "$YS_ID" stt run "$([ "$YS_STT" = scribe ] && echo 정밀 받아쓰기 || echo 자막 찾는 중)"
-          if [ "$YS_STT" = "scribe" ]; then echo "YS_NEED_STT=1" >> "$GITHUB_ENV"; exit 0; fi
+          DUR="$(python3 -c "import json;print(json.load(open('/tmp/ys_meta.json')).get('dur') or 0)")"
+          if [ "$YS_STT" = "scribe" ]; then
+            if [ "$DUR" -le "$YS_STT_MAX_SEC" ] 2>/dev/null; then echo "YS_NEED_STT=1" >> "$GITHUB_ENV"; exit 0; fi
+            echo "영상이 $((DUR/60))분이라 정밀 받아쓰기(상한 $((YS_STT_MAX_SEC/60))분) 대신 유튜브 자막으로 했어." >> /tmp/ys_notes.txt
+          fi
           LANGP="$(python3 -c "import json;m=json.load(open('/tmp/ys_meta.json'));l=m.get('lang') or '';print((l+','+l.split('-')[0]+',' if l else '')+'ko,en')")"
           mkdir -p /tmp/yssub_man /tmp/yssub_auto
           YTDLP_ERR=/tmp/ys_yterr.txt YTDLP_DIAG=/tmp/ys_diag.txt YTDLP_LABEL="수동자막" bash .github/scripts/ytdlp_try.sh --skip-download --no-playlist \
@@ -160,7 +173,7 @@ jobs:
         with:
           setup: apps/ly/setup.sh
           whisper: ${{ (vars.LY_STT_ENGINE == 'whisper' || secrets.ELEVENLABS_API_KEY == '') && 'true' || 'false' }}
-          apt: ffmpeg
+          apt: fonts-noto-cjk fonts-nanum ffmpeg   # 렌더 스텝과 같은 목록 = apt 캐시(~/.cache/nomute-apt) 공유 오염 방지
 
       - name: 받아쓰기 (오디오만 → Scribe·Whisper)
         if: ${{ env.YS_NEED_STT == '1' }}
@@ -172,6 +185,10 @@ jobs:
           YT_COOKIES: ${{ secrets.YT_T_COOKIES }}
           YT_COOKIES_NAME: YT_T_COOKIES
           YS_STT_MAX_SEC: ${{ vars.YS_STT_MAX_SEC || 3600 }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           set -e
           DUR="$(python3 -c "import json;print(json.load(open('/tmp/ys_meta.json')).get('dur') or 0)")"
@@ -183,8 +200,11 @@ jobs:
             -x --audio-format mp3 --postprocessor-args "ffmpeg:-ar 16000 -ac 1 -b:a 48k" --no-playlist -o "/tmp/ys_audio.%(ext)s" "$URL" \
             || { echo "유튜브 오디오를 받지 못했어(쿠키·무쿠키 4번 시도) — 자막 있는 영상으로 해줘." > /tmp/ys_err.txt; exit 1; }
           python3 .github/scripts/ys_progress.py "$YS_ID" stt run "받아쓰는 중" "p=0.5"
-          python3 .github/scripts/ly_stt.py /tmp/ys_audio.mp3 "" > /tmp/ys_stt.txt \
+          python3 .github/scripts/ly_stt.py /tmp/ys_audio.mp3 "" > /tmp/ys_stt.txt 2> >(tee /tmp/ys_stt_err.txt >&2) \
             || { echo "받아쓰기 실패 — 소리가 또렷한 영상으로 다시 해줘." > /tmp/ys_err.txt; exit 1; }
+          if grep -q 'STT 폴백' /tmp/ys_stt_err.txt 2>/dev/null && [ "$YS_STT" = scribe ]; then
+            echo "정밀 받아쓰기(Scribe)가 실패해 Whisper로 받아썼어 — 고유명사 오인식이 있을 수 있어." >> /tmp/ys_notes.txt
+          fi
           python3 .github/scripts/nb_sub.py --stt /tmp/ys_stt.txt > /tmp/ys_tr.json
           ROWS="$(python3 -c "import json;print(len(json.load(open('/tmp/ys_tr.json')).get('rows') or []))")"
           [ "$ROWS" -ge 3 ] || { echo "받아쓰기 결과가 거의 비었어 — 말소리가 있는 영상인지 확인해줘." > /tmp/ys_err.txt; exit 1; }
@@ -195,6 +215,10 @@ jobs:
         timeout-minutes: 3
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           [ -n "$ELEVENLABS_API_KEY" ] || { echo "ElevenLabs 키 없음 — 목소리 목록 생략(음성 단계가 무료 음성으로 강하)"; exit 0; }
           python3 .github/scripts/ys_tts.py --voices /tmp/ys_voices.json || { echo "::warning::목소리 목록 조회 실패(자동 선택으로 진행)"; exit 0; }
@@ -212,6 +236,10 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           YS_ASK: ${{ inputs.ask }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ] || { echo "서버 설정 문제(Claude 계정 토큰 없음) — 관리자 확인이 필요해." > /tmp/ys_err.txt; exit 1; }
           unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
@@ -239,6 +267,10 @@ jobs:
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           VAR_EL_VOICE: ${{ vars.YS_EL_VOICE }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           set -e
           # 목소리 = 화면 선택(id 형식 검문) → AI 선택(plan.voice_id · 후보 목록 안에서만) → 레포 변수 → 계정 한국어 목소리 자동(ys_tts.el_voice)
@@ -256,15 +288,31 @@ jobs:
         timeout-minutes: 20
         env:
           YS_IMG_WAIT: ${{ vars.YS_IMG_WAIT || 900 }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: python3 .github/scripts/ys_images.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/img
 
       - name: 영상 만들기
         timeout-minutes: 20
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           set -e
           python3 .github/scripts/ys_progress.py "$YS_ID" render run "슬라이드 그리는 중" "p=0.02"
           IMGARG=""; [ -d /tmp/ys/img ] && IMGARG="--img-dir /tmp/ys/img"
-          python3 .github/scripts/ys_render.py /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys_meta.json /tmp/ys/final --font "$YS_FONT" --ratio "$YS_RATIO" --subbg "$YS_SUBBG" --subop "$YS_SUBOP" $IMGARG \
+          # 고른 폰트가 러너에 없으면 조용히 대체되지 않게 = 프리텐다드(레포 동봉)로 바꾸고 사유를 남긴다(ly-make 폰트 검문 선례)
+          FONT="$YS_FONT"
+          case "$FONT" in
+            barun) fc-list | grep -qi 'NanumBarunGothic' || { echo "나눔바른고딕이 러너에 없어 프리텐다드로 만들었어." >> /tmp/ys_notes.txt; FONT=pretendard; };;
+            gothic) fc-list | grep -qi 'Noto Sans CJK' || { echo "노토 산스가 러너에 없어 프리텐다드로 만들었어." >> /tmp/ys_notes.txt; FONT=pretendard; };;
+          esac
+          echo "YS_FONT_USED=$FONT" >> "$GITHUB_ENV"
+          python3 .github/scripts/ys_render.py /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys_meta.json /tmp/ys/final --font "$FONT" --ratio "$YS_RATIO" --subbg "$YS_SUBBG" --subop "$YS_SUBOP" $IMGARG \
             || { echo "영상 합치기에 실패했어 — 다시 해줘." > /tmp/ys_err.txt; exit 1; }
           python3 .github/scripts/ys_progress.py "$YS_ID" render done "$(python3 -c "import json;r=json.load(open('/tmp/ys/final/render.json'));print(f\"{r['dur']:.0f}초 · 장면 {r['scenes']}개\")")"
 
@@ -280,8 +328,12 @@ jobs:
           for f in short.mp4 poster.jpg infographic.png report.md; do
             case "$f" in *.mp4) CT=video/mp4;; *.jpg) CT=image/jpeg;; *.png) CT=image/png;; *.md) CT='text/markdown; charset=utf-8';; esac
             aws s3 cp "/tmp/ys/final/$f" "s3://$R2_BUCKET/ys_res/${YS_ID}/$f" --content-type "$CT" --endpoint-url "$EP" --only-show-errors \
-              || { echo "결과 업로드에 실패했어 — 다시 해줘." > /tmp/ys_err.txt; exit 1; }
+              || { echo "결과 업로드에 실패했어(저장소 장애) — 잠시 후 다시 해줘." > /tmp/ys_err.txt; exit 1; }
           done
+          # 보고서 본문 = 같은 출처 경로(ys_out = r2live 서빙 · 공개 R2 교차출처 fetch 는 CORS 로 막힌다) + 커밋 폴백
+          cp /tmp/ys/report.md "viewer/ys_out/${YS_ID}/report.md"
+          aws s3 cp /tmp/ys/report.md "s3://$R2_BUCKET/ys_out/${YS_ID}/report.md" --content-type 'text/markdown; charset=utf-8' \
+            --cache-control no-store --endpoint-url "$EP" --only-show-errors || echo "::warning::report.md 실시간 게시 실패(커밋 경로로 표시됨)"
           python3 - <<'PY'
           import json, os, time
           base = f"{os.environ.get('R2_PUBLIC_BASE', '').rstrip('/')}/ys_res/{os.environ['YS_ID']}"
@@ -295,12 +347,17 @@ jobs:
               img = json.load(open('/tmp/ys/img/img.json', encoding='utf-8'))
           except Exception:
               pass
-          notes = list(tim.get('notes') or []) + ([img['note']] if img.get('note') and not img.get('used') else [])
+          extra = [ln.strip() for ln in open('/tmp/ys_notes.txt', encoding='utf-8', errors='replace') if ln.strip()] if os.path.exists('/tmp/ys_notes.txt') else []
+          img_short = img.get('note') and (not img.get('used') or img.get('used', 0) < img.get('total', len(plan.get('scenes') or [])))
+          notes = extra + list(tim.get('notes') or []) + ([img['note']] if img_short else [])
+          tgt = int(os.environ.get('YS_LEN') or 60)
+          if ren['dur'] > tgt * 1.5:
+              notes.append(f"목표 {tgt}초보다 긴 {ren['dur']:.0f}초가 나왔어 — 대본이 길게 나왔어.")
           doc = {'id': os.environ['YS_ID'], 'generated': time.strftime('%Y-%m-%dT%H:%M:%S+09:00', time.gmtime(time.time() + 9 * 3600)),
                  'title': plan.get('title') or meta.get('title'), 'short_title': plan.get('short_title', ''), 'one': plan.get('one', ''),
                  'channel': meta.get('channel', ''), 'src_title': meta.get('title', ''), 'src_url': meta.get('url', ''), 'uploaded': meta.get('uploaded', ''),
                  'dur': ren['dur'], 'scenes': ren['scenes'], 'voice': tim.get('engine'), 'img': os.environ.get('YS_IMG'), 'img_used': ren.get('img_used', 0),
-                 'font': os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
+                 'font': os.environ.get('YS_FONT_USED') or os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
                  'subop': int(os.environ.get('YS_SUBOP') or 100), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
                  'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',
                  'video': f'{base}/short.mp4', 'poster': f'{base}/poster.jpg', 'infographic': f'{base}/infographic.png', 'report': f'{base}/report.md',
@@ -316,16 +373,28 @@ jobs:
           python3 .github/scripts/ys_hist.py "viewer/ys_out/${YS_ID}/result.json" || echo "::warning::완성작 목록 갱신 실패(영상은 정상)"
         env:
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
 
       - name: 실패 기록 — 화면이 즉시 사유 표시
-        if: failure()
+        if: ${{ failure() || cancelled() }}   # 취소(잡 시간 초과 포함)도 진행 카드를 닫는다 = 영구 「진행 중」 0
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
           case "$YS_ID" in ''|*[!0-9a-f-]*) exit 0;; esac
           mkdir -p "viewer/ys_out/${YS_ID}"
-          if [ -s /tmp/ys_err.txt ]; then MSG="$(head -c 400 /tmp/ys_err.txt)"; else MSG="만들기에 실패했어 — 다시 해줘. 반복되면 Actions 로그를 확인해야 해."; fi
-          [ -s /tmp/ys_diag.txt ] && MSG="$MSG"$'\n'"$(head -c 300 /tmp/ys_diag.txt)"
+          if [ -s /tmp/ys_err.txt ]; then MSG="$(head -c 400 /tmp/ys_err.txt)"; else MSG="만들기에 실패했어(원인 미분류 · 코드나 러너 문제일 수 있어) — 다시 해보고, 반복되면 Actions 로그 확인이 필요해."; fi
+          case "$MSG" in *유튜브*) [ -s /tmp/ys_diag.txt ] && MSG="$MSG"$'\n'"$(head -c 300 /tmp/ys_diag.txt)";; esac   # 쿠키 진단 = 유튜브 단계 실패에만(앞 단계 잔재가 무관한 실패에 붙지 않게)
+          # 바이트 절단(head -c)이 한글 글자 가운데를 자르면 파이썬이 utf-8 로 못 쓴다 → 깨진 바이트를 버리고 정상 글자만 남긴다
+          MSG="$(printf '%s' "$MSG" | iconv -f utf-8 -t utf-8 -c 2>/dev/null || printf '%s' "$MSG" | LC_ALL=C tr -cd '\11\12\15\40-\176')"
           export MSG
-          python3 -c "import json,os;json.dump({'id':os.environ['YS_ID'],'error':os.environ['MSG']},open('viewer/ys_out/'+os.environ['YS_ID']+'/result.json','w',encoding='utf-8'),ensure_ascii=False,indent=1)"
+          python3 -c "import json,os;json.dump({'id':os.environ['YS_ID'],'error':os.environ['MSG']},open('viewer/ys_out/'+os.environ['YS_ID']+'/result.json','w',encoding='utf-8',errors='replace'),ensure_ascii=False,indent=1)" \
+            || printf '{"id":"%s","error":"만들기에 실패했어 — 사유 기록 중 오류. Actions 로그 확인이 필요해."}' "$YS_ID" > "viewer/ys_out/${YS_ID}/result.json"
           python3 .github/scripts/ys_progress.py "$YS_ID" fail "$MSG" || true
           if [ -n "$R2_BUCKET" ]; then
             AWS_DEFAULT_REGION=auto AWS_REQUEST_CHECKSUM_CALCULATION=when_required aws s3 cp "viewer/ys_out/${YS_ID}/result.json" \
