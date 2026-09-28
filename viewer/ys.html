@@ -733,7 +733,7 @@ async function getJSON(u) {
     return await r.json();
   } catch (e) { return null; }
 }
-const POLL_MS = 5000, STALL_MS = 50 * 60e3, LIMIT_MS = 120 * 60e3;   // 무갱신 50분(받아쓰기 한 단계 최장 45분) · 절대 120분(잡 상한 95분 + 대기) — 성공할 작업을 먼저 실패로 굳히지 않는다
+const POLL_MS = 5000, STALL_MS = 50 * 60e3, LIMIT_MS = 135 * 60e3;   // 무갱신 50분(받아쓰기 한 단계 최장 45분) · 절대 135분(잡 상한 110분 + 대기) — 성공할 작업을 먼저 실패로 굳히지 않는다
 async function poll(id) {
   let stop = false;
   try { if (window.nmJobs && !nmJobs.hold(JKEY, id, () => { stop = true; })) return; } catch (e) {}

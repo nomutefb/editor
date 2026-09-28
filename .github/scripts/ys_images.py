@@ -5,7 +5,7 @@
 
 흐름: ① 맥 표시등(ys_out/_mac/heartbeat.json) 확인 — 없음·180초 초과·Codex 미로그인 = 즉시 포기(기다리지 않는다)
       ② R2 queue/ysimg/<id>.json 착지(맥 잡워커가 10초 안에 집는다 · 본 큐와 분리)
-      ③ ys_img/<id>/ 를 15초마다 확인 → 진행률 게시 · done.json 이 오면 끝 · YS_IMG_WAIT(기본 900초) 초과 = 잡 회수 후 포기
+      ③ ys_img/<id>/ 를 15초마다 확인 → 진행률 게시 · done.json 이 오면 끝 · YS_IMG_WAIT(기본 1500초) 초과 = 잡 회수 후 포기
       ④ 받은 그림만 내려받는다 — 모자란 장면은 렌더가 글자 화면으로 채운다(영상은 항상 나온다).
 전 경로 rc 0 — 그림은 선택 품질 축이라 제작을 멈추지 않는다(대신 사유를 img.json note 로 화면에 남긴다 · 무음 강하 금지).
 """
@@ -18,7 +18,7 @@ import tempfile
 import time
 from pathlib import Path
 
-WAIT = int(os.environ.get('YS_IMG_WAIT', '900'))
+WAIT = int(os.environ.get('YS_IMG_WAIT', '1500'))   # 260928 실측 = 세로 7장 849초
 PICK = int(os.environ.get('YS_IMG_PICK', '150'))   # 이 안에 맥이 잡을 안 집으면(다른 잡에 잠김) 회수하고 바로 강하 = 900초 헛대기 0
 STALE = 180
 STYLE = os.environ.get('YS_IMG_STYLE', 'cinematic minimal illustration, soft light, dark background, teal accent, no text, no letters, no logos')

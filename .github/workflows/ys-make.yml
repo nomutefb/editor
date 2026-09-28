@@ -44,7 +44,7 @@ permissions:
 jobs:
   ys:
     runs-on: ubuntu-latest
-    timeout-minutes: 95   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤15 + 그록 ≤20 + 렌더 ~10 + 환경 ~8 + STT 폴백 백스톱
+    timeout-minutes: 110   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤25 + 그록 ≤20 + 렌더 ~10 + 환경 ~8 + STT 폴백 백스톱(화면 시간 초과 120분보다 짧게)
     env:
       YS_ID: ${{ inputs.id }}   # R2 키는 잡 전체가 아니라 쓰는 스텝에만 준다(설치 스크립트·npm postinstall 노출 0 · 레포 관례)
     steps:
@@ -288,9 +288,9 @@ jobs:
 
       - name: 장면 그림 (맥 Codex 레인)
         if: ${{ env.YS_IMG != 'motion' }}   # GPT 이미지·GPT 입체·그록(첫 프레임) = 맥 그림 · 모션 그래픽 = 그림 없음
-        timeout-minutes: 20
+        timeout-minutes: 28   # 대기 1500초 + 회수 여유
         env:
-          YS_IMG_WAIT: ${{ vars.YS_IMG_WAIT || 900 }}
+          YS_IMG_WAIT: ${{ vars.YS_IMG_WAIT || 1500 }}   # 260928 실측 = 세로 7장 849초(가로 426초의 2배) → 15분 한도에 닿았다
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}

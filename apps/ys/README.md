@@ -21,7 +21,7 @@
 | 설정 안내 | `viewer/ys-mac-guide.html` | 맥 Codex 설치·로그인·시험 |
 
 ## 레포 변수(선택)
-`YS_EL_VOICE`(ElevenLabs 목소리 id) · `YS_IMG_WAIT`(그림 대기 초 · 기본 900) · `YS_MAX_SEC`(영상 길이 상한 · 기본 14400) · `YS_STT_MAX_SEC`(받아쓰기 상한 · 기본 3600)
+`YS_EL_VOICE`(ElevenLabs 목소리 id) · `YS_IMG_WAIT`(그림 대기 초 · 기본 1500) · `YS_MAX_SEC`(영상 길이 상한 · 기본 14400) · `YS_STT_MAX_SEC`(받아쓰기 상한 · 기본 3600)
 
 ## 검사
 `python3 -m unittest tests.test_ys_pipeline` · `node --test tests/ys-api.test.mjs`
