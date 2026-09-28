@@ -146,6 +146,27 @@ class RenderHelpers(unittest.TestCase):
         self.assertIn('inset:0', full)                                                 # 그림 = 화면 전체
         self.assertIn('class=credit', ys_render.shade_html(':root{}', '원본 · 채널'))
 
+    def test_caption_position(self):
+        """자막 위치 = 가운데(기본) · 아래 · 위 — 렌더 자리 · 모션 무대 · 러너 옵션이 같은 값을 쓴다(운영자 260928 «기본은 화면 중앙»)."""
+        import ys_motion
+        import ys_opts
+        import ys_render
+        self.assertEqual(ys_opts.clean('{}')['cap'], 'mid')
+        self.assertEqual(ys_opts.clean('{"cap":"top"}')['cap'], 'top')
+        self.assertEqual(ys_opts.clean('{"cap":"x"}')['cap'], 'mid')
+        self.assertEqual(ys_motion.canvas('9:16', 'mid'), (1080, 1920))          # 가운데·위 = 화면 전체 무대
+        self.assertEqual(ys_motion.canvas('9:16', 'low'), (1080, 1440))          # 아래 = 자막 자리 위까지(종전)
+        a, z = ys_motion.cap_band('9:16', 'mid')
+        self.assertTrue(a < 960 < z)
+        old = (ys_render.CAP, ys_render.H)
+        try:
+            ys_render.CAP, ys_render.H = 'mid', 1920
+            self.assertIn('translateY(-50%)', ys_render.caption_html(':root{}', '자막'))
+            ys_render.CAP = 'low'
+            self.assertIn('top:1480px', ys_render.caption_html(':root{}', '자막'))
+        finally:
+            ys_render.CAP, ys_render.H = old
+
     def test_image_orient_follows_ratio(self):
         src = (ROOT / '.github/scripts/ys_images.py').read_text(encoding='utf-8')
         self.assertIn("orient = 'portrait' if os.environ.get('YS_RATIO', '9:16') == '9:16' else 'landscape'", src)   # 방식 무관 = 비율로 방향
@@ -275,7 +296,7 @@ class SceneModes(unittest.TestCase):
         for bad in ('url(', '@import', 'transition', 'onclick', '<script', '<img', 'http://'):
             self.assertNotIn(bad, css + html)
         self.assertIn('href="#ok"', html)                                                                   # 내부 참조는 유지
-        self.assertEqual(ys_motion.canvas('9:16'), (1080, 1440))
+        self.assertEqual(ys_motion.canvas('9:16', 'low'), (1080, 1440))                                  # 자막 아래 = 자막 자리 위까지
         self.assertEqual(ys_motion.chunks(range(7)), [[0, 1, 2, 3], [4, 5, 6]])                       # 병렬 조각 = 고르게 · ≤4
         self.assertEqual([len(c) for c in ys_motion.chunks(range(11))], [4, 4, 3])
         self.assertEqual(ys_motion.chunks([]), [])

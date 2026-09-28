@@ -398,9 +398,9 @@ function mk(path, d) {
   return o;
 }
 
-/* ── 옵션(백엔드 계약 = POST /api/ys {url, ask, opts:{voice, stt, img, len, font, el_voice, ratio, subbg, subop}}) ── */
-const DEF = { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', subop: 100 };   // 처음 기본값 = 운영자 260928(고급 음성·정밀 받아쓰기·장면 그림 · 백엔드 api/ys.js OPTS 첫 값과 같은 조합) · 저장된 선택(ys_opts)이 있으면 그쪽이 이긴다
-const OKV = { voice: ['edge', 'eleven'], stt: ['subs', 'scribe'], img: ['motion', 'codex', 'depth', 'grok'], len: ['45', '60', '90'], font: ['pretendard', 'gothic', 'barun'], ratio: ['9:16', '16:9'], subbg: ['on', 'off'] };
+/* ── 옵션(백엔드 계약 = POST /api/ys {url, ask, opts:{voice, stt, img, len, font, el_voice, ratio, subbg, subop, cap}}) ── */
+const DEF = { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', subop: 100, cap: 'mid' };   // 처음 기본값 = 운영자 260928(고급 음성·정밀 받아쓰기·장면 그림 · 백엔드 api/ys.js OPTS 첫 값과 같은 조합) · 저장된 선택(ys_opts)이 있으면 그쪽이 이긴다
+const OKV = { voice: ['edge', 'eleven'], stt: ['subs', 'scribe'], img: ['motion', 'codex', 'depth', 'grok'], len: ['45', '60', '90'], font: ['pretendard', 'gothic', 'barun'], ratio: ['9:16', '16:9'], subbg: ['on', 'off'], cap: ['mid', 'low', 'top'] };
 /* 폰트 3종 = viewer/edit.html FONT_PV 해당 항목 정의(ff·gf·lf·fam·lw 동값) · 라벨 = 운영자 지정(260928) · 지연 로드 = edit loadPvFont 동문(고를 때만 = 평상시 외부 요청 0) */
 const FONTS = {
   pretendard: { lbl: '프리텐다드', ff: '"Pretendard Variable","Pretendard",sans-serif' },
@@ -426,6 +426,7 @@ function accCard(id, name, inner) {   // 카테고리 아코디언 = edit .scard
   return '<div class="scard" id="' + id + 'Card" data-acc="' + id + '"><button type="button" class="hd" aria-expanded="false" aria-controls="' + id + 'Acc"><span class="nm">' + esc(name) + '</span><span class="sum" id="' + id + 'Sum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
     + '<div class="acc" id="' + id + 'Acc" inert><div class="acc-in"><div class="prm">' + inner + '</div></div></div></div>';
 }
+const CAPS = [['mid', '가운데'], ['low', '아래'], ['top', '위']];
 function buildOpts() {
   $('#opts').innerHTML = accCard('voc', '음성 설정', railRow('voice', '목소리', [['edge', '무료 음성'], ['eleven', '고급 음성', ' title="ElevenLabs"']])
       + '<div id="elvBox" hidden><div class="vfold" id="elvFold"><button type="button" class="vfh" aria-expanded="false" aria-controls="elvAcc"><span class="pub-l">목소리 선택</span><span class="sum" id="elvSum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
@@ -435,7 +436,8 @@ function buildOpts() {
       + '<div class="macrow"><a class="ysmac" id="mac" data-st="wait" href="/ys-mac-guide.html" target="_blank" rel="noopener" title="맥 설정 안내 열기"><i class="ysmac-dot" aria-hidden="true"></i><span class="tk-orbit" id="macSpin" hidden aria-hidden="true"></span><span id="macT">맥 확인 중…</span></a></div>'
       + railRow('len', '길이', [['45', '45초', ' data-num="1"'], ['60', '60초', ' data-num="1"'], ['90', '90초', ' data-num="1"']])
       + railRow('ratio', '비율', [['9:16', '9:16', ' data-num="1"'], ['16:9', '16:9', ' data-num="1"']]))
-    + accCard('sub', '자막 설정', railRow('font', '폰트', OKV.font.map(k => [k, FONTS[k].lbl, ' style="font-family:' + esc(FONTS[k].ff) + '"'])));   // 자막 배경 켬/끔·불투명도 조작칸 = 폐지(운영자 260928 «자막 배경은 사실 의미가 없다») · 러너 기본(배경 켬 100%)은 그대로
+    + accCard('sub', '자막 설정', railRow('font', '폰트', OKV.font.map(k => [k, FONTS[k].lbl, ' style="font-family:' + esc(FONTS[k].ff) + '"']))
+      + railRow('cap', '위치', CAPS));   // 자막 위치 = 가운데(기본 · 운영자 260928 «기본은 화면 중앙») · 아래 · 위   // 자막 배경 켬/끔·불투명도 조작칸 = 폐지(운영자 260928 «자막 배경은 사실 의미가 없다») · 러너 기본(배경 켬 100%)은 그대로
 }
 buildOpts();
 const OKEY = 'ys_opts';   // 기기별 편의(마지막 고른 옵션) — 실패해도 기본값으로 선다
@@ -460,7 +462,7 @@ function paintSums() {   // 접힌 줄 오른쪽 = 현재 값 요약(작게)
   $('#vocSum').textContent = vn + ' · ' + (opts.stt === 'scribe' ? '정밀 받아쓰기' : '자막 우선');
   $('#elvSum').textContent = opts.el_voice ? ((VOICES.find(v => v.id === opts.el_voice) || {}).name || '지정') : '자동 · 기본 남성';
   $('#scrSum').textContent = ({ motion: '모션 그래픽', codex: 'GPT 이미지', depth: 'GPT 입체', grok: '그록 영상' }[opts.img] || '') + ' · ' + opts.len + '초 · ' + opts.ratio;
-  $('#subSum').textContent = FONTS[opts.font].lbl;
+  $('#subSum').textContent = FONTS[opts.font].lbl + ' · ' + ((CAPS.find(c => c[0] === opts.cap) || CAPS[0])[1]);
 }
 /* ── 레일 동작 = sb.html railUpd/railSetup(= index geniRailUpd/geniRailSetup) 그대로 ── */
 const railUpd = rail => {
@@ -1161,7 +1163,7 @@ async function fire() {
   if (!v.ok) { shake(); goFlash(false); setMsg('#urlMsg', v.msg, 'err'); return; }   // 입력 문제 = 요청 전에 막는다(포커스 안 줌 = 폰 키보드가 불필요하게 안 올라온다)
   const ask = $('#ask').value.trim().slice(0, 300);
   const o = { voice: opts.voice, stt: opts.stt, img: opts.img, len: opts.len, font: opts.font, el_voice: opts.voice === 'eleven' && VID_RE.test(opts.el_voice || '') ? opts.el_voice : '',
-    ratio: opts.ratio, subbg: opts.subbg, subop: Math.max(0, Math.min(100, Math.round(+opts.subop))) };
+    ratio: opts.ratio, subbg: opts.subbg, subop: Math.max(0, Math.min(100, Math.round(+opts.subop))), cap: opts.cap };
   const body = { url: v.url, ask: ask, opts: o };   // 계약(260928) = {url, ask, opts:{…}} · 백엔드는 옛 최상위 필드도 받는다
   FIRING = true; go.disabled = true;
   setMsg('#urlMsg', '접수 중…');

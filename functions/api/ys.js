@@ -26,6 +26,7 @@ export const OPTS = {
   font: ['pretendard', 'gothic', 'barun'],   // 운영자 260928 "프리텐다드·노토산스·나눔바른고딕 · 기본 프리텐다드"
   ratio: ['9:16', '16:9'],            // 세로(기본) / 가로
   subbg: ['on', 'off'],               // 자막 배경 점등(기본 켬)
+  cap: ['mid', 'low', 'top'],         // 자막 위치 = 가운데(기본 · 운영자 260928 «기본은 화면 중앙») / 아래 / 위
 };
 export function cleanOpts(body) {
   const src = (body && typeof body.opts === 'object' && body.opts && !Array.isArray(body.opts)) ? body.opts : (body || {});   // 새 모양 = {opts:{…}} · 옛 모양(최상위) 하위호환

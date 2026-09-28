@@ -16,6 +16,7 @@ ALLOW = {
     'font': ['pretendard', 'gothic', 'barun'],
     'ratio': ['9:16', '16:9'],
     'subbg': ['on', 'off'],
+    'cap': ['mid', 'low', 'top'],   # 자막 위치(운영자 260928 «기본은 화면 중앙»)
 }
 
 
@@ -41,7 +42,7 @@ def clean(raw):
 def main():
     o = clean(os.environ.get('IN_OPTS', ''))
     names = {'voice': 'YS_VOICE', 'stt': 'YS_STT', 'img': 'YS_IMG', 'len': 'YS_LEN', 'font': 'YS_FONT',
-             'ratio': 'YS_RATIO', 'subbg': 'YS_SUBBG', 'subop': 'YS_SUBOP', 'el_voice': 'YS_EL_VOICE_IN'}
+             'ratio': 'YS_RATIO', 'subbg': 'YS_SUBBG', 'subop': 'YS_SUBOP', 'cap': 'YS_CAP', 'el_voice': 'YS_EL_VOICE_IN'}
     for k, env in names.items():
         print(f'{env}={o[k]}')
     return 0

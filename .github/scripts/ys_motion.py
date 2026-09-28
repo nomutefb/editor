@@ -20,15 +20,28 @@ PALETTE = [('c1', 'accent'), ('c2', 'accent-2'), ('c3', 'cat-intl'), ('c4', 'cat
            ('c6', 'accent-6'), ('c7', 'cat-soc'), ('c8', 'bias-l2')]   # 무대 팔레트 = viewer :root 색 토큰(값 창작 0 · 이름만 짧게)
 
 
-def canvas(ratio):
-    """무대(자막 자리 위 전체) = (W, H). 자막 = 9:16 1480~ · 16:9 900~(ys_render caption_html 과 동값)."""
-    return (1920, 880) if ratio == '16:9' else (1080, 1440)
+def canvas(ratio, cap='mid'):
+    """무대 = (W, H). 자막이 아래(low)면 자막 자리 위까지(9:16 1480~ · 16:9 900~ = ys_render caption_html 동값),
+    가운데·위면 화면 전체(자막 띠만 비우게 지침으로 알린다 · 운영자 260928 «자막 위치 기본 = 화면 중앙»)."""
+    if cap == 'low':
+        return (1920, 880) if ratio == '16:9' else (1080, 1440)
+    return (1920, 1080) if ratio == '16:9' else (1080, 1920)
+
+
+def cap_band(ratio, cap='mid'):
+    """자막 띠(y 시작, y 끝) — ys_render caption_html 위치와 동값(무대가 이 띠에 주인공을 두지 않게)."""
+    h = 1080 if ratio == '16:9' else 1920
+    return {'top': (int(h * .12), int(h * .26)), 'low': (int(h * .77), int(h * .92))}.get(cap, (int(h * .42), int(h * .58)))
 
 
 def prompt_block(plan, timing, meta, ratio):
-    w, h = canvas(ratio)
+    cap = os.environ.get('YS_CAP') or 'mid'
+    w, h = canvas(ratio, cap)
     out = [f"[영상] 제목: {meta.get('title', '')} · 채널: {meta.get('channel', '')} · 숏폼 제목: {plan.get('short_title') or plan.get('title', '')}",
            f"[캔버스] W={w} H={h} · 비율 {ratio}"]
+    if cap != 'low':
+        a, z = cap_band(ratio, cap)
+        out.append(f"[자막 띠] y={a}~{z} 에 나레이션 자막이 얹힌다 — 이 띠에는 주인공·라벨을 두지 않는다(배경·흐름·입자는 지나가도 된다)")
     only = {int(x) for x in re.findall(r'\d+', os.environ.get('YS_MOTION_ONLY', ''))}   # 이번 콜이 맡은 장면(비면 전부 · 병렬 분할·맥/그록 대체분)
     if only:   # 나눠 맡을 때 = 전체 흐름을 한 줄씩 보여 준다(도형 문법·동작 언어가 다른 콜과 겹치지 않게)
         out.append('[전체 흐름] (참고만 · 아래 [장면]에 있는 i 만 만든다)')
