@@ -303,6 +303,8 @@ jobs:
         continue-on-error: true   # 그록이 늦거나 죽어도 = 렌더가 그림·모션 그래픽으로 채운다(영상은 항상 나온다 · 사유는 vid.json)
         env:
           XAI_REFRESH_TOKEN: ${{ secrets.XAI_REFRESH_TOKEN }}
+          # 운영자 260928 «저장소 이관(nomutefb) 때 변수명을 XAI_SECRET_PAT 로 바꿨다» → 그 칸을 형식으로 갈라 쓴다(아래 run)
+          XAI_MOVED: ${{ secrets.XAI_SECRET_PAT }}
           XAI_TOKEN_STORE: ${{ runner.temp }}/grok_token.json
           # 갱신 열쇠 되쓰기 = 비밀값 쓰기 권한이 있는 개인 토큰(콘티 레인과 같은 문법 · 미등록이면 러너가 사유를 찍고 넘어간다)
           XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
@@ -311,6 +313,18 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: |
+          # 이관 칸(XAI_SECRET_PAT) = 깃허브 토큰 형식이면 되쓰기 열쇠로만 · 그 밖이면 그록 갱신 열쇠로(깃허브 토큰을 그록 서버로 보내지 않는다)
+          case "$XAI_MOVED" in
+            '') moved=없음 ;;
+            ghp_*|github_pat_*|gho_*|ghu_*|ghs_*|ghr_*) moved=깃허브토큰 ;;
+            *) moved=그록열쇠 ;;
+          esac
+          echo "자격 칸: XAI_REFRESH_TOKEN=$([ -n "$XAI_REFRESH_TOKEN" ] && echo 있음 || echo 없음) · XAI_SECRET_PAT(이관)=${moved} · GH_TOKEN=$([ -n "$XAI_SECRET_PAT" ] && echo 있음 || echo 없음)"
+          if [ "$moved" = 깃허브토큰 ] && [ -z "$XAI_SECRET_PAT" ]; then export XAI_SECRET_PAT="$XAI_MOVED"; fi
+          if [ "$moved" = 그록열쇠 ] && [ -z "$XAI_REFRESH_TOKEN" ]; then
+            export XAI_REFRESH_TOKEN="$XAI_MOVED" XAI_SECRET_NAME=XAI_SECRET_PAT   # 회전된 새 열쇠 = 운영자가 쓰는 그 칸에 되쓴다
+          fi
+          unset XAI_MOVED
           pip install --quiet pynacl || echo "::warning::pynacl 설치 실패 — 그록 열쇠 되쓰기가 안 되면 다음 그록 발사(콘티 포함)가 자격 오류로 죽을 수 있음"
           python3 .github/scripts/ys_grok.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys/img /tmp/ys/vid "$YS_RATIO"; rc=$?
           rm -f "$XAI_TOKEN_STORE" 2>/dev/null   # 방금 회전된 살아 있는 열쇠 평문 = 러너에 남기지 않는다
