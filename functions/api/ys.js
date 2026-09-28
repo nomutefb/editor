@@ -24,10 +24,16 @@ export const OPTS = {
   img: ['codex', 'none'],             // 맥 Codex 장면 그림(기본 · 맥 꺼짐 = 글자 화면 자동) / 글자 화면
   len: ['60', '45', '90'],            // 목표 초
   font: ['pretendard', 'gothic', 'barun'],   // 운영자 260928 "프리텐다드·노토산스·나눔바른고딕 · 기본 프리텐다드"
+  ratio: ['9:16', '16:9'],            // 세로(기본) / 가로
+  subbg: ['on', 'off'],               // 자막 배경 점등(기본 켬)
 };
 export function cleanOpts(body) {
+  const src = (body && typeof body.opts === 'object' && body.opts && !Array.isArray(body.opts)) ? body.opts : (body || {});   // 새 모양 = {opts:{…}} · 옛 모양(최상위) 하위호환
   const o = {};
-  for (const [k, allow] of Object.entries(OPTS)) o[k] = allow.includes(String(body[k] ?? '')) ? String(body[k]) : allow[0];
+  for (const [k, allow] of Object.entries(OPTS)) o[k] = allow.includes(String(src[k] ?? '')) ? String(src[k]) : allow[0];
+  const op = Number.parseInt(src.subop, 10);
+  o.subop = String(Number.isFinite(op) ? Math.min(100, Math.max(0, op)) : 100);   // 자막 배경 불투명도 %(기본 100)
+  o.el_voice = /^[A-Za-z0-9]{16,32}$/.test(String(src.el_voice || '')) ? String(src.el_voice) : '';   // ElevenLabs 목소리 id(빈 값 = AI 자동)
   return o;
 }
 
@@ -42,13 +48,12 @@ export async function onRequestPost({ request, env }) {
   if (!YT_RE.test(url)) return json({ ok: false, error: '유튜브 영상 주소를 넣어줘 — youtube.com/watch?v=… · youtu.be/… · youtube.com/shorts/…' }, 400);
   const ask = String(body.ask || '').replace(/[\u0000-\u001F\u007F]+/g, ' ').trim().slice(0, 300);
   const o = cleanOpts(body);
-  const elVoice = /^[A-Za-z0-9]{16,32}$/.test(String(body.el_voice || '')) ? String(body.el_voice) : '';   // ElevenLabs 목소리 id(빈 값 = 자동 · 목록 = /ys_out/_voices.json)
 
   const rl = await rateGate(GH, env.GH_TOKEN, 'ys-make.yml');   // 발사 레이트리밋(파이프 공통 문법 · fail-open)
   if (rl) return json({ ok: false, error: rl.error }, 429);
 
   const id = new Date(Date.now() + 9 * 3600e3).toISOString().replace(/[^0-9]/g, '').slice(2, 14) + '-' + crypto.randomUUID().slice(0, 6);   // KST(+9h · pick.js 규칙)
-  const inputs = { id, url, ask, voice: o.voice, stt: o.stt, img: o.img, len: o.len, font: o.font, el_voice: elVoice };
+  const inputs = { id, url, ask, opts: JSON.stringify(o) };   // 옵션 = JSON 1칸(디스패치 입력 개수 상한 여유 · vd opts 선례) — 워크플로가 한 번 더 화이트리스트
   const out = `ys_out/${id}/result.json`;
   const r = await dispatchWf(env, 'ys-make.yml', { ref: REF, inputs });   // 재시도 3회(_fire.js SSOT)
   if (r.status === 204) return json({ ok: true, id, out });

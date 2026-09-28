@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """유튜브 숏폼(ys) 렌더 — plan.json + 나레이션 타이밍 → 9:16 mp4 · 포스터 · 인포그래픽 PNG.
 
-  ys_render.py <plan.json> <timing.json> <meta.json> <outdir> [--img-dir DIR]
+  ys_render.py <plan.json> <timing.json> <meta.json> <outdir> [--img-dir DIR] [--font pretendard|gothic|barun]
+               [--ratio 9:16|16:9] [--subbg on|off] [--subop 0~100]
 
   산출 = outdir/short.mp4 · outdir/poster.jpg · outdir/infographic.png · outdir/render.json(집계)
   장면 = 슬라이드 PNG(헤드리스 Chromium) + 느린 확대 + 문장 자막 오버레이 + 장면 나레이션 → 장면 클립 → 이어붙이기.
@@ -32,6 +33,9 @@ CAP_MAX = 30       # 자막 한 덩이 최대 글자(넘으면 가운데 가까�
 #   프리텐다드 = 레포 정본 파일(@font-face) · 노토 산스·나눔바른고딕 = 러너 apt 시스템 폰트(fonts-noto-cjk · fonts-nanum) 패밀리명.
 FONTS = {'pretendard': 'NMP', 'gothic': "'Noto Sans CJK KR'", 'barun': "'NanumBarunGothic'"}
 FAMILY = FONTS['pretendard']
+LAND = False        # 16:9 가로(운영자 260928 «기본 9:16 · 16:9 선택»)
+SUB_BG = True       # 자막 배경 점등(기본 켬)
+SUB_OP = 1.0        # 자막 배경 불투명도(기본 100%)
 
 
 def esc(s):
@@ -72,41 +76,52 @@ html,body{{width:{W}px;font-family:{FAMILY},'Noto Sans CJK KR',sans-serif;color:
 """
 
 
+def layout(img):
+    """장면 배치(px) — 세로 9:16 = 위 그림·아래 글자 / 가로 16:9 = 왼쪽 글자·오른쪽 그림.
+    글자는 한 덩이 세로 흐름(.txt = 큰 글자 → 보조 → 칩 → 출처)이라 줄 수가 늘어도 겹치지 않는다(고정 top 배치 폐기 · 16:9 실측 겹침 봉합).
+    txt = 글자 덩이 영역(위·아래 경계) · tw = 큰 글자 자동 맞춤 폭 · 자막 영역(세로 1480~ · 가로 900~)은 비워 둔다."""
+    if LAND:
+        if img:
+            return dict(top=70, pic='left:1000px;right:80px;top:170px;height:680px', txt='top:170px;bottom:230px;right:1000px',
+                        tw=840, big_cap=104, head_cap=60, just='center')
+        return dict(top=70, pic='', txt='top:170px;bottom:230px;right:80px', tw=1760, big_cap=150, head_cap=72, just='center')
+    if img:
+        return dict(top=120, pic='left:80px;right:80px;top:230px;height:740px', txt='top:1010px;bottom:470px;right:80px',
+                    tw=920, big_cap=110, head_cap=80, just='flex-start')
+    return dict(top=120, pic='', txt='top:360px;bottom:470px;right:80px', tw=920, big_cap=150, head_cap=84, just='center')
+
+
 def slide_html(tokens, sc, idx, total, img=None, credit=''):
     tag = esc(sc.get('tag'))
     step = f'{idx} / {total - 2}' if 0 < idx < total - 1 else ''
     chips = ''.join(f'<span class=chip>{esc(c)}</span>' for c in sc.get('chips') or [])
     big, head = sc.get('big') or '', sc.get('head') or ''
-    if img:
-        vis = (f"<div class=pic style=\"background-image:url('file://{img}')\"></div>")
-        big_top, head_top, chips_top, big_px = 1010, 1150, 1330, fit(big, 110)
-    else:
-        vis = ''
-        big_top, head_top, chips_top, big_px = 380, 900, 1150, fit(big, 150)
-    head_px = fit(head, 84)
+    L = layout(img)
+    vis = f"<div class=pic style=\"background-image:url('file://{img}')\"></div>" if img else ''
+    big_px, head_px = fit(big, L['big_cap'], L['tw']), fit(head, L['head_cap'], L['tw'])
     cr = f'<div class=credit>{br(credit)}</div>' if credit else ''
     return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
 html,body{{height:{H}px;overflow:hidden;background:var(--bg)}}
-body{{background:radial-gradient(1200px 900px at 50% 28%,rgba(var(--accent-rgb),.13),transparent 60%),var(--bg)}}
-.top{{position:absolute;left:80px;right:80px;top:120px;display:flex;justify-content:space-between;align-items:center}}
+body{{background:radial-gradient(1200px 900px at {'30% 40%' if LAND else '50% 28%'},rgba(var(--accent-rgb),.13),transparent 60%),var(--bg)}}
+.top{{position:absolute;left:80px;right:80px;top:{L['top']}px;display:flex;justify-content:space-between;align-items:center}}
 .step{{font-size:34px;color:var(--mut);font-weight:600}}
-.pic{{position:absolute;left:80px;right:80px;top:230px;height:740px;border-radius:28px;background-size:cover;background-position:center;border:1px solid var(--line)}}
+.pic{{position:absolute;{L['pic']};border-radius:28px;background-size:cover;background-position:center;border:1px solid var(--line)}}
 .pic::after{{content:'';position:absolute;inset:0;border-radius:28px;background:linear-gradient(180deg,transparent 55%,rgba(0,0,0,.55))}}
-.big{{position:absolute;left:80px;right:80px;top:{big_top}px;font-size:{big_px}px;line-height:1.12;font-weight:800;letter-spacing:-.03em;color:var(--accent)}}
-.head{{position:absolute;left:80px;right:80px;top:{head_top + (0 if img else 0)}px;font-size:{head_px}px;line-height:1.22;font-weight:800;letter-spacing:-.03em}}
-.chips{{position:absolute;left:80px;right:80px;top:{chips_top}px}}
-.credit{{position:absolute;left:80px;right:80px;top:1290px;font-size:32px;line-height:1.5;color:var(--mut)}}
+.txt{{position:absolute;left:80px;{L['txt']};display:flex;flex-direction:column;justify-content:{L['just']};gap:36px;overflow:hidden}}
+.big{{font-size:{big_px}px;line-height:1.12;font-weight:800;letter-spacing:-.03em;color:var(--accent)}}
+.head{{font-size:{head_px}px;line-height:1.22;font-weight:800;letter-spacing:-.03em}}
+.credit{{font-size:32px;line-height:1.5;color:var(--mut)}}
 </style></head><body>
 <div class=top><span class=pill>{tag}</span><span class=step>{step}</span></div>
-{vis}<div class=big>{br(big)}</div><div class=head>{br(head)}</div><div class=chips>{chips}</div>{cr}
+{vis}<div class=txt><div class=big>{br(big)}</div><div class=head>{br(head)}</div><div class=chips>{chips}</div>{cr}</div>
 </body></html>"""
 
 
 def caption_html(tokens, text):
     return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
 html,body{{height:{H}px;background:transparent;overflow:hidden}}
-.cap{{position:absolute;left:70px;right:70px;top:1480px;display:flex;justify-content:center}}
-.cap div{{background:rgba(0,0,0,.72);border-radius:20px;padding:22px 34px;font-size:50px;line-height:1.38;font-weight:700;text-align:center;letter-spacing:-.02em}}
+.cap{{position:absolute;left:{'200' if LAND else '70'}px;right:{'200' if LAND else '70'}px;top:{'900' if LAND else '1480'}px;display:flex;justify-content:center}}
+.cap div{{{f'background:rgba(0,0,0,{SUB_OP:.2f});' if SUB_BG else 'text-shadow:0 2px 6px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.8);'}border-radius:20px;padding:22px 34px;font-size:{'46' if LAND else '50'}px;line-height:1.38;font-weight:700;text-align:center;letter-spacing:-.02em}}
 </style></head><body><div class=cap><div>{esc(text)}</div></div></body></html>"""
 
 
@@ -174,17 +189,32 @@ def progress(p, note=''):
                         'render', 'run', note, f'p={p:.3f}'], check=False)
 
 
+def parse_args(argv):
+    """위치 인자 4개 + `--키 값` 쌍(--img-dir · --font · --ratio · --subbg · --subop)."""
+    pos, flags, i = [], {}, 1
+    while i < len(argv):
+        a = argv[i]
+        if a.startswith('--') and i + 1 < len(argv):
+            flags[a[2:]] = argv[i + 1]
+            i += 2
+            continue
+        pos.append(a)
+        i += 1
+    return pos, flags
+
+
 def main(argv):
-    global FAMILY
-    args = [a for a in argv[1:] if not a.startswith('--')]
-    img_dir = None
-    if '--img-dir' in argv:
-        img_dir = Path(argv[argv.index('--img-dir') + 1])
-        args = [a for a in args if a != str(img_dir)]
-    if '--font' in argv:
-        key = argv[argv.index('--font') + 1]
-        args = [a for a in args if a != key]
-        FAMILY = FONTS.get(key, FONTS['pretendard'])
+    global FAMILY, W, H, LAND, SUB_BG, SUB_OP
+    args, flags = parse_args(argv)
+    img_dir = Path(flags['img-dir']) if flags.get('img-dir') else None
+    FAMILY = FONTS.get(flags.get('font', ''), FONTS['pretendard'])
+    LAND = flags.get('ratio') == '16:9'
+    W, H = (1920, 1080) if LAND else (1080, 1920)
+    SUB_BG = flags.get('subbg', 'on') != 'off'
+    try:
+        SUB_OP = max(0, min(100, int(flags.get('subop', '100')))) / 100
+    except ValueError:
+        SUB_OP = 1.0
     if len(args) < 4:
         print(__doc__, file=sys.stderr)
         return 2
@@ -261,13 +291,13 @@ def main(argv):
     final = out / 'short.mp4'
     subprocess.run(['ffmpeg', '-y', '-v', 'error', '-f', 'concat', '-safe', '0', '-i', str(lst), '-c', 'copy',
                     '-movflags', '+faststart', str(final)], check=True)
-    subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', str(work / 's0.png'), '-vf', 'scale=540:-2', '-q:v', '3',
+    subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', str(work / 's0.png'), '-vf', f'scale={960 if LAND else 540}:-2', '-q:v', '3',
                     str(out / 'poster.jpg')], check=True)
     dur = probe(final)
     if dur <= 0:
         print('::error::최종 영상 길이 0')
         return 1
-    json.dump({'dur': round(dur, 2), 'scenes': len(scenes), 'img_used': imgs_used,
+    json.dump({'dur': round(dur, 2), 'scenes': len(scenes), 'img_used': imgs_used, 'ratio': '16:9' if LAND else '9:16',
                'captions': sum(len(c) for c in caps_all)}, open(out / 'render.json', 'w'), ensure_ascii=False)
     print(f'렌더 완료 — {dur:.1f}초 · 장면 {len(scenes)} · 그림 {imgs_used} · 자막 {sum(len(c) for c in caps_all)}덩이')
     return 0

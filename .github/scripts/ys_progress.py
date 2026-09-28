@@ -21,6 +21,33 @@ KEYS = [k for k, _l, _w in STEPS]
 LOCAL = '/tmp/ys_progress.json'
 
 
+def budgets(img='codex', stt='scribe', voice='eleven', ln=60, dur=0):
+    """단계별 예산(초) — 러너 환경 준비 시간을 그 단계에 포함한 추정치(운영자 260928 «세부 시간·총 시간·예산 표시»).
+    근거: 로컬 실측(렌더 71초 영상 ≈ 90초 · edge 합성 장면당 ≈ 5초) + 러너 준비(claude 설치 ≈ 40초 · 렌더 환경 ≈ 60~90초).
+    예산은 약속이 아니라 눈금이다 — 넘기면 화면이 경과 숫자만 경고 톤으로 바꾼다."""
+    ln = int(ln or 60)
+    scenes = {45: 5, 60: 7, 90: 9}.get(ln, 7)
+    return {
+        'meta': 90,
+        'stt': int(90 + 0.06 * dur) if stt == 'scribe' else 40,
+        'plan': 180,
+        'voice': int(40 + ln) if voice == 'eleven' else int(30 + 0.6 * ln),
+        'img': 70 * scenes if img == 'codex' else 0,
+        'render': int(120 + 1.5 * ln),
+        'upload': 20,
+    }
+
+
+def apply_budget(doc):
+    b = budgets(**doc.get('opts', {}))
+    tot = 0
+    for st in doc['steps']:
+        st['budget'] = b.get(st['k'], 0)
+        if st['st'] != 'skip':
+            tot += st['budget']
+    doc['budget_total'] = tot
+
+
 def pct(doc):
     """단계 가중 진행률 — skip 단계는 분모에서 빠진다 · 진행 중 단계는 p(0~1)만큼 · 완료 = 100."""
     if doc.get('state') == 'done':
@@ -51,6 +78,8 @@ def load(id_):
 
 
 def publish(doc):
+    if 'opts' in doc:
+        apply_budget(doc)   # 중간에 건너뛴 단계(맥 꺼짐 = 그림 skip)는 총 예산에서 빠진다
     doc['updated'] = int(time.time())
     doc['pct'] = pct(doc)
     tmp = LOCAL + '.tmp'
@@ -80,9 +109,19 @@ def main(argv):
     if cmd == 'init':
         doc = load('')
         doc['id'] = id_
-        img = next((a.split('=', 1)[1] for a in argv[3:] if a.startswith('img=')), 'none')
-        if img == 'none':
+        kv = dict(a.split('=', 1) for a in argv[3:] if '=' in a)
+        doc['opts'] = {'img': kv.get('img', 'none'), 'stt': kv.get('stt', 'subs'), 'voice': kv.get('voice', 'edge'),
+                       'ln': int(kv.get('len', '60') or 60) if str(kv.get('len', '60')).isdigit() else 60, 'dur': 0}
+        if doc['opts']['img'] == 'none':
             doc['steps'][KEYS.index('img')]['st'] = 'skip'
+        apply_budget(doc)
+    elif cmd == 'budget':   # 영상 길이를 안 뒤(meta) 받아쓰기 예산 재계산
+        kv = dict(a.split('=', 1) for a in argv[3:] if '=' in a)
+        try:
+            doc.setdefault('opts', {})['dur'] = int(kv.get('dur', '0'))
+        except ValueError:
+            pass
+        apply_budget(doc)
     elif cmd == 'finish':
         doc['state'] = 'done'
         for st in doc['steps']:

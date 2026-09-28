@@ -19,30 +19,10 @@ on:
         description: '운영자 지시(선택 · 관점·초점)'
         type: string
         default: ''
-      voice:
-        description: 'eleven(ElevenLabs · 기본) | edge(무료)'
+      opts:
+        description: '옵션 JSON {voice,stt,img,len,font,el_voice,ratio,subbg,subop} — api/ys.js cleanOpts 통과분(워크플로가 한 번 더 화이트리스트)'
         type: string
-        default: 'eleven'
-      stt:
-        description: 'scribe(정밀 받아쓰기 · 기본) | subs(자막 우선)'
-        type: string
-        default: 'scribe'
-      img:
-        description: 'codex(맥 Codex 장면 그림 · 기본 · 맥 꺼짐 = 글자 화면) | none(글자 화면)'
-        type: string
-        default: 'codex'
-      len:
-        description: '목표 초 45 | 60 | 90'
-        type: string
-        default: '60'
-      font:
-        description: 'pretendard | gothic | barun'
-        type: string
-        default: 'pretendard'
-      el_voice:
-        description: 'ElevenLabs 목소리 id(빈 값 = 레포 변수 YS_EL_VOICE → 계정 한국어 목소리 자동)'
-        type: string
-        default: ''
+        default: '{}'
       account:
         description: '이 실행에 쓸 계정(구독 OAuth)'
         type: choice
@@ -86,24 +66,17 @@ jobs:
 
       - name: 입력 검문 + 진행 시작
         env:   # 입력은 env 로만 받는다(run 줄에 ${{ }} 직삽입 = 셸 인젝션 축)
-          IN_VOICE: ${{ inputs.voice }}
-          IN_STT: ${{ inputs.stt }}
-          IN_IMG: ${{ inputs.img }}
-          IN_LEN: ${{ inputs.len }}
-          IN_FONT: ${{ inputs.font }}
+          IN_OPTS: ${{ inputs.opts }}
         run: |
           set -e
           case "$YS_ID" in ''|*[!0-9a-f-]*) echo "::error::잘못된 id"; exit 1;; esac
-          # api/ys.js 화이트리스트 재검증(상류 신뢰 대신 최후 방어선 · vd/conv 선례) — 벗어나면 기본값
-          pick(){ case " $2 " in *" $1 "*) echo "$1";; *) echo "$3";; esac; }
-          IMG="$(pick "$IN_IMG" 'none codex' codex)"   # 기본 = 운영자 260928 «60초 고급 정밀 맥 그림»
-          { echo "YS_VOICE=$(pick "$IN_VOICE" 'edge eleven' eleven)"
-            echo "YS_STT=$(pick "$IN_STT" 'subs scribe' scribe)"
-            echo "YS_IMG=$IMG"
-            echo "YS_LEN=$(pick "$IN_LEN" '45 60 90' 60)"
-            echo "YS_FONT=$(pick "$IN_FONT" 'pretendard gothic barun' pretendard)"; } >> "$GITHUB_ENV"
+          # api/ys.js cleanOpts 재검증(상류 신뢰 대신 최후 방어선 · vd opts 선례) — 벗어나면 기본값
+          #   기본 = 운영자 260928 «60초 · 고급 음성 · 정밀 받아쓰기 · 맥 그림 · 9:16 · 자막 배경 켬 100%»
+          python3 .github/scripts/ys_opts.py > /tmp/ys_opts.env
+          cat /tmp/ys_opts.env >> "$GITHUB_ENV"
+          g(){ grep "^$1=" /tmp/ys_opts.env | cut -d= -f2; }
           mkdir -p "viewer/ys_out/${YS_ID}"
-          python3 .github/scripts/ys_progress.py "$YS_ID" init "img=$IMG"
+          python3 .github/scripts/ys_progress.py "$YS_ID" init "img=$(g YS_IMG)" "stt=$(g YS_STT)" "voice=$(g YS_VOICE)" "len=$(g YS_LEN)"
 
       - name: Setup Node (claude)
         uses: actions/setup-node@v5
@@ -158,6 +131,7 @@ jobs:
           print("메타:", meta["title"][:60], "·", meta["dur"], "s")
           PY
           [ -s /tmp/ys_err.txt ] && exit 1
+          python3 .github/scripts/ys_progress.py "$YS_ID" budget "dur=$(python3 -c "import json;print(json.load(open('/tmp/ys_meta.json')).get('dur') or 0)")"
           python3 .github/scripts/ys_progress.py "$YS_ID" meta done "$(python3 -c "import json;m=json.load(open('/tmp/ys_meta.json'));print(f\"{m['dur']//60}분 {m['dur']%60}초\")")"
           python3 .github/scripts/ys_progress.py "$YS_ID" stt run "$([ "$YS_STT" = scribe ] && echo 정밀 받아쓰기 || echo 자막 찾는 중)"
           if [ "$YS_STT" = "scribe" ]; then echo "YS_NEED_STT=1" >> "$GITHUB_ENV"; exit 0; fi
@@ -264,12 +238,11 @@ jobs:
         timeout-minutes: 15
         env:
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
-          IN_EL_VOICE: ${{ inputs.el_voice }}
           VAR_EL_VOICE: ${{ vars.YS_EL_VOICE }}
         run: |
           set -e
           # 목소리 = 화면 선택(id 형식 검문) → AI 선택(plan.voice_id · 후보 목록 안에서만) → 레포 변수 → 계정 한국어 목소리 자동(ys_tts.el_voice)
-          V="$IN_EL_VOICE"; printf '%s' "$V" | grep -Eqx '[A-Za-z0-9]{16,32}' || V="$(python3 -c "import json;print(json.load(open('/tmp/ys/plan.json')).get('voice_id',''))")"
+          V="$YS_EL_VOICE_IN"; printf '%s' "$V" | grep -Eqx '[A-Za-z0-9]{16,32}' || V="$(python3 -c "import json;print(json.load(open('/tmp/ys/plan.json')).get('voice_id',''))")"
           printf '%s' "$V" | grep -Eqx '[A-Za-z0-9]{16,32}' || V="$VAR_EL_VOICE"
           printf '%s' "$V" | grep -Eqx '[A-Za-z0-9]{16,32}' || V=""
           export YS_EL_VOICE="$V"
@@ -291,7 +264,7 @@ jobs:
           set -e
           python3 .github/scripts/ys_progress.py "$YS_ID" render run "슬라이드 그리는 중" "p=0.02"
           IMGARG=""; [ -d /tmp/ys/img ] && IMGARG="--img-dir /tmp/ys/img"
-          python3 .github/scripts/ys_render.py /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys_meta.json /tmp/ys/final --font "$YS_FONT" $IMGARG \
+          python3 .github/scripts/ys_render.py /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys_meta.json /tmp/ys/final --font "$YS_FONT" --ratio "$YS_RATIO" --subbg "$YS_SUBBG" --subop "$YS_SUBOP" $IMGARG \
             || { echo "영상 합치기에 실패했어 — 다시 해줘." > /tmp/ys_err.txt; exit 1; }
           python3 .github/scripts/ys_progress.py "$YS_ID" render done "$(python3 -c "import json;r=json.load(open('/tmp/ys/final/render.json'));print(f\"{r['dur']:.0f}초 · 장면 {r['scenes']}개\")")"
 
@@ -327,7 +300,8 @@ jobs:
                  'title': plan.get('title') or meta.get('title'), 'short_title': plan.get('short_title', ''), 'one': plan.get('one', ''),
                  'channel': meta.get('channel', ''), 'src_title': meta.get('title', ''), 'src_url': meta.get('url', ''), 'uploaded': meta.get('uploaded', ''),
                  'dur': ren['dur'], 'scenes': ren['scenes'], 'voice': tim.get('engine'), 'img': os.environ.get('YS_IMG'), 'img_used': ren.get('img_used', 0),
-                 'font': os.environ.get('YS_FONT'), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
+                 'font': os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
+                 'subop': int(os.environ.get('YS_SUBOP') or 100), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
                  'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',
                  'video': f'{base}/short.mp4', 'poster': f'{base}/poster.jpg', 'infographic': f'{base}/infographic.png', 'report': f'{base}/report.md',
                  'notes': notes}
@@ -339,6 +313,7 @@ jobs:
           aws s3 cp "viewer/ys_out/${YS_ID}/result.json" "s3://$R2_BUCKET/ys_out/${YS_ID}/result.json" --content-type 'application/json; charset=utf-8' \
             --cache-control no-store --endpoint-url "$EP" --only-show-errors || echo "::warning::result.json 실시간 게시 실패(커밋 경로로 표시됨)"
           python3 .github/scripts/ys_progress.py "$YS_ID" finish
+          python3 .github/scripts/ys_hist.py "viewer/ys_out/${YS_ID}/result.json" || echo "::warning::완성작 목록 갱신 실패(영상은 정상)"
         env:
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}
 

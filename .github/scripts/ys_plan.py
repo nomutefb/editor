@@ -26,7 +26,9 @@ def mmss(s):
 
 def voices_block(voices):
     """AI 목소리 선택 후보(운영자 260928 «추가해두면 네가 골라») — id·이름·표지만 · 최대 20개."""
-    rows = [v for v in (voices or []) if isinstance(v, dict) and re.fullmatch(r'[A-Za-z0-9]{16,32}', str(v.get('id', '')))][:20]
+    rows = [v for v in (voices or []) if isinstance(v, dict) and re.fullmatch(r'[A-Za-z0-9]{16,32}', str(v.get('id', '')))]
+    ko = [v for v in rows if str(v.get('name', '')).startswith('KO ')]   # 운영자가 고른 숏폼용 한국어 목소리(260928 코워크 = 추가 요금·모더레이션 목소리 제외분)
+    rows = (ko or rows)[:20]
     if not rows:
         return ''
     lines = '\n'.join(f"- {v['id']} | {v.get('name', '')} | {v.get('gender', '')} | {v.get('lang', '')} | {v.get('desc', '')}" for v in rows)
