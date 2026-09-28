@@ -1,7 +1,12 @@
 {
- "ok": 176,
- "dead": 1,
+ "ok": 175,
+ "dead": 2,
  "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
   {
    "publisher": "전자신문",
    "title": "IT·산업전반",
@@ -9,6 +14,11 @@
   }
  ],
  "zombie_feeds": [
+  {
+   "publisher": "경향신문",
+   "title": "스포츠",
+   "url": "http://www.khan.co.kr/rss/rssdata/kh_sports.xml"
+  },
   {
    "publisher": "동아일보",
    "title": "레져",
