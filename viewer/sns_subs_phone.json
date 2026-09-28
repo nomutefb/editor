@@ -16,6 +16,16 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "GitHub Copilot 코드 리뷰가 9월 28일부터 기본값을 Lite에서 Balanced로 바꿉니다.\n\n조직이나 저장소에서 별도 effort를 지정하지 않고 `Default`를 쓰고 있다면, 자동으로 더 높은 검토 수준을 사용하게 됩니다. 기존 설정을 명시적으로 Lite로 고정한 곳은 바뀌지 않습니다.\n\n코드 리뷰의 기준이 “리뷰를 켰는가”에서 “기본 effort를 무엇으로 방치했는가”로 이동했습니다.\n\n속도와 비용을 우선한 팀은 저장소별 기본값을 다시 확인해야 합니다. 에이전트가 만든 변경이 늘수록 리뷰 정책은 기능 설정이 아니라 운영 예산과 병목을 함께 결정합니다.\n\nhttps://github.blog/changelog/2026-08-28-upcoming-changes-to-github-copilot-policies-and-billing/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790563843,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd0JuXWGeF8",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "npm이 9월 18일 자동화용 토큰에 ‘Read and write (stage only)’ 권한을 추가했습니다.\n\n워크플로는 `npm stage publish`로 패키지 버전을 올릴 준비만 합니다. 직접 `npm publish`를 실행하면 거부되고, 유지관리자가 2FA로 승인해야 레지스트리에 공개됩니다.\n\n기존 토큰에는 바로 적용되지 않는 선택 기능입니다. 다만 npm은 2027년 1월부터 2FA 우회 토큰의 직접 배포를 없애는 방향을 예고했습니다.\n\nAI 코딩 에이전트가 릴리스 파일을 만들 수 있어도, 이제 공개 버튼까지 넘겨받는 것이 기본값은 아닙니다. 자동화의 단위가 배포 실행에서 배포 준비와 사람 승인으로 나뉘고 있습니다.\n\nhttps://github.blog/changelog/2026-09-18-stage-only-npm-tokens-for-safer-automation",
    "likes": 0,
    "cmts": 0,
@@ -40,7 +50,7 @@
    "likes": 22,
    "cmts": 2,
    "time": 1790559021,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/827856344_1368526485361325_8680794829561909013_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NTgyMTE0Njc4MzI4NTExNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0a_v_92lb7YQ7kNvwFVD_zg&_nc_oc=AdrZZsqHCTeSVKrQ2AmJ8LXMiDpIbDQ3XMKujZjzEYXDuLhuD8873I80MSbjcVhqZk4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UOTWAFkImZizyNZCyCNDaQ&_nc_ss=7a20f&oh=00_AQP4QunzBeMftViQpIu6H-OvxWqstmMykDnxwlEOZfgE3A&oe=6ABFA7F0",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/827856344_1368526485361325_8680794829561909013_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NTgyMTE0Njc4MzI4NTExNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0a_v_92lb7YQ7kNvwFVD_zg&_nc_oc=AdrZZsqHCTeSVKrQ2AmJ8LXMiDpIbDQ3XMKujZjzEYXDuLhuD8873I80MSbjcVhqZk4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4duLe-bD3m0OlahfsqT8dw&_nc_ss=7a20f&oh=00_AQOiIvlT1ZmSfZmsDcilJ5bISkPnlas3HMJQbNS8Kftl4g&oe=6ABFA7F0",
    "url": "https://www.threads.com/@choi.openai/post/Dd0AimIAv96",
    "region": "kr"
   },
@@ -52,16 +62,6 @@
    "time": 1790557014,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Ddz8s40mVMt",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Actions가 9월 17일 워크플로 실행 보호 기능을 정식 출시했습니다.\n\n이제 누가 실행할 수 있는지와 어떤 이벤트가 시작할 수 있는지를 함께 허용 목록으로 정합니다. 저장소 전체가 아니라 `deploy.yml` 같은 특정 워크플로 파일만 따로 묶을 수도 있습니다.\n\n정책은 평가 모드로 먼저 돌려 어떤 실행이 막힐지 확인하고, 인사이트와 REST API로 수백 개 저장소에 같은 기준을 배포할 수 있습니다.\n\n공개 저장소의 `pull_request_target`에는 더 직접적인 변화가 예정돼 있습니다. 2026년 11월 2일부터 기본 정책을 쓰던 저장소에서는 이 이벤트가 자동으로 차단됩니다.\n\n코딩 에이전트가 워크플로를 만들고 수정하는 환경에서 이제 CI 보안의 기준은 권한 목록만이 아닙니다. 어떤 파일이 어떤 이벤트로 실행되는지까지 정책으로 남아 있어야 합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790557005,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddz8r0Tmad7",
    "region": "kr"
   },
   {
@@ -80,8 +80,28 @@
    "likes": 1,
    "cmts": 0,
    "time": 1790491258,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825326458_17938672023362958_2462467297883309186_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5NTI1MjcwNTMxMjYyOTQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lfNzJ72oGjgQ7kNvwEM2CEc&_nc_oc=AdpsnbFPTGryZXQAKJVXrL9v-Y4ru-EeAYANCM5g2UrO4aHBYtoIWdnEeDqJ-BWJ8hA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BEnRD3ozhKw6whYOq-666g&_nc_ss=7a20f&oh=00_AQP92SCKnhymJTnzIWbqfIftUSKmWBAskH_DBkhCZr9ptQ&oe=6ABFBA53",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825326458_17938672023362958_2462467297883309186_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5NTI1MjcwNTMxMjYyOTQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lfNzJ72oGjgQ7kNvwEM2CEc&_nc_oc=AdpsnbFPTGryZXQAKJVXrL9v-Y4ru-EeAYANCM5g2UrO4aHBYtoIWdnEeDqJ-BWJ8hA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vNMI2W3vmKBt51L9VgqjmA&_nc_ss=7a20f&oh=00_AQMqliq4gE7kTBVJ5ZtGWva8nxwrNMbfHeBi8RPw-cSrFg&oe=6ABFBA53",
    "url": "https://www.threads.com/@takepage_/post/Ddx_SrwE-LY",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Actions가 9월 17일 워크플로 실행 보호 기능을 정식 출시했습니다.\n\n이제 누가 실행할 수 있는지와 어떤 이벤트가 시작할 수 있는지를 함께 허용 목록으로 정합니다. 저장소 전체가 아니라 `deploy.yml` 같은 특정 워크플로 파일만 따로 묶을 수도 있습니다.\n\n정책은 평가 모드로 먼저 돌려 어떤 실행이 막힐지 확인하고, 인사이트와 REST API로 수백 개 저장소에 같은 기준을 배포할 수 있습니다.\n\n공개 저장소의 `pull_request_target`에는 더 직접적인 변화가 예정돼 있습니다. 2026년 11월 2일부터 기본 정책을 쓰던 저장소에서는 이 이벤트가 자동으로 차단됩니다.\n\n코딩 에이전트가 워크플로를 만들고 수정하는 환경에서 이제 CI 보안의 기준은 권한 목록만이 아닙니다. 어떤 파일이 어떤 이벤트로 실행되는지까지 정책으로 남아 있어야 합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790557005,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Ddz8r0Tmad7",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "Jev와 비슷한 역할을 하는 새로운 분류 모델 Julia-1이 공개됐습니다.\n\n슈퍼소닉 랩스가 공개한 Julia-1은 다양한 기기에서 로컬로 실행하는 데 초점을 맞춘 모델입니다. WebGPU도 지원해 브라우저에서도 실행할 수 있습니다.\n\n실제로 한 개발자가 M1 Pro에서 구현한 버전은 하나의 프로세스에서 10개 요청을 약 0.93~0.96초에 처리했다고 공개했습니다.\n\nJev처럼 빠른 판단이 필요한 작업에 활용할 수 있지만, 공개된 내용만으로 두 모델의 성능을 직접 비교하기는 어렵습니다.",
+   "likes": 39,
+   "cmts": 4,
+   "time": 1790553621,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825996806_17988993123112832_5013327162189274060_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NTc3NTg0NjI1MzEzNzQ5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CS8tUK9dVTMQ7kNvwFSkGI-&_nc_oc=AdpfSlB26xMQ089bc-ZaqTVD-A9fJW8MSuJ8klFTOxQf3I0gC3qC4zms13AH5vK0wj4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4duLe-bD3m0OlahfsqT8dw&_nc_ss=7a20f&oh=00_AQMji0BV4d5gOVYriJybns4gecM2kAPnT77mN8Xr7PQqeA&oe=6ABFAEF1",
+   "url": "https://www.threads.com/@choi.openai/post/Ddz2PYuAQ5Z",
    "region": "kr"
   },
   {
@@ -96,12 +116,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "Jev와 비슷한 역할을 하는 새로운 분류 모델 Julia-1이 공개됐습니다.\n\n슈퍼소닉 랩스가 공개한 Julia-1은 다양한 기기에서 로컬로 실행하는 데 초점을 맞춘 모델입니다. WebGPU도 지원해 브라우저에서도 실행할 수 있습니다.\n\n실제로 한 개발자가 M1 Pro에서 구현한 버전은 하나의 프로세스에서 10개 요청을 약 0.93~0.96초에 처리했다고 공개했습니다.\n\nJev처럼 빠른 판단이 필요한 작업에 활용할 수 있지만, 공개된 내용만으로 두 모델의 성능을 직접 비교하기는 어렵습니다.",
-   "likes": 36,
-   "cmts": 4,
-   "time": 1790553621,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825996806_17988993123112832_5013327162189274060_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NTc3NTg0NjI1MzEzNzQ5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CS8tUK9dVTMQ7kNvwFSkGI-&_nc_oc=AdpfSlB26xMQ089bc-ZaqTVD-A9fJW8MSuJ8klFTOxQf3I0gC3qC4zms13AH5vK0wj4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UOTWAFkImZizyNZCyCNDaQ&_nc_ss=7a20f&oh=00_AQNVnAt1CWkTvqykaMCYzBt3L6LAMyzZtZQYUVI2-GT-cQ&oe=6ABFAEF1",
-   "url": "https://www.threads.com/@choi.openai/post/Ddz2PYuAQ5Z",
+   "text": "미니맥스가 새로운 코딩용 AI 모델 M3.1-Flash-Preview를 공개했습니다.\n\nMiniMax Code에서 먼저 제공되며, 빠른 버그 수정부터 전체 기능 개발까지 일상적인 개발 작업에 초점을 맞춘 텍스트 모델입니다.\n\n다만 현재 공식 게시물에는 파라미터 수나 벤치마크, 오픈웨이트 제공 여부 등 구체적인 정보가 공개되지 않았습니다.\n\n최근 OpenRouter에 등장했던 정체불명의 모델 Space Bunny Alpha가 미니맥스 모델이라는 분석도 있었지만, M3.1-Flash-Preview와 같은 모델인지는 확인되지 않았습니다.",
+   "likes": 22,
+   "cmts": 0,
+   "time": 1790548210,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/826271401_17988993087112832_2594229607385033613_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NTczMDQ1MjUwMTQ5MTQzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1bimb0lj5dYQ7kNvwEUndd3&_nc_oc=AdqPZKVwVQv3vQPwaCZUDzr_QfoVUwAL7MZsH9MvIno8q8-5V37fpSiqCCUWGWwzm9E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4duLe-bD3m0OlahfsqT8dw&_nc_ss=7a20f&oh=00_AQMIS58vqtW2aasuf-I4BSqSpEY6JGjGUrpC74xvHJV-uA&oe=6ABFC2FF",
+   "url": "https://www.threads.com/@choi.openai/post/Ddzr60fj-7t",
    "region": "kr"
   },
   {
@@ -116,12 +136,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "미니맥스가 새로운 코딩용 AI 모델 M3.1-Flash-Preview를 공개했습니다.\n\nMiniMax Code에서 먼저 제공되며, 빠른 버그 수정부터 전체 기능 개발까지 일상적인 개발 작업에 초점을 맞춘 텍스트 모델입니다.\n\n다만 현재 공식 게시물에는 파라미터 수나 벤치마크, 오픈웨이트 제공 여부 등 구체적인 정보가 공개되지 않았습니다.\n\n최근 OpenRouter에 등장했던 정체불명의 모델 Space Bunny Alpha가 미니맥스 모델이라는 분석도 있었지만, M3.1-Flash-Preview와 같은 모델인지는 확인되지 않았습니다.",
-   "likes": 22,
-   "cmts": 0,
-   "time": 1790548210,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/826271401_17988993087112832_2594229607385033613_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NTczMDQ1MjUwMTQ5MTQzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1bimb0lj5dYQ7kNvwEUndd3&_nc_oc=AdqPZKVwVQv3vQPwaCZUDzr_QfoVUwAL7MZsH9MvIno8q8-5V37fpSiqCCUWGWwzm9E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UOTWAFkImZizyNZCyCNDaQ&_nc_ss=7a20f&oh=00_AQMgOw6yxZfiWXRdPtrMtsFv19fZfxsdn7MMgwqQVkikZw&oe=6ABF8ABF",
-   "url": "https://www.threads.com/@choi.openai/post/Ddzr60fj-7t",
+   "text": "우크라이나가 드론에 이어 전쟁의 로봇화를 추진합니다.\n\n미하일로 페도로우 우크라이나 국방장관은 ‘Army of Robots’를 출범한다고 밝혔습니다.\n\n부상자 후송, 탄약 운반, 지뢰 설치·제거, 정찰, 진지 방어와 표적 공격처럼 위험한 임무를 로봇에 맡기는 것이 목표입니다.\n\n특정 기업의 로봇을 도입하는 방식이 아니라 국방 기술 기업에 투자하고, 군과 직접 시험한 뒤 성과가 확인된 기술을 전장에 확대하는 생태계를 만들겠다는 계획입니다.\n\n우크라이나 국방부는 이미 2026년 지상 무인 시스템을 실제 전장에서 운용하고 있습니다.",
+   "likes": 46,
+   "cmts": 2,
+   "time": 1790537442,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825270092_4375788082638951_7190706231970866487_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5NTY0MDEyNzMwMDkzNjA2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3h04uOoEwdgQ7kNvwEmOoeu&_nc_oc=AdpTWmFKmHsgjG6Z9knqXO2D89wN1Ghy52U0Xbxl_MrB0X5g9MsskyGsFxN8CjbdFD8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4duLe-bD3m0OlahfsqT8dw&_nc_ss=7a20f&oh=00_AQP8QGx4NoLX30FSFalzqGnDu7aKX5ofUUAue6da3gRmjw&oe=6ABF9014",
+   "url": "https://www.threads.com/@choi.openai/post/DdzXYamEaGC",
    "region": "kr"
   },
   {
@@ -133,36 +153,6 @@
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Ddz2PIdge1P",
    "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "우크라이나가 드론에 이어 전쟁의 로봇화를 추진합니다.\n\n미하일로 페도로우 우크라이나 국방장관은 ‘Army of Robots’를 출범한다고 밝혔습니다.\n\n부상자 후송, 탄약 운반, 지뢰 설치·제거, 정찰, 진지 방어와 표적 공격처럼 위험한 임무를 로봇에 맡기는 것이 목표입니다.\n\n특정 기업의 로봇을 도입하는 방식이 아니라 국방 기술 기업에 투자하고, 군과 직접 시험한 뒤 성과가 확인된 기술을 전장에 확대하는 생태계를 만들겠다는 계획입니다.\n\n우크라이나 국방부는 이미 2026년 지상 무인 시스템을 실제 전장에서 운용하고 있습니다.",
-   "likes": 45,
-   "cmts": 2,
-   "time": 1790537442,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825270092_4375788082638951_7190706231970866487_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5NTY0MDEyNzMwMDkzNjA2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3h04uOoEwdgQ7kNvwEmOoeu&_nc_oc=AdpTWmFKmHsgjG6Z9knqXO2D89wN1Ghy52U0Xbxl_MrB0X5g9MsskyGsFxN8CjbdFD8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=UOTWAFkImZizyNZCyCNDaQ&_nc_ss=7a20f&oh=00_AQNI0-zAozEeCxMUQeJ3E6Xt1UugDYJ3hYQCc6RyYfneGg&oe=6ABF9014",
-   "url": "https://www.threads.com/@choi.openai/post/DdzXYamEaGC",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "https://github.blog/changelog/2026-09-25-enterprise-managed-settings-in-product-validator",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790480083,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddxp9_TGYT9",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub가 9월 25일 Copilot 기업용 관리 설정에 인앱 검증기를 추가했습니다.\n\n검증 대상은 `copilot/managed-settings.json`과 `copilot/team-mappings.json`, 그리고 매핑 파일이 참조하는 팀별 설정 파일입니다. 잘못된 JSON, 지원하지 않는 설정, 존재하지 않는 팀 매핑처럼 정책 적용을 막는 오류를 찾아냅니다.\n\n오류가 발견되면 어떤 파일의 어떤 JSON 경로가 문제인지 보여줍니다. 수정한 뒤 `.github-private` 저장소의 기본 브랜치에 커밋하고, Agents 페이지를 새로고침해 다시 확인해야 합니다.\n\nCopilot 운영의 기준이 설정을 작성하는 데서, 에이전트가 그 설정을 실제로 적용받는지 확인하는 데로 이동했습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790480074,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddxp86Vmbtr",
-   "region": "kr"
   }
  ],
  "tiktok": [
@@ -172,7 +162,7 @@
    "views": 3600000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=tRxjHpIBZFwNzTpD4eS0TgO6H1I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=ovFQp4T1o0bBWMr4URW5AroRLHU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790240939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
    "region": "kr"
@@ -183,7 +173,7 @@
    "views": 1200000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=R1JjULOSkBQnqTg11IPCbeozs5o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=1VW7kdcLMgOoMlU2AZVugFJB3eo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790294103,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
    "region": "kr"
@@ -191,10 +181,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 818100,
+   "views": 819100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=Xmwr7DvWpGhvKa1EJVqMcDc9XwI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=VV22%2FmAmDWJh%2BXuM94wQfxERJNY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790285661,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
    "region": "kr"
@@ -202,10 +192,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 549300,
+   "views": 549400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=yjxz1AM5PvsGxMTBpbQk%2B16dW8g%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=KWCdOkDjbxBCxjBffdjmbllkHLM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -213,10 +203,10 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 532300,
+   "views": 533000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=GmGcwAxsotOwdqjBDo%2BMjyVTZE4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=RNuJ0%2B2asJ10jGccIzkpjSmv4s8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790316395,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
    "region": "kr"
@@ -224,10 +214,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 294000,
+   "views": 294100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=WZwCkGjIdR6irFr8ma%2BssuZazMc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=hIPAhiJQgzPrTP4yh4FsJVRk4eA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -235,10 +225,10 @@
   {
    "account": "jaemyung_lee",
    "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 170400,
+   "views": 170800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=7mjC%2BiLH1YWuO9%2BFXzeRqZWPH2w%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=5mmx2CCYMSKUUdSK0dcVMD4IQFw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790384214,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
    "region": "kr"
@@ -246,10 +236,10 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 135900,
+   "views": 136000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=jE6xJv2QoB%2BOYU2iKSBPOLibm%2BQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=gakfe7IRM9a8ZHOV6hgzGhJIgzI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -257,10 +247,10 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 87700,
+   "views": 87800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=X8X2YhwJTN7d%2FNT0XycYLjyzHT0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=4ielS9aSTexcD2PSu0dV4lW7gWE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -271,7 +261,7 @@
    "views": 77200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=UnTaopLzX%2FFNMxNPlE%2BR9ljTPj4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=vrJrKMk%2B%2Bpd0%2Bk27HUX%2BqouDwV8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -282,7 +272,7 @@
    "views": 14200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=uokeycYfroTev1WUUxsOX%2B%2FcmSY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=XUvYFgJeyRhxMnJBIvtdpERxYPs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790062603,
    "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
    "region": "kr"
@@ -290,43 +280,16 @@
   {
    "account": "tictok_ent",
    "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8825,
+   "views": 8827,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790733600&x-signature=jw9o45kg6sXu3cco8KvjYO1kS%2Fo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790737200&x-signature=Q1rXlAJXZ4NXu%2Bz7zptUTwqxmco%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "CriticalState",
-   "title": "[Critical Fork] Flack cameras everywhere OR No Flock cameras",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790524069,
-   "url": "https://www.reddit.com/r/CriticalState/comments/1wrnk55/critical_fork_flack_cameras_everywhere_or_no/"
-  },
-  {
-   "sub": "meirl",
-   "title": "meirl",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/g9azinrhh5sh1.jpeg?width=640&crop=smart&auto=webp&s=22e9347fdc77372b165fc60fcd9fa507e4d77c15",
-   "time": 1790553042,
-   "url": "https://www.reddit.com/r/meirl/comments/1wrzfl4/meirl/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Security guard threw Candy at kids to win tug of war.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/OHVwa3o2aW93NHNoMUtFTkbZH5yO0BAo4BoEsPLkPbfATZm_Cl9ogAUDgYac.jpeg?width=640&crop=smart&auto=webp&s=1548a02854c9a69de220902f910e4d61d5246e92",
-   "time": 1790546047,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wrwu33/security_guard_threw_candy_at_kids_to_win_tug_of/"
-  },
   {
    "sub": "mildlyinfuriating",
    "title": "I hate these long rims. Apparently these are legal",
@@ -335,15 +298,6 @@
    "thumb": "https://preview.redd.it/v78idd8313sh1.jpeg?width=640&crop=smart&auto=webp&s=952e39428b9c72756392a78743a9433ff5a26898",
    "time": 1790523313,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wrn8uq/i_hate_these_long_rims_apparently_these_are_legal/"
-  },
-  {
-   "sub": "illinois",
-   "title": "President Trump gets called a pedophile at President's Cup at Medinah Country Club in Illinois.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/YXQ3a2szaW5sNHNoMf0UhVp36DG44rrbk2yFb2pOQk_51Iz7TYTHbcjIkxJ6.jpeg?width=640&crop=smart&auto=webp&s=95c0afa025f464a18d239d59c25fe9c69dfdeff7",
-   "time": 1790542341,
-   "url": "https://www.reddit.com/r/illinois/comments/1wrvbuq/president_trump_gets_called_a_pedophile_at/"
   },
   {
    "sub": "todayilearned",
@@ -355,6 +309,42 @@
    "url": "https://www.reddit.com/r/todayilearned/comments/1wrmtgm/til_that_at_the_famed_nyc_diner_katzs/"
   },
   {
+   "sub": "meirl",
+   "title": "meirl",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/g9azinrhh5sh1.jpeg?width=640&crop=smart&auto=webp&s=22e9347fdc77372b165fc60fcd9fa507e4d77c15",
+   "time": 1790553042,
+   "url": "https://www.reddit.com/r/meirl/comments/1wrzfl4/meirl/"
+  },
+  {
+   "sub": "oddlysatisfying",
+   "title": "The lighting under the bridge makes it look like a crescent moon",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/hw9e2gjyu5sh1.jpeg?width=640&crop=smart&auto=webp&s=2bd1b08fb171fde7d452eaf369e45b26894f8606",
+   "time": 1790557572,
+   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1ws10nw/the_lighting_under_the_bridge_makes_it_look_like/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "Security guard threw Candy at kids to win tug of war.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OHVwa3o2aW93NHNoMUtFTkbZH5yO0BAo4BoEsPLkPbfATZm_Cl9ogAUDgYac.jpeg?width=640&crop=smart&auto=webp&s=1548a02854c9a69de220902f910e4d61d5246e92",
+   "time": 1790546047,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wrwu33/security_guard_threw_candy_at_kids_to_win_tug_of/"
+  },
+  {
+   "sub": "illinois",
+   "title": "President Trump gets called a pedophile at President's Cup at Medinah Country Club in Illinois.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/YXQ3a2szaW5sNHNoMf0UhVp36DG44rrbk2yFb2pOQk_51Iz7TYTHbcjIkxJ6.jpeg?width=640&crop=smart&auto=webp&s=95c0afa025f464a18d239d59c25fe9c69dfdeff7",
+   "time": 1790542341,
+   "url": "https://www.reddit.com/r/illinois/comments/1wrvbuq/president_trump_gets_called_a_pedophile_at/"
+  },
+  {
    "sub": "whatisit",
    "title": "What is heaving up under my driveway?",
    "score": 0,
@@ -362,24 +352,6 @@
    "thumb": "https://preview.redd.it/za1ukqzli3sh1.jpg?width=140&height=105&auto=webp&s=b22075dfe15defaf0f4781eb9a7fc6036049e126",
    "time": 1790529220,
    "url": "https://www.reddit.com/r/whatisit/comments/1wrpqsv/what_is_heaving_up_under_my_driveway/"
-  },
-  {
-   "sub": "bald",
-   "title": "Update: I took yall's advice and did it. Still feel weird about being bald. What do we think?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/bb9ca326i5sh1.jpg?width=140&height=117&auto=webp&s=2d0cbc97fa0cabaf8767363b2cac384a587960f0",
-   "time": 1790553318,
-   "url": "https://www.reddit.com/r/bald/comments/1wrzj09/update_i_took_yalls_advice_and_did_it_still_feel/"
-  },
-  {
-   "sub": "sportsgossips",
-   "title": "Chop Robinson gets flagged for roughing the passer. The hit didn’t look that crazy, but the refs weren’t letting Mahomes take that one.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/b2dwa3B0dXlmNHNoMeWqXBRi0LPVveJkT7M5ovm-GKdnwfMfL2591DbWMr9P.png?width=640&crop=smart&auto=webp&s=795dcb0bd84557b22770e0d8046db9aeb27eb993",
-   "time": 1790540457,
-   "url": "https://www.reddit.com/r/sportsgossips/comments/1wruiy0/chop_robinson_gets_flagged_for_roughing_the/"
   },
   {
    "sub": "MurderedByWords",
@@ -391,13 +363,31 @@
    "url": "https://www.reddit.com/r/MurderedByWords/comments/1wrx8ji/yeah_why_do_they/"
   },
   {
-   "sub": "anime",
-   "title": "Mushoku Tensei: Jobless Reincarnation Season 3 • Mushoku Tensei III: Isekai Ittara Honki Dasu - Episode 14 discussion - FINAL",
+   "sub": "sportsgossips",
+   "title": "Chop Robinson gets flagged for roughing the passer. The hit didn’t look that crazy, but the refs weren’t letting Mahomes take that one.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/b2dwa3B0dXlmNHNoMeWqXBRi0LPVveJkT7M5ovm-GKdnwfMfL2591DbWMr9P.png?width=640&crop=smart&auto=webp&s=795dcb0bd84557b22770e0d8046db9aeb27eb993",
+   "time": 1790540457,
+   "url": "https://www.reddit.com/r/sportsgossips/comments/1wruiy0/chop_robinson_gets_flagged_for_roughing_the/"
+  },
+  {
+   "sub": "SquaredCircle",
+   "title": "All Elite Wrestling is saddened to announce the passing of Benjamin Satterley, aka Pac.",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1790521301,
-   "url": "https://www.reddit.com/r/anime/comments/1wrmf28/mushoku_tensei_jobless_reincarnation_season_3/"
+   "time": 1790557760,
+   "url": "https://www.reddit.com/r/SquaredCircle/comments/1ws12up/all_elite_wrestling_is_saddened_to_announce_the/"
+  },
+  {
+   "sub": "funny",
+   "title": "Good night, everybody",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cTdmMWNyMzR3NXNoMV4b1Njq62uwcxfw_GppgAMDq7H4bwUjjxt1mmmEpob5.png?width=216&crop=smart&auto=webp&s=ff6831c98104e94382a6f460e326906e0c71de38",
+   "time": 1790557960,
+   "url": "https://www.reddit.com/r/funny/comments/1ws157j/good_night_everybody/"
   },
   {
    "sub": "me_irl",
@@ -407,48 +397,11 @@
    "thumb": "https://preview.redd.it/g836nkkld4sh1.jpeg?width=640&crop=smart&auto=webp&s=73ce7fe88a9be4e5e3b9f9ea5928845dfe5060cf",
    "time": 1790539630,
    "url": "https://www.reddit.com/r/me_irl/comments/1wru6kn/me_irl/"
-  },
-  {
-   "sub": "korea",
-   "title": "South Korea demands apology from Ukraine over disclosure of North Korean POW transfer",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/P1BcdrUI7jjhTN7JzWUIeHqGwRUeItLLwZYJEJnDfIw.jpeg?width=640&crop=smart&auto=webp&s=6a9eeeafce7a289184e3d97495e1e707a8ec032b",
-   "time": 1790551701,
-   "url": "https://www.reddit.com/r/korea/comments/1wryy7x/south_korea_demands_apology_from_ukraine_over/"
-  },
-  {
-   "sub": "korea",
-   "title": "Korea beats Japan for fifth straight Asian Games baseball gold",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/QkzLZJ1QGYganklkCQELWbAQLFNRPbpzmYPzbyxQ99U.jpeg?width=640&crop=smart&auto=webp&s=c1a61206be83b8f842c1c4c3b9d3f212f3a89325",
-   "time": 1790524928,
-   "url": "https://www.reddit.com/r/korea/comments/1wrnxnh/korea_beats_japan_for_fifth_straight_asian_games/"
-  },
-  {
-   "sub": "korea",
-   "title": "Saw this crazy building in Seoul... I can't stop laughing😂",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/yk70zlo9l4sh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=9d167c265e9338b4db064c80c22a69600c17d3b9",
-   "time": 1790542206,
-   "url": "https://www.reddit.com/r/korea/comments/1wrv9tc/saw_this_crazy_building_in_seoul_i_cant_stop/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -465,10 +418,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-09-28T11:01:21",
+   "at": "2026-09-28T11:35:13",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-28T11:35:06.784977+09:00"
+ "updated": "2026-09-28T12:01:24.282170+09:00"
 }
