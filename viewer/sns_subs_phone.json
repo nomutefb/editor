@@ -15,6 +15,26 @@
  "insta": [],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "이 변화는 실행 기록을 덜 보여주는 변경이 아닙니다. 틀린 정밀도를 버리고, 확인 가능한 범위를 표시하는 변경입니다.\n\n통합이나 스크립트가 한 번의 검색으로 2,500개가 넘는 실행을 모았다면 날짜 범위를 추가해야 합니다. 에이전트 운영의 지표도 총 실행 수 하나보다, 같은 조건에서 재현되는 실행 수를 기준으로 삼게 됩니다.\n\nhttps://github.blog/changelog/2026-09-25-changes-to-query-results-in-the-github-actions-api-and-ui/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790569495,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd0UgYtmY9T",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GitHub Actions가 9월 25일 워크플로 실행 횟수의 표시 기준을 바꿨습니다.\n\n워크플로, 이벤트, 상태, 브랜치, 실행 주체로 검색했을 때 결과가 2,500개를 넘으면 정확한 숫자 대신 “2,500+”로 표시합니다. 실제 결과를 1,000개까지 페이지로 반환하는 방식은 그대로입니다.\n\n이유는 단순합니다. 2,500개가 넘는 검색은 자주 시간 초과를 일으켰고, 기존 숫자는 조회가 끝나기 전까지 확인된 실행만 세는 경우가 있었습니다.\n\nAI 코딩 에이전트가 테스트와 수정 작업을 반복할수록 CI 실행량은 빠르게 커집니다. 이제 대시보드의 큰 숫자를 그대로 비교하기보다 날짜 범위와 필터를 좁혀 다시 세야 합니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790569484,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd0Ue6-GROz",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "풀영상 :\nhttps://www.youtube.com/watch?v=Xzsg-rLGzas",
    "likes": 1,
@@ -27,10 +47,10 @@
   {
    "account": "choi.openai",
    "text": "오픈AI 응용 연구 책임자 보리스 파워(Boris Power)는 “오픈AI 연구의 80~90%는 GPT-7, GPT-8 및 그 이상에 집중되어 있다”고 밝혔습니다.\n\n근본적인 가치와 비약적인 성능 도약은 결국 차세대 프론티어 모델에서 나온다는 것입니다.\n\n또한 고성능 소형 모델을 구축하는 핵심 전략으로 ‘증류(Distillation)’를 꼽았습니다.\n\n“작고 특화된 모델을 훈련하는 가장 좋은 방법은, 초고성능 거대 모델을 먼저 훈련한 뒤 이를 ‘선생님(Teacher)’으로 삼는 것입니다.”",
-   "likes": 26,
+   "likes": 29,
    "cmts": 1,
    "time": 1790564431,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825326582_1390226956557885_3154551983334279331_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5NTg2NjUyNjA5OTYwODkzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BPkBIuiamxMQ7kNvwHVcojq&_nc_oc=Adp2k2azoA2_jyKIbQWLZjYh6ZjRkofJutBNICMFcEdTIROuB0dYZA4TLd0WL6hgUBU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ScMZKZGrNGEA2Gq9LL7KzA&_nc_ss=7a20f&oh=00_AQMbfpj0Skdtff6V95oVl9lhx0O94nRmc4yAD74T8LLnOA&oe=6ABFCA12",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825326582_1390226956557885_3154551983334279331_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5NTg2NjUyNjA5OTYwODkzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=BPkBIuiamxMQ7kNvwHVcojq&_nc_oc=Adp2k2azoA2_jyKIbQWLZjYh6ZjRkofJutBNICMFcEdTIROuB0dYZA4TLd0WL6hgUBU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oHr2mMQspeEjtcRjaiX7pQ&_nc_ss=7a20f&oh=00_AQOc5ZXMT9VZSgoaLOvjPDUM7QxTHi5eFFHh7oAPQKBteg&oe=6ABFCA12",
    "url": "https://www.threads.com/@choi.openai/post/Dd0K286CpVr",
    "region": "kr"
   },
@@ -45,6 +65,26 @@
    "region": "kr"
   },
   {
+   "account": "choi.openai",
+   "text": "허깅페이스 :\nhttps://huggingface.co/TencentARC/WorldCrafter-Base",
+   "likes": 3,
+   "cmts": 0,
+   "time": 1790559047,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dd0Alwjgr4e",
+   "region": "kr"
+  },
+  {
+   "account": "takepage_",
+   "text": "전 요즘 업무 맞춤 에이전트를 만들고\n그 에이전트에 맞는 UI를 만들어 로컬에서 사용합니다.\n \n로컬에서 내 입맛대로 UI를 만들고 구독해놓은 AI 연결해서\n워크플로우 몇개만 짜놓으면 사용감이 아주 좋습니다.\n\n쓰레드도 레퍼런스 수집부터 자동발행까지 \n모두 UI하나에서 에이전트들로 처리 중입니다.\n\n쓰레드OS 말고도 상세페이지, 영상편집 등\n다양한 툴을 직접 만들어 에이전트로 연결해서 사용합니다.",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1790491258,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825326458_17938672023362958_2462467297883309186_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5NTI1MjcwNTMxMjYyOTQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lfNzJ72oGjgQ7kNvwEM2CEc&_nc_oc=AdpsnbFPTGryZXQAKJVXrL9v-Y4ru-EeAYANCM5g2UrO4aHBYtoIWdnEeDqJ-BWJ8hA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=4ICRRuqZIzqVTIOrDSEWHg&_nc_ss=7a20f&oh=00_AQMGamC97PT3Aa9q-I_K-2kacy5T-JhwbA938ulhdOpD_w&oe=6ABFBA53",
+   "url": "https://www.threads.com/@takepage_/post/Ddx_SrwE-LY",
+   "region": "kr"
+  },
+  {
    "account": "daily_ai_star",
    "text": "npm이 9월 18일 자동화용 토큰에 ‘Read and write (stage only)’ 권한을 추가했습니다.\n\n워크플로는 `npm stage publish`로 패키지 버전을 올릴 준비만 합니다. 직접 `npm publish`를 실행하면 거부되고, 유지관리자가 2FA로 승인해야 레지스트리에 공개됩니다.\n\n기존 토큰에는 바로 적용되지 않는 선택 기능입니다. 다만 npm은 2027년 1월부터 2FA 우회 토큰의 직접 배포를 없애는 방향을 예고했습니다.\n\nAI 코딩 에이전트가 릴리스 파일을 만들 수 있어도, 이제 공개 버튼까지 넘겨받는 것이 기본값은 아닙니다. 자동화의 단위가 배포 실행에서 배포 준비와 사람 승인으로 나뉘고 있습니다.\n\nhttps://github.blog/changelog/2026-09-18-stage-only-npm-tokens-for-safer-automation",
    "likes": 0,
@@ -56,12 +96,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "허깅페이스 :\nhttps://huggingface.co/TencentARC/WorldCrafter-Base",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1790559047,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd0Alwjgr4e",
+   "text": "텐센트가 오픈웨이트 비디오 월드 모델 WorldCrafter를 공개했습니다.\n\nWorldCrafter는 별도의 3D 공간을 직접 만드는 대신, 카메라 위치에 따라 메모리에서 필요한 정보를 꺼내 영상을 생성합니다.\n\n덕분에 다른 곳을 바라보다 다시 돌아와도 이전 공간과 물체를 비교적 일관되게 유지할 수 있습니다.\n\n이미지 한 장이나 텍스트만으로 수분간 공간을 탐색할 수 있으며, 현재 384×640 해상도를 지원합니다.\n\nBase와 빠른 생성용 distilled 버전 모두 가중치가 공개돼 허깅페이스에서 이용할 수 있으며 코드도 함께 공개됐습니다.",
+   "likes": 26,
+   "cmts": 2,
+   "time": 1790559021,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/827856344_1368526485361325_8680794829561909013_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NTgyMTE0Njc4MzI4NTExNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0a_v_92lb7YQ7kNvwFVD_zg&_nc_oc=AdrZZsqHCTeSVKrQ2AmJ8LXMiDpIbDQ3XMKujZjzEYXDuLhuD8873I80MSbjcVhqZk4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oHr2mMQspeEjtcRjaiX7pQ&_nc_ss=7a20f&oh=00_AQOWMKBJxS1UJ9CG1NteEh97tPD298Lrh0DiyeNLYjS4ZQ&oe=6ABFA7F0",
+   "url": "https://www.threads.com/@choi.openai/post/Dd0AimIAv96",
    "region": "kr"
   },
   {
@@ -72,46 +112,6 @@
    "time": 1790557014,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Ddz8s40mVMt",
-   "region": "kr"
-  },
-  {
-   "account": "takepage_",
-   "text": "전 요즘 업무 맞춤 에이전트를 만들고\n그 에이전트에 맞는 UI를 만들어 로컬에서 사용합니다.\n \n로컬에서 내 입맛대로 UI를 만들고 구독해놓은 AI 연결해서\n워크플로우 몇개만 짜놓으면 사용감이 아주 좋습니다.\n\n쓰레드도 레퍼런스 수집부터 자동발행까지 \n모두 UI하나에서 에이전트들로 처리 중입니다.\n\n쓰레드OS 말고도 상세페이지, 영상편집 등\n다양한 툴을 직접 만들어 에이전트로 연결해서 사용합니다.",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1790491258,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825326458_17938672023362958_2462467297883309186_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5NTI1MjcwNTMxMjYyOTQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lfNzJ72oGjgQ7kNvwEM2CEc&_nc_oc=AdpsnbFPTGryZXQAKJVXrL9v-Y4ru-EeAYANCM5g2UrO4aHBYtoIWdnEeDqJ-BWJ8hA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=HtEWAhIByo7sQ6URrbhylg&_nc_ss=7a20f&oh=00_AQPqL1KJpTxYxOsU4uuKE-V4kN0e3eBemlgvTPV0TDQnYA&oe=6ABFBA53",
-   "url": "https://www.threads.com/@takepage_/post/Ddx_SrwE-LY",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "텐센트가 오픈웨이트 비디오 월드 모델 WorldCrafter를 공개했습니다.\n\nWorldCrafter는 별도의 3D 공간을 직접 만드는 대신, 카메라 위치에 따라 메모리에서 필요한 정보를 꺼내 영상을 생성합니다.\n\n덕분에 다른 곳을 바라보다 다시 돌아와도 이전 공간과 물체를 비교적 일관되게 유지할 수 있습니다.\n\n이미지 한 장이나 텍스트만으로 수분간 공간을 탐색할 수 있으며, 현재 384×640 해상도를 지원합니다.\n\nBase와 빠른 생성용 distilled 버전 모두 가중치가 공개돼 허깅페이스에서 이용할 수 있으며 코드도 함께 공개됐습니다.",
-   "likes": 26,
-   "cmts": 2,
-   "time": 1790559021,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/827856344_1368526485361325_8680794829561909013_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NTgyMTE0Njc4MzI4NTExNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=0a_v_92lb7YQ7kNvwFVD_zg&_nc_oc=AdrZZsqHCTeSVKrQ2AmJ8LXMiDpIbDQ3XMKujZjzEYXDuLhuD8873I80MSbjcVhqZk4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ScMZKZGrNGEA2Gq9LL7KzA&_nc_ss=7a20f&oh=00_AQOAlH12m5E8SkgvAR1T_Zpwotj7nNsY3S9f47R-WMx_Jw&oe=6ABFA7F0",
-   "url": "https://www.threads.com/@choi.openai/post/Dd0AimIAv96",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Actions가 9월 17일 워크플로 실행 보호 기능을 정식 출시했습니다.\n\n이제 누가 실행할 수 있는지와 어떤 이벤트가 시작할 수 있는지를 함께 허용 목록으로 정합니다. 저장소 전체가 아니라 `deploy.yml` 같은 특정 워크플로 파일만 따로 묶을 수도 있습니다.\n\n정책은 평가 모드로 먼저 돌려 어떤 실행이 막힐지 확인하고, 인사이트와 REST API로 수백 개 저장소에 같은 기준을 배포할 수 있습니다.\n\n공개 저장소의 `pull_request_target`에는 더 직접적인 변화가 예정돼 있습니다. 2026년 11월 2일부터 기본 정책을 쓰던 저장소에서는 이 이벤트가 자동으로 차단됩니다.\n\n코딩 에이전트가 워크플로를 만들고 수정하는 환경에서 이제 CI 보안의 기준은 권한 목록만이 아닙니다. 어떤 파일이 어떤 이벤트로 실행되는지까지 정책으로 남아 있어야 합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790557005,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddz8r0Tmad7",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "이번 변경의 핵심은 화면 통합이 아닙니다.\n\n대화형 요청과 장시간 작업이 같은 세션·정책·보존 기준 안으로 들어옵니다. 개발자는 채팅에서 끝난 답변과 실제 에이전트 실행을 따로 보지 않게 되고, 관리자는 어떤 Copilot을 허용할지보다 통합 경험을 어떻게 통제할지 정해야 합니다.\n\nhttps://github.blog/changelog/2026-08-28-upcoming-changes-to-github-copilot-policies-and-billing/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790553648,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddz2SN0gSKD",
    "region": "kr"
   },
   {
@@ -126,12 +126,12 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "GitHub.com의 Copilot은 기존 cloud agent가 쓰던 agent sessions 구조로 이동합니다. cloud agent는 Sandbox를 사용해 더 빠른 클라우드 실행을 제공할 예정입니다.\n\n관리자가 별도 정책을 정하지 않으면 세 경험을 따로 운영하던 기준도 사라집니다. 반대로 통합 경험을 거부하면 GitHub.com과 GitHub Mobile의 Copilot 접근 권한을 잃게 됩니다.",
+   "text": "GitHub Actions가 9월 17일 워크플로 실행 보호 기능을 정식 출시했습니다.\n\n이제 누가 실행할 수 있는지와 어떤 이벤트가 시작할 수 있는지를 함께 허용 목록으로 정합니다. 저장소 전체가 아니라 `deploy.yml` 같은 특정 워크플로 파일만 따로 묶을 수도 있습니다.\n\n정책은 평가 모드로 먼저 돌려 어떤 실행이 막힐지 확인하고, 인사이트와 REST API로 수백 개 저장소에 같은 기준을 배포할 수 있습니다.\n\n공개 저장소의 `pull_request_target`에는 더 직접적인 변화가 예정돼 있습니다. 2026년 11월 2일부터 기본 정책을 쓰던 저장소에서는 이 이벤트가 자동으로 차단됩니다.\n\n코딩 에이전트가 워크플로를 만들고 수정하는 환경에서 이제 CI 보안의 기준은 권한 목록만이 아닙니다. 어떤 파일이 어떤 이벤트로 실행되는지까지 정책으로 남아 있어야 합니다.",
    "likes": 0,
    "cmts": 1,
-   "time": 1790553638,
+   "time": 1790557005,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddz2QvtAYve",
+   "url": "https://www.threads.com/@daily_ai_star/post/Ddz8r0Tmad7",
    "region": "kr"
   },
   {
@@ -140,27 +140,17 @@
    "likes": 41,
    "cmts": 4,
    "time": 1790553621,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825996806_17988993123112832_5013327162189274060_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NTc3NTg0NjI1MzEzNzQ5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CS8tUK9dVTMQ7kNvwFSkGI-&_nc_oc=AdpfSlB26xMQ089bc-ZaqTVD-A9fJW8MSuJ8klFTOxQf3I0gC3qC4zms13AH5vK0wj4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ScMZKZGrNGEA2Gq9LL7KzA&_nc_ss=7a20f&oh=00_AQOtmSieozpQB82Sb-LA4sd4WKh3Dw8XTFfGPEvBYjHXlw&oe=6ABFAEF1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825996806_17988993123112832_5013327162189274060_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NTc3NTg0NjI1MzEzNzQ5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CS8tUK9dVTMQ7kNvwFSkGI-&_nc_oc=AdpfSlB26xMQ089bc-ZaqTVD-A9fJW8MSuJ8klFTOxQf3I0gC3qC4zms13AH5vK0wj4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oHr2mMQspeEjtcRjaiX7pQ&_nc_ss=7a20f&oh=00_AQN_LMM3TGPyGgOVWe_sEWMgcjKCRQG7QucfuD00sGoc9g&oe=6ABFAEF1",
    "url": "https://www.threads.com/@choi.openai/post/Ddz2PYuAQ5Z",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot이 9월 28일부터 빠르면 세 경험을 하나로 묶습니다.\n\ngithub.com의 Copilot Chat, GitHub Mobile의 Copilot Chat, Copilot cloud agent가 단일 Copilot 경험과 하나의 정책으로 통합됩니다. 통합 경험은 출시 뒤 기본 활성화됩니다.\n\n채팅은 28일 뒤 사라지는 기록이 아니라 계정 수명 동안 남는 에이전트 세션이 됩니다.",
-   "likes": 0,
-   "cmts": 2,
-   "time": 1790553622,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Ddz2PIdge1P",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "미니맥스가 새로운 코딩용 AI 모델 M3.1-Flash-Preview를 공개했습니다.\n\nMiniMax Code에서 먼저 제공되며, 빠른 버그 수정부터 전체 기능 개발까지 일상적인 개발 작업에 초점을 맞춘 텍스트 모델입니다.\n\n다만 현재 공식 게시물에는 파라미터 수나 벤치마크, 오픈웨이트 제공 여부 등 구체적인 정보가 공개되지 않았습니다.\n\n최근 OpenRouter에 등장했던 정체불명의 모델 Space Bunny Alpha가 미니맥스 모델이라는 분석도 있었지만, M3.1-Flash-Preview와 같은 모델인지는 확인되지 않았습니다.",
-   "likes": 22,
+   "likes": 23,
    "cmts": 0,
    "time": 1790548210,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/826271401_17988993087112832_2594229607385033613_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NTczMDQ1MjUwMTQ5MTQzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1bimb0lj5dYQ7kNvwEUndd3&_nc_oc=AdqPZKVwVQv3vQPwaCZUDzr_QfoVUwAL7MZsH9MvIno8q8-5V37fpSiqCCUWGWwzm9E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ScMZKZGrNGEA2Gq9LL7KzA&_nc_ss=7a20f&oh=00_AQPTqBVAtkFHAkQ-EFZeXAcyZ5KMqfe5ci6aZ0KkKexQ1A&oe=6ABFC2FF",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/826271401_17988993087112832_2594229607385033613_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NTczMDQ1MjUwMTQ5MTQzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=1bimb0lj5dYQ7kNvwEUndd3&_nc_oc=AdqPZKVwVQv3vQPwaCZUDzr_QfoVUwAL7MZsH9MvIno8q8-5V37fpSiqCCUWGWwzm9E&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=oHr2mMQspeEjtcRjaiX7pQ&_nc_ss=7a20f&oh=00_AQP61ELuYeudKUHvxhdeF6PcOhrHpTVnRJ1mfvCUHNp3uQ&oe=6ABFC2FF",
    "url": "https://www.threads.com/@choi.openai/post/Ddzr60fj-7t",
    "region": "kr"
   }
@@ -169,7 +159,7 @@
   {
    "account": "jaemyung_lee",
    "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
-   "views": 3600000,
+   "views": 3700000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=X9mwzRtG2SP3eU5syJiqUFMqP%2FM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -191,7 +181,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 821500,
+   "views": 822500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=Swytg6Z6n%2BcfEmTQqjPZ4V9a9bc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -202,10 +192,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 549600,
+   "views": 549700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=jDl3oYB%2FZVmUC7BtN7aUNUqvTag%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=OeKWXqspC5k3Mk4qoTfdifKa5nc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -213,7 +203,7 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 534800,
+   "views": 535600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=n%2BAjAm3ZuD2D8NfxzkRIy%2FJDXQM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -227,7 +217,7 @@
    "views": 294200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=xQms%2FM7RVxAenNCGzFAG9GCfnKE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=YTHDc04Opl4RLxWShM77QXphtNM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -235,7 +225,7 @@
   {
    "account": "jaemyung_lee",
    "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 171600,
+   "views": 172000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=fZ%2BSJXI8T9lrfBQC6DBiCsev9%2Fg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -246,7 +236,7 @@
   {
    "account": "jaemyung_lee",
    "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 136200,
+   "views": 136300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=Wc%2BEHYlivjAmzEao0%2Fk2XMi%2BJIc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -257,7 +247,7 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 88000,
+   "views": 88100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=hJpUS2R4RcHyKH8bQB8NBujKDlk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -268,34 +258,12 @@
   {
    "account": "jaemyung_lee",
    "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 77300,
+   "views": 77400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=OhocsVR1Xe%2B%2BDR2FgNSNJ93ESjs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
-   "views": 14200,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=LJxGmNBOYcJV5x67h4oYaTqxUYQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790062603,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "수지, 시민들의 욕을 부르는 미모 / 아누아(Anua) 포토월 더파운더즈의 글로벌 뷰티 브랜드 아누아(Anua)의 'PDRN 라인 팝업스토어' 오픈을 기념하는 포토행사가 18일 오전 서울 성동구 성수동에 위치한 올리",
-   "views": 8835,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790740800&x-signature=he0ec6ZkT6FwFkAb2XprC2n39Jk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789699186,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
    "region": "kr"
   }
  ],
@@ -319,24 +287,6 @@
    "url": "https://www.reddit.com/r/meirl/comments/1wrzfl4/meirl/"
   },
   {
-   "sub": "funny",
-   "title": "Good night, everybody",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cTdmMWNyMzR3NXNoMV4b1Njq62uwcxfw_GppgAMDq7H4bwUjjxt1mmmEpob5.png?width=216&crop=smart&auto=webp&s=ff6831c98104e94382a6f460e326906e0c71de38",
-   "time": 1790557960,
-   "url": "https://www.reddit.com/r/funny/comments/1ws157j/good_night_everybody/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "Security guard threw Candy at kids to win tug of war.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/OHVwa3o2aW93NHNoMUtFTkbZH5yO0BAo4BoEsPLkPbfATZm_Cl9ogAUDgYac.jpeg?width=640&crop=smart&auto=webp&s=1548a02854c9a69de220902f910e4d61d5246e92",
-   "time": 1790546047,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wrwu33/security_guard_threw_candy_at_kids_to_win_tug_of/"
-  },
-  {
    "sub": "funComunitty",
    "title": "Girls ask, boys answer",
    "score": 0,
@@ -353,6 +303,15 @@
    "thumb": "https://preview.redd.it/v78idd8313sh1.jpeg?width=640&crop=smart&auto=webp&s=952e39428b9c72756392a78743a9433ff5a26898",
    "time": 1790523313,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wrn8uq/i_hate_these_long_rims_apparently_these_are_legal/"
+  },
+  {
+   "sub": "SquaredCircle",
+   "title": "All Elite Wrestling is saddened to announce the passing of Benjamin Satterley, aka Pac.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790557760,
+   "url": "https://www.reddit.com/r/SquaredCircle/comments/1ws12up/all_elite_wrestling_is_saddened_to_announce_the/"
   },
   {
    "sub": "todayilearned",
@@ -373,13 +332,22 @@
    "url": "https://www.reddit.com/r/whatisit/comments/1wrpqsv/what_is_heaving_up_under_my_driveway/"
   },
   {
-   "sub": "SquaredCircle",
-   "title": "All Elite Wrestling is saddened to announce the passing of Benjamin Satterley, aka Pac.",
+   "sub": "funny",
+   "title": "Good night, everybody",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1790557760,
-   "url": "https://www.reddit.com/r/SquaredCircle/comments/1ws12up/all_elite_wrestling_is_saddened_to_announce_the/"
+   "thumb": "https://external-preview.redd.it/cTdmMWNyMzR3NXNoMV4b1Njq62uwcxfw_GppgAMDq7H4bwUjjxt1mmmEpob5.png?width=216&crop=smart&auto=webp&s=ff6831c98104e94382a6f460e326906e0c71de38",
+   "time": 1790557960,
+   "url": "https://www.reddit.com/r/funny/comments/1ws157j/good_night_everybody/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "Security guard threw Candy at kids to win tug of war.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/OHVwa3o2aW93NHNoMUtFTkbZH5yO0BAo4BoEsPLkPbfATZm_Cl9ogAUDgYac.jpeg?width=640&crop=smart&auto=webp&s=1548a02854c9a69de220902f910e4d61d5246e92",
+   "time": 1790546047,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wrwu33/security_guard_threw_candy_at_kids_to_win_tug_of/"
   },
   {
    "sub": "sportsgossips",
@@ -391,64 +359,27 @@
    "url": "https://www.reddit.com/r/sportsgossips/comments/1wruiy0/chop_robinson_gets_flagged_for_roughing_the/"
   },
   {
-   "sub": "AskReddit",
-   "title": "Mike Tyson once said \"social media made people too comfortable disrespecting others and not getting punched in the face for it\" What’s a real-life example of someone learning that lesson?",
+   "sub": "anime",
+   "title": "Mushoku Tensei: Jobless Reincarnation Season 3 • Mushoku Tensei III: Isekai Ittara Honki Dasu - Episode 14 discussion - FINAL",
    "score": 0,
    "cmts": 0,
    "thumb": "",
-   "time": 1790512198,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wrj0s2/mike_tyson_once_said_social_media_made_people_too/"
+   "time": 1790521301,
+   "url": "https://www.reddit.com/r/anime/comments/1wrmf28/mushoku_tensei_jobless_reincarnation_season_3/"
   },
   {
-   "sub": "gaming",
-   "title": "I think Wolverine needs a sword",
+   "sub": "BeAmazed",
+   "title": "A 13-year-old boy swam 4 kilometers through rough ocean for four hours after his mother and two siblings were swept out to sea near Dunsborough, Western Australia. He ran 2 kilometers barefoot to call",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ru84hj9k86sh1.gif?width=640&crop=smart&s=1f747441267f37f023548db10e5bf310a811a86b",
-   "time": 1790562158,
-   "url": "https://www.reddit.com/r/gaming/comments/1ws2jjo/i_think_wolverine_needs_a_sword/"
-  },
-  {
-   "sub": "korea",
-   "title": "South Korea demands apology from Ukraine over disclosure of North Korean POW transfer",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/P1BcdrUI7jjhTN7JzWUIeHqGwRUeItLLwZYJEJnDfIw.jpeg?width=640&crop=smart&auto=webp&s=6a9eeeafce7a289184e3d97495e1e707a8ec032b",
-   "time": 1790551701,
-   "url": "https://www.reddit.com/r/korea/comments/1wryy7x/south_korea_demands_apology_from_ukraine_over/"
-  },
-  {
-   "sub": "korea",
-   "title": "Korea beats Japan for fifth straight Asian Games baseball gold",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/QkzLZJ1QGYganklkCQELWbAQLFNRPbpzmYPzbyxQ99U.jpeg?width=640&crop=smart&auto=webp&s=c1a61206be83b8f842c1c4c3b9d3f212f3a89325",
-   "time": 1790524928,
-   "url": "https://www.reddit.com/r/korea/comments/1wrnxnh/korea_beats_japan_for_fifth_straight_asian_games/"
-  },
-  {
-   "sub": "korea",
-   "title": "Saw this crazy building in Seoul... I can't stop laughing😂",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/yk70zlo9l4sh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=9d167c265e9338b4db064c80c22a69600c17d3b9",
-   "time": 1790542206,
-   "url": "https://www.reddit.com/r/korea/comments/1wrv9tc/saw_this_crazy_building_in_seoul_i_cant_stop/"
+   "thumb": "https://preview.redd.it/sfsyouwe36sh1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=a34198182045148a85f7e8bfea31053c5d85b7e8",
+   "time": 1790560420,
+   "url": "https://www.reddit.com/r/BeAmazed/comments/1ws1ypc/a_13yearold_boy_swam_4_kilometers_through_rough/"
   }
  ],
  "disaster": [],
  "_cover": {
   "ok": {
-   "x": [
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "marionawfal"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -459,16 +390,19 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee",
-    "tictok_ent"
+    "jaemyung_lee"
    ]
   },
-  "why": {},
+  "why": {
+   "tiktok": {
+    "tictok_ent": 503
+   }
+  },
   "landing": {
-   "at": "2026-09-28T12:31:27",
+   "at": "2026-09-28T13:05:13",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-28T13:05:06.458888+09:00"
+ "updated": "2026-09-28T13:31:23.828653+09:00"
 }
