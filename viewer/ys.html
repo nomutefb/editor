@@ -311,7 +311,7 @@
   #ysHist .hist-thumb img, #ysHist .hist-thumb video { aspect-ratio:9/16; }   /* 완성작 = 산출 비율 그대로(세로 숏폼) · 부품 = nm-hist .hist-grid/.hist-it/.hist-thumb 정본 */
   #ysHist .hist-thumb.r169 img, #ysHist .hist-thumb.r169 video { aspect-ratio:16/9; }
   .ysh-t { margin:var(--sp-1) 2px 0; font-size:var(--fs-xs); font-weight:var(--fw-b); color:var(--fg); line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; word-break:keep-all; }   /* raw-ok: 2줄 제목 줄간 1.4 */
-  .ysnotes { margin:var(--sp-1) 0 0; padding-left:1.2em; font-size:var(--fs-xs); color:var(--warn); }   /* 강하 사유(맥 꺼짐 → 글자 화면 등) = 경고 톤 한 줄씩 */
+  .ysnotes { margin:var(--sp-1) 0 0; padding-left:1.2em; font-size:var(--fs-xs); color:var(--warn); }   /* 강하 사유(맥 꺼짐 → 모션 그래픽 등) = 경고 톤 한 줄씩 */
   .ysnotes:empty { display:none; }
 </style>
 </head>
@@ -400,7 +400,7 @@ function mk(path, d) {
 
 /* ── 옵션(백엔드 계약 = POST /api/ys {url, ask, opts:{voice, stt, img, len, font, el_voice, ratio, subbg, subop}}) ── */
 const DEF = { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', subop: 100 };   // 처음 기본값 = 운영자 260928(고급 음성·정밀 받아쓰기·장면 그림 · 백엔드 api/ys.js OPTS 첫 값과 같은 조합) · 저장된 선택(ys_opts)이 있으면 그쪽이 이긴다
-const OKV = { voice: ['edge', 'eleven'], stt: ['subs', 'scribe'], img: ['none', 'codex'], len: ['45', '60', '90'], font: ['pretendard', 'gothic', 'barun'], ratio: ['9:16', '16:9'], subbg: ['on', 'off'] };
+const OKV = { voice: ['edge', 'eleven'], stt: ['subs', 'scribe'], img: ['motion', 'codex', 'depth', 'grok'], len: ['45', '60', '90'], font: ['pretendard', 'gothic', 'barun'], ratio: ['9:16', '16:9'], subbg: ['on', 'off'] };
 /* 폰트 3종 = viewer/edit.html FONT_PV 해당 항목 정의(ff·gf·lf·fam·lw 동값) · 라벨 = 운영자 지정(260928) · 지연 로드 = edit loadPvFont 동문(고를 때만 = 평상시 외부 요청 0) */
 const FONTS = {
   pretendard: { lbl: '프리텐다드', ff: '"Pretendard Variable","Pretendard",sans-serif' },
@@ -431,7 +431,7 @@ function buildOpts() {
       + '<div id="elvBox" hidden><div class="vfold" id="elvFold"><button type="button" class="vfh" aria-expanded="false" aria-controls="elvAcc"><span class="pub-l">목소리 선택</span><span class="sum" id="elvSum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
       + '<div class="acc" id="elvAcc" inert><div class="acc-in"><div class="vlist" id="elvList" role="radiogroup" aria-label="ElevenLabs 목소리"></div></div></div></div><div class="status" id="elvMsg"></div></div>'
       + railRow('stt', '받아쓰기', [['subs', '유튜브 자막 우선'], ['scribe', '정밀 받아쓰기', ' title="ElevenLabs Scribe"']]))
-    + accCard('scr', '화면 설정', railRow('img', '장면', [['none', '글자 화면'], ['codex', '장면 그림', ' title="맥 Codex(ChatGPT 구독) — 맥이 꺼져 있으면 글자 화면으로 대체"']])
+    + accCard('scr', '화면 설정', railRow('img', '장면', [['motion', '모션 그래픽', ' title="장면 내용을 도식(비교·흐름·숫자·목록 등)으로 움직이는 그래픽"'], ['codex', 'GPT 이미지', ' title="맥 Codex(ChatGPT 구독) — 맥이 꺼져 있으면 모션 그래픽으로 대체"'], ['depth', 'GPT 입체', ' title="GPT 그림을 2.5D 입체 시차로 움직인다(가까운 곳이 더 크게 움직임) — 맥이 꺼져 있으면 모션 그래픽으로 대체"'], ['grok', '그록 영상', ' title="장면마다 그록 영상 · 9:16 전면 — 맥이 켜져 있으면 GPT 그림을 첫 장면으로 고정"']])
       + '<div class="macrow"><a class="ysmac" id="mac" data-st="wait" href="/ys-mac-guide.html" target="_blank" rel="noopener" title="맥 설정 안내 열기"><i class="ysmac-dot" aria-hidden="true"></i><span class="tk-orbit" id="macSpin" hidden aria-hidden="true"></span><span id="macT">맥 확인 중…</span></a></div>'
       + railRow('len', '길이', [['45', '45초', ' data-num="1"'], ['60', '60초', ' data-num="1"'], ['90', '90초', ' data-num="1"']])
       + railRow('ratio', '비율', [['9:16', '9:16', ' data-num="1"'], ['16:9', '16:9', ' data-num="1"']]))
@@ -442,7 +442,7 @@ const OKEY = 'ys_opts';   // 기기별 편의(마지막 고른 옵션) — 실�
 let opts = Object.assign({}, DEF);
 const VID_RE = /^[A-Za-z0-9]{16,32}$/;   // ElevenLabs 목소리 id(백엔드 api/ys.js 검증과 같은 모양)
 let SAVED_VOICE = '';
-try { const s = JSON.parse(localStorage.getItem(OKEY) || '{}'); for (const k in OKV) if (OKV[k].includes(String(s[k]))) opts[k] = String(s[k]); if (VID_RE.test(String(s.el_voice || ''))) SAVED_VOICE = String(s.el_voice);
+try { const s = JSON.parse(localStorage.getItem(OKEY) || '{}'); if (s.img === 'none') s.img = 'motion'; for (const k in OKV) if (OKV[k].includes(String(s[k]))) opts[k] = String(s[k]); if (VID_RE.test(String(s.el_voice || ''))) SAVED_VOICE = String(s.el_voice);
   } catch (e) {}
 opts.subbg = DEF.subbg; opts.subop = DEF.subop;   // 조작칸 폐지 = 예전에 저장한 끔·불투명도가 몰래 남지 않게 항상 기본값
 opts.el_voice = '';   // 기본 = 자동(AI가 영상마다 계정 목소리 중 내용에 맞는 1개를 고른다) · 기억한 목소리는 목록에 실제로 있을 때만 되살린다
@@ -459,7 +459,7 @@ function paintSums() {   // 접힌 줄 오른쪽 = 현재 값 요약(작게)
   const vn = opts.voice === 'eleven' ? '고급 · ' + (opts.el_voice ? ((VOICES.find(v => v.id === opts.el_voice) || {}).name || '지정') : '자동') : '무료';
   $('#vocSum').textContent = vn + ' · ' + (opts.stt === 'scribe' ? '정밀 받아쓰기' : '자막 우선');
   $('#elvSum').textContent = opts.el_voice ? ((VOICES.find(v => v.id === opts.el_voice) || {}).name || '지정') : '자동 · 기본 남성';
-  $('#scrSum').textContent = (opts.img === 'codex' ? '장면 그림' : '글자 화면') + ' · ' + opts.len + '초 · ' + opts.ratio;
+  $('#scrSum').textContent = ({ motion: '모션 그래픽', codex: 'GPT 이미지', depth: 'GPT 입체', grok: '그록 영상' }[opts.img] || '') + ' · ' + opts.len + '초 · ' + opts.ratio;
   $('#subSum').textContent = FONTS[opts.font].lbl;
 }
 /* ── 레일 동작 = sb.html railUpd/railSetup(= index geniRailUpd/geniRailSetup) 그대로 ── */
@@ -563,7 +563,7 @@ $('#opts').addEventListener('click', e => {
 });
 function saveOpts() { try { localStorage.setItem(OKEY, JSON.stringify(opts)); } catch (e) {} }
 /* 레일 리드백 = 1칩(길이) — 기본값 mut · 바꾼 값만 강조(도크 규격 = 정적 .on 0) · 1칩 = 픽토 묶음[전체 초기화][링크 삭제](운영자 260928)이 들어온 뒤 폰 390에서 생성 버튼이 도크 안에 서는 상한(3칩 = 52px 넘쳐 주소 칸을 덮음 · 실측 260928) · 비율·장면·폰트는 각 설정 카드 요약 줄에 */
-const SPEC_LBL = { voice: { edge: '무료', eleven: '고급' }, img: { none: '글자', codex: '그림' } };
+const SPEC_LBL = { voice: { edge: '무료', eleven: '고급' }, img: { motion: '모션', codex: 'GPT', depth: '입체', grok: '그록' } };
 function paintSpec() {
   const chip = (k, t) => '<span class="gs-v' + (opts[k] !== DEF[k] ? ' on' : '') + '">' + esc(t) + '</span>';
   $('#spec').innerHTML = chip('len', opts.len + '초');
@@ -671,11 +671,13 @@ function paintMac() {
   const a = $('#mac'), st = MAC.st;
   a.dataset.st = st;
   $('#macSpin').hidden = !(st === 'on' && MAC.busy);
-  $('#macT').textContent = st === 'on' ? (MAC.busy ? '맥 작업 중' : '맥 켜짐') : st === 'login' ? '맥 켜짐 · Codex 로그인 필요' : st === 'off' ? '맥 꺼짐 — 글자 화면으로 만들어져' : '맥 확인 중…';
+  $('#macT').textContent = st === 'on' ? (MAC.busy ? '맥 작업 중' : '맥 켜짐') : st === 'login' ? '맥 켜짐 · Codex 로그인 필요' : st === 'off' ? '맥 꺼짐 — GPT 이미지는 모션 그래픽으로 만들어져' : '맥 확인 중…';
   paintImgNote();
 }
 function paintImgNote() {   // 장면 그림을 골랐는데 맥이 못 그리는 상태 = 막지 않고 한 줄만 알린다(운영자 260928)
-  if (opts.img === 'codex' && (MAC.st === 'off' || MAC.st === 'login')) setMsg('#optMsg', MAC.st === 'off' ? '맥이 꺼져 있어서 글자 화면으로 만들어져.' : '맥 Codex 로그인이 필요해서 지금은 글자 화면으로 만들어져.', 'warn');
+  const macDown = MAC.st === 'off' || MAC.st === 'login';
+  if ((opts.img === 'codex' || opts.img === 'depth') && macDown) setMsg('#optMsg', MAC.st === 'off' ? '맥이 꺼져 있어서 모션 그래픽으로 만들어져.' : '맥 Codex 로그인이 필요해서 지금은 모션 그래픽으로 만들어져.', 'warn');
+  else if (opts.img === 'grok' && macDown) setMsg('#optMsg', '맥이 꺼져 있어서 첫 장면 그림 없이 그록이 바로 영상을 만들어(장면마다 화풍이 조금 흔들릴 수 있어).', 'warn');
   else setMsg('#optMsg', '');
 }
 let _macT = null;
@@ -716,6 +718,7 @@ const STEPS = [
   { k: 'plan', label: '인사이트 정리', ing: '인사이트 정리 중…' },
   { k: 'voice', label: '목소리 입히기', ing: '목소리 입히는 중…' },
   { k: 'img', label: '장면 그림', ing: '장면 그림 그리는 중…' },
+  { k: 'vid', label: '장면 영상', ing: '장면 영상 만드는 중…' },
   { k: 'render', label: '영상 만들기', ing: '영상 만드는 중…' },
   { k: 'upload', label: '올리기', ing: '올리는 중…' },
 ];
@@ -764,7 +767,7 @@ function learn(id, p) {   // 진행에서 알게 된 제목 = 작업 이름표(�
 function land(id, d) {
   if (d.error) { failJob(id, String(d.error), stepFailed(PROG[id] || {})); return; }
   const res = { title: d.title || '', channel: d.channel || '', src_url: d.src_url || '', dur: +d.dur || 0, video: d.video || '', poster: d.poster || '',
-    infographic: d.infographic || '', report: d.report || '', scenes: +d.scenes || 0, voice: d.voice || '', img: d.img || '', img_used: +d.img_used || 0,
+    infographic: d.infographic || '', report: d.report || '', scenes: +d.scenes || 0, voice: d.voice || '', img: d.img || '', img_used: +d.img_used || 0, vid_used: +d.vid_used || 0,
     ratio: d.ratio === '16:9' || d.ratio === '9:16' ? d.ratio : '', voice_name: d.voice_name ? String(d.voice_name).slice(0, 60) : '', voice_why: d.voice_why ? String(d.voice_why).slice(0, 160) : '', tr_src: d.tr_src || '', notes: Array.isArray(d.notes) ? d.notes.slice(0, 12).map(String) : [], generated: d.generated || '' };
   mutate(a => { const x = a.find(y => y.id === id); if (!x) return;
     x.status = 'done'; x.t1 = Date.now(); x.res = res; if (res.title) { x.title = res.title.slice(0, 80); x.lbl = x.title; }
@@ -838,13 +841,14 @@ const jobDur = s => s < 60 ? s + 's' : Math.floor(s / 60) + 'm ' + (s % 60) + 's
 function normSteps(j, p) {
   const src = (p && Array.isArray(p.steps)) ? p.steps : (Array.isArray(j.steps) ? j.steps : []);
   const by = {}; src.forEach(s => { if (s && s.k) by[s.k] = s; });
-  const imgOff = ((j.opts && j.opts.img) || DEF.img) === 'none';
+  const mode = ((j.opts && j.opts.img) || DEF.img) === 'none' ? 'motion' : ((j.opts && j.opts.img) || DEF.img);
+  const off = k => (k === 'img' && mode === 'motion') || (k === 'vid' && mode !== 'grok');   // 그 방식에 없는 단계 = 건너뜀
   return STEPS.map(d => {
     const s = by[d.k] || {};
     let st = ST_OK.includes(s.st) ? s.st : 'wait';
     if (j.status === 'err' && st === 'run') st = 'fail';   // 실패로 끝난 작업에 「진행 중」 단계가 남지 않게
-    if (!by[d.k] && d.k === 'img' && imgOff) st = 'skip';
-    if (j.status === 'done' && !by[d.k]) st = (d.k === 'img' && imgOff) ? 'skip' : 'done';
+    if (!by[d.k] && off(d.k)) st = 'skip';
+    if (j.status === 'done' && !by[d.k]) st = off(d.k) ? 'skip' : 'done';
     return { k: d.k, label: s.label || d.label, ing: d.ing, st: st, note: s.note ? String(s.note) : '', t0: +s.t0 || 0, t1: +s.t1 || 0, budget: +s.budget || 0 };
   });
 }
@@ -999,7 +1003,8 @@ async function paintRes() {
   $('#resMeta').textContent = [r.channel, fmtDur(r.dur)].filter(Boolean).join(' · ');
   $('#resT').textContent = r.title || j.title || '';
   $('#resVoice').textContent = r.voice_name ? '목소리: ' + r.voice_name + (r.voice_why ? ' · ' + r.voice_why : '') : '';   // 실제 쓴 목소리 + AI가 고른 이유(있을 때)
-  const imgNote = r.img === 'codex' ? (r.img_used ? '장면 그림 ' + r.img_used + '장' : '글자 화면(맥 대체)') : r.img === 'none' ? '글자 화면' : '';
+  const imgNote = r.img === 'grok' ? ('그록 영상 ' + (r.vid_used || 0) + '장면' + (r.img_used ? ' · 첫 그림 ' + r.img_used + '장' : ''))
+    : (r.img === 'codex' || r.img === 'depth') ? (r.img_used ? (r.img === 'depth' ? 'GPT 입체 ' : 'GPT 이미지 ') + r.img_used + '장' : '모션 그래픽(맥 대체)') : (r.img === 'motion' || r.img === 'none') ? '모션 그래픽' : '';
   const ratio = r.ratio || (j.opts && j.opts.ratio) || '9:16';
   $('#resRows').innerHTML = (r.video ? row('숏폼', [ratio, imgNote].filter(Boolean).join(' · '), r.video, 'short.mp4') : '')
     + (r.infographic ? row('인포그래픽', 'PNG', r.infographic, 'infographic.png') : '')

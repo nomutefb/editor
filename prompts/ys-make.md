@@ -35,7 +35,8 @@
   "voice_why": "고른 이유 한 줄 (≤40자)",
   "scenes": [
     {"tag": "장면 알약 (≤12자)", "big": "큰 글자 (≤12자 · \n 1회까지)", "head": "보조 제목 (≤20자 · \n 1회까지)",
-     "chips": ["키워드 (≤10자)"], "vo": "나레이션", "img": "장면 그림 영문 프롬프트 (≤240자)"}
+     "chips": ["키워드 (≤10자)"], "vo": "나레이션", "img": "장면 그림 영문 프롬프트 (≤240자)",
+     "motion": "장면 영상 영문 움직임 한 문장 (≤160자)", "mg": {"type": "compare|flow|number|bars|list|cycle|icon|quote", "…": "아래 [모션 그래픽] 규격"}}
   ]
 }
 ```
@@ -53,3 +54,17 @@
 - 나레이션 말투 = 구어 해요체("~거든요", "~죠", "~예요"). 숫자는 아라비아 숫자 그대로 써도 된다(읽기 변환은 기계가 한다).
 - `big` = 그 장면의 한 줄 핵심을 12자 안에. `head` = big을 받쳐 주는 문장. `tag` = "1 · 주먹의 배반"처럼 순번 + 소제목(첫·마지막 장면은 순번 없이).
 - `img` = 장면 그림용 **영문** 프롬프트. 글자·로고·실존 인물 얼굴을 그리지 않는 은유적·상징적 장면(예: "a clenched fist slowly opening, sand falling through fingers, soft cinematic light, minimal dark background, teal accent"). 모든 장면이 같은 화풍으로 보이게 끝에 같은 화풍 문구를 붙인다.
+- `motion` = 이 장면 그림이 영상이 될 때 **움직이는 것만** 영어 한 문장으로(구도·조명·화풍은 다시 쓰지 않는다 · 동작 1개 + 카메라 1개 · 부정문 금지 · 사람 없으면 "No people in frame." 덧붙임). 예: "The clenched fist slowly opens as sand pours out; slow push-in."
+
+## [모션 그래픽] 규격 (scenes[].mg)
+장면 나레이션의 **내용을 도식으로** 보여 주는 움직이는 그래픽이다(글자만 크게 띄우는 타이포그래피가 아니다). 장면마다 가장 맞는 틀 하나를 고른다 · 같은 틀을 3번 넘게 반복하지 않는다.
+- `compare` = 둘을 맞세울 때 `{"type":"compare","a":{"label":"의지","icon":"dumbbell"},"b":{"label":"상상","icon":"brain"},"mid":"VS","win":"b"}` (win = 이기는 쪽 a|b|빈 값)
+- `flow` = 원인→결과·단계 2~4개 `{"type":"flow","items":[{"label":"애쓴다","icon":"flame"},{"label":"꼬인다","icon":"heart-crack"}]}`
+- `number` = 전사에 나온 수치 하나 `{"type":"number","value":80,"unit":"%","label":"≤14자 설명"}` — **전사에 없는 숫자 금지**
+- `bars` = 전사의 수치 2~4개 비교 `{"type":"bars","items":[{"label":"≤8자","value":20}],"unit":"%"}` — 전사에 없는 숫자 금지
+- `list` = 방법·조건 2~4개 `{"type":"list","items":[{"label":"힘을 뺀다","icon":"feather"}]}`
+- `cycle` = 되풀이되는 고리 3~4개 `{"type":"cycle","items":["불안","애씀","실패"],"icon":"refresh-cw"}`
+- `icon` = 한 개념 강조 `{"type":"icon","icon":"lightbulb","label":"≤14자","sub":"≤20자 보조"}`
+- `quote` = 전사 속 인용 `{"type":"quote","text":"≤36자","by":"≤14자"}`
+- 라벨 = 한국어 ≤10자(명사·짧은 구). `icon` = 아래 목록의 이름만(목록 밖 = 기계가 기본 아이콘으로 바꾼다):
+  activity alarm-clock anchor atom baby ban battery-full battery-low bed book-open bot brain briefcase brush building-2 calendar camera car chart-column chart-line check circle-alert circle-question-mark clock cloud-rain coffee coins compass cpu crown dna door-closed door-open droplet dumbbell ear eye factory feather file-text flag flame flask-conical footprints frown gauge gavel gem ghost gift globe graduation-cap hand hand-heart handshake heart heart-crack hourglass house infinity key landmark laptop leaf lightbulb link lock lock-open magnet map medal megaphone message-circle mic moon mountain mountain-snow music newspaper package palette pen-tool person-standing piggy-bank pill plane puzzle quote radio refresh-cw repeat rocket route scale scroll search shield shield-check ship shopping-cart skull smartphone smile sparkles sprout star stethoscope store sun sunrise sunset swords target thumbs-down thumbs-up timer tree-pine trending-down trending-up triangle-alert trophy truck tv user users video wallet waves wind x zap

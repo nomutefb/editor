@@ -13,6 +13,9 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ys_mg import normalize_mg   # noqa: E402  모션 그래픽 사양 형식 게이트(틀 8종 · 아이콘 목록 · 틀리면 아이콘 도식으로 강하)
+
 LLM_MAX = int(os.environ.get('YS_LLM_MAX', '120000'))
 SRC_LABEL = {'subs': '업로더 자막', 'subs-auto': '자동 생성 자막', 'stt': '받아쓰기(Scribe·Whisper)'}
 SCENES_BY_LEN = {45: (5, 5), 60: (6, 7), 90: (8, 9)}   # 목표 초 → (최소, 최대) 장면 수 = prompts/ys-make.md [장면] 규격과 동값
@@ -113,7 +116,9 @@ def normalize(j, target, allowed_voices=()):
             'chips': [_s(c, 12) for c in (sc.get('chips') or [])[:3] if _s(c, 12)],
             'vo': vo,
             'img': _img(sc.get('img')),
+            'motion': _img(sc.get('motion'))[:160],   # 그록 움직임 한 줄 = 그림 묘사와 같은 정화(도구 가진 생성기로 가는 신뢰 불가 문자열)
         })
+        scenes[-1]['mg'] = normalize_mg(sc.get('mg'), scenes[-1])
     lo, _hi = SCENES_BY_LEN.get(int(target), SCENES_BY_LEN[60])
     if len(scenes) < max(3, lo - 2):
         raise ValueError(f'장면 부족({len(scenes)}개)')

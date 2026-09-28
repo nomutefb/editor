@@ -11,7 +11,7 @@ import re
 ALLOW = {
     'voice': ['eleven', 'edge'],
     'stt': ['scribe', 'subs'],
-    'img': ['codex', 'none'],
+    'img': ['codex', 'motion', 'depth', 'grok'],   # 장면 화면 4방식(운영자 260928) · 옛 'none' = motion 승계
     'len': ['60', '45', '90'],
     'font': ['pretendard', 'gothic', 'barun'],
     'ratio': ['9:16', '16:9'],
@@ -27,6 +27,8 @@ def clean(raw):
     if not isinstance(o, dict):
         o = {}
     out = {k: (str(o.get(k, '')) if str(o.get(k, '')) in allow else allow[0]) for k, allow in ALLOW.items()}
+    if str(o.get('img', '')) == 'none':
+        out['img'] = 'motion'
     try:
         out['subop'] = str(max(0, min(100, int(o.get('subop', 100)))))
     except (TypeError, ValueError):

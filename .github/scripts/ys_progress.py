@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """유튜브 숏폼(ys) 진행 기록기 — 단계 상태를 progress.json 에 쓰고 R2(ys_out/<id>/progress.json)에 즉시 게시.
 
-  ys_progress.py <id> init [img=none|codex]
+  ys_progress.py <id> init [img=codex|motion|grok] [stt=] [voice=] [len=]
   ys_progress.py <id> <step> run|done|skip|fail [note] [p=0.0~1.0]
   ys_progress.py <id> finish            (state=done · pct=100)
   ys_progress.py <id> fail "<사유>"      (진행 중 단계 fail + state=fail + error)
@@ -16,7 +16,7 @@ import sys
 import time
 
 STEPS = [('meta', '영상 정보 확인', 5), ('stt', '받아쓰기', 15), ('plan', '인사이트 정리', 30),
-         ('voice', '목소리 입히기', 15), ('img', '장면 그림', 15), ('render', '영상 만들기', 15), ('upload', '올리기', 5)]
+         ('voice', '목소리 입히기', 15), ('img', '장면 그림', 12), ('vid', '장면 영상', 12), ('render', '영상 만들기', 15), ('upload', '올리기', 5)]
 KEYS = [k for k, _l, _w in STEPS]
 LOCAL = '/tmp/ys_progress.json'
 
@@ -32,8 +32,9 @@ def budgets(img='codex', stt='scribe', voice='eleven', ln=60, dur=0):
         'stt': int(90 + 0.06 * dur) if stt == 'scribe' else 40,
         'plan': 180,
         'voice': int(40 + ln) if voice == 'eleven' else int(30 + 0.6 * ln),
-        'img': 70 * scenes if img == 'codex' else 0,
-        'render': int(120 + 1.5 * ln),
+        'img': 70 * scenes if img in ('codex', 'depth', 'grok') else 0,   # 맥 Codex 한 장씩(그록 = 첫 프레임용 세로 그림)
+        'vid': 90 + 60 * -(-scenes // 3) if img == 'grok' else 0,   # 그록 장면 영상 = 3발 동시 · 한 판 ≈ 1분(실측 전 추정)
+        'render': int(120 + 1.5 * ln) + {'motion': 300, 'depth': int(60 + 1.5 * ln), 'grok': 60}.get(img, 0),   # 모션 = 장면당 프레임 캡처 · 입체 = 깊이 추정+워핑(≈ 실시간 1.3배) · 그록 = 영상 합성
         'upload': 20,
     }
 
@@ -112,10 +113,14 @@ def main(argv):
         doc = load('')
         doc['id'] = id_
         kv = dict(a.split('=', 1) for a in argv[3:] if '=' in a)
-        doc['opts'] = {'img': kv.get('img', 'none'), 'stt': kv.get('stt', 'subs'), 'voice': kv.get('voice', 'edge'),
+        img = kv.get('img', 'motion')
+        img = 'motion' if img == 'none' else img
+        doc['opts'] = {'img': img, 'stt': kv.get('stt', 'subs'), 'voice': kv.get('voice', 'edge'),
                        'ln': int(kv.get('len', '60') or 60) if str(kv.get('len', '60')).isdigit() else 60, 'dur': 0}
-        if doc['opts']['img'] == 'none':
+        if img == 'motion':
             doc['steps'][KEYS.index('img')]['st'] = 'skip'
+        if img != 'grok':
+            doc['steps'][KEYS.index('vid')]['st'] = 'skip'
         apply_budget(doc)
     elif cmd == 'budget':   # 영상 길이를 안 뒤(meta) 받아쓰기 예산 재계산
         kv = dict(a.split('=', 1) for a in argv[3:] if '=' in a)

@@ -97,8 +97,8 @@ class Progress(unittest.TestCase):
     def test_flow_and_pct(self):
         ys_progress.main(['x', 'id1', 'init', 'img=none'])
         d = self.doc()
-        self.assertEqual([s['k'] for s in d['steps']], ['meta', 'stt', 'plan', 'voice', 'img', 'render', 'upload'])
-        self.assertEqual(d['steps'][4]['st'], 'skip')                     # 그림 없음 = 분모에서 빠짐
+        self.assertEqual([s['k'] for s in d['steps']], ['meta', 'stt', 'plan', 'voice', 'img', 'vid', 'render', 'upload'])
+        self.assertEqual((d['steps'][4]['st'], d['steps'][5]['st']), ('skip', 'skip'))   # 옛 'none' = 모션 그래픽 = 그림·영상 단계 없음(분모에서 빠짐)
         ys_progress.main(['x', 'id1', 'meta', 'done', '15분 36초'])
         ys_progress.main(['x', 'id1', 'stt', 'done'])
         ys_progress.main(['x', 'id1', 'plan', 'run', '쓰는 중', 'p=0.5'])
@@ -115,7 +115,14 @@ class Progress(unittest.TestCase):
         ys_progress.main(['x', 'id2', 'finish'])
         d = self.doc()
         self.assertEqual((d['state'], d['pct']), ('done', 100))
-        self.assertTrue(all(s['st'] == 'done' for s in d['steps']))
+        self.assertTrue(all(s['st'] == ('skip' if s['k'] == 'vid' else 'done') for s in d['steps']))   # GPT 이미지 = 그록 영상 단계 없음
+
+    def test_grok_keeps_vid_step(self):
+        ys_progress.main(['x', 'id3', 'init', 'img=grok', 'len=60'])
+        d = self.doc()
+        by = {s['k']: s for s in d['steps']}
+        self.assertEqual((by['img']['st'], by['vid']['st']), ('wait', 'wait'))
+        self.assertGreater(by['vid']['budget'], 0)
 
 
 class RenderHelpers(unittest.TestCase):
@@ -147,7 +154,7 @@ class Tts(unittest.TestCase):
 
 
 class Images(unittest.TestCase):
-    def test_no_r2_falls_back_to_text(self):
+    def test_no_r2_falls_back_to_motion(self):
         d = tempfile.mkdtemp()
         plan = os.path.join(d, 'plan.json')
         json.dump({'scenes': [{'img': 'a', 'head': 'h'}]}, open(plan, 'w'))
@@ -158,7 +165,7 @@ class Images(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         j = json.load(open(os.path.join(d, 'img', 'img.json'), encoding='utf-8'))
         self.assertEqual(j['used'], 0)
-        self.assertIn('글자 화면', j['note'])
+        self.assertIn('모션 그래픽', j['note'])   # 글자 화면 폐지 → 맥 못 쓰면 모션 그래픽(운영자 260928)
 
 
 class Hardening(unittest.TestCase):
@@ -211,6 +218,41 @@ class Hardening(unittest.TestCase):
             r = subprocess.run([sys.executable, str(ROOT / '.github/scripts/ys_progress.py'), '260928000000-abcdef', 'fail', b'x' + bad],
                                cwd=d, capture_output=True, env=env)
             self.assertEqual(r.returncode, 0, r.stderr.decode('utf-8', 'replace')[-300:])
+
+
+class SceneModes(unittest.TestCase):
+    """장면 화면 4방식(운영자 260928) — 모션 그래픽 사양 게이트 · 그록 길이 · 입체 모듈 강하."""
+
+    def test_mg_normalize(self):
+        import ys_mg
+        ok = ys_mg.normalize_mg({'type': 'compare', 'a': {'label': '의지', 'icon': 'dumbbell'}, 'b': {'label': '상상', 'icon': 'brain'}, 'win': 'b'})
+        self.assertEqual((ok['type'], ok['win'], ok['a']['icon']), ('compare', 'b', 'dumbbell'))
+        bad_icon = ys_mg.normalize_mg({'type': 'icon', 'icon': 'not-an-icon', 'label': 'x'})
+        self.assertEqual(bad_icon['icon'], 'lightbulb')                       # 목록 밖 아이콘 = 기본 아이콘
+        self.assertEqual(ys_mg.normalize_mg({'type': 'bars', 'items': [{'label': 'a', 'value': 'x'}]}, {'tag': '태그'})['type'], 'icon')   # 숫자 아님 = 아이콘 강하
+        self.assertEqual(ys_mg.normalize_mg(None, {'chips': ['핵심어']})['label'], '핵심어')
+        for t in ys_mg.TYPES:   # 모든 틀 = HTML 이 만들어진다(렌더 전 형식 사고 차단)
+            spec = {'compare': {'type': t, 'a': {'label': 'A'}, 'b': {'label': 'B'}}, 'flow': {'type': t, 'items': [{'label': 'a'}, {'label': 'b'}]},
+                    'number': {'type': t, 'value': 42, 'unit': '%', 'label': 'x'}, 'bars': {'type': t, 'items': [{'label': 'a', 'value': 1}, {'label': 'b', 'value': 2}]},
+                    'list': {'type': t, 'items': [{'label': 'a'}, {'label': 'b'}]}, 'cycle': {'type': t, 'items': ['a', 'b', 'c']},
+                    'icon': {'type': t, 'icon': 'sun', 'label': 'x'}, 'quote': {'type': t, 'text': '인용 문장입니다', 'by': 'x'}}[t]
+            mg = ys_mg.normalize_mg(spec)
+            self.assertEqual(mg['type'], t)
+            self.assertIn('<div class=box>', ys_mg.mg_html(':root{}', '', 'sans-serif', mg, 920, 740))
+
+    def test_grok_seconds(self):
+        import ys_grok
+        self.assertEqual(ys_grok.seconds_for(4.2), 5)
+        self.assertEqual(ys_grok.seconds_for(30), 15)                          # 엔진 상한
+        self.assertEqual(ys_grok.seconds_for(0), 1)
+
+    def test_depth_without_model_degrades(self):
+        try:
+            import cv2  # noqa: F401
+        except ImportError:
+            self.skipTest('opencv 없음')
+        import ys_depth
+        self.assertIsNone(ys_depth.depth_map(__import__('numpy').zeros((64, 64, 3), 'uint8'), '/nonexistent.onnx'))
 
 
 class ToneIsolation(unittest.TestCase):

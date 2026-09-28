@@ -32,8 +32,10 @@ on:
           - MUTENO
           - EMS1130G
 
+# ⚠ 그록 판은 콘티 레인(sb-make)과 **같은 줄(nm-grok-key)**에 선다 — 그록 갱신 열쇠는 쓸 때마다 바뀌고 옛것이 죽는 회전형이라
+#   두 판이 겹치면 서로의 열쇠를 죽인다(sb-make.yml 머리 주석 260812 실사고). 그 밖의 방식은 판마다 따로.
 concurrency:
-  group: ys-make-${{ inputs.id }}
+  group: ${{ contains(inputs.opts, '"img":"grok"') && 'nm-grok-key' || format('ys-make-{0}', inputs.id) }}
   cancel-in-progress: false
 
 permissions:
@@ -42,7 +44,7 @@ permissions:
 jobs:
   ys:
     runs-on: ubuntu-latest
-    timeout-minutes: 75   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤15 + 렌더 ~6 + 환경 ~8 + STT 폴백 백스톱
+    timeout-minutes: 95   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤15 + 그록 ≤20 + 렌더 ~10 + 환경 ~8 + STT 폴백 백스톱
     env:
       YS_ID: ${{ inputs.id }}   # R2 키는 잡 전체가 아니라 쓰는 스텝에만 준다(설치 스크립트·npm postinstall 노출 0 · 레포 관례)
     steps:
@@ -284,7 +286,7 @@ jobs:
           python3 .github/scripts/ys_progress.py "$YS_ID" voice done "$(python3 -c "import json;t=json.load(open('/tmp/ys/audio/timing.json'));print(f\"{t['total']:.0f}초 · \"+{'eleven':'고급 음성','edge':'무료 음성','mixed':'일부 무료 음성 대체'}[t['engine']])")"
 
       - name: 장면 그림 (맥 Codex 레인)
-        if: ${{ env.YS_IMG == 'codex' }}
+        if: ${{ env.YS_IMG != 'motion' }}   # GPT 이미지·GPT 입체·그록(첫 프레임) = 맥 그림 · 모션 그래픽 = 그림 없음
         timeout-minutes: 20
         env:
           YS_IMG_WAIT: ${{ vars.YS_IMG_WAIT || 900 }}
@@ -294,8 +296,24 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: python3 .github/scripts/ys_images.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/img
 
+      - name: 장면 영상 (그록 · 장면 1개 = 클립 1개)
+        if: ${{ env.YS_IMG == 'grok' }}
+        timeout-minutes: 25
+        env:
+          XAI_REFRESH_TOKEN: ${{ secrets.XAI_REFRESH_TOKEN }}
+          XAI_TOKEN_STORE: ${{ runner.temp }}/grok_token.json
+          # 갱신 열쇠 되쓰기 = 비밀값 쓰기 권한이 있는 개인 토큰(콘티 레인과 같은 문법 · 미등록이면 러너가 사유를 찍고 넘어간다)
+          XAI_SECRET_PAT: ${{ secrets.GH_TOKEN }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET: ${{ secrets.R2_BUCKET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: |
+          pip install --quiet requests pynacl || echo "::warning::그록 보조 패키지 설치 실패(자격 되쓰기만 생략될 수 있음)"
+          python3 .github/scripts/ys_grok.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys/img /tmp/ys/vid "$YS_RATIO"
+
       - name: 영상 만들기
-        timeout-minutes: 20
+        timeout-minutes: 25
         env:
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
@@ -305,6 +323,15 @@ jobs:
           set -e
           python3 .github/scripts/ys_progress.py "$YS_ID" render run "슬라이드 그리는 중" "p=0.02"
           IMGARG=""; [ -d /tmp/ys/img ] && IMGARG="--img-dir /tmp/ys/img"
+          [ -d /tmp/ys/vid ] && IMGARG="$IMGARG --vid-dir /tmp/ys/vid"
+          if [ "$YS_IMG" = depth ]; then   # GPT 입체 = 깊이 모델(Depth Anything V2 Small · ONNX 27MB · Apache-2.0) + 워핑 도구
+            pip install --quiet onnxruntime opencv-python-headless pillow || echo "::warning::입체 패키지 설치 실패 — 정지 그림으로 대체될 수 있음"
+            curl -fsSL --retry 3 --max-time 180 -o /tmp/ys_depth.onnx \
+              "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/main/onnx/model_quantized.onnx" \
+              && echo "YS_DEPTH_MODEL=/tmp/ys_depth.onnx" >> "$GITHUB_ENV" && export YS_DEPTH_MODEL=/tmp/ys_depth.onnx \
+              || echo "깊이 모델을 못 받아 GPT 입체가 평면 확대로 만들어졌어." >> /tmp/ys_notes.txt
+            IMGARG="$IMGARG --depth on"
+          fi
           # 고른 폰트가 러너에 없으면 조용히 대체되지 않게 = 프리텐다드(레포 동봉)로 바꾸고 사유를 남긴다(ly-make 폰트 검문 선례)
           FONT="$YS_FONT"
           case "$FONT" in
@@ -349,7 +376,14 @@ jobs:
               pass
           extra = [ln.strip() for ln in open('/tmp/ys_notes.txt', encoding='utf-8', errors='replace') if ln.strip()] if os.path.exists('/tmp/ys_notes.txt') else []
           img_short = img.get('note') and (not img.get('used') or img.get('used', 0) < img.get('total', len(plan.get('scenes') or [])))
-          notes = extra + list(tim.get('notes') or []) + ([img['note']] if img_short else [])
+          vid = {}
+          try:
+              vid = json.load(open('/tmp/ys/vid/vid.json', encoding='utf-8'))
+          except Exception:
+              pass
+          vid_short = vid.get('note') and (vid.get('used', 0) < vid.get('total', 0) or '글→영상' in str(vid.get('note')))
+          notes = (extra + list(tim.get('notes') or []) + ([img['note']] if img_short else []) + ([vid['note']] if vid_short else [])
+                   + list(ren.get('notes') or []))
           tgt = int(os.environ.get('YS_LEN') or 60)
           if ren['dur'] > tgt * 1.5:
               notes.append(f"목표 {tgt}초보다 긴 {ren['dur']:.0f}초가 나왔어 — 대본이 길게 나왔어.")
@@ -357,6 +391,7 @@ jobs:
                  'title': plan.get('title') or meta.get('title'), 'short_title': plan.get('short_title', ''), 'one': plan.get('one', ''),
                  'channel': meta.get('channel', ''), 'src_title': meta.get('title', ''), 'src_url': meta.get('url', ''), 'uploaded': meta.get('uploaded', ''),
                  'dur': ren['dur'], 'scenes': ren['scenes'], 'voice': tim.get('engine'), 'img': os.environ.get('YS_IMG'), 'img_used': ren.get('img_used', 0),
+                 'vid_used': ren.get('vid_used', 0), 'depth_used': ren.get('depth_used', 0), 'mg_used': ren.get('mg_used', 0), 'mg_types': ren.get('mg_types', []),
                  'font': os.environ.get('YS_FONT_USED') or os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
                  'subop': int(os.environ.get('YS_SUBOP') or 100), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
                  'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',

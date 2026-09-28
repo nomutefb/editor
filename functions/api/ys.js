@@ -21,7 +21,7 @@ export const YT_RE = /^https:\/\/(?:(?:www\.|m\.)?youtube\.com\/(?:watch\?(?:[^#
 export const OPTS = {
   voice: ['eleven', 'edge'],          // 고급(ElevenLabs · 기본) / 무료 음성 — 첫 값 = 기본(운영자 260928 «60초 고급 정밀 맥 그림 기본»)
   stt: ['scribe', 'subs'],            // 정밀 받아쓰기(Scribe · 기본) / 유튜브 자막 우선
-  img: ['codex', 'none'],             // 맥 Codex 장면 그림(기본 · 맥 꺼짐 = 글자 화면 자동) / 글자 화면
+  img: ['codex', 'motion', 'depth', 'grok'],   // 장면 화면 4방식(운영자 260928) = GPT 이미지(맥 Codex · 기본 · 맥 꺼짐 = 모션 그래픽 자동) / 모션 그래픽 / GPT 입체(2.5D 시차) / 그록 영상(9:16 전면)
   len: ['60', '45', '90'],            // 목표 초
   font: ['pretendard', 'gothic', 'barun'],   // 운영자 260928 "프리텐다드·노토산스·나눔바른고딕 · 기본 프리텐다드"
   ratio: ['9:16', '16:9'],            // 세로(기본) / 가로
@@ -31,6 +31,7 @@ export function cleanOpts(body) {
   const src = (body && typeof body.opts === 'object' && body.opts && !Array.isArray(body.opts)) ? body.opts : (body || {});   // 새 모양 = {opts:{…}} · 옛 모양(최상위) 하위호환
   const o = {};
   for (const [k, allow] of Object.entries(OPTS)) o[k] = allow.includes(String(src[k] ?? '')) ? String(src[k]) : allow[0];
+  if (String(src.img ?? '') === 'none') o.img = 'motion';   // 옛 값(글자 화면) = 모션 그래픽으로 승계(글자만 띄우는 화면 폐지 · 운영자 260928)
   const op = Number.parseInt(src.subop, 10);
   o.subop = String(Number.isFinite(op) ? Math.min(100, Math.max(0, op)) : 100);   // 자막 배경 불투명도 %(기본 100)
   o.el_voice = /^[A-Za-z0-9]{16,32}$/.test(String(src.el_voice || '')) ? String(src.el_voice) : '';   // ElevenLabs 목소리 id(빈 값 = AI 자동)

@@ -81,23 +81,26 @@ def main(argv):
     outdir = Path(argv[3]); outdir.mkdir(parents=True, exist_ok=True)
     if not os.environ.get('R2_BUCKET'):
         progress(id_, 'skip', '저장소 미설정')
-        return done(outdir, 0, '저장소(R2) 미설정 — 글자 화면으로 만들었어.')
+        return done(outdir, 0, '저장소(R2) 미설정 — 모션 그래픽으로 만들었어.')
     st, why = mac_state()
     total = len(plan['scenes'])
     if st != 'on':
         progress(id_, 'skip', why)
-        msg = {'off': '맥이 꺼져 있어서', 'nologin': '맥 Codex가 ChatGPT로 로그인돼 있지 않아서', 'err': '저장소에서 맥 신호를 못 읽어서'}[st] + ' 글자 화면으로 만들었어. (' + why + ')'
+        alt = '그록이 그림 없이 바로 영상으로' if os.environ.get('YS_IMG') == 'grok' else '모션 그래픽으로'
+        msg = {'off': '맥이 꺼져 있어서', 'nologin': '맥 Codex가 ChatGPT로 로그인돼 있지 않아서', 'err': '저장소에서 맥 신호를 못 읽어서'}[st] + f' {alt} 만들었어. (' + why + ')'
         return done(outdir, 0, msg, total)
     scenes = [{'i': i, 'prompt': clean(f"{clean(sc.get('img') or sc.get('head'))}. {STYLE}")}
               for i, sc in enumerate(plan['scenes']) if clean(sc.get('img') or sc.get('head'))]
+    # 방향 = 쓰이는 자리에 맞춘다: 그록 9:16 = 세로(첫 프레임 = 전면 영상) · 그 밖 = 가로 3:2(장면 그림 칸 ≈ 1.24:1)
+    orient = 'portrait' if os.environ.get('YS_IMG') == 'grok' and os.environ.get('YS_RATIO', '9:16') == '9:16' else 'landscape'
     job = {'kind': 'ysimg', 'id': id_, 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
-           'deadline': int(time.time()) + WAIT, 'scenes': scenes}
+           'deadline': int(time.time()) + WAIT, 'orient': orient, 'scenes': scenes}
     with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:
         json.dump(job, f, ensure_ascii=False)
     qkey = f'queue/ysimg/{id_}.json'   # 전용 접두(맥 워커가 본 큐보다 먼저 1잡씩 집는다 · 본 큐 적체와 무관)
     if aws('s3', 'cp', f.name, s3(qkey), '--content-type', 'application/json').returncode != 0:
         progress(id_, 'skip', '맥 작업 접수 실패')
-        return done(outdir, 0, '맥에 그림 작업을 넘기지 못해 글자 화면으로 만들었어.', total)
+        return done(outdir, 0, '맥에 그림 작업을 넘기지 못해 모션 그래픽으로 만들었어.', total)
     progress(id_, 'run', f'{why} · 0/{len(scenes)}', 0.0)
     t0, got, fin, picked, note0 = time.time(), set(), False, False, ''
     while time.time() - t0 < WAIT:
@@ -129,7 +132,7 @@ def main(argv):
     if fin and used == total:
         progress(id_, 'done', f'장면 그림 {used}장')
         return done(outdir, used, f'장면 그림 {used}장(맥 Codex)', total)
-    note = note0 + (f'맥이 {WAIT // 60}분 안에 끝내지 못해 ' if not fin and not note0 else '') + f'그림 {used}/{total}장만 받았어 — 나머지 장면은 글자 화면.'
+    note = note0 + (f'맥이 {WAIT // 60}분 안에 끝내지 못해 ' if not fin and not note0 else '') + f'그림 {used}/{total}장만 받았어 — 나머지 장면은 모션 그래픽.'
     progress(id_, 'done', f'장면 그림 {used}/{total}')
     return done(outdir, used, note, total)
 
