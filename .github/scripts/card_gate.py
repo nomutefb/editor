@@ -198,7 +198,7 @@ def lint(md_path):
                 continue
             h = ko_tone_scan.scan(tm.group(1))
             _ids = ko_tone_scan.rule_ids('card')   # 카드 레인 = S2·S3·S6 도 규칙(윤문체) · 행 표시와 점수가 같은 키 집합(260908 리뷰)
-            hit = {k: (max(0, v - 2) if k == 'A4' else v) for k, v in h.items() if k in _ids}
+            hit = {k: (max(0, v - ko_tone_scan.A4_FREE) if k == 'A4' else v) for k, v in h.items() if k in _ids}
             hit = {k: v for k, v in hit.items() if v}
             if hit:
                 tone_rows.append("카드%s %s" % (n, " ".join("%s%d" % (k, v) for k, v in hit.items())))
