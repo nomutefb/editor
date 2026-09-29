@@ -144,11 +144,12 @@ jobs:
       # ── 급상승(핫 키워드) 웹푸시(운영자 260818 «급상승 = 구글 검색 1.5만회 이상») — 키워드 알림과 **별개 축**
       #    (그쪽 = 내가 등록한 말 / 이쪽 = 등록한 적 없는데 갑자기 뜨는 말). 같은 수집 직후에 돌린다(원문이 가장 신선).
       #    발송 = push_send.py --notify 재사용 · dedup = push/trend_sent.json · 첫 회차는 도장만(소급 폭탄 차단).
-      - name: 급상승 알림 웹푸시(구글 검색 1.5만회 이상 · fail-soft)
+      - name: 급상승 알림 웹푸시(구글 검색 1.5만회 · 커뮤니티 일치 1만회 이상 · fail-soft)
         continue-on-error: true
         env:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+          TREND_SOCIAL_FETCH: '1'   # 커뮤니티 레인 = origin/main 최신본(같은 하트비트로 깨는 형제 레인의 30분 묵은 체크아웃 사본 회피 · trend_watch.load_social)
         run: |
           python3 -c "import pywebpush" 2>/dev/null || pip install --quiet --disable-pip-version-check pywebpush || true
           timeout 300 python3 .github/scripts/trend_watch.py || true

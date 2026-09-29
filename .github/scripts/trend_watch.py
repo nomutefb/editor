@@ -46,7 +46,8 @@ LEDGER = ROOT / "push" / "trend_sent.json"
 PUSH = ROOT / ".github" / "scripts" / "push_send.py"
 CANDS = ROOT / "viewer" / "candidates.json"
 SOCIAL = ROOT / "viewer" / "social_candidates.json"   # 커뮤니티 레인(social_burst 산출) = 커뮤니티 일치선 판정 입력
-SOCIAL_FETCH = os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("TREND_SOCIAL_FETCH", "1") != "0"   # 러너 = origin/main 최신본(load_social 사유)
+SOCIAL_FETCH = os.environ.get("TREND_SOCIAL_FETCH", "0") == "1"   # 러너 = origin/main 최신본(load_social 사유 · sns-trends.yml 스텝 env 가 1 · 기본 끔 = 테스트·로컬은 체크아웃 사본)
+SOC_MIN = 10.0   # 커뮤니티 레인 화면 하한(뷰어 36-claimLongPress SOC_MIN · 표시값 소수 1자리 반올림 기준) 사본 — 화면에 없는 행으로 선을 낮추지 않는다
 # ── 관련 뉴스 PICK(운영자 260924 「추천 순서대로」 ⑦ SNS·뉴스 따로 놀던 것) — 급상승어와 맞는 수집함 후보가 있으면
 #    같은 알림에 PICK 버튼을 단다(본문 탭 = 종전 구글 검색 · 운영자 260819 · PICK = 그 뉴스 바로 요약 발사 · 사유 = 대세픽).
 #    매칭 = 뷰어 snsBuzz 규칙 사본(4자↑·공백 포함 = 포함 · 짧은 말 = 낱말 일치 또는 조사 꼬리) — 짧은 말 substring 오탐("로제"↔"프로젝트") 차단.
@@ -167,7 +168,7 @@ def load_social():
       (실측 9/29 = 11:08 급상승 런이 10:35 사본을 봐 11:04 커뮤니티 닛몰캐쉬 2위를 못 봤다). 실패·로컬 = 체크아웃 사본(fail-soft)."""
     if SOCIAL_FETCH:
         try:
-            subprocess.run(["git", "fetch", "-q", "origin", "main"], cwd=ROOT, timeout=60, check=True, capture_output=True)
+            subprocess.run(["git", "fetch", "-q", "origin", "main"], cwd=ROOT, timeout=20, check=True, capture_output=True)
             out = subprocess.run(["git", "show", "FETCH_HEAD:viewer/social_candidates.json"], cwd=ROOT, timeout=30,
                                  check=True, capture_output=True).stdout
             d = json.loads(out.decode("utf-8"))
@@ -211,7 +212,7 @@ def hot():
     t = jload(SNS, {}) or {}
     sig = xtop(t.get("signal"), "query", "q", "kw")
     bsky = xtop(t.get("bsky_trends"), "query", "q", "topic")
-    comm = [str(x.get("title") or "") for x in load_social() if isinstance(x, dict)]
+    comm = None   # 커뮤니티 제목 = 필요할 때만 읽는다(1만~1.5만 구간 후보가 있을 때 · 원격 읽기 지연 최소화 · 평의회260929 #2)
     raw = {}
     def put(q, v, new_ok):
         """new_ok=False = **값 보강만**(후보 신설 금지) — 화면 밖 말이 풀로 우회 진입하는 뒷문 차단."""
@@ -247,9 +248,13 @@ def hot():
             eff *= BOOST_BSKY
             where.append("블루스카이")
         thr = MIN_VOL
-        if any(kw_hit(q, ct) for ct in comm):   # 커뮤니티 일치선(위 COMM_MIN_VOL 사유)
-            thr = min(MIN_VOL, COMM_MIN_VOL)
-            where.append("커뮤니티")
+        if COMM_MIN_VOL <= eff < MIN_VOL and len(ck) >= 3:   # 커뮤니티 일치선(위 COMM_MIN_VOL 사유) — 3자↑ 말만(2자 = 「삼성」·「살인」처럼 다른 사건 일반명사 오탐 · 7일 리플레이)
+            if comm is None:
+                comm = [str(x.get("title") or "") for x in load_social()
+                        if isinstance(x, dict) and round(float(x.get("burst") or 0) * 10) / 10 >= SOC_MIN]   # 화면에 떠 있는 행만(뷰어 socPass 동값)
+            if any(kw_hit(q, ct) for ct in comm):
+                thr = COMM_MIN_VOL
+                where.append("커뮤니티")
         if eff < thr:
             continue
         out[k] = (q, v, int(round(eff)), where)
@@ -302,19 +307,23 @@ def main():
         print(f"검색 {MIN_VOL:,}회(커뮤니티 일치 {COMM_MIN_VOL:,}회) 이상 급상승어 없음 — 발송 0")
         return
 
+    seeded = LEDGER.exists()   # 원장 **파일**이 없을 때만 = 방금 켜졌다 = 첫 회차
+    # ⚠ 구판 = TTL 청소 **뒤** 원장이 비었는지로 첫 회차를 갈랐다 → 알림이 24h 없던 평시엔 매 회차가 「첫 회차」(도장만 · 발송 0)가 되고
+    #   seed 가 1h 뒤 만료되면 또 첫 회차 = 계속 자격을 유지하는 말이 **영영 안 나가는** 루프(평의회260929 #2 재현 · 운영자 Q1607
+    #   «기준치 초과인데 안 찍혔어»와 같은 축). 소급 폭탄 차단은 기능을 처음 켠 그 순간(파일 부재)만 필요하다.
     led = jload(LEDGER, {})
     if not isinstance(led, dict):
         led = {}
     now = int(time.time())
     led = {k: v for k, v in led.items()
            if isinstance(v, dict) and now - int(v.get("first") or 0) < (SEED_TTL_S if v.get("seed") else TTL_S)}   # TTL 지난 도장은 청소(같은 말 재발견 가능) · 첫 회차 도장(seed)은 1h만 = 침묵 고착 차단
-    seeded = bool(led)   # 원장이 비어 있으면 = 방금 켜졌다 = 첫 회차
+    sent24 = sum(1 for v in led.values() if not v.get("seed"))   # 24h 안에 실제로 보낸 수(도장 TTL = 24h) — 하루 상한은 회차 합산으로 잰다
     fired, stamped = 0, 0
 
     for k, (q, vol, eff, where) in sorted(cur.items(), key=lambda x: -x[1][2]):   # 정렬 = 가점 얹은 값 순(무거운 것 먼저)
         if k in led:
             continue                      # 이미 이번 창에서 알린 말
-        if seeded and fired >= DAY_CAP:
+        if seeded and sent24 + fired >= DAY_CAP:   # 하루 상한 = 24h 발송 누계(구판은 회차마다 0부터 세 RUN_CAP 3 < DAY_CAP 12 라 죽은 조건이었다)
             print(f"급상승 하루 상한 {DAY_CAP} 도달 — 나머지 생략", file=sys.stderr)
             break
         if seeded and fired >= RUN_CAP:
@@ -328,7 +337,7 @@ def main():
             continue
         fired += 1
         print(f"  📈 «{q}» 검색 {vol:,}회" + (f" ×{eff/max(1,vol):.2f}({'·'.join(where)}) → {eff:,}" if where else "") + " — 푸시")
-        send(q, vol, rel=related(q, jload(CANDS, [])))
+        send(q, vol, where, rel=related(q, jload(CANDS, [])))   # 겹친 곳 꼬리 = 왜 왔는지(커뮤니티 일치선이면 「1만」 알림 사유가 보인다)
 
     if (stamped or fired) and not DRY:     # ⚠ 드라이런은 원장을 안 남긴다(남기면 진짜 첫 발송이 영영 스킵)
         LEDGER.parent.mkdir(parents=True, exist_ok=True)
