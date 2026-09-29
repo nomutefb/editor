@@ -1,46 +1,26 @@
 {
- "ok": 177,
- "dead": 8,
+ "ok": 181,
+ "dead": 4,
  "dead_feeds": [
   {
-   "publisher": "프레시안",
-   "title": "세계",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/65"
+   "publisher": "연합뉴스",
+   "title": "연예",
+   "url": "https://www.yna.co.kr/rss/entertainment.xml"
   },
   {
-   "publisher": "프레시안",
-   "title": "정치",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/66"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "경제",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/67"
-  },
-  {
-   "publisher": "프레시안",
-   "title": "사회",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/68"
-  },
-  {
-   "publisher": "프레시안",
+   "publisher": "연합뉴스",
    "title": "문화",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/69"
+   "url": "https://www.yna.co.kr/rss/culture.xml"
   },
   {
-   "publisher": "프레시안",
-   "title": "스포츠",
-   "url": "https://www.pressian.com/api/v3/site/rss/section/70"
+   "publisher": "연합뉴스",
+   "title": "북한",
+   "url": "https://www.yna.co.kr/rss/northkorea.xml"
   },
   {
-   "publisher": "프레시안",
-   "title": "최신 기사",
-   "url": "https://www.pressian.com/api/v3/site/rss/news"
-  },
-  {
-   "publisher": "서울경제",
+   "publisher": "연합뉴스",
    "title": "전체기사",
-   "url": "https://www.sedaily.com/rss/newsall"
+   "url": "https://www.yna.co.kr/rss/news.xml"
   }
  ],
  "zombie_feeds": [
