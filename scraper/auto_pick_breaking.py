@@ -46,6 +46,21 @@ DRY = "--dry-run" in sys.argv
 EVENTS = ROOT / "push" / "autopick_events.json"   # 픽한 사건 시그니처(제목·ts) — 의미중복(같은 사건 다른 기사) dedup. autopick.json(키 dedup)과 분리 = 기존 로직 무손상
 EVENT_WINDOW_H = float(os.environ.get("AUTOPICK_EVENT_WINDOW_H", "24"))   # 이 시간 내 픽 사건만 중복비교 대상
 MAX_AI_DEDUP = int(os.environ.get("AUTOPICK_MAX_AI", "8"))                # 런당 AI 중복판정 콜 상한(폭주 가드)
+# 연예 관계·지위 소식 = 자동 과금 제외(260929 · 운영자 결정 전 종전 과금 범위 보존). 같은 날 결정적 게이트(brk_gates ②)가
+#   메이저급 명단 인물의 관계·지위 소식을 판정기로 넘기게 바뀌면서 「메이저 열애설 → 긴급 ∧ g3 → 유료 자동분석」 경로가
+#   새로 열렸다(종전엔 게이트가 X로 막아 자동픽 0). 긴급·푸시는 그대로 가고 자동 요약만 사람 손(수동 픽)으로 남긴다.
+#   판정 = brk_gates 연예 어휘 사본 0(같은 정규식 import) · 사건 어휘(폭력·입건·사망 …)가 섞이면 제외 안 함. 열기 = AUTOPICK_CELEB=1
+CELEB_OK = os.environ.get("AUTOPICK_CELEB", "0").strip() == "1"
+
+
+def celeb_rel(title):
+    try:
+        sys.path.insert(0, str(ROOT / ".github" / "scripts"))
+        import brk_gates as _bg
+        t = title or ""
+        return bool(_bg._CELEB.search(t) and not _bg._CELEB_KEEP.search(t))
+    except Exception:  # noqa: BLE001 — 게이트 모듈 부재 = 종전 동작(제외 없음)
+        return False
 
 
 def jload(p, d):
@@ -112,6 +127,8 @@ def eligible(c):
         return False
     pa = pub_age_h(c)                                   # 발행도 4h내여야(운영자 260623): 발행 16h stale 건이 first_seen 방금이라 긴급 자동분석 진입하던 것 차단. 발행 무효(None)=first_seen 만으로(폴백)
     if pa is not None and pa >= FAST_MAX_H:
+        return False
+    if not CELEB_OK and celeb_rel(c.get("title")):   # 연예 관계·지위 = 자동 과금 제외(위 CELEB_OK 사유)
         return False
     return True
 
