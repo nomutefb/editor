@@ -301,13 +301,14 @@ class DirectorPick(unittest.TestCase):
         (d / 'audio').mkdir()
         (d / 'plan.json').write_text(json.dumps(self.plan(), ensure_ascii=False))
         (d / 'audio/timing.json').write_text(json.dumps(self.TIMING))
+        (d / 'meta.json').write_text('{}')   # 영상 정보 = 테스트 자리(러너 /tmp 잔재에 기대지 않는다)
         script = ('if "[연출 색인]" in P and "[감독 구상]" not in P and "구상" in P.split("\\n", 1)[0]:\n'
                   '    print(json.dumps({"scenes": [{"i": 0, "role": "훅", "emotion": "불안", "cd": "CD-06", "beats": [{"sec": 8, "ids": ["S07", "M50"], "why": "불안"}]}]}))\n'
                   'else:\n'
                   '    print(json.dumps({"clips": [{"i": 0, "beats": [{"sec": 8, "motion": "The protagonist grips the phone", "camera": "medium close-up, 85mm portrait lens, eye-level, cold phone glow, micro push-in", "ids": ["S07", "M50"]}]}]}))\n')
         b = fake_claude(d, script)
         r = subprocess.run(['bash', str(ROOT / '.github/scripts/ys_grok_plan.sh'), str(d), '9:16'], cwd=ROOT, capture_output=True, text=True,
-                           env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1', METER_OFF='1'), timeout=120)
+                           env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1', METER_OFF='1', YS_META=str(d / 'meta.json')), timeout=120)
         self.assertTrue((d / 'grokplan.done').exists(), r.stdout + r.stderr)
         calls = [p.read_text() for p in sorted((d / 'calls').iterdir())]
         self.assertEqual(len(calls), 2, r.stdout + r.stderr)
@@ -324,9 +325,10 @@ class DirectorPick(unittest.TestCase):
         (d / 'audio').mkdir()
         (d / 'plan.json').write_text(json.dumps(self.plan(), ensure_ascii=False))
         (d / 'audio/timing.json').write_text(json.dumps(self.TIMING))
+        (d / 'meta.json').write_text('{}')
         b = fake_claude(d, 'print("{}")\n')
         subprocess.run(['bash', str(ROOT / '.github/scripts/ys_grok_plan.sh'), str(d), '9:16'], cwd=ROOT, capture_output=True, text=True,
-                       env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1', METER_OFF='1', YS_GROK_PICK='0'), timeout=120)
+                       env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1', METER_OFF='1', YS_GROK_PICK='0', YS_META=str(d / 'meta.json')), timeout=120)
         calls = [p.read_text() for p in sorted((d / 'calls').iterdir())]
         self.assertEqual(len(calls), 1)                                                # 구상 끔 = 쓰기 1콜(색인으로 스스로 고른다)
         self.assertIn('[연출 색인]', calls[0])
@@ -503,10 +505,11 @@ class MutationGuards(unittest.TestCase):
         (d / 'audio').mkdir()
         (d / 'plan.json').write_text(json.dumps(ys_plan.normalize(json.loads(json.dumps(DRAFT)), 45)[0], ensure_ascii=False))
         (d / 'audio/timing.json').write_text(json.dumps({'scenes': [{'dur': 5}] * 5}))
+        (d / 'meta.json').write_text('{}')
         (d / 'grokpick.json').write_text(json.dumps({'src': 'director', 'scenes': [{'i': 0, 'beats': [{'sec': 5, 'ids': ['S07']}]}]}))
         b = fake_claude(d, 'print("{}")\n')
         subprocess.run(['bash', str(ROOT / '.github/scripts/ys_grok_plan.sh'), str(d), '9:16'], cwd=ROOT, capture_output=True, text=True,
-                       env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1', METER_OFF='1', YS_GROK_PICK='0'), timeout=120)
+                       env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1', METER_OFF='1', YS_GROK_PICK='0', YS_META=str(d / 'meta.json')), timeout=120)
         self.assertEqual(json.loads((d / 'grokplan.json').read_text())['pick_src'], 'none')   # 지난 판 구상이 새 판에 새지 않는다
 
 

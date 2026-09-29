@@ -703,12 +703,13 @@ class G8Wiring(unittest.TestCase):
         (d / 'audio').mkdir()
         (d / 'plan.json').write_text(json.dumps(PLAN2))
         (d / 'audio/timing.json').write_text(json.dumps({'scenes': [{'dur': 7.2}, {'dur': 4.1}]}))
+        (d / 'meta.json').write_text('{}')   # 영상 정보 = 테스트 자리(러너 /tmp 잔재에 기대지 않는다)
         b = d / 'bin'
         b.mkdir()
         (b / 'claude').write_text('#!/bin/sh\necho "boom" >&2\nexit 1\n')
         os.chmod(b / 'claude', 0o755)
         r = subprocess.run(['bash', str(ROOT / '.github/scripts/ys_grok_plan.sh'), str(d), '9:16'], cwd=ROOT, capture_output=True, text=True,
-                           env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1'), timeout=120)
+                           env=dict(os.environ, PATH=f'{b}:{os.environ["PATH"]}', INLINE_TRIES='1', YS_META=str(d / 'meta.json')), timeout=120)
         self.assertTrue((d / 'grokplan.done').exists(), r.stdout + r.stderr)
         self.assertEqual(json.loads((d / 'grokplan.json').read_text())['src'], 'fallback')
         self.assertNotEqual(r.returncode, 0)
