@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # 유튜브 숏폼(ys) 맥 표시등 — R2 ys_out/_mac/heartbeat.json 갱신(뷰어 「맥 켜짐/꺼짐」 점등·디밍 원천 · 260928).
 # 호출 = nomute_job_worker.sh 매 회차(10초 서브폴) · 여기서 60초 스로틀 → 실제 PUT 은 분당 1회.
-# 내용 = {ts, codex: chatgpt|api-key|signed-out|missing, accounts: ChatGPT 로그인된 Codex 계정 수, busy}
+# 내용 = {ts, codex: chatgpt|api-key|signed-out|missing, accounts: ChatGPT 로그인된 Codex 계정 수, busy, drv: 드라이버 능력 판}
 #   codex 판정 = `codex login status` 출력(ChatGPT 로그인 = "ChatGPT" 문자열) · 계정 = ~/.codex + ~/.codex-* (CODEX_HOME 별 폴더).
 #   ⚠ 로그인 파일(auth.json) 내용은 읽지도 보내지도 않는다 — 상태 문자열만 판정.
 # 인자: --force = 스로틀 무시(드라이버가 작업 중 busy 갱신에 쓴다) · --busy / --idle = busy 표기 강제.
@@ -41,7 +41,9 @@ if [ -n "$BUSY_ARG" ]; then BUSY="$BUSY_ARG"
 elif [ -n "$(find "$HOME/.nomute_ys_busy" -mmin -65 2>/dev/null)" ]; then BUSY=true   # 65분 넘은 표식 = 죽은 작업의 잔재(드라이버 상한 60분) → 무시
 else BUSY=false; fi
 
-BODY="{\"ts\":$NOW,\"codex\":\"$STATE\",\"accounts\":$N,\"busy\":$BUSY}"
+DRV=$(sed -n 's/^YS_DRV=\([0-9][0-9]*\).*/\1/p' "$HOME/nomute_ys_driver.sh" 2>/dev/null | head -1)   # 설치된 드라이버의 표지를 읽는다(자기갱신은 파일마다 따로 = 심박만 새 판일 수 있다)
+case "$DRV" in ''|*[!0-9]*) DRV=1;; esac
+BODY="{\"ts\":$NOW,\"codex\":\"$STATE\",\"accounts\":$N,\"busy\":$BUSY,\"drv\":$DRV}"   # drv = 드라이버 능력(2 = 주인공 시트·첨부 · 400자 · 러너 ys_images 가 읽는다)
 TMP="$HOME/.nomute_ys_hb.json"
 printf '%s' "$BODY" > "$TMP"
 if curl -sS --max-time 20 --aws-sigv4 aws:amz:auto:s3 --user "$AK:$SK" -X PUT \

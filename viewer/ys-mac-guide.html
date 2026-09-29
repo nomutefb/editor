@@ -68,8 +68,11 @@ CODEX_HOME=~/.codex-2 codex login --device-auth</pre>
 
 <div class="card">
 <h2><span class="no">4</span>그림 1장 시험</h2>
-<p>이번 업데이트가 맥에 자동 설치된 뒤(머지 후 최대 약 1시간 안)에 실행해:</p>
-<pre>bash ~/nomute_ys_driver.sh --selftest</pre>
+<p>맥의 저장소 사본을 최신으로 당긴 뒤 실행해. 처음 한 번은 직접 당겨야 해(그 뒤로는 1분 틱이 5분마다 스스로 당겨):</p>
+<pre>git -C ~/nomute-editor pull --ff-only origin main
+SELFUPD_DRY=1 bash ~/nomute_self_update.sh
+bash ~/nomute_ys_driver.sh --selftest</pre>
+<p class="mut">가운데 줄은 설치 예정 목록만 보여 줘(바꾸지 않음). 1분 안에 틱이 실제로 설치해. <code>~/nomute_ys_driver.sh</code>가 없다고 나오면 1분 기다렸다 다시 해.</p>
 <p><span class="ok">✅ 성공</span>이 나오면 <code>~/nomute-ys/selftest/test.png</code>를 열어서 그림을 확인해. ❌가 나오면 그 줄을 그대로 알려줘.</p>
 </div>
 

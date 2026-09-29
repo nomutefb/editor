@@ -95,6 +95,9 @@ def _img(v):
     return re.sub(r'\s+', ' ', v).strip()[:240]
 
 
+PROTAG_RE = re.compile(r'(?i)\bthe (protagonist|hero)\b')   # 대본이 주인공을 부르는 말(지침 = the protagonist · 옛 표기 the hero)
+
+
 def normalize(j, target, allowed_voices=()):
     """형식 게이트 — 필수 필드 부재·장면 부족 = ValueError(소리나는 실패). 자르기·빈 값 제거만 한다."""
     if not isinstance(j, dict):
@@ -117,6 +120,7 @@ def normalize(j, target, allowed_voices=()):
             'vo': vo,
             'img': _img(sc.get('img')),
             'motion': _img(sc.get('motion'))[:160],   # 그록 움직임 한 줄 = 그림 묘사와 같은 정화(도구 가진 생성기로 가는 신뢰 불가 문자열)
+            'hero': sc.get('hero') in (True, 'true'),   # 이 장면에 영상 주인공이 나온다(운영자 260929 «영상마다 새 주인공») = 맥이 캐릭터 시트를 붙여 같은 얼굴로 그린다
         })
         scenes[-1]['mg'] = normalize_mg(sc.get('mg'), scenes[-1])
     lo, _hi = SCENES_BY_LEN.get(int(target), SCENES_BY_LEN[60])
@@ -153,6 +157,15 @@ def normalize(j, target, allowed_voices=()):
         'scenes': scenes,
         'vo_chars': sum(len(re.sub(r'\s', '', s['vo'])) for s in scenes),
     }
+    hero = j.get('hero') if isinstance(j.get('hero'), dict) else {}
+    hen = _img(hero.get('en'))[:200]   # 주인공 묘사 = 그림 묘사와 같은 정화(영문 인쇄 문자만)
+    if len(hen) >= 20 and any(s['hero'] for s in scenes):
+        plan['hero'] = {'en': hen, 'why': _s(hero.get('why'), 60)}
+    else:
+        for s in scenes:
+            s['hero'] = False   # 묘사 없음 = 주인공 없는 영상(장면 표시만 남아 시트 없이 그리는 모순 차단)
+            for k in ('img', 'motion'):   # 정의 없는 「the protagonist」 = 장면마다 다른 사람·영웅물로 읽힌다 → 평범한 사람으로
+                s[k] = PROTAG_RE.sub('a person', s[k])
     vid = _s(j.get('voice_id'), 40)
     if vid and vid in set(allowed_voices):   # 후보 밖 id(환각) = 버림 → 서버 자동 선택으로 강하
         plan['voice_id'], plan['voice_why'] = vid, _s(j.get('voice_why'), 60)

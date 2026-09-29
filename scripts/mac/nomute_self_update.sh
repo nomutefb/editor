@@ -101,7 +101,7 @@ if [ "$DRY" != 1 ] && [ "$ADOPT" != 1 ]; then
   if [ -n "$drift" ]; then
     { date '+%F %T'; echo "깃≠홈 이지만 깃이 안 바뀌어 미개입(홈 우선 · 라이브 수정 보호):"
       for x in $drift; do echo "  - $x"; done
-      echo "깃을 이기게 하려면: 그 파일을 scripts/mac 에 커밋하거나  echo '' > ~/.nomute_selfupd_stamp/<이름>"
+      echo "깃을 이기게 하려면: 그 파일을 scripts/mac 에 커밋하거나  printf x > ~/.nomute_selfupd_stamp/<이름>   (빈 값이면 다시 첫 관측으로 보고 설치하지 않는다)"
     } > "$DF" 2>/dev/null
   else
     : > "$DF" 2>/dev/null

@@ -7752,7 +7752,7 @@ def check_grok_sb_chain():
     import glob as _g4
     for _wf in sorted(_g4.glob(os.path.join(ROOT, ".github", "workflows", "*.yml"))):
         _wt = _t(_repo_relpath(_wf, ROOT))
-        _keys = [k for k in ("XAI_REFRESH_TOKEN", "HIGGSFIELD_REFRESH_TOKEN")
+        _keys = [k for k in ("XAI_REFRESH_TOKEN", "XAI_SECRET_PAT", "HIGGSFIELD_REFRESH_TOKEN")   # XAI_SECRET_PAT = 이관 칸(운영자 260929 «그록 열쇠를 이 칸에»)
                  if re.search(r"^\s*[A-Z_]+:\s*\$\{\{\s*secrets\." + k, _wt, re.M)]
         if not _keys:
             continue

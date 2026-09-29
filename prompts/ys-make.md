@@ -33,10 +33,11 @@
   "short_title": "숏폼 제목 (≤30자)",
   "voice_id": "[나레이션 목소리 후보]가 주어졌을 때만 — 고른 목소리 id 그대로 (기본 = 남성 목소리 · 여성 목소리가 분명히 더 맞는 영상만 여성 · 후보가 없으면 빈 문자열)",
   "voice_why": "고른 이유 한 줄 (≤40자)",
+  "hero": {"en": "이 영상의 주인공 캐릭터 영문 묘사 (≤200자 · 아래 [주인공] 규격)", "why": "고른 이유 (≤40자)"},
   "scenes": [
     {"tag": "장면 알약 (≤12자)", "big": "큰 글자 (≤12자 · \n 1회까지)", "head": "보조 제목 (≤20자 · \n 1회까지)",
-     "chips": ["키워드 (≤10자)"], "vo": "나레이션", "img": "장면 그림 영문 프롬프트 (≤240자)",
-     "motion": "장면 영상 영문 움직임 한 문장 (≤160자)", "mg": {"type": "compare|flow|number|bars|list|cycle|icon|quote", "…": "아래 [모션 그래픽] 규격"}}
+     "chips": ["키워드 (≤10자)"], "vo": "나레이션", "img": "장면 그림 영문 프롬프트 (≤110자)",
+     "motion": "장면 영상 영문 움직임 한 문장 (≤160자)", "hero": "true|false", "mg": {"type": "compare|flow|number|bars|list|cycle|icon|quote", "…": "아래 [모션 그래픽] 규격"}}
   ]
 }
 ```
@@ -53,8 +54,14 @@
 - 첫 장면 = 훅: 영상의 가장 공감 가는 장면을 질문이나 반전으로 3초 안에. 마지막 장면 = 영상이 던진 질문이나 핵심 한 문장 + 원본 채널 언급.
 - 나레이션 말투 = 구어 해요체("~거든요", "~죠", "~예요"). 숫자는 아라비아 숫자 그대로 써도 된다(읽기 변환은 기계가 한다).
 - `big` = 그 장면의 한 줄 핵심을 12자 안에. `head` = big을 받쳐 주는 문장. `tag` = "1 · 주먹의 배반"처럼 순번 + 소제목(첫·마지막 장면은 순번 없이).
-- `img` = 장면 그림용 **영문** 프롬프트. 글자·로고·실존 인물 얼굴을 그리지 않는 은유적·상징적 장면(예: "a clenched fist slowly opening, sand falling through fingers, soft cinematic light, minimal dark background, teal accent"). 모든 장면이 같은 화풍으로 보이게 끝에 같은 화풍 문구를 붙인다.
-- `motion` = 이 장면 그림이 영상이 될 때 **움직이는 것만** 영어 한 문장으로(구도·조명·화풍은 다시 쓰지 않는다 · 동작 1개 + 카메라 1개 · 부정문 금지 · 사람 없으면 "No people in frame." 덧붙임). 예: "The clenched fist slowly opens as sand pours out; slow push-in."
+- `img` = 장면 그림용 **영문** 프롬프트(≤110자). **화풍·조명·색·배경색 단어는 쓰지 않는다**(한국 웹툰 화풍은 기계가 뒤에 붙인다). 잘려도 되게 누가·무엇을·표정을 맨 앞에. 글자·로고·실존 인물(유명인·화자 본인)은 그리지 않는다.
+  - `hero` true 장면 = 주인공이 이 내용을 겪는 구체적인 한 순간 — 샷 크기 + 장소·행동·표정(예: "close-up of the protagonist at a desk at night, head in hands, laptop glow").
+  - `hero` false 장면 = 사람 얼굴 없는 은유 사물·풍경(예: "an hourglass with the last grains of sand falling").
+- **[주인공]** `hero.en` = 이 영상을 보는 사람이 **자기를 투영할 한국인 인물 1명**(영상 주제·화자의 청중에 맞춘 나이대·성별·직업감 · **영상마다 새로 짓는다**). 평범하고 친근한 인상(미형·아이돌풍·과장 금지 = 보는 사람이 '나 같다'고 느낄 얼굴). 매 장면 같은 사람으로 그릴 수 있게 구체적으로: 나이대, 성별, 얼굴형·눈매, 머리 모양·색, 옷(한 벌 고정)·색, 체형, 몸에 붙는 소품 1개(안경·시계·머리핀). 실존 인물·유명인·영상 화자 본인 금지. 예시는 형식만 참고한다:
+  - "Korean man in his late 20s, soft round face, tired kind eyes, short black hair with messy fringe, oversized grey hoodie over white tee, navy slacks, slim build, black smartwatch"
+  - "Korean woman in her early 40s, oval face, gentle tired eyes, shoulder-length wavy dark brown hair, beige trench coat over navy knit, medium build, thin gold-rim glasses"
+- 장면 `hero` = true/false(불리언) — 그 장면 그림에 주인공이 나오면 true. **첫 장면(훅)은 true**(3초 안에 '나 같은 사람'이 보여야 투영된다) · 전체의 **절반 이상** true · 은유 사물·풍경 장면만 false. true 장면의 `img`·`motion`은 주인공을 **"the protagonist"**로 부르고 행동·표정·자리만 쓴다(외모 묘사 반복 금지 · 기계가 캐릭터 시트와 묘사를 붙인다) · 한 장면에 주인공은 1번만.
+- `motion` = 이 장면 그림이 영상이 될 때 **움직이는 것만** 영어 한 문장으로(구도·조명·화풍은 다시 쓰지 않는다 · 동작 1개 + 카메라 1개 · 부정문 금지 · 사람 없으면 "No people in frame." 덧붙임). 예: "The clenched fist slowly opens as sand pours out; slow push-in." `hero` true 장면은 "The protagonist …"로 시작하고 표정·손·작은 몸짓 하나만(뒤돌기·고개 크게 돌리기·걸어 나가기 = 얼굴이 바뀌니 피한다).
 
 ## [모션 그래픽] 규격 (scenes[].mg)
 장면 나레이션의 **내용을 도식으로** 보여 주는 움직이는 그래픽이다(글자만 크게 띄우는 타이포그래피가 아니다). 장면마다 가장 맞는 틀 하나를 고른다 · 같은 틀을 3번 넘게 반복하지 않는다.

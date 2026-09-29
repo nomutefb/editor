@@ -166,6 +166,20 @@ class RenderHelpers(unittest.TestCase):
         finally:
             ys_render.CAP, ys_render.H = old
 
+    def test_hero_per_video(self):
+        """영상마다 새 주인공(운영자 260929 C) — 대본 hero 묘사 + 장면 표시 → 맥 잡(hero·style·장면 hero) · 묘사 없으면 표시도 끈다."""
+        sc = lambda h: {'vo': '나레이션 문장입니다 충분히 길게', 'img': 'the hero lying awake in bed', 'hero': h}
+        base = {'report_md': '# 보고서\n' + '본문 ' * 200, 'scenes': [sc(True), sc(False), sc(True), sc(True), sc(True)]}
+        plan, _ = ys_plan.normalize({**base, 'hero': {'en': 'Korean man in his late 20s, grey hoodie, messy black hair', 'why': '직장인 공감'}}, 45)
+        self.assertEqual(plan['hero']['en'][:10], 'Korean man')
+        self.assertEqual([s['hero'] for s in plan['scenes']], [True, False, True, True, True])
+        plan2, _ = ys_plan.normalize({**base, 'hero': {'en': 'x'}}, 45)                  # 묘사 부족 = 주인공 없음
+        self.assertNotIn('hero', plan2)
+        self.assertFalse(any(s['hero'] for s in plan2['scenes']))
+        plan3, _ = ys_plan.normalize({**base, 'hero': {'en': 'Korean woman <script>alert(1)</script> in her 30s, red coat'}}, 45)
+        self.assertNotIn('<', plan3['hero']['en'])                                         # 맥으로 가는 신뢰 불가 문자열 = 영문 인쇄 문자만
+        # 러너 잡 → 맥 드라이버 전 구간 행동 = tests/test_ys_hero.py
+
     def test_image_orient_follows_ratio(self):
         src = (ROOT / '.github/scripts/ys_images.py').read_text(encoding='utf-8')
         self.assertIn("orient = 'portrait' if os.environ.get('YS_RATIO', '9:16') == '9:16' else 'landscape'", src)   # 방식 무관 = 비율로 방향

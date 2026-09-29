@@ -31,7 +31,8 @@ MAX_SEC = 15
 PAR = int(os.environ.get('YS_GROK_PAR', '3'))
 BUDGET = int(os.environ.get('YS_GROK_BUDGET', '1200'))   # 전체 마감(초) = 스텝 시간 벽(25분)보다 넉넉히 작게 — 넘기면 남은 장면은 그림·모션으로
 _plock = threading.Lock()   # 진행 게시 = 한 번에 하나(ys_progress 임시 파일 경합 0)
-STYLE = os.environ.get('YS_VID_STYLE', 'cinematic minimal look, soft light, dark background, teal accent, no text, no captions, no logos')
+STYLE = os.environ.get('YS_VID_STYLE', 'Korean webtoon animation style, clean line art, soft cel shading, muted palette, no text, no captions, no logos')   # 맥 그림(웹툰체)과 같은 결
+I2V = 'Keep the exact art style, character design and colors of the first frame; no text, no captions, no logos'   # 첫 프레임이 있으면 = 화풍 재서술 대신 「첫 프레임 그대로」(평의회 260929)
 
 
 def progress(id_, st, note='', p=None):
@@ -46,11 +47,12 @@ def seconds_for(dur):
     return max(1, min(MAX_SEC, int(math.ceil(float(dur or 0) + PAD))))
 
 
-def prompt_for(sc, has_image):
+def prompt_for(sc, has_image, hero_en=''):
     motion = (sc.get('motion') or '').strip()
-    if has_image:   # 첫 프레임이 구도·화풍을 이미 쥐었다 = 움직임만(구도 재서술은 그림과 싸운다)
-        return f"{motion or 'Slow push-in; subtle ambient motion.'} {STYLE}"
-    return f"{(sc.get('img') or sc.get('head') or '').strip()}. {motion} {STYLE}".strip()
+    if has_image:   # 첫 프레임이 구도·화풍·주인공 얼굴을 이미 쥐었다 = 움직임만(구도 재서술은 그림과 싸운다)
+        return f"{motion or 'Slow push-in; subtle ambient motion.'} {I2V}"
+    who = f"The protagonist is {hero_en}. " if hero_en and sc.get('hero') else ''   # 첫 프레임 없는 글→영상 = 주인공을 글로 정의(없으면 장면마다 다른 사람)
+    return f"{who}{(sc.get('img') or sc.get('head') or '').strip()}. {motion} {STYLE}".strip()
 
 
 def strip_audio(src, dst):
@@ -118,7 +120,7 @@ def main(argv):
                 last = last or '그록 마감 시간 초과'
                 break
             try:
-                rid = grok_api.start_video(prompt_for(sc, bool(image)), token=tok, ratio=ratio, image=image, seconds=sec)
+                rid = grok_api.start_video(prompt_for(sc, bool(image), (plan.get('hero') or {}).get('en', '')), token=tok, ratio=ratio, image=image, seconds=sec)
                 v = grok_api.wait_video(rid, token=tok, max_sec=max(30, int(left - 120)))
                 costs.append(float(v.get('cost_usd') or 0))   # 청구 = 완료 시점(받기·소리 제거가 깨져도 값은 기록)
                 raw = grok_api.fetch(v['url'])

@@ -21,7 +21,10 @@ from pathlib import Path
 WAIT = int(os.environ.get('YS_IMG_WAIT', '1500'))   # 260928 실측 = 세로 7장 849초
 PICK = int(os.environ.get('YS_IMG_PICK', '150'))   # 이 안에 맥이 잡을 안 집으면(다른 잡에 잠김) 회수하고 바로 강하 = 900초 헛대기 0
 STALE = 180
-STYLE = os.environ.get('YS_IMG_STYLE', 'cinematic minimal illustration, soft light, dark background, teal accent, no text, no letters, no logos')
+# 화풍 = 한국 웹툰체(운영자 260929 «특정 피사체를 한국 웹툰식으로 · 영상마다 새 주인공») · 글자 금지 꼬리는 반드시 끝에
+ART = os.environ.get('YS_IMG_STYLE', 'Korean webtoon illustration, slice-of-life mood, clean line art, soft cel shading, muted palette')   # 주인공 시트에도 쓰는 화풍 몸통
+STYLE = ART + ', single full-frame scene, no speech bubbles, no text, no letters, no logos'   # 장면 꼬리(웹툰 = 칸·말풍선을 부르기 쉬워 막는다 · 평의회 260929)
+PROTAG_RE = re.compile(r'(?i)\bthe (protagonist|hero)\b')
 
 
 def aws(*args, capture=True):
@@ -42,29 +45,44 @@ def progress(id_, st, note='', p=None):
     subprocess.run(a, check=False)
 
 
-def clean(p):
-    """그림 묘사 = 신뢰 불가 입력(전사 → 모델 산출) → 영문 인쇄 문자만 · 프롬프트 표지 제거 · 한 줄 · 300자(맥 드라이버와 같은 규칙 = 이중 방어)."""
-    p = re.sub(r'(?i)\b(begin|end)\s+prompt\b', ' ', str(p or ''))
-    p = re.sub(r"[^A-Za-z0-9 ,.;:()'/-]+", ' ', p)
-    return re.sub(r'\s+', ' ', p).strip()[:300]
+def clean(p, cap=300):
+    """그림 묘사 = 신뢰 불가 입력(전사 → 모델 산출) → 영문 인쇄 문자만 · 프롬프트 표지 제거(겹쳐 감싸도 다 벗길 때까지) · 한 줄 · cap 자(맥 드라이버와 같은 규칙 = 이중 방어)."""
+    p = re.sub(r"[^A-Za-z0-9 ,.;:()'/-]+", ' ', str(p or ''))
+    while True:
+        q = re.sub(r'(?i)\b(begin|end)\s+prompt\b', ' ', p)
+        if q == p:
+            break
+        p = q
+    return re.sub(r'\s+', ' ', p).strip()[:cap]
+
+
+def cut(p, n):
+    """n 자 안에서 단어 경계로 자른다(단어 중간 절단 = 뜻 깨짐 · 평의회 260929)."""
+    if len(p) <= n:
+        return p
+    return p[:n].rsplit(' ', 1)[0].rstrip(' ,;:')
 
 
 def mac_state():
     r = aws('s3', 'cp', s3('ys_out/_mac/heartbeat.json'), '-')
     if r.returncode != 0 and 'NoSuchKey' not in (r.stderr or '') and '404' not in (r.stderr or ''):
-        return 'err', '저장소에서 맥 신호를 못 읽음'   # 저장소 장애 ≠ 맥 꺼짐(원인 분리)
+        return 'err', '저장소에서 맥 신호를 못 읽음', 1   # 저장소 장애 ≠ 맥 꺼짐(원인 분리)
     if r.returncode != 0 or not r.stdout.strip():
-        return 'off', '맥 신호 없음'
+        return 'off', '맥 신호 없음', 1
     try:
         hb = json.loads(r.stdout)
     except ValueError:
-        return 'off', '맥 신호 해석 실패'
+        return 'off', '맥 신호 해석 실패', 1
     age = int(time.time()) - int(hb.get('ts') or 0)
     if age > STALE:
-        return 'off', f'맥 신호가 {age // 60}분 전에 끊김'
+        return 'off', f'맥 신호가 {age // 60}분 전에 끊김', 1
     if hb.get('codex') != 'chatgpt':
-        return 'nologin', 'Codex ChatGPT 로그인 필요'
-    return 'on', f"맥 켜짐 · 계정 {hb.get('accounts', 0)}개"
+        return 'nologin', 'Codex ChatGPT 로그인 필요', 1
+    try:
+        drv = int(hb.get('drv') or 1)   # 드라이버 능력(2 = 주인공 시트·첨부 · 400자) — 맥이 새 드라이버를 받기 전 = 1
+    except (TypeError, ValueError):
+        drv = 1
+    return 'on', f"맥 켜짐 · 계정 {hb.get('accounts', 0)}개", drv
 
 
 def done(outdir, used, note, total=0):
@@ -82,7 +100,7 @@ def main(argv):
     if not os.environ.get('R2_BUCKET'):
         progress(id_, 'skip', '저장소 미설정')
         return done(outdir, 0, '저장소(R2) 미설정 — 모션 그래픽으로 만들었어.')
-    st, why = mac_state()
+    st, why, drv = mac_state()
     total = len(plan['scenes'])
     if st != 'on':
         progress(id_, 'skip', why)
@@ -93,12 +111,26 @@ def main(argv):
     # 방향 = 영상 비율 그대로(운영자 260928 «GPT 도 화면 전체 · 처음부터 9:16 으로 제작») — 9:16 = 세로 2:3 · 16:9 = 가로 3:2
     #   세로 구도 = 주인공을 위 2/3 에 · 아래 1/5 은 차분하게(자막 자리) — 그림이 곧 화면 전체라 자막과 겹치지 않게
     orient = 'portrait' if os.environ.get('YS_RATIO', '9:16') == '9:16' else 'landscape'
-    frame = 'subject in upper two thirds, calm lower fifth' if orient == 'portrait' else 'calm lower fifth'
-    room = 300 - len(frame) - len(STYLE) - 4   # 300자 상한(clean·맥 드라이버 동값) 안에서 화풍·「no text」 꼬리가 잘리지 않게 장면 묘사를 먼저 줄인다
-    scenes = [{'i': i, 'prompt': clean(f"{clean(sc.get('img') or sc.get('head'))[:room].rstrip()}. {frame}. {STYLE}")}
+    # 구도 = 자막 자리(YS_CAP · 기본 65% = 화면 중앙 아래)를 비운다 — 얼굴·핵심 행동이 검정 자막 띠에 깔리지 않게(평의회 260929)
+    try:
+        cap = int(os.environ.get('YS_CAP') or 65)
+    except ValueError:
+        cap = 65
+    frame = ('calm top fifth, subject lower' if cap <= 30 else 'calm lower fifth' if cap >= 75
+             else 'face and key action in upper half, simple lower half')
+    CAP = 400 if drv >= 2 else 300   # 옛 드라이버 = 300자에서 자른다 → 그 안에 「no text」 꼬리가 들어가게
+    room = CAP - len(frame) - len(STYLE) - 4   # 상한 안에서 화풍·「no text」 꼬리가 잘리지 않게 장면 묘사를 먼저 줄인다
+    # 영상 주인공(운영자 260929 «영상마다 새로») = 새 드라이버(drv 2)만 — 시트를 먼저 그리고 주인공 장면에 붙인다.
+    #   옛 드라이버 = 주인공 없이(정의 없는 「the protagonist」는 장면마다 다른 사람이 된다 → 평범한 사람으로 바꿔 그린다)
+    hero = clean((plan.get('hero') or {}).get('en'))[:220] if drv >= 2 else ''
+    def desc(sc):
+        d = clean(sc.get('img') or sc.get('head'), CAP)
+        return d if hero else PROTAG_RE.sub('a person', d)
+    scenes = [{'i': i, 'prompt': clean(f"{cut(desc(sc), room)}. {frame}. {STYLE}", CAP), 'hero': bool(hero and sc.get('hero'))}
               for i, sc in enumerate(plan['scenes']) if clean(sc.get('img') or sc.get('head'))]
     job = {'kind': 'ysimg', 'id': id_, 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
-           'deadline': int(time.time()) + WAIT, 'orient': orient, 'scenes': scenes}
+           'deadline': int(time.time()) + WAIT, 'orient': orient, 'scenes': scenes,
+           'hero': hero if any(s['hero'] for s in scenes) else '', 'style': clean(ART, 200)}
     with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:
         json.dump(job, f, ensure_ascii=False)
     qkey = f'queue/ysimg/{id_}.json'   # 전용 접두(맥 워커가 본 큐보다 먼저 1잡씩 집는다 · 본 큐 적체와 무관)
@@ -135,7 +167,7 @@ def main(argv):
     used = len([p for p in outdir.glob('s*.png') if p.stat().st_size > 2048])
     if fin and used == total:
         progress(id_, 'done', f'장면 그림 {used}장')
-        return done(outdir, used, f'장면 그림 {used}장(맥 Codex)', total)
+        return done(outdir, used, f'{note0}장면 그림 {used}장(맥 Codex)', total)
     note = note0 + (f'맥이 {WAIT // 60}분 안에 끝내지 못해 ' if not fin and not note0 else '') + f'그림 {used}/{total}장만 받았어 — 나머지 장면은 모션 그래픽.'
     progress(id_, 'done', f'장면 그림 {used}/{total}')
     return done(outdir, used, note, total)

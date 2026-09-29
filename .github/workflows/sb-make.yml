@@ -281,6 +281,8 @@ jobs:
           IN_ID: ${{ inputs.id }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           XAI_REFRESH_TOKEN: ${{ secrets.XAI_REFRESH_TOKEN }}
+          # 운영자 260929 «이관(nomutefb) 때 그록 열쇠를 XAI_SECRET_PAT 에 넣었다» → ys-make 와 같은 규칙으로 형식을 갈라 읽는다(아래 run)
+          XAI_MOVED: ${{ secrets.XAI_SECRET_PAT }}
           XAI_TOKEN_STORE: ${{ runner.temp }}/grok_token.json
           # ⚠ 갱신 열쇠는 **한 번 쓰면 새것으로 바뀌고 옛것이 죽는다**. 러너는 끝나면 사라지므로
           #   새 열쇠를 비밀값에 되써 넣지 않으면 다음 발사가 「Refresh token has been revoked」로
@@ -303,6 +305,18 @@ jobs:
             echo "그록 영상: 0/0컷 — 미시도(board.md 없음)"   # 무성 스킵 금지(계측 문법 = motion 레인 동문)
             echo "::warning::board.md 없음 — 그록 영상 생략"; exit 0
           fi
+          # 이관 칸(XAI_SECRET_PAT) = 깃허브 토큰 형식이면 되쓰기 열쇠로만 · 그 밖이면 그록 갱신 열쇠로(깃허브 토큰을 그록 서버로 보내지 않는다 · ys-make 동문)
+          case "$XAI_MOVED" in
+            '') moved=없음 ;;
+            ghp_*|github_pat_*|gho_*|ghu_*|ghs_*|ghr_*) moved=깃허브토큰 ;;
+            *) moved=그록열쇠 ;;
+          esac
+          echo "자격 칸: XAI_REFRESH_TOKEN=$([ -n "$XAI_REFRESH_TOKEN" ] && echo 있음 || echo 없음) · XAI_SECRET_PAT(이관)=${moved} · GH_TOKEN=$([ -n "$XAI_SECRET_PAT" ] && echo 있음 || echo 없음)"
+          if [ "$moved" = 깃허브토큰 ] && [ -z "$XAI_SECRET_PAT" ]; then export XAI_SECRET_PAT="$XAI_MOVED"; fi
+          if [ "$moved" = 그록열쇠 ] && [ -z "$XAI_REFRESH_TOKEN" ]; then
+            export XAI_REFRESH_TOKEN="$XAI_MOVED" XAI_SECRET_NAME=XAI_SECRET_PAT   # 회전된 새 열쇠 = 운영자가 쓰는 그 칸에 되쓴다
+          fi
+          unset XAI_MOVED
           [ -n "$XAI_REFRESH_TOKEN" ] || { echo "그록 영상: 0/0컷 — 미시도(XAI_REFRESH_TOKEN 미등록)"; echo "::warning::그록 자격 미등록 — 영상 생략"; exit 0; }
           # pynacl = 비밀값 봉인(깃허브가 요구하는 libsodium sealed box) — 없으면 되쓰기만 생략되고 영상은 그대로 간다
           pip install --quiet requests pillow pynacl || { echo "::warning::deps 설치 실패 — 생략"; exit 0; }
