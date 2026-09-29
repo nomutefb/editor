@@ -269,13 +269,17 @@ def major_in(title):
 # 명단 인물이라도 건너뛰는 건 **루브릭 메이저 예외가 다루는 축**뿐 — 관계(열애·결혼·결별·이혼) · 지위(소속·전속계약·입대).
 #   컴백·화보·근황·임신·출산·데이트 목격·♥ 표기만 있는 근황은 루브릭도 X 라 종전대로 여기서 X(260917 타이트닝 보존 ·
 #   실측 14일 = 명단 인물 관문 X 192건 중 이 축 68건만 판정기로 넘어간다).
-_MAJOR_AXIS = re.compile(r"열애|결별|이혼|재혼|약혼|파혼|결혼|혼인|교제|품절|예비신|상견례|전속계약|재계약|소속사|입대|군대")   # 제대 = 복귀(활동 소식)라 비대상
+_MAJOR_AXIS = re.compile(r"열애|결별|이혼|파경|재혼|약혼|파혼|결혼|혼인|교제|품절|예비신|상견례|전속계약|재계약|소속사|입대|군대")   # 제대 = 복귀(활동 소식)라 비대상
+
+
+_WHEN_REL = re.compile(r"(?:결혼|이혼|열애|입대|교제|전역|제대)\s*(?:\d+\s*(?:년|개월|주년|일)\s*(?:만에|째)|이후|후|뒤|앞두고|전)")
 
 
 def celeb_gate(title, major=False):
     """major = 호출부가 이미 전국적 인지도를 확인한 건(확산 [강] · 260929) = 명단 인물과 같게 관계·지위 축만 연다(콘텐츠 축은 그대로 X)."""
     t = title or ""
-    if _CELEB.search(t) and not _CELEB_KEEP.search(t) and not (_MAJOR_AXIS.search(t) and (major or major_in(t))):
+    ax = _WHEN_REL.sub(" ", t)             # 「결혼 3년 만에 임신」·「입대 앞두고 콘서트」·「이혼 후 근황」 = 관계어가 시점 부사일 뿐 = 관계 축 아님(검증 V3)
+    if _CELEB.search(t) and not _CELEB_KEEP.search(t) and not (_MAJOR_AXIS.search(ax) and (major or major_in(t))):
         return "연예 관계·지위 소식(열애·혼인·결별·소속·입대 = 콘텐츠 축)"
     return None
 
@@ -305,8 +309,15 @@ def judicial_gate(title, cross=0):
 
 def gate_reason(title, cat=None, cross=0, live=0):
     """속보 O를 X로 내려야 하면 사유, 아니면 None. 순서 = 인명 문턱 → 연예 → 사법.
-    live = 확산 단계(scraper/live_signal.py lv.t) — [강](3↑)이면 ②연예 축을 명단 인물과 같게 관계·지위만 연다(운영자 260929 A9 · 루브릭 📡 〔확산〕 규칙).
+    live = 확산 단계(scraper/live_signal.py lv.t) — [강](3↑)이면 연예·문화 인물(분류 문화 ∨ 연예 직업어 · 공직·체육 제외)의 ②연예 축을 명단 인물과 같게 관계·지위만 연다(운영자 260929 A9 · 루브릭 📡 〔확산〕 규칙).
     ① 인명 문턱·③ 사법 축은 [강]이어도 그대로(숫자 문턱 = 루브릭 같은 줄 · 사법 = 운영자 260921 규칙)."""
     if not GATES_ON:
         return None
-    return casualty_gate(title, cat) or celeb_gate(title, major=(live or 0) >= 3) or judicial_gate(title, cross)
+    major = (live or 0) >= 3 and not _OFFICE.search(title or "") and (cat == "문화" or bool(_ENT_HINT.search(title or "")))
+    return casualty_gate(title, cat) or celeb_gate(title, major=major) or judicial_gate(title, cross)
+
+
+# 확산 [강]의 ② 완화 범위 = 연예·문화 인물만(루브릭 📡 「④ 간주는 연예·문화 인물만 · 정치인·공직자·기업인·운동선수 제외」와 같은 선 · 검증 V7 —
+#   「손흥민 결혼」·「○○ 의원 결혼」이 [강]이면 결정적 X 가 풀리던 것) · 판별 = 분류 문화 ∨ 연예 직업어 · 공직·체육어 = 제외.
+_ENT_HINT = re.compile(r"유튜버|크리에이터|스트리머|인플루언서|\bBJ\b|배우(?!자)|가수(?!요)|아이돌|걸그룹|보이그룹|래퍼|개그맨|개그우먼|코미디언|방송인|예능|연예|아나운서|웹툰 ?작가")
+_OFFICE = re.compile(r"장관|(?<!한)의원|대통령|총리|위원장|도지사|구청장|군수|여사|배우자|검찰총장|대법관|판사|당선인|선수|감독")

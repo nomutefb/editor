@@ -100,11 +100,13 @@ def level(key, c, mt):
 
 def supersede(seed, real):
     """씨앗 → 실후보 상태 이관(제자리 수정). 반환 = real."""
-    ek, own = real.get("event_key"), real.get("url")
+    ek, own, sek = real.get("event_key"), real.get("url"), seed.get("event_key") or seed.get("url")
     if not ek or ek == own or (seed.get("breaking") and not real.get("breaking")):
-        real["event_key"] = seed.get("event_key") or seed.get("url")   # 푸시 원장 첫 키(push_send.dedup_keys) = 씨앗 때 나간 긴급의 재발송 차단
-    #   ⚠ 이미 다른 씨앗 키를 승계한 실후보는 덮지 않는다(긴급으로 나간 씨앗 키가 우선) — 두 씨앗이 한 실후보로 이관될 때
-    #     나중 씨앗(NO) 키가 먼저 나간 씨앗 키를 지워 재판정 YES 에 2발이 나가던 구멍(평의회3 260929 재현)
+        real["event_key"] = sek          # 푸시 원장 첫 키(push_send.dedup_keys) = 씨앗 때 나간 긴급의 재발송 차단
+    #   ⚠ 이미 다른 씨앗 키를 승계한 실후보는 덮지 않는다(긴급으로 나간 씨앗 키가 우선 · 평의회3 재현)
+    sk = [x for x in (real.get("sk") or []) if isinstance(real.get("sk"), list)]
+    if sek and sek not in sk and sek != real.get("event_key"):
+        real["sk"] = (sk + [sek])[-4:]   # 승계한 씨앗 키 전부 = dedup_keys 강한 키(처리 순서·대표 교체와 무관하게 발송된 씨앗 키가 남는다 · 검증 V1)
     if seed.get("breaking") and not real.get("breaking"):
         real["breaking"] = True
         if seed.get("breaking_rubric"):
@@ -131,11 +133,17 @@ def _related(k, ep, k2, ep2):
 
 
 def _pick(ms, ep):
-    """이름 하나에 맞는 후보들 중 첨부 대상 = (자기 제목 적중, 본류(cross≥3), 지난번 첨부 유지, 실후보 우선, cross, 최신 발행).
-    ⚠ 본류가 유지 가점보다 앞 — 한 매체 단독(웹드라마 기사 등)이 [강]을 계속 쥐고 다매체 본류가 못 받던 것(평의회260929-2 #7 재현 = 11:31)."""
+    """이름 하나에 맞는 후보들 중 첨부 대상 = (다매체 대표(단독 아님 ∧ cross≥2), 자기 제목 적중, 지난번 첨부 유지, 실후보 우선, cross, 최신 발행).
+    ⚠ 다매체 대표가 자기 제목 적중보다 앞 — 익명 대표(「유명 유튜버…」 · 멤버 제목 실명)가 한 매체 [단독] 곁가지에 [강]을 뺏겨
+      판정 NO → 푸시 11:47(검증 V7 재현 · 다매체 우선이면 11:17) · 익명 대표의 주인공 = 꼬리표 «이름»(루브릭 📡)."""
     u0 = (ep or {}).get("u")
-    return max(ms, key=lambda lc: (lc[0], (lc[1].get("cross") or 0) >= 3, lc[1].get("url") == u0, not lc[1].get("seed"),
-                                   lc[1].get("cross") or 0, str(lc[1].get("published") or "")))[1]
+    return max(ms, key=lambda lc: (not T.is_solo(lc[1]) and (lc[1].get("cross") or 0) >= 2, lc[0], lc[1].get("url") == u0,
+                                   not lc[1].get("seed"), lc[1].get("cross") or 0, str(lc[1].get("published") or "")))[1]
+
+
+def _seed_no(c):
+    """판정 NO 로 끝난 씨앗 — 포함 관계 이름의 더 구체적인 긴급 씨앗을 막지 않는다(「닛몰캐쉬」 NO 씨앗 → 「닛몰캐쉬 데이트폭력」 · 검증 V1)."""
+    return bool(c.get("seed")) and bool(c.get("breaking_rubric")) and not c.get("breaking")
 
 
 _SEED_KEEP = ("breaking", "breaking_rubric", "grade", "grade_rubric")   # 씨앗 장부(st["sd"])에 적어 두는 판정·채점 결과
@@ -245,7 +253,7 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
     # 우리 수집함 확인(무장·미확인만) — novel 판정은 나이 무관 전 후보 + 사건 원장 대조(묵은 사건 재점화 차단)
     if net:                              # 구글 뉴스 먼저 — 그 novel 판정이 아래 수집함 확인의 거부권(같은 회차에 쓴다)
         S["gnq"] = L.gn_poll(st, L.gn_candidates(st, now), now, fetch=gn_fetch)
-    for k in keys:
+    for k in ([] if L.STATE_RO else keys):   # 읽기 전용 레인(폰·PC) = 확인 안 함(자기 시각으로 [강]을 찍으면 무장 시각·에피소드 키가 러너와 어긋난다 · 검증 V1)
         ep = eps.get(k)
         if ep and ep.get("a") and not ep.get("cf") and real(k):
             if ((st.get("gn") or {}).get(k) or {}).get("nov") == 0:
@@ -261,13 +269,16 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
     sec_by_url = {a.get("link"): T.cat_ko(a.get("category")) for a in arts if isinstance(a, dict)}
     for k in keys:
         ep = eps.get(k)
-        if L.tier(ep, now) < 2 or real(k):
-            continue
+        if L.tier(ep, now) < 2 or any(not T.is_solo(c) for _, c in real(k)):
+            continue                     # 다매체 실후보가 이미 있다 = 입장 불요(한 매체 단독만 있으면 입장은 계속 · 검증 V7)
         e = _admit(k, arts, mt, urls, covered, sec_by_url, st, now)
         if e:
             cands.insert(0, e)
             urls.add(e["url"])
-            M.setdefault(k, []).append((2, e))
+            for k2 in keys:              # 제목이 맞는 모든 이름에 등록(입장시킨 이름 하나만 = 다른 이름의 씨앗이 이관 안 돼 따로 발송 · 검증 V1)
+                lvl = 2 if k2 == k else mx.level(k2, e)
+                if lvl:
+                    M.setdefault(k2, []).append((lvl, e))
             S["adm"] += 1
     # ② 이관 — 씨앗과 같은 이름의 실후보가 생겼으면 씨앗을 넘기고 지운다(되살아난 씨앗 = 장부 sup 로 같은 곳에 다시 이관)
     drop, sup = set(), st.setdefault("sup", {})
@@ -351,7 +362,7 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
         ep = eps.get(k)
         if L.tier(ep, now) < 3 or ep.get("cs") != "g" or k in M:
             continue
-        if any(k2 != k and M.get(k2) and _related(k, eps.get(k), k2, eps.get(k2)) for k2 in M):
+        if any(k2 != k and any(not _seed_no(c) for _, c in M.get(k2, [])) and _related(k, eps.get(k), k2, eps.get(k2)) for k2 in M):
             continue                     # 포함 관계 이름(「사회인」⊂「사회인야구」)에 후보(실후보·씨앗)가 이미 있다 = 같은 사건 · 씨앗 중복 차단
             #                              (260929 리플레이 실측 · 씨앗끼리도 = 「닛몰캐쉬」·「닛몰캐쉬 데이트폭력」 둘 다 [강]이면 씨앗 2개 = 2발 · 평의회3)
         if not L.novel_ours(ep, [c for c in cands if mx.level(k, c)] + [x for x in events if L.hit(k, x["title"])]):
@@ -372,12 +383,14 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
                 continue                 # 판정 NO 로 끝난 씨앗이 지금 없다 = 정리됨([단독] 경중 미달) · 다시 만들면 도장이 리셋돼 15분마다 재판정(한 번 YES = 발송 · 평의회3)
             e["first_seen"] = L.iso(sd.get("at") or now)   # 레인 덮어쓰기로 빠진 씨앗 = 처음 만든 시각·판정·채점 그대로 되살린다(재판정·재채점 콜 0 · 푸시 4h 창 불변 · 평의회260929-2 #5)
             e.update({f: sd[f] for f in _SEED_KEEP if sd.get(f) is not None})
+            if sd.get("ek"):
+                e["id"] = e["event_key"] = sd["ek"]   # 원문 해제 뒤 복원이어도 처음 키 그대로(뷰어 candId·알림 딥링크 ?brk= 매칭 유지 · 검증 V1)
         e["lv"] = L.lv_of(st, k, now)
         cands.insert(0, e)
         urls.add(e["url"])
         M.setdefault(k, []).append((2, e))   # 같은 회차 포함 관계 이름의 둘째 씨앗 차단(위 _related 검사가 본다)
         if sd.get("u") != e["url"]:
-            st.setdefault("sd", {})[k] = {"u": e["url"], "at": int(now)}
+            st.setdefault("sd", {})[k] = {"u": e["url"], "at": int(now), "ek": e["event_key"]}
         ep["u"] = e["url"]
         S["seed"] += 1
     # 판정·채점 대상 유지 — 한 매체뿐인 lv 엔트리(입장·씨앗)는 to_candidates 캐리 정리가 1차 후보 플래그를 내리므로 매 회차 다시 켠다

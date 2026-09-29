@@ -248,7 +248,7 @@ jobs:
           #   증발했는데 잡은 초록으로 끝난다(check_land_silence 가 이름 붙인 침묵 축 · pick.yml 문법 사본).
           [ "${pushed:-0}" = 1 ] || { echo "::error::breaking·grade 판정 push 실패 — 이번 회차 채점 미반영(다음 런 재판정)"; exit 1; }
 
-      # 긴급(breaking AND grade≥2 · 확산 [강]이면 경중 무관) 새 사건 → 구독자에게 웹푸시(앱 꺼도 옴). 비치명·dedup(push/sent.json).
+      # 긴급(breaking AND grade≥2 · 확산 [강]이면 grade≥1) 새 사건 → 구독자에게 웹푸시(앱 꺼도 옴). 비치명·dedup(push/sent.json).
       - name: 긴급 웹푸시 발송 (pywebpush)
         if: steps.chk.outputs.pending != '0' || github.event.inputs.test_push == 'true' || github.event.inputs.preview == 'true'
         env:

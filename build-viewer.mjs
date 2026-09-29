@@ -47,10 +47,10 @@ try {
   for (const c of (Array.isArray(cj) ? cj : (cj.candidates || []))) if (c.url) {
     CROSS.set(c.url, c.cross || 0);
     const lvt = (c.lv && c.lv.t) || 0;   // 확산 단계(scraper/live_signal.py · 260929)
-    const brk = !!c.breaking && (c.grade == null || c.grade >= 2 || lvt >= 3);
-    BRK.set(c.url, brk);   // 긴급 = breaking_judge 확정 AND 경중 grade≥2(미채점 포함) — cross 무관 · 확산 [강]이면 경중 무관(뷰어 isBreaking 과 같은 술어)
+    const brk = !!c.breaking && (c.grade == null || c.grade >= 2 || (c.grade >= 1 && lvt >= 3));
+    BRK.set(c.url, brk);   // 긴급 = breaking_judge 확정 AND 경중 grade≥2(미채점 포함) — cross 무관 · 확산 [강]이면 경중 1도(뷰어 isBreaking 과 같은 술어)
     if (lvt >= 3 && brk) LVT.set(c.url, lvt);   // 피드 feedBrk 입력(긴급 확정분만 = AI NO 인 [강] 후보가 요약 제목 「속보」 폴백으로 피드에만 🚨 뜨던 갈림 차단 · 평의회260929-2 #4)
-    if (c.event_key) { const k = _normEk(c.event_key); EK2URL.set(k, EK2URL.has(k) && EK2URL.get(k) !== c.url ? null : c.url); }   // 사건키 → 후보 url(유일할 때만)
+    if (c.event_key) { const k = _normEk(c.event_key); if (_normEk(c.url) === k) EK2URL.set(k, c.url); else if (EK2URL.get(k) !== c.url && !(EK2URL.has(k) && EK2URL.get(k) && _normEk(EK2URL.get(k)) === k)) EK2URL.set(k, EK2URL.has(k) ? null : c.url); }   // 사건키 → 후보 url(url = 사건키인 본 후보 우선 · 그 밖엔 유일할 때만 · 검증 V3)
     if (c.cat) CAT.set(c.url, c.cat);   // 후보 cat(gate_judge AI 분류·미술관 흉기난동=사회) → 픽 기사 카테고리 승계용
     GRADE.set(c.url, c.grade == null ? null : c.grade);   // 이슈 배지 grade 게이트(null=미채점 관용)
     CTITLE.set(c.url, c.title || '');   // 이슈 배지 정형·홍보컷은 후보 원제목 기준(요약 제목 아님)
@@ -132,8 +132,8 @@ for (const f of files) {
     const raw = readFileSync(join(QUEUE, f), 'utf8');
     const { meta, body } = parseFrontmatter(raw);
     // 외신 한국어 번역 제목(260703) — 1순위 분석 frontmatter title_ko · 2순위 수집함 후보 도장(KOTITLE — LLM 누락·프롬프트 이전 분석분 폴백) → 표시 제목 승격(피드 리스트 영어 원문 노출 차단 · 운영자 "원문으로 표시 안되게")
-    const tko = stripLeadEmoji(meta.title_ko || '') || (!/[가-힣]/.test(meta.title || '') ? (KOTITLE.get(meta.url || '') || '') : '');
     const cu = CROSS.has(meta.url || '') ? (meta.url || '') : (EK2URL.get(_normEk(meta.event_key)) || EK2URL.get(_normEk(meta.url)) || meta.url || '');   // 후보 조회 url(위 EK2URL · 직접 매칭 우선)
+    const tko = stripLeadEmoji(meta.title_ko || '') || (!/[가-힣]/.test(meta.title || '') ? (KOTITLE.get(cu) || '') : '');
     const h1m = (body || '').match(/^#\s+(.+)$/m);   // 본문 첫 H1(AI 헤드) — frontmatter title 유실(이중 --- 등) 시 제목 폴백(파일명 노출 차단 · 260703 실측)
     articles.push({
       file: f,

@@ -232,6 +232,15 @@ class LiveTier(unittest.TestCase):   # 확산 [강](lv.t≥3 · 260929 A9) = 연
         self.assertIsNotNone(G.gate_reason("가수 ○○ 결혼 에피소드 공개", "문화", 3, 0))       # 에피소드 = 연예 통과어 아님 → 연예 축 X
         self.assertIsNone(G.gate_reason("예능 에피소드 화제", "문화", 3, 0))                   # 에피소드 = 사법어 아님
 
+    def test_strong_celeb_scope_entertainment_only(self):   # V7 — [강] 관계·지위 완화 = 연예·문화 인물만 · V3 — 시점 부사 관계어 = 콘텐츠
+        self.assertIsNotNone(G.gate_reason("손흥민 선수 결혼 발표", "스포츠", 5, 3))
+        self.assertIsNotNone(G.gate_reason("○○ 의원 결혼", "정치", 3, 3))
+        self.assertIsNone(G.gate_reason("배우 ○○, 비연예인과 결혼 발표", "문화", 3, 3))
+        self.assertIsNone(G.gate_reason("유튜버 ○○ 열애 인정", "사회", 3, 3))
+        for t in ("가수 ○○, 결혼 3년 만에 임신", "배우 ○○, 결혼 앞두고 웨딩 화보 공개", "배우 ○○, 이혼 후 근황 공개", "가수 ○○, 입대 앞두고 마지막 콘서트"):
+            self.assertIsNotNone(G.gate_reason(t, "문화", 3, 3), t)
+        self.assertIsNone(G.gate_reason("배우 ○○, 결혼 3년 만에 파경", "문화", 3, 3))
+
     def test_strong_keeps_judicial(self):   # 평의회260929-2 #8 — 사법 축은 [강]·연예인이어도 그대로(운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게»)
         self.assertIsNotNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=3))
         self.assertIsNotNone(G.gate_reason("가수 ○○, 항소심서 징역 3년 선고", "문화", 11, 3))

@@ -52,7 +52,7 @@ SOC_STALE_MIN = 120     # 커뮤니티 레인(social_candidates.json = 파일 �
 CHRONIC_H, CHRONIC_SKIP_H, CHRONIC_RATIO, CHRONIC_MIN_SNAP = 72, 6, 0.15, 12
 NOVEL_H, NOVEL_BACK_H = 3, 24
 GN_MIN, GN_WIN_H = 3, 6
-GN_TTL_S = 840          # 같은 이름 재조회 최소 간격 = 러너 15분 주기마다 1회(중복 발사·수동 재실행 연타 차단) · 상한 초과분은 오래 안 본 순 순환(gn_candidates)
+GN_TTL_S = 600          # 같은 이름 재조회 최소 간격(중복 발사·수동 재실행 연타 차단) · 840 이면 러너 간격 흔들림(7.9%가 14분 미만)에 문턱 회차가 통째로 빠져 [강] +15분(검증 V5) · 상한 초과분은 오래 안 본 순 순환(gn_candidates)
 
 
 def _env_int(name, d):
@@ -564,7 +564,9 @@ def update(st, snap, now):
             st.get("gn", {}).pop(k, None)
             continue
         act = active(ep, now)
-        if len(act) >= 2 and not ep.get("a"):
+        if STATE_RO:
+            pass                           # 읽기 전용 레인 = 무장·해제 안 함(무장 시각 = 러너 것 하나 · 에피소드 키 lv.a 가 레인마다 갈리던 것 · 검증 V1)
+        elif len(act) >= 2 and not ep.get("a"):
             ep["a"] = int(now)
         elif len(act) < 2 and ep.get("a") and not ep.get("cf"):
             ep.pop("a", None)              # 동시성이 끊긴 미확인 무장 = 해제([중]이 한 갈래만으로 하루씩 이어지고 늦은 확인이 붙던 것 · 평의회260929-2 #2-2)
@@ -632,7 +634,7 @@ def _gn():
 
 
 def _tkey(t):
-    """전재 판별용 제목 지문 = 글자·숫자만(띄어쓰기·문장부호·[속보] 괄호 차이 무시)."""
+    """전재 판별용 제목 지문 = 글자·숫자만(띄어쓰기·문장부호·괄호 기호 차이 무시 · 「속보」 같은 머리 낱말·한자는 그대로 = 다르면 다른 지문 = 과대 쪽)."""
     return re.sub(r"[^0-9a-z가-힣]", "", (t or "").lower())
 
 
@@ -646,7 +648,7 @@ def gn_count(items, key, now, armed):
         portal, host, tail = G._PORTAL_HOSTS, G._host, G._SRC_TAIL_RE
     else:
         portal, host, tail = (), (lambda u: ""), re.compile(r"\s+-\s+[^-]{1,40}$")
-    outs, tks, first, novel = set(), set(), None, True
+    tks, first, novel = {}, None, True
     a = armed or now
     for it in items or []:
         p = it.get("pub") or 0
@@ -660,16 +662,15 @@ def gn_count(items, key, now, armed):
             novel = False
         if now - GN_WIN_H * 3600 <= p <= now + 600:
             o = re.sub(r"\s+", "", (it.get("sname") or h or "")).lower()
-            if o:
-                outs.add(o)
-                tks.add(_tkey(t))
+            tk = _tkey(t)
+            if o and tk and (tk not in tks or p < tks[tk][0]):
+                tks[tk] = (p, o)           # 제목 지문마다 가장 먼저 낸 매체(한 매체가 여러 제목을 내고 제휴사가 그대로 옮겨도 = 그 매체 1곳 · 검증 V5)
             if first is None or p < first["p"]:
                 first = {"p": int(p), "t": t.strip(), "m": (it.get("sname") or h or "").strip(), "l": it.get("link") or ""}
-    tks.discard("")
     ps = [it.get("pub") for it in (items or []) if it.get("pub")]
     if novel and len(items or []) >= GN_CAP_N and ps and min(ps) > a - NOVEL_BACK_H * 3600:
         novel = None                     # 응답이 상한(100건)에 차서 novel 창(무장 24h 전~) 앞이 잘렸다 = 판정 불가(옛 보도가 밀려나 「새 사건」으로 뒤집히는 것 · #7-5)
-    return min(len(outs), len(tks)), novel, first
+    return len({o for _, o in tks.values()}), novel, first
 
 
 GN_POLL_H = 6           # 무장 뒤 이 시간 안에만 확인 검색(그 뒤 미확인 = 언론이 안 받은 소동 = 더 두드리지 않는다)
@@ -678,11 +679,11 @@ GN_POLL_H = 6           # 무장 뒤 이 시간 안에만 확인 검색(그 뒤 
 def gn_live(G=None):
     """이 프로세스가 구글 뉴스를 두드려도 되나 = 모듈 있음 ∧ 킬스위치 GNEWS_IMG 켜짐 ∧ 확정 차단 전."""
     G = _gn() if G is None else G
-    return G is not None and G.enabled() and not G.STATS.get("hard")
+    return G is not None and G.enabled() and not G.STATS.get("hard") and not G.STATS.get("fail")   # 이 회차 구글 실패 있음 = 원문 해제도 쉰다(장애가 해제 시도 3회를 다 써 버리던 것 · 검증 V5)
 
 
 def gn_poll(st, keys, now, fetch=None, pause=None, max_q=None):
-    """무장(t2)·미확인 이름만 구글 뉴스 검색(회차당 max_q · 14분 캐시 · 실패·차단 = 이 회차 즉시 중단 · 다음 회차 재시도).
+    """무장(t2)·미확인 이름만 구글 뉴스 검색(회차당 max_q · 10분 캐시 · 실패·차단 = 이 회차 즉시 중단 · 다음 회차 재시도).
     novel 아님(무장 전 보도 있음)이 한 번 나온 이름 = 이 에피소드 동안 다시 안 묻는다(결과 100건 상한에 옛 기사가 밀려
     「새 사건」으로 뒤집히는 것 차단 · 구글 뉴스로는 확인 불가가 확정된 이름).
     fetch(query) → RSS xml(없으면 gnews_search._http). 반환 = 이번 회차 실제 요청 수."""
@@ -715,7 +716,8 @@ def gn_poll(st, keys, now, fetch=None, pause=None, max_q=None):
         except Exception:  # noqa: BLE001
             items, xml = [], ""
         if not xml:
-            break                          # 실패(503·시간 초과·차단) = 이 회차 중단(연타 금지) · 캐시하지 않는다(다음 회차 재시도)
+            cache.setdefault(k, {})["ft"] = int(now)   # 실패 시각 = 순환 순번만 뒤로(같은 이름이 계속 실패해도 뒤 이름이 굶지 않게 · 검증 V5)
+            break                          # 실패(503·시간 초과·차단) = 이 회차 중단(연타 금지) · 결과는 캐시하지 않는다(다음 회차 재시도)
         cnt, nov, first = gn_count(items, k, now, ep.get("a"))
         c2 = {"at": int(now), "n": cnt, "nov": -1 if nov is None else int(bool(nov))}   # -1 = 판정 보류(재조회는 계속 · 고정은 0 만)
         if first:
@@ -736,7 +738,7 @@ def gn_candidates(st, now):
     → 갈래 많은 순 → 커뮤니티 곳수 → 최근 무장."""
     eps, cache = st.get("k") or {}, st.get("gn") or {}
     ks = [k for k, ep in eps.items() if ep.get("a") and not ep.get("cf")]
-    return sorted(ks, key=lambda k: ((cache.get(k) or {}).get("at") or 0, -len(active(eps[k], now)),
+    return sorted(ks, key=lambda k: (max((cache.get(k) or {}).get("at") or 0, (cache.get(k) or {}).get("ft") or 0), -len(active(eps[k], now)),
                                      -((eps[k].get("m") or {}).get("c") or 0), -eps[k]["a"], k))
 
 

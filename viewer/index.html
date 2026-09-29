@@ -4920,7 +4920,7 @@ function feedAgeH(a) {
 // 긴급/이슈 분류(상호배타·긴급우선) → 카드 테두리 점등 클래스. 'brk'(IN<4h breaking)·'iss'(4h~24h AND [a.issue 또는 aged breaking])·''(1일↑·신규<4h·비이슈). a.issue = build-viewer issEligible(cross≥10·grade게이트·정형컷 — 수집함 issCross와 규칙 동일·260702).
 // 피드 유효 breaking = 수집함 isBreaking(11242행) 정본 계승 = breaking(또는 제목 속보 폴백) AND 경중 게이트(grade 0·1 컷 · null 미채점=유보 통과).
 // ⚠️ 260617 계약("grade1 경미인데 ⚡이슈 모순 차단")이 수집함에만 적용돼 있었다 — 피드 인덱스에 grade 필드가 없어 raw a.breaking으로 판정했고, 그래서 g1 기사가 피드에서만 4~24h에 ⚡이슈(+<4h 🚨긴급)를 달았다(운영자 260810 "g1급은 이슈 조건에서 배제" · 실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15 = 제목 [속보] 폴백으로 breaking true). build-viewer가 grade를 패스스루하면서 봉합 = 수집함↔피드 동일 규칙 복구.
-const feedBrk = a => (a.breaking || /속보/.test(a.title || '')) && (a.grade == null || a.grade >= 2 || (a.lvt || 0) >= 3);   // lvt = 후보 확산 [강] 표식(build-viewer 패스스루 · 있을 때만) = 수집함 isBreaking 과 같은 술어(260929)
+const feedBrk = a => (a.breaking || /속보/.test(a.title || '')) && (a.grade == null || a.grade >= 2 || (a.grade >= 1 && (a.lvt || 0) >= 3));   // lvt = 후보 확산 [강] 표식(build-viewer 패스스루 · 있을 때만) = 수집함 isBreaking 과 같은 술어(260929)
 function brkIssueKind(a) {
   const brk = feedBrk(a);
   // 긴급/이슈 나이 = IN(수집)나이·발행나이 中 *큰 값* → 둘 다 <4h여야 긴급(운영자 260623). 발행 16h 지난 syndication-지연 건을 방금 수집(IN<4h)했다고 IN만 보고 긴급 뜨던 버그 차단 — 화면 'N시간 전'(발행)과 배지 일치. 발행 무효(1e7)면 IN만(time 빈 매체 폴백 유지 = 옛 동작).
@@ -11732,7 +11732,7 @@ async function loadSocial() {
 // 재알림 = '체크(확인) 전까지 계속'(운영자 260702) — seen 숨김(BRK_SEEN) 폐지 → 미처리 큐(breakingNow)가 빌 때까지 유지.
 //   처리 = ✓체크(ack)·PICK(픽)·수집함 PASS. 나이 4h↑(FAST_MAX_H)면 breakingNow서 자연 소멸.
 // ⚡ 유효 breaking = backend 속보확정(breaking) AND 경중 게이트가 잡음/경미(grade 0·1)로 깐 게 아님(미채점 null=유보 통과). 🚨배지·핀·최신 공용(grade≥2) — 'grade1 경미인데 ⚡이슈' 모순 차단(260617). ⚠️ 토스트·점등은 isAlert(grade≥3)로 분리(운영자 260622).
-const isBreaking = c => !!c.breaking && (c.grade == null || c.grade >= 2 || ((c.lv && c.lv.t) || 0) >= 3);   // + 확산 [강](lv.t≥3 · scraper/live_signal.py · 260929) = 경중 무관 긴급(제목만 본 채점이 익명·무명 제목에 준 0·1을 분포 증거가 대신한다 · 긴급 판정기는 꼬리표를 보고 YES · 평의회260929-2 #8) · 파이썬 사본 = daily_health._brk_on · 동작 패리티 = tests/live-signal.test.mjs
+const isBreaking = c => !!c.breaking && (c.grade == null || c.grade >= 2 || (c.grade >= 1 && ((c.lv && c.lv.t) || 0) >= 3));   // + 확산 [강](lv.t≥3 · scraper/live_signal.py · 260929) = 경중 1도 긴급(제목만 본 채점이 익명 제목에 준 1을 분포 증거가 대신한다 · 경중 0 = 콘텐츠·비사건 두 번째 AI 층은 유지 = 검증 V3·V7) · 파이썬 사본 = daily_health._brk_on · 동작 패리티 = tests/live-signal.test.mjs
 const isAlert = c => !!c.breaking && c.grade != null && c.grade >= 3;   // 📢 화면알림(점등·토스트)·앱푸시·자동요약 공용 = breaking AND grade≥3(대형/엄중) · 운영자 260622 3단위계: 앱푸시긴급(grade≥3·알림류)⊂긴급(grade≥2·🚨배지·핀)⊂일반 · 이슈(⚡)는 별개 개념 · 미채점(null)=제외.
 const breakingNow = () => { const RA = ratingsAll(); return CANDS.filter(c => { const r = { ...(srvTriage(c) || {}), ...(RA[candId(c)] || {}) }; return isAlert(c) && !JUNK_HEAD.test(c.title || '') && (Date.now() - scTs(c)) < FAST_MAX_H * 3600000 && !r.dismissed && !r.action && !r.score && !r.picked && !r.acked && pickState(c) !== 'failed' && !brkToastSeen(c) && !!scFeedArticle(c); }); };   // RA 호이스트(운영자 260717 "호이스트 ㄱ" · 평의회G 실측) — ratingsAll() = localStorage 통파싱이라 필터 내 건당 호출 = 800회/폴 → 밖 1회(동기 루프라 결과 동일·비용만 소거)   // 토스트·점등=최신 *알림긴급*만(breaking AND grade≥3·<FAST_MAX_H=4h · 🚨배지/핀은 grade≥2로 별개). JUNK_HEAD·수집함 처리분·경중<3·failed(fail 토스트 담당)·로컬 seen 제외. ⚠️ scFeedArticle 게이트(운영자 260712 "적어도 내용을 알 수 있을 때 긴급을 띄우셈 · 10분 전후 늦어도 OK") = 자동요약이 피드에 실제 등장(has_body·분석+배포 완료)한 뒤에만 토스트 — 구 260702 '분석중에도 뜸' 폐지 · 즉시 인지 = 웹푸시(백엔드 독립)·수집함 🚨배지 담당 · 미요약 긴급(자동픽 컷·일캡)은 토스트 생략(배지·푸시만 = 정직 한계).
 let _brkClaiming = false;
@@ -12566,7 +12566,7 @@ function mergeDecorate(anchor, memCands) {
     px: Math.max(anchor.px || 0, ...memCands.map(m => m.px || 0)),   // 연예 부착 풀 매체 수 = 형제 중 최댓값(합산 = 같은 전문지를 형제마다 중복 셈 · 평의회260929 #7 · effCross 입력 · 파이썬 짝 = daily_health.screen_merge)
     breaking: anchor.breaking || memCands.some(m => m.breaking),
     grade: grades.length ? Math.max(...grades) : anchor.grade,
-    lv: [anchor, ...memCands].map(m => m.lv).filter(v => v && typeof v === 'object').sort((x, y) => (y.t || 0) - (x.t || 0))[0] || anchor.lv,   // 확산 증거 = 가장 센 단계 승계(isBreaking 입력 · 파이썬 짝 = daily_health.screen_merge)
+    lv: [anchor, ...memCands].filter(m => m.breaking).map(m => m.lv).filter(v => v && typeof v === 'object').sort((x, y) => (y.t || 0) - (x.t || 0))[0] || anchor.lv,   // 확산 증거 = 긴급 판정 형제 중 가장 센 단계 승계(NO 형제의 [강]이 다른 형제의 YES·경중 0과 합쳐 병합 카드만 긴급이 되던 것 · 검증 V3 · isBreaking 입력 · 파이썬 짝 = daily_health.screen_merge)
     report_count: Math.max(anchor.report_count || 0, ...memCands.map(m => m.report_count || 0)),
     burst: Math.max(anchor.burst || 0, ...memCands.map(m => m.burst || 0)),
     cluster_members: cm,
@@ -13041,7 +13041,7 @@ const pinFresh = c => (pinB(c) && (Date.now() - scTs(c)) < FAST_MAX_H * 3600000)
 // 옛 cross≥8 단독 = grade 무게이트(🚨긴급과 비대칭)라 홍보·시황이 다매체 동시배포만으로 배지 획득 + 수집확대(6/26 분야·7/2 경제지) cross 인플레 2.5배로 남발(38건 실측→20건).
 // 배지 강조 전용 — 칼럼 진입(CROSS_MIN 8)·랭킹(scScore)·fbJunk veto(cross≥8 floor)와 무관 = 컷돼도 기사는 누적 칼럼 잔존(강조 해제일 뿐 소멸 아님).
 const ISS_CROSS_MIN = 10;   // 8→10(260702): "오늘 cr10 = 확대 전 cr8" 실측 환산(스냅샷당 cross≥8 클러스터 5.3→12.35 인플레 보정) · 260702 저녁 정적 확정(fable 4인 토론 — 캘린더 재측정 폐지·신호/잡음 변곡점 cr9↔10 실측 · 감시 = daily_health ② 배지계기판 상시 + 새 소스[네이버 API·구글뉴스 RSS 등] 투입 머지일 = 재검토 의무 · §8 260702).
-const issGrade = c => c.grade == null || c.grade >= 2;   // 🚨긴급(isBreaking)의 기본 경중 게이트와 같다(확산 [강] 경중 무관 예외는 긴급 축만 · 260929) — null(미채점) 관용 필수(strict ≥2 금지 = 갓 도착 미채점 대형 보호 · gate_judge 도달률 100% 실측이라 통상 전부 채점됨).
+const issGrade = c => c.grade == null || c.grade >= 2;   // 🚨긴급(isBreaking)의 기본 경중 게이트와 같다(확산 [강] 경중 1 예외는 isBreaking 을 거치는 긴급·경과 긴급(⚡) 축에만 · 긴급이면 긴급 · 260929) — null(미채점) 관용 필수(strict ≥2 금지 = 갓 도착 미채점 대형 보호 · gate_judge 도달률 100% 실측이라 통상 전부 채점됨).
 const BJ_CRASH = /(폭락|급락|폭등|급등|서킷브레이커|사이드카|붕괴|패닉|쇼크)/;   // 사건어 가드 — 시황 정형이어도 진짜 사건(코스피 폭락 등)이면 컷 면제
 const BJ_MKT = /(증시|코스피|코스닥|환율|유가(?!족)|나스닥|다우|뉴욕증시).{0,20}(출발|개장|마감|장중)/;   // 정례 시황(개장·마감 — JUNK_HEAD ⑤가 '환율마감'만 다뤄 '출발'류 보강 · '유가족…마감' 오컷 방지 lookahead = 10인 검증5)
 const BJ_HEAD = /^\[(포토|사진|사설|기고|칼럼|만평|증시|시황|특징주)/;   // 연성 머리표(배지만 컷 — JUNK_HEAD와 달리 칼럼엔 잔존)

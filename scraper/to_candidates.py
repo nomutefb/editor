@@ -23,6 +23,7 @@ except Exception:  # noqa: BLE001  미러를 못 읽으면 컷 순서만 종전 
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "scraper" / "out" / "articles.json"
+_LIVE_OFF = (ROOT / "scraper" / "live_signal.off").exists()   # 확산 신호 저장소 킬스위치(정본 = scraper/live_signal.OFF_FILE)
 DST = ROOT / "viewer" / "candidates.json"
 
 # 용어 통일: 수집 수(긁은 기사 총량, knews_scraper) · 사건 수(중복 합친 distinct, 아래 kept) ·
@@ -142,7 +143,7 @@ def is_exc_solo(c):
 
 
 def _urgent(c):
-    """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2 ∨ 확산 [강])) ·
+    """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2 ∨ (경중≥1 ∧ 확산 [강]))) ·
     정본 = daily_health._brk_on · 미러 import 실패 = 종전 술어(확산 축만 빠진다 = 보수)."""
     if _brk_on is not None:
         return _brk_on(c)
@@ -533,6 +534,8 @@ def main():
             entry.pop("solo", None)               # 두 번째 매체가 붙음 = 단독 표식 해제(다매체 규칙으로 전환)
         if not c.get("px"):
             entry.pop("px", None)                 # 이번 회차 풀 부착 0 = 지난 px 가 눌어붙지 않게(cross 처럼 매 회차 새 값)
+        if _LIVE_OFF:
+            entry.pop("lv", None)                 # 확산 신호 저장소 킬스위치(scraper/live_signal.off) = 이미 붙은 lv 도 뗀다(화면·계기판 긴급 술어까지 원복 · 검증 V3)
         entry.pop("seed", None)                   # 피드에 실제로 잡힌 기사 = 씨앗 아님(씨앗 url = 원문 해제 url 이 피드 대표와 같으면 실묶음이 seed 를
         #                                           물려받아 live_seed 가 실후보 0 으로 보고 한 매체 입장분으로 이관하며 실묶음을 지웠다 · 평의회3 260929 재현)
         carry_lb(prev, c, entry, now)             # lb 캐리·스왑 고정(260913 · 위 carry_lb 정본)
@@ -638,8 +641,9 @@ def main():
         if not SOLO_TAG_ON:
             return True
         exc = is_exc_solo(c)
-        if exc and (not SOLO_EXC_ON or c.get("url") in exc_evict or (c.get("grade") is not None and c.get("grade") < 2)):
+        if exc and not c.get("seed") and (not SOLO_EXC_ON or c.get("url") in exc_evict or (c.get("grade") is not None and c.get("grade") < 2)):
             return True   # [단독] 롤백·만석 밀려남·경중 0·1 채점분 = 즉시 정리(긴급 확정분은 위에서 이미 제외 · 뷰어도 경중 0·1 은 숨김)
+            #   ⚠ 구글 뉴스 씨앗은 제외(나이 규칙으로만) — 여기서 먼저 지우면 live_seed 가 판정 결과를 못 보고 매 회차 다시 만들어 15분마다 재판정(검증 V1 = s9)
         sa = _solo_age_h(c.get("published"), c.get("first_seen"), now)
         long_keep = c.get("grade") is not None and not exc   # 24h 보존 = 채점된 속보 단독(배지 역전 차단 · 평의회4) · [단독]은 6h(소비처 없음 · 평의회4 260924)
         return sa is None or sa >= (SOLO_JUDGED_H if long_keep else SOLO_MAX_H)
@@ -683,7 +687,7 @@ def main():
 
     def cut_band(c):   # 컷 순서 4단(높을수록 늦게 잘림) — 정본 주석 = 위 CUT_VISIBLE
         ft = fresh_tier(c)
-        if ft and (is_solo(c) or _urgent(c)):   # 경중 0·1 긴급은 뷰어 isBreaking 거짓(확산 [강] = 참 · _urgent 가 그 짝) = 안 보임 → 3단 아님(평의회4-2)
+        if ft and (is_solo(c) or _urgent(c)):   # 경중 0·1 긴급은 뷰어 isBreaking 거짓(확산 [강] 경중 1 = 참 · _urgent 가 그 짝) = 안 보임 → 3단 아님(평의회4-2)
             return 3
         if ft:
             age = _age_h_first(c.get("published"), c.get("first_seen"))

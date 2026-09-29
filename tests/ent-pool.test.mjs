@@ -57,13 +57,17 @@ test('병합 카드 px = 형제 최댓값 = daily_health.screen_merge 와 같은
 });
 
 test('병합 카드 lv = 형제 중 가장 센 단계 = daily_health.screen_merge 와 같은 값 · 병합 긴급 판정도 같다', () => {   // 평의회260929-2 #4 — 한쪽만 바뀌면 🚨·계기판이 조용히 갈리던 공백
-  const a = {url: 'A', cross: 3, group_id: 'A', breaking: true, grade: 1, lv: {k: 'x', t: 2}}, b = {url: 'B', cross: 2, group_id: 'A', lv: {k: 'x', t: 3, gn: 5}};
+  const a = {url: 'A', cross: 3, group_id: 'A', breaking: true, grade: 1, lv: {k: 'x', t: 2}}, b = {url: 'B', cross: 2, group_id: 'A', breaking: true, lv: {k: 'x', t: 3, gn: 5}};
   const m = V.mergeDecorate(a, [b]);
   const p = py('print(json.dumps([x for x in D.screen_merge(d) if x["url"] == "A"][0]))', [a, b]);
   assert.deepEqual(m.lv, {k: 'x', t: 3, gn: 5});
   assert.deepEqual(m.lv, p.lv);
   assert.equal(V.cum(m), true);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
   assert.equal(V.cum(m), py('print(json.dumps(D._cum_enter(d)))', p));   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
+  const b2 = {...b, breaking: false}, m2 = V.mergeDecorate(a, [b2]);   // 검증 V3 — 긴급 아닌 형제의 [강]은 병합 카드에 안 옮긴다
+  const p2 = py('print(json.dumps([x for x in D.screen_merge(d) if x["url"] == "A"][0]))', [a, b2]);
+  assert.deepEqual(m2.lv, {k: 'x', t: 2});
+  assert.deepEqual(m2.lv, p2.lv);
 });
 
 test('랭킹 = 기존(댐핑) cross · px 무관(연예 가중 0 · 진입에만 쓴다)', () => {

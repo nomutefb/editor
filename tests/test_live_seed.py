@@ -294,7 +294,9 @@ class DupPush(unittest.TestCase):   # 평의회3 260929 — 같은 사건 2발 �
         t = ep("2026-09-29 11:31")
         solo, main = cand("s", "닛몰캐쉬 웹드라마 공개 재검토", t, cross=1), cand("m", "닛몰캐쉬 폭로 파문", t, cross=5)
         self.assertEqual(S._pick([(2, solo), (2, main)], {"u": "s"})["url"], "m")
-        self.assertEqual(S._pick([(2, solo), (2, cand("m2", "닛몰캐쉬 근황", t, cross=2))], {"u": "s"})["url"], "s")
+        self.assertEqual(S._pick([(2, solo), (2, cand("m2", "닛몰캐쉬 근황", t, cross=2))], {"u": "s"})["url"], "m2")   # V7 — 다매체(cross≥2) 우선
+        anon = cand("tvr", "유명 유튜버, 전 연인 폭로에 채널 삭제", t, cross=5)
+        self.assertEqual(S._pick([(2, dict(solo, solo=1)), (1, anon)], {"u": "s"})["url"], "tvr")   # 익명 다매체 대표(멤버 실명) > 자기 제목 적중 [단독]
 
     def test_supersede_keeps_sent_seed_key(self):
         a = {"url": "A", "event_key": "A", "breaking": True, "seed": "gn"}
@@ -410,7 +412,7 @@ class Push(unittest.TestCase):
         self.assertTrue(PS.is_breaking(dict(base, lv={"t": 3})))
         self.assertFalse(PS.is_breaking(dict(base, lv={"t": 2})))
         self.assertFalse(PS.is_breaking({"breaking": True, "grade": None, "lv": {"t": 3}}))   # 미채점 보류 불변
-        self.assertTrue(PS.is_breaking({"breaking": True, "grade": 0, "lv": {"t": 3}}))    # [강] = 경중 무관(채점만 되면) · 평의회260929-2 #8
+        self.assertFalse(PS.is_breaking({"breaking": True, "grade": 0, "lv": {"t": 3}}))   # [강]이어도 경중 0 = 보류(두 번째 AI 층 유지 · 검증 V3·V7)
 
     def test_cross_by_outside_outlets(self):
         self.assertFalse(PS.push_cross_ok({"cross": 1, "title": "닛몰캐쉬 폭로"}))

@@ -212,7 +212,7 @@ class GoogleNews(unittest.TestCase):
         st, t = L.new_state(), ep("2026-09-29 10:31")
         st["k"]["닛몰캐쉬"] = {"d": "닛몰캐쉬", "f": {"C": int(t), "X": int(t)}, "m": {}, "a": int(t - 600)}
         L.gn_poll(st, ["닛몰캐쉬"], t, fetch=lambda q: "", pause=0)
-        self.assertNotIn("닛몰캐쉬", st["gn"])
+        self.assertNotIn("at", st["gn"].get("닛몰캐쉬", {}))            # 결과 캐시 0(실패 시각 ft 만 = 순번 뒤로)
 
     def test_no_poll_after_window(self):
         st, t = L.new_state(), ep("2026-09-29 20:00")
@@ -230,7 +230,10 @@ class GoogleNews(unittest.TestCase):
         t = ep("2026-09-29 10:31")
         st, calls = self._armed(t, ("가나다라", "마바사아", "자차카타")), []
         n = L.gn_poll(st, L.gn_candidates(st, t), t, fetch=lambda q: calls.append(q) or "", pause=0, max_q=6)
-        self.assertEqual((n, len(calls), st["gn"]), (1, 1, {}))
+        self.assertEqual((n, len(calls)), (1, 1))
+        self.assertEqual([k for k, v in st["gn"].items() if "at" in v], [])   # 결과 캐시 0
+        order = L.gn_candidates(st, t + 60)
+        self.assertEqual(order[-1], calls[0])                            # 실패한 이름 = 다음 회차 맨 뒤(뒤 이름 굶주림 0 · V5)
 
     def test_not_novel_is_pinned(self):   # 무장 전 보도 있음 = 이 에피소드 동안 재조회 0(옛 기사가 밀려 「새 사건」으로 뒤집힘 차단)
         armed = ep("2026-09-29 20:00")
@@ -281,6 +284,14 @@ class GoogleNews(unittest.TestCase):
         with um.patch.object(L, "gn_count", return_value=(5, None, None)):
             L.gn_poll(st, ["닛몰캐쉬"], now, fetch=lambda q: "<rss></rss>", pause=0)
         self.assertEqual((st["gn"]["닛몰캐쉬"]["nov"], "cf" in st["k"]["닛몰캐쉬"]), (-1, False))
+
+    def test_one_outlet_many_titles_counts_once(self):   # V5 — 한 매체가 제목 여럿 + 제휴사 그대로 전재 = 1곳
+        now, a = ep("2026-09-29 10:31"), ep("2026-09-29 09:46")
+        it = lambda t, m, h, d: {"title": t + " - " + m, "pub": now - d, "source": "https://" + h, "sname": m, "link": "https://" + h}  # noqa: E731
+        xs = [it("[속보] 닛몰캐쉬 폭로", "뉴시스", "newsis.com", 900), it("닛몰캐쉬 폭로 파문 확산", "뉴시스", "newsis.com", 800),
+              it("닛몰캐쉬 소속사 침묵", "뉴시스", "newsis.com", 700), it("[속보] 닛몰캐쉬 폭로", "파이낸셜뉴스", "fnnews.com", 600),
+              it("닛몰캐쉬 폭로 파문 확산", "국제신문", "kookje.co.kr", 500)]
+        self.assertEqual(L.gn_count(xs, "닛몰캐쉬", now, a)[0], 1)
 
     def test_wire_reprint_counts_once(self):   # 통신사 원문 + 제휴 매체 같은 제목 전재 = 1곳(SBS·경향 연합 전재 원칙과 같음)
         now, a = ep("2026-09-29 10:31"), ep("2026-09-29 09:46")

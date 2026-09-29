@@ -105,14 +105,20 @@ POOL_W = 0.5   # = viewer POOL_W 사본(패리티 = check_refs check_follow_ente
 
 
 def _brk_on(x):
-    """뷰어 isBreaking 파이썬 사본 = breaking ∧ (미채점 ∨ 경중≥2 ∨ 확산 [강] lv.t≥3).
-    확산 [강](scraper/live_signal.py) = 채점기가 제목만 보고 준 경중 0·1(익명 제목 「유명 유튜버」류 · 무명 판단)을 분포 증거가 대신한다
-    (260929 A4/A5 · 긴급 판정기는 꼬리표를 보고 YES 를 냈다 · 평의회260929-2 #8 = 경중 0이면 YES 인데도 화면·푸시에서 빠지던 모순).
+    """뷰어 isBreaking 파이썬 사본 = breaking ∧ (미채점 ∨ 경중≥2 ∨ (경중≥1 ∧ 확산 [강] lv.t≥3)).
+    확산 [강](scraper/live_signal.py) = 채점기가 제목만 보고 준 경중 1(익명 제목 「유명 유튜버」류)을 분포 증거가 대신 올린다(260929 A4/A5).
+    ⚠ 경중 0 은 그대로 막는다 = 콘텐츠·비사건을 거르는 두 번째 AI 층(경중 0 허용은 연예 밖 [강]·콘텐츠 제목까지 열었다 · 검증 V3·V7 재현).
     동작 패리티 = tests/live-signal.test.mjs(뷰어 원문 추출 실행 ↔ 이 함수 · to_candidates._urgent)."""
     g = x.get("grade")
-    lv = x.get("lv")
-    lt = (lv.get("t") or 0) if isinstance(lv, dict) else 0
-    return bool(x.get("breaking")) and (g is None or (g or 0) >= 2 or lt >= 3)
+    return bool(x.get("breaking")) and (g is None or (g or 0) >= 2 or ((g or 0) >= 1 and _lvt(x.get("lv")) >= 3))
+
+
+def _lvt(lv):
+    """확산 단계(lv.t) — 숫자 아님·없음 = 0(문자열 「3」 = 3 · 뷰어 isBreaking 의 느슨한 비교와 같은 결과 · 검증 V3)."""
+    try:
+        return int(lv.get("t") or 0) if isinstance(lv, dict) else 0
+    except (TypeError, ValueError):
+        return 0
 
 
 def _eff_cross(x):
@@ -155,8 +161,8 @@ def screen_merge(cands):
                     "px": max([anchor.get("px") or 0] + [m.get("px") or 0 for m in mem]),   # 부착 풀 매체 수 = 형제 최댓값(viewer mergeDecorate 짝 · 합산 = 중복 셈)
                     "breaking": bool(anchor.get("breaking")) or any(m.get("breaking") for m in mem),
                     "grade": max(grades) if grades else anchor.get("grade"),
-                    "lv": max((x.get("lv") for x in [anchor] + mem if isinstance(x.get("lv"), dict)),
-                              key=lambda v: v.get("t") or 0, default=anchor.get("lv")),   # 확산 증거 = 가장 센 단계 승계(viewer mergeDecorate 짝)
+                    "lv": max((x.get("lv") for x in [anchor] + mem if x.get("breaking") and isinstance(x.get("lv"), dict)),
+                              key=lambda v: _lvt(v), default=anchor.get("lv")),   # 확산 증거 = 긴급 판정 형제 중 가장 센 단계 승계(viewer mergeDecorate 짝 · 검증 V3)
                     "report_count": max([anchor.get("report_count") or 0]
                                         + [(m.get("report_count") or 0) for m in mem]),
                     "_mergeCount": len(mem)}
@@ -444,7 +450,7 @@ def main():
     print(f"  · grade 분포 {{0:{gd.get(0,0)} 1:{gd.get(1,0)} 2:{gd.get(2,0)} 3:{gd.get(3,0)} 미채점:{gd.get(None,0)}}}")
     print(f"  · breaking 확정 {len(brk)}(24h내 {len(brk24)}) · breaking_candidate {bc} · ⬆️저burst승격 {len(promo)}")
     f = "✅" if len(urg) < 8 else "⚠️"
-    print(f"  {f} 현재 🚨긴급자격(isBreaking&채점됨&<4h · 확산 [강]이면 경중 무관) {len(urg)}건"
+    print(f"  {f} 현재 🚨긴급자격(isBreaking&채점됨&<4h · 확산 [강]이면 경중 1도) {len(urg)}건"
           + ("  (←8↑면 긴급 과다 의심)" if len(urg) >= 8 else ""))
     # ⚡이슈 배지 계기판(260702 정적 10 확정·fable 4인 — 캘린더 재측정 폐지의 대가로 지불하는 상시 감시 1줄 · §8 260702)
     #  근사 = viewer issCross의 badgeJunk(정형컷 정규식 4종) 미반영(3본째 미러 회피·±3건) — cross·grade·grade3우회·나이창만.
