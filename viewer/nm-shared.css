@@ -44,3 +44,16 @@ button, input, textarea, select { font-family:inherit; letter-spacing:inherit;} 
    ⚠ 값 창작 0 = thumb 정본 그대로 · ⚠ 유휴 비용 0 = 층은 상주하되 그리기는 변화 시에만(C16·C18 유휴 정숙 무접촉 · 애니 0) ·
    ⚠ 그림이 없는 탭은 요소가 hidden이라 층 자체가 안 생긴다(비용 0). */
 .cpv-bg, .vstage > video { will-change:transform;}   /* 6표면 공용: edit sb k song vd thumb */
+/* 러버밴드 게이지 하네스 = nm-gauge.js 짝(운영자 260929 «게이지 조정 = 편집 메뉴에도 · 하네스 통일» — 유튜브·편집 탭 공용 · kinetics «Rubber-band Slider»)
+   네이티브 range 는 투명하게 위에 얹혀 키보드·포커스만 맡는다(누름·끌기 = 하네스) · 이동 = transform 만 */
+.nm-rbs { position:relative; display:block; flex:1 1 auto; min-width:0; height:32px /* raw-ok: 누름 높이 32 = 옵션 알약(≈30) 동급 */; touch-action:pan-y /* 세로 스와이프 = 페이지 스크롤(게이지가 쌓인 편집 탭 · 손가락이 게이지에서 시작해도 스크롤) */; cursor:pointer; -webkit-tap-highlight-color:transparent; --p:.5;}
+.nm-rbs > .nm-rbs-in { position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; pointer-events:none;}
+.nm-rbs-track { position:absolute; left:0; right:0; top:50%; height:6px /* raw-ok: 트랙 6 = kinetics 원본 비율 */; margin-top:-3px /* raw-ok: 트랙 반 높이 */; border-radius:var(--r-pill); background:rgba(255,255,255,.08) /* raw-ok: 바탕 알파 = 카드 계열 */;}
+.nm-rbs-fill { position:absolute; inset:0; border-radius:inherit; background:var(--accent); transform-origin:left center; transform:scaleX(var(--p));}
+.nm-rbs-knob { position:absolute; left:0; right:0; top:50%; height:0; transform:translateX(calc((var(--p) - 1) * 100%));}
+.nm-rbs-knob::after { content:''; position:absolute; right:-9px /* raw-ok: 손잡이 반지름 */; top:-9px /* raw-ok: 손잡이 반지름 */; width:18px /* raw-ok: 손잡이 18 = kinetics 원본 */; height:18px /* raw-ok: 손잡이 18 */; border-radius:50%; background:var(--fg); box-shadow:0 1px 4px rgba(0,0,0,.45) /* raw-ok: 떠 있는 손잡이 그림자 */; transition:transform var(--dur-fast) ease;}
+.nm-rbs.drag .nm-rbs-knob::after { transform:scale(var(--gauge-pop,1.15));}
+.nm-rbs.snap .nm-rbs-fill, .nm-rbs.snap .nm-rbs-knob { transition:transform .5s cubic-bezier(.34,1.56,.64,1) /* raw-ok: 스프링 복귀 곡선·.5s = kinetics 원본 동값 */;}
+.nm-rbs:has(> .nm-rbs-in:focus-visible) { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:4px /* raw-ok: 포커스 링 간격 */; border-radius:var(--r-s);}
+.nm-rbs:has(> .nm-rbs-in:disabled) { opacity:.4; cursor:default;}
+@media (prefers-reduced-motion:reduce) { .nm-rbs.snap .nm-rbs-fill, .nm-rbs.snap .nm-rbs-knob { transition:none;} .nm-rbs.drag .nm-rbs-knob::after { transform:none;} }

@@ -52,28 +52,20 @@
   .geni-opt { background:none; border:none; padding:6px 7px; font-family:inherit; font-size:var(--fs-label); font-weight:var(--fw-b); color:var(--mut); cursor:pointer; white-space:nowrap; transition:color var(--dur); -webkit-tap-highlight-color:transparent; }   /* raw-ok: index .geni-opt 동일값 계승(padding 6·7) */
   .geni-opt:active { transform:scale(var(--press-m)); }
   .geni-opt.on { color:var(--accent); font-weight:var(--fw-x); }
-  /* 선택 칩 스킨 = 운영자 260928 kinetics «Choice Chip»(비선택 = 테두리 알약 · 선택 = 강조색 채움 · 누름 pop) — 부품은 위 .geni-opt 그대로(복제 0) · 색·간격·모서리 = 토큰 */
-  #opts .geni-opt { flex:none; padding:var(--sp-1) var(--sp-2); border:1px solid var(--line); border-radius:var(--r-pill); color:var(--mut); line-height:1.3; transition:transform .3s cubic-bezier(.34,1.56,.64,1), background-color var(--dur), color var(--dur), border-color var(--dur); }   /* raw-ok: 스프링 곡선·.3s = 원본 choice chip 동값 · lh 1.3 = 알약 높이를 --btn-sm(30) 근처로 */
-  #opts .geni-opt.on { background:var(--accent); border-color:var(--accent); color:var(--on-accent); font-weight:var(--fw-x); }
-  #opts .geni-opt.pop { transform:scale(1.12); }   /* raw-ok: 원본 .chip.pop scale 1.12 동값(누르는 순간 150ms 붙였다 뗀다) */
-  #opts .geni-opt:active { transform:scale(var(--press-m)); }   /* 눌림 = 기존 --press-m 우선(스프링 곡선만 얹힘) */
-  @media (prefers-reduced-motion:reduce) { #opts .geni-opt.pop { transform:none; } }
-  /* ── 한 줄 가로 레일 = sb.html #sbStyle·#sbSub(= index #geniStyle) 값·동작 그대로 · 한 옵션의 칩은 무조건 한 줄(넘치면 가로 슬라이드 + 끝 페이드) ── */
-  .geni-railrow { align-items:center; }
-  .geni-railrow .pub-l { flex:0 0 max(80px, calc(4em + 12px)); }   /* raw-ok: 라벨 고정 칼럼 = sb·index 정본 동값 */
-  .geni-railwrap { flex:1 1 0; min-width:0; display:flex; align-items:center; background:rgba(255,255,255,.03) /* raw-ok: index .geni-railwrap 동값 */; border-radius:var(--r-m); padding:7px 10px /* raw-ok: index 동값 */; }
-  .geni-railwrap.edge { border-left:1px solid var(--line2); padding-left:var(--sp-1); }
-  .geni-rail { flex:1 1 0; min-width:0; flex-wrap:nowrap; justify-content:flex-start; overflow-x:auto; overflow-y:hidden; -ms-overflow-style:none; scrollbar-width:none; cursor:grab; touch-action:pan-x pan-y; --rail-fade:22px; -webkit-mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black calc(100% - var(--rail-fade)),transparent 100%); mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black calc(100% - var(--rail-fade)),transparent 100%); }   /* raw-ok: sb #sbStyle.geni-rail 동값(페이드 22) */
-  .geni-rail::-webkit-scrollbar { display:none; }
-  .geni-rail.grabbing { cursor:grabbing; }
-  .geni-rail.atStart { -webkit-mask-image:linear-gradient(90deg,black 0,black calc(100% - var(--rail-fade)),transparent 100%); mask-image:linear-gradient(90deg,black 0,black calc(100% - var(--rail-fade)),transparent 100%); }
-  .geni-rail.atEnd { -webkit-mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black 100%); mask-image:linear-gradient(90deg,transparent 0,black var(--rail-fade),black 100%); }
-  .geni-rail.atStart.atEnd { -webkit-mask-image:none; mask-image:none; }
-  .geni-navs { display:none; flex:0 0 auto; align-items:center; margin-left:2px /* raw-ok: index 동값 */; }
-  @media (hover:hover) and (pointer:fine) { .geni-navs { display:flex; } }
-  .geni-nav { width:17px /* raw-ok: index .geni-nav 동값 */; height:22px /* raw-ok: index 동값 */; display:grid; place-items:center; background:none; border:none; color:var(--mut); cursor:pointer; padding:0; border-radius:var(--r-s); transition:color var(--dur), background var(--dur); -webkit-tap-highlight-color:transparent; }   /* reuse-ok: 계승원 = index·sb .geni-nav */
-  .geni-nav svg { width:11px /* raw-ok: index 동값 */; height:11px /* raw-ok: index 동값 */; }
-  .geni-nav[disabled] { opacity:.28; pointer-events:none; }
+  /* 선택 = kinetics «Snap Rail»(운영자 260929 «선택 요소를 snap rail 로 통일») — 트랙 안 같은 폭 칸 + 선택 알약이 스프링으로 미끄러진다
+     원본 동값 = 트랙 안쪽 여백 4 · 알약 폭 (100% − 8px)/칸 수 · translateX(칸 번호 × 100%) · .45s cubic-bezier(.34,1.56,.64,1) · 이동 = transform 만
+     부품 = 위 .geni-opt 그대로(복제 0 · 클릭 배선·data-v 동일) · 알약 = 강조색 채움(구 선택 칩과 같은 선택 문법) · 칸 = 한 줄(넘치면 말줄임) */
+  .snaprow { align-items:center; }
+  .snaprow .pub-l { flex:0 0 60px; }   /* raw-ok: 라벨 열 60 = 게이지 행·목소리 선택 행과 한 세로선 */
+  #opts .snap { position:relative; flex:1 1 0; min-width:0; max-width:calc(var(--n) * 150px); margin-right:auto; display:flex; flex-wrap:nowrap; gap:0; padding:4px; border:1px solid var(--line); border-radius:var(--r-pill); background:rgba(255,255,255,.03); }   /* raw-ok: 안쪽 4 = kinetics 원본 · 칸당 최대 150 = 넓은 화면에서 칸이 늘어지지 않게 · 바탕 알파 = 구 레일 틀 동값 */
+  #opts .snap::before { content:''; position:absolute; top:4px; bottom:4px; left:4px; width:calc((100% - 8px) / var(--n)); border-radius:var(--r-pill); background:var(--accent); transform:translateX(calc(var(--i) * 100%)); transition:transform .45s cubic-bezier(.34,1.56,.64,1); }   /* raw-ok: 4 = 트랙 안쪽 여백 · .45s 스프링 = kinetics Snap Rail 원본 동값 */
+  #opts .snap.none::before { opacity:0; }
+  #opts .snap .geni-opt { position:relative; z-index:1; flex:1 1 0; min-width:0; padding:var(--sp-1) 6px; border:0; border-radius:var(--r-pill); background:none; color:var(--mut); line-height:1.3; overflow:hidden; text-overflow:ellipsis; transition:color var(--dur), transform .3s cubic-bezier(.34,1.56,.64,1); }   /* raw-ok: 좌우 6 = 4칸 행이 폰에서 한 줄에 들도록 · lh 1.3 = 알약 높이 ≈ --btn-sm */
+  #opts .snap .geni-opt.on { color:var(--on-accent); font-weight:var(--fw-x); background:none; }
+  #opts .snap .geni-opt:active { transform:scale(var(--press-m)); }
+  @media (hover:hover) { #opts .snap .geni-opt:not(.on):hover { color:var(--fg); } }
+  @media (max-width:520px) { .snaprow[data-wide] { flex-wrap:wrap; row-gap:var(--sp-1); } .snaprow[data-wide] .pub-l { flex-basis:100%; } .snaprow[data-wide] .snap { flex-basis:100%; max-width:none; } }   /* raw-ok: 폰 = 칸이 좁은 행(4칸 · 3칸 중 6자 이상)만 라벨 아래 전체 폭 = 말줄임 0(「모션 그래픽」·「나눔바른고딕」 한 줄) */
+  @media (prefers-reduced-motion:reduce) { #opts .snap::before { transition:none; } }
   /* ── 자막 설정 = 접이 카드(edit .scard > .hd[.nm · .sum] + .prm 정본 동값) · 헤더 = 버튼 한 개(카드 전체가 눌린다) ── */
   .scard { margin-top:var(--sp-2); border:1px solid rgba(255,255,255,.06); border-radius:var(--r-s); background:rgba(255,255,255,.015); }   /* raw-ok: edit·thumb .scard 정본 동값 */
   .scard .hd { display:flex; align-items:center; gap:9px; width:100%; margin:0; padding:8px 13px; background:none; border:0; color:var(--fg); font-family:inherit; text-align:left; cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent; }   /* raw-ok: edit .scard .hd 정본 동값(gap 9 · 8/13) */
@@ -88,7 +80,6 @@
   .scard .acc-in { min-height:0; overflow:hidden; visibility:hidden; transition:visibility 0s linear .45s; }   /* raw-ok: visibility 지연 .45s = 아코디언 닫힘 곡선(.acc .45s)과 동값 · 접힘 = 닫힘 애니 뒤 숨김(잘린 컨트롤이 탭 포커스·히트 측정에 남지 않게 · smoke_hitzone H1 실측 봉합) */
   .scard.open > .acc > .acc-in, .vfold.open > .acc > .acc-in { visibility:visible; transition-delay:0s; }   /* raw-ok: 펼침은 지연 0 = 즉시 보임 */
   @media (prefers-reduced-motion:reduce) { .scard .acc, .scard .acc-in { transition:none; } }
-  .scard .prm .geni-railrow .pub-l { flex-basis:60px; }   /* raw-ok: 카드 안 라벨 열 = edit .grow 라벨 열 60 동값(행 라벨 한 세로선) */
   .status { margin-top:var(--sp-1); font-size:var(--fs-xs); color:var(--mut); white-space:pre-wrap; line-height:var(--lh-base); }
   .status:empty { display:none; }
   .status.err { color:var(--danger); }
@@ -181,8 +172,8 @@
   /* 이 탭 버튼 눌림 = kinetics press 스프링(운영자 260928) — 눌림 크기는 토큰(--press-m) · 되돌아올 때만 스프링 · reduced-motion = 토큰이 1로 무효화 */
   .go { transition:transform .5s cubic-bezier(.34,1.56,.64,1), background var(--dur) ease, border-color var(--dur) ease; }   /* raw-ok: press 스프링 복귀 곡선·.5s = kinetics 원본 동값 */
   .go:active { transform:scale(var(--press-m)); transition:transform .08s ease-out; }   /* raw-ok: 눌림 .08s = 원본 동값 */
-  .vplay, .vpick, .geni-nav, .job .jdl, .job .jdel { transition:transform .5s cubic-bezier(.34,1.56,.64,1), color var(--dur), background var(--dur), border-color var(--dur); }   /* raw-ok: 위 press 스프링 동값 */
-  .vplay:active, .vpick:active, .geni-nav:active, .job .jdl:active, .job .jdel:active { transform:scale(var(--press-m)); transition:transform .08s ease-out; }   /* raw-ok: 눌림 .08s = kinetics press 원본 동값 */
+  .vplay, .vpick, .job .jdl, .job .jdel { transition:transform .5s cubic-bezier(.34,1.56,.64,1), color var(--dur), background var(--dur), border-color var(--dur); }   /* raw-ok: 위 press 스프링 동값 */
+  .vplay:active, .vpick:active, .job .jdl:active, .job .jdel:active { transform:scale(var(--press-m)); transition:transform .08s ease-out; }   /* raw-ok: 눌림 .08s = kinetics press 원본 동값 */
   .scard .chev, .tk-chev { transition:transform .5s cubic-bezier(.34,1.56,.64,1); }   /* raw-ok: 위 press 스프링 동값(접기 v = 헤더 전체가 버튼이라 눌림은 v 글리프에만) */
   .scard .hd:active .chev, .tk-h:active .tk-chev { transform:scale(var(--press-m)); transition:transform .08s ease-out; }   /* raw-ok: 눌림 .08s = kinetics press 원본 동값 */
   .opts { margin-top:var(--sp-1); }
@@ -197,24 +188,16 @@
   .ysmac[data-st="login"] { color:var(--warn); }
   .ysmac[data-st="login"] .ysmac-dot { background:var(--warn); opacity:1; box-shadow:0 0 6px rgba(var(--warn-rgb),.4); }   /* raw-ok: 경고 톤 글로우 = 위 강조 글로우의 한 단 약한 판 */
   /* ElevenLabs 목소리 목록(운영자 260928 «음성 임의 선택») = 고급 음성일 때만 · 행 = vd 기사 행(.vdrow) 기하·선택 문법 계승 · 많으면 목록 안 스크롤 */
-  .vfold .vfh { display:flex; align-items:center; gap:9px; width:100%; margin:0; padding:8px 0; background:none; border:0; color:var(--fg); font-family:inherit; text-align:left; cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent; }   /* raw-ok: edit .scard .hd 정본 동값(gap 9 · 세로 8) · 좌우 0 = 카드 안 행(.geni-railrow)과 한 세로선 */
-  .vfold .vfh .pub-l { flex:0 0 60px; }   /* raw-ok: 라벨 열 60 = 위 .scard .prm .geni-railrow .pub-l 동값 */
+  .vfold .vfh { display:flex; align-items:center; gap:9px; width:100%; margin:0; padding:8px 0; background:none; border:0; color:var(--fg); font-family:inherit; text-align:left; cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent; }   /* raw-ok: edit .scard .hd 정본 동값(gap 9 · 세로 8) · 좌우 0 = 카드 안 행(.snaprow)과 한 세로선 */
+  .vfold .vfh .pub-l { flex:0 0 60px; }   /* raw-ok: 라벨 열 60 = 스냅 레일 행(.snaprow .pub-l) 동값 */
   .vfold .vfh .sum { color:var(--mut); font-size:var(--fs-xs); margin-left:auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .vfold .vfh .chev { width:14px; height:14px; flex:none; fill:none; stroke:var(--mut); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }   /* raw-ok: .scard .chev 동값 */
   .vfold .vfh:active .chev { transform:scale(var(--press-m)); transition:transform .08s ease-out; }   /* raw-ok: 눌림 .08s = kinetics press 원본 동값 */
-  /* 러버밴드 게이지 = kinetics «Rubber-band Slider» 원본 동작(운영자 260929) — 끝을 넘겨 끌면 넘친 거리 ×.32 만 따라가고, 놓으면 .5s 스프링으로 제자리.
-     이동 = transform 만(채움 scaleX · 손잡이 translateX = 레이아웃 전환 0) · 값 = 0~100 정수 · 두 번 누르기 = 기본값 */
+  /* 게이지 = 공용 하네스 nm-gauge.js + nm-shared.css「.nm-rbs」(운영자 260929 «하네스 통일» — 편집 탭과 같은 부품) · 두 번 누르기 = 기본값(data-def) */
   .rbrow { align-items:center; }
-  .rbrow .pub-l { flex:0 0 60px; }   /* raw-ok: 라벨 열 60 = .scard .prm .geni-railrow .pub-l 동값(게이지 시작 = 레일 시작 세로선) */
-  .rbs { position:relative; flex:1; min-width:0; height:32px; margin:0 var(--sp-1) 0 0; touch-action:none; cursor:pointer; -webkit-tap-highlight-color:transparent; --p:.5; }   /* raw-ok: 누름 높이 32 = 옵션 알약(≈30) 동급 */
-  .rbs-track { position:absolute; left:0; right:0; top:50%; height:6px; margin-top:-3px; border-radius:var(--r-pill); background:rgba(255,255,255,.08); }   /* raw-ok: 트랙 6 = kinetics 원본 비율 · 바탕 알파 = 카드 계열 */
-  .rbs-fill { position:absolute; inset:0; border-radius:inherit; background:var(--accent); transform-origin:left center; transform:scaleX(var(--p)); }
-  .rbs-knob { position:absolute; left:0; right:0; top:50%; height:0; transform:translateX(calc((var(--p) - 1) * 100%)); }
-  .rbs-knob::after { content:''; position:absolute; right:-9px; top:-9px; width:18px; height:18px; border-radius:50%; background:var(--fg); box-shadow:0 1px 4px rgba(0,0,0,.45); transition:transform var(--dur-fast) ease; }   /* raw-ok: 손잡이 18 = kinetics 원본 · 그림자 = 떠 있는 손잡이 */
-  .rbs.drag .rbs-knob::after { transform:scale(var(--gauge-pop)); }
-  .rbs.snap .rbs-fill, .rbs.snap .rbs-knob { transition:transform .5s cubic-bezier(.34,1.56,.64,1); }   /* raw-ok: 스프링 복귀 곡선·.5s = kinetics 원본 동값 */
-  .rbs:focus-visible { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:4px; border-radius:var(--r-s); }
-  .rbs-val { flex:0 0 44px; text-align:right; font-size:var(--fs-xs); font-weight:var(--fw-b); color:var(--mut); font-variant-numeric:tabular-nums; }   /* raw-ok: 값 칸 44 = 「100%」·「중앙」 한 폭 */
+  .rbrow .pub-l { flex:0 0 60px; }   /* raw-ok: 라벨 열 60 = 스냅 레일 행 라벨 열 동값(게이지 시작 = 레일 시작 세로선) */
+  .rbrow .nm-rbs { margin-right:var(--sp-1); }
+  .rbs-val { flex:0 0 44px; text-align:right; font-size:var(--fs-xs); font-weight:var(--fw-x); color:var(--accent); font-variant-numeric:tabular-nums; }   /* raw-ok: 값 칸 44 = 편집 .grow 값 열 동값 · 값 = 강조색(운영자 260929 «% 수치는 강조색으로» = 편집 .grow .v 정본 동값) */
   .vlist { display:flex; flex-direction:column; gap:var(--sp-1); max-height:calc(var(--btn) * 5); overflow:auto; margin:0 0 var(--sp-1); overscroll-behavior:contain; }
   .vrow { flex:none; display:flex; align-items:stretch; border-radius:var(--r-m); background:rgba(8,15,11,.34); border:1px solid var(--line); transition:border-color var(--dur), background var(--dur); }   /* raw-ok: vd .vdrow 면 동값 */
   .vrow.on { border-color:rgba(var(--accent-rgb),.5); background:rgba(var(--accent-rgb),.06); }
@@ -342,7 +325,7 @@
 
     <div class="ysec">
       <div class="phead">옵션</div>
-      <div class="opts" id="opts"><!-- 옵션 행 = sb·index 「화풍」 한 줄 가로 레일(.geni-railrow > .geni-railwrap.edge > .geni-opts.geni-rail + .geni-navs) 계승 · 행은 buildOpts()가 그린다 --></div>
+      <div class="opts" id="opts"><!-- 옵션 행 = kinetics «Snap Rail»(.snaprow > .geni-opts.snap > .geni-opt) + 게이지(nm-gauge.js) · 행은 buildOpts()가 그린다 --></div>
       <div class="status" id="optMsg" aria-live="polite"></div>
     </div>
 
@@ -375,6 +358,7 @@
 
 <script src="nm-svg.js"></script><!-- 공유 아이콘 SSOT -->
 <script src="nm-loader.js"></script><!-- 빛 스윕(.nm-shim) 도료 SSOT -->
+<script src="nm-gauge.js"></script><!-- 러버밴드 게이지 하네스 SSOT(편집 탭과 공용 · 운영자 260929 «하네스 통일») -->
 <script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(attachCopyPaste) -->
 <script src="nm-rail.js" data-scope="cap" data-dlname="short.mp4" data-anchor="#ysRail" data-jobkey="ys_jobs"></script><!-- 결과·이전 제작 레일 부품 SSOT(영상 5탭 공용 이력 nomute_cap_hist) -->
 <script src="nm-jobs.js"></script><!-- 여러 작업 동시 추적 SSOT -->
@@ -428,12 +412,12 @@ function loadPvFont(k) {
     const p = document.createElement('link'); p.rel = 'preconnect'; p.href = h; if (co) p.crossOrigin = co; document.head.appendChild(p); }); }
   const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=' + f.gf + '&display=swap'; document.head.appendChild(l);
 }
-/* ── 옵션 행 빌드 = 레일 행(sb·index 화풍 레일 마크업 그대로) ── */
-const NAV_SVG = d => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>';
-function railRow(k, label, items) {
-  return '<div class="geni-row geni-railrow"><span class="pub-l">' + esc(label) + '</span><div class="geni-railwrap edge"><span class="geni-opts geni-rail" data-k="' + k + '" role="group" aria-label="' + esc(label) + '">'
-    + items.map(([v, t, x]) => '<button type="button" class="geni-opt" data-v="' + esc(v) + '"' + (x || '') + '>' + esc(t) + '</button>').join('')
-    + '</span><div class="geni-navs"><button type="button" class="geni-nav" data-dir="-1" aria-label="이전">' + NAV_SVG('M15 6l-6 6 6 6') + '</button><button type="button" class="geni-nav" data-dir="1" aria-label="다음">' + NAV_SVG('M9 6l6 6-6 6') + '</button></div></div></div>';
+/* ── 옵션 행 빌드 = kinetics «Snap Rail»(운영자 260929) — 같은 폭 칸 + 선택 알약 · 칸 수 = --n · 선택 칸 = --i(paintOpts) ── */
+function railRow(k, label, items) {   // 칸이 좁은 행(4칸 · 3칸 중 6자 이상) = 폰에서 라벨 아래 전체 폭(data-wide)
+  const wide = items.length >= 4 || (items.length >= 3 && items.some(it => String(it[1]).length >= 6));   // 2칸 = 칸이 넓어 긴 글자도 한 줄
+  return '<div class="geni-row snaprow" data-n="' + items.length + '"' + (wide ? ' data-wide' : '') + '><span class="pub-l">' + esc(label) + '</span><div class="geni-opts snap" data-k="' + k + '" role="radiogroup" aria-label="' + esc(label) + '" style="--n:' + items.length + ';--i:0">'
+    + items.map(([v, t, x]) => '<button type="button" class="geni-opt" role="radio" aria-checked="false" data-v="' + esc(v) + '"' + (x || '') + '>' + esc(t) + '</button>').join('')
+    + '</div></div>';
 }
 function accCard(id, name, inner) {   // 카테고리 아코디언 = edit .scard(.hd · .nm · .sum · .prm) 정본 + 펼침 = kinetics Accordion Spring(grid 0fr→1fr) · v = morphicons chevron 모핑
   return '<div class="scard" id="' + id + 'Card" data-acc="' + id + '"><button type="button" class="hd" aria-expanded="false" aria-controls="' + id + 'Acc"><span class="nm">' + esc(name) + '</span><span class="sum" id="' + id + 'Sum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
@@ -441,9 +425,9 @@ function accCard(id, name, inner) {   // 카테고리 아코디언 = edit .scard
 }
 /* 게이지 값 표기 · 기본값 — 위치 65% = 「중앙」(운영자 260929 «중앙 아래 65% 를 중앙이라고 할게») · 배경 = 검정 불투명도(기본 100%) */
 const GAUGE = { cap: { def: 65, fmt: v => v === 65 ? '중앙' : v + '%' }, subop: { def: 100, fmt: v => v + '%' } };
-function gaugeRow(k, label) {
-  return '<div class="geni-row rbrow"><span class="pub-l">' + esc(label) + '</span><div class="rbs" data-k="' + k + '" role="slider" tabindex="0" aria-label="' + esc(label) + '" aria-valuemin="0" aria-valuemax="100">'
-    + '<div class="rbs-track"><div class="rbs-fill"></div></div><div class="rbs-knob"></div></div><span class="rbs-val" data-for="' + k + '"></span></div>';
+function gaugeRow(k, label) {   // 네이티브 range + 공용 하네스(nm-gauge.js 가 러버밴드를 덧입힌다 · 키보드·접근성 = 네이티브)
+  return '<div class="geni-row rbrow"><span class="pub-l">' + esc(label) + '</span><input type="range" data-nmg data-k="' + k + '" data-def="' + GAUGE[k].def + '" min="0" max="100" step="1" value="' + GAUGE[k].def + '" aria-label="' + esc(label) + '">'
+    + '<span class="rbs-val" data-for="' + k + '"></span></div>';
 }
 function buildOpts() {
   $('#opts').innerHTML = accCard('voc', '음성 설정', railRow('voice', '목소리', [['edge', '무료 음성'], ['eleven', '고급 음성', ' title="ElevenLabs"']])
@@ -474,10 +458,11 @@ opts.el_voice = '';   // 기본 = 자동(AI가 영상마다 계정 목소리 중
 function paintOpts() {
   document.querySelectorAll('#opts .geni-opts').forEach(g => {
     const k = g.dataset.k;
-    g.querySelectorAll('.geni-opt').forEach(b => { const on = b.dataset.v === opts[k]; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
+    const bs = [...g.querySelectorAll('.geni-opt')], i = bs.findIndex(b => b.dataset.v === opts[k]);
+    bs.forEach((b, n) => { const on = n === i; b.classList.toggle('on', on); b.setAttribute('aria-checked', String(on)); b.tabIndex = on || (i < 0 && n === 0) ? 0 : -1; });
+    g.style.setProperty('--i', String(Math.max(0, i))); g.classList.toggle('none', i < 0);   // 알약 = 선택 칸으로 스프링 이동(Snap Rail)
   });
   paintSums(); Object.keys(GAUGE).forEach(paintGauge);
-  document.querySelectorAll('#opts .geni-rail').forEach(railUpd);
   paintSpec(); paintImgNote(); paintVoices();
 }
 function paintSums() {   // 접힌 줄 오른쪽 = 현재 값 요약(작게)
@@ -488,40 +473,14 @@ function paintSums() {   // 접힌 줄 오른쪽 = 현재 값 요약(작게)
   $('#subSum').textContent = FONTS[opts.font].lbl + ' · ' + GAUGE.cap.fmt(+opts.cap);
   $('#subFoldSum').textContent = '배경 ' + GAUGE.subop.fmt(+opts.subop);
 }
-/* ── 레일 동작 = sb.html railUpd/railSetup(= index geniRailUpd/geniRailSetup) 그대로 ── */
-const railUpd = rail => {
-  if (!rail) return;
-  const max = rail.scrollWidth - rail.clientWidth, sl = rail.scrollLeft;
-  const atS = sl <= 1, atE = max <= 1 || sl >= max - 1;
-  rail.classList.toggle('atStart', atS); rail.classList.toggle('atEnd', atE);
-  const wrap = rail.closest('.geni-railwrap');
-  if (wrap) { const nv = wrap.querySelectorAll('.geni-nav'); if (nv[0]) nv[0].disabled = atS; if (nv[1]) nv[1].disabled = atE; }
-};
-const railSetup = rail => {
-  if (!rail || rail._railSet) return; rail._railSet = true;
-  let down = false, moved = false, sx = 0, sl = 0;
-  rail.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = false; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('grabbing'); });
-  rail.addEventListener('pointermove', e => { if (!down) return; const dx = e.clientX - sx; if (Math.abs(dx) > 4) moved = true; rail.scrollLeft = sl - dx; });
-  const end = () => { down = false; rail.classList.remove('grabbing'); };
-  rail.addEventListener('pointerup', end); rail.addEventListener('pointerleave', end);
-  rail.addEventListener('click', e => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
-  rail.addEventListener('scroll', () => railUpd(rail), { passive: true });
-  const wrap = rail.closest('.geni-railwrap');
-  if (wrap) wrap.querySelectorAll('.geni-nav').forEach(btn => btn.addEventListener('click', () => rail.scrollBy({ left: (+btn.dataset.dir) * Math.max(110, rail.clientWidth * 0.7), behavior: 'smooth' })));
-  railUpd(rail);
-};
-document.querySelectorAll('#opts .geni-rail').forEach(railSetup);
-window.addEventListener('resize', () => { document.querySelectorAll('#opts .geni-rail').forEach(railUpd); });
 /* ── 자막 설정 접이 = 헤더 한 줄 + v(morphicons chevron-down↔up) ── */
 /* ── 카테고리 아코디언 여닫기 = v 버튼 = morphicons chevron-down↔up 모핑 하나로 통일(회전 chevron 금지 · 운영자 260928) ── */
 document.querySelectorAll('#opts .scard[data-acc]').forEach(card => {
   const hd = card.querySelector('.hd'), acc = card.querySelector('.acc'), chev = mk(card.querySelector('.chev path'), D.chevDown);
-  const fit = () => { card.querySelectorAll('.geni-rail').forEach(railUpd); };
   hd.addEventListener('click', () => {
     const open = !card.classList.contains('open');
     card.classList.toggle('open', open); hd.setAttribute('aria-expanded', String(open)); chev.to(open ? D.chevUp : D.chevDown);
     if (open) acc.removeAttribute('inert'); else acc.setAttribute('inert', '');
-    fit(); setTimeout(fit, 480);   // 펼침 전이(.45s) 뒤 한 번 더 = 레일 끝 페이드·게이지 폭 재계산
   });
 });
 { const f = $('#elvFold'), h = f.querySelector('.vfh'), a = f.querySelector('.acc'), cv = mk(h.querySelector('.chev path'), D.chevDown);
@@ -581,39 +540,30 @@ $('#elvList').addEventListener('click', e => {
 $('#opts').addEventListener('click', e => {
   const b = e.target.closest('.geni-opt'); if (!b) return;
   const k = b.closest('.geni-opts').dataset.k; if (!OKV[k] || !OKV[k].includes(b.dataset.v)) return;
-  b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); setTimeout(() => b.classList.remove('pop'), 150);   // pop = 150ms 붙였다 뗀다(스프링 곡선으로 복귀)
   opts[k] = b.dataset.v;
   if (k === 'font') loadPvFont(opts.font);
   saveOpts();
   paintOpts();
 });
+$('#opts').addEventListener('keydown', e => {   // 스냅 레일 = 라디오 문법(← → 로 칸 이동 · 선택 = 이동과 동시)
+  const b = e.target.closest && e.target.closest('.snap .geni-opt'); if (!b) return;
+  const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (!d) return;
+  const bs = [...b.parentElement.querySelectorAll('.geni-opt')], nb = bs[(bs.indexOf(b) + d + bs.length) % bs.length];
+  e.preventDefault(); nb.click(); nb.focus();
+});
 function saveOpts() { try { localStorage.setItem(OKEY, JSON.stringify(opts)); } catch (e) {} }
 function paintGauge(k) {
-  const el = document.querySelector('#opts .rbs[data-k="' + k + '"]'); if (!el) return;
+  const el = document.querySelector('#opts input[data-nmg][data-k="' + k + '"]'); if (!el) return;
   const v = +opts[k], t = GAUGE[k].fmt(v);
-  if (!el.classList.contains('drag')) el.style.setProperty('--p', String(v / 100));
-  el.setAttribute('aria-valuenow', String(v)); el.setAttribute('aria-valuetext', t);
+  if (+el.value !== v) el.value = String(v);   // 하네스가 value 접근자를 감싸 그림도 따라간다
+  el.setAttribute('aria-valuetext', t);
   const lab = document.querySelector('#opts .rbs-val[data-for="' + k + '"]'); if (lab) lab.textContent = t;
 }
-function gaugeSet(k, v, snap) {
-  opts[k] = Math.max(0, Math.min(100, Math.round(v)));
-  const el = document.querySelector('#opts .rbs[data-k="' + k + '"]');
-  if (snap && el) { el.classList.add('snap'); clearTimeout(el._sn); el._sn = setTimeout(() => el.classList.remove('snap'), 520); }
-  paintGauge(k); paintSums();
-}
-$('#opts').querySelectorAll('.rbs').forEach(el => {   // kinetics 러버밴드 — 끝 넘김 = 넘친 거리 ×.32 · 놓으면 스프링 복귀
-  const k = el.dataset.k; let on = false;
-  const move = x => { const r = el.getBoundingClientRect(), raw = (x - r.left) / (r.width || 1), c = Math.min(1, Math.max(0, raw));
-    el.style.setProperty('--p', String(c + (raw - c) * .32)); gaugeSet(k, c * 100, false); };
-  el.addEventListener('pointerdown', e => { on = true; try { el.setPointerCapture(e.pointerId); } catch (x) {} el.classList.remove('snap'); el.classList.add('drag'); move(e.clientX); });
-  el.addEventListener('pointermove', e => { if (on) move(e.clientX); });
-  const end = () => { if (!on) return; on = false; el.classList.remove('drag'); gaugeSet(k, opts[k], true); saveOpts(); };
-  el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
-  el.addEventListener('keydown', e => { const st = e.shiftKey ? 10 : 1, cur = +opts[k];
-    const nv = { ArrowRight: cur + st, ArrowUp: cur + st, ArrowLeft: cur - st, ArrowDown: cur - st, Home: 0, End: 100 }[e.key];
-    if (nv === undefined) return; e.preventDefault(); gaugeSet(k, nv, true); saveOpts(); });
-  el.addEventListener('dblclick', () => { gaugeSet(k, GAUGE[k].def, true); saveOpts(); });   // 두 번 누르기 = 기본값(위치 65 「중앙」 · 배경 100%)
+$('#opts').addEventListener('input', e => {   // 게이지 = 공용 하네스(끌기·키보드·두 번 누르기 = 기본값) → 값·요약만 여기서
+  const g = e.target.closest && e.target.closest('input[data-nmg][data-k]'); if (!g || !GAUGE[g.dataset.k]) return;
+  opts[g.dataset.k] = Math.max(0, Math.min(100, Math.round(+g.value))); paintGauge(g.dataset.k); paintSums();
 });
+$('#opts').addEventListener('change', e => { if (e.target.closest && e.target.closest('input[data-nmg][data-k]')) saveOpts(); });
 { const f = $('#subFold'), h = f.querySelector('.vfh'), a = f.querySelector('.acc'), cv = mk(h.querySelector('.chev path'), D.chevDown);
   h.addEventListener('click', () => { const open = !f.classList.contains('open'); f.classList.toggle('open', open); h.setAttribute('aria-expanded', String(open)); cv.to(open ? D.chevUp : D.chevDown);
     if (open) a.removeAttribute('inert'); else a.setAttribute('inert', ''); }); }   // 자막 세부 설정 = 목소리 선택과 같은 접이(기본 접힘)

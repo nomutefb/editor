@@ -42,6 +42,7 @@
 
 ## 공용 부품 색인
 - `viewer/nm-clip.js`
+- `viewer/nm-gauge.js`
 - `viewer/nm-jobs.js`
 - `viewer/nm-loader.js`
 - `viewer/nm-models.js`

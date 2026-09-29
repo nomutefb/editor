@@ -322,7 +322,33 @@ class GrokFallbacks(unittest.TestCase):
         self.assertEqual(v['modes'], {'t2v': 2})
         t2v = [x for x in sent if not x.get('refs')]
         self.assertTrue(any(x['prompt'].startswith('The protagonist is Korean man') for x in t2v))
-        self.assertLessEqual(sum(1 for x in sent if x.get('refs')), 2)                  # 거절 뒤 남은 장면은 참조 없이 바로
+        self.assertLessEqual(sum(1 for x in sent if x.get('refs')), 3)                  # 거절 칸은 공용 표지 = 같은 거절 반복 0
+        self.assertIn('400 bad reference', v['ref_err'])                                  # 첫 거절 사유가 남는다
+
+    def test_rejected_bytes_retry_as_public_url(self):
+        class Rej(Exception):
+            where = 'video-start'
+
+        def start(prompt, k):   # 본문 적재(바이트) = 몸집 거절 · 공개 주소 = 통과(예전 콘티 레인 바이트↔주소 전환)
+            if k.get('refs') and not all(isinstance(x, str) for x in k['refs']):
+                raise Rej('413 payload too large')
+        with mock.patch.dict(os.environ, {'R2_PUBLIC_BASE': 'https://pub.example'}):
+            sent, v = self.run_main({'board.png': None, 'hero.png': None}, start)
+        self.assertEqual((v['used'], v['modes']), (2, {'r2v': 2}))
+        self.assertEqual(set(v['ref_how'].values()), {'url'})
+        url_refs = [x['refs'] for x in sent if x.get('refs') and isinstance(x['refs'][0], str)]
+        self.assertIn(['https://pub.example/ys_img/%s/hero.png' % ID, 'https://pub.example/ys_img/%s/board.png' % ID], url_refs)
+
+    def test_two_refs_rejected_then_hero_only(self):
+        class Rej(Exception):
+            where = 'video-start'
+
+        def start(prompt, k):   # 두 장 = 거절 · 한 장 = 통과
+            if k.get('refs') and len(k['refs']) > 1:
+                raise Rej('400 too many references')
+        sent, v = self.run_main({'board.png': None, 'hero.png': None}, start)
+        self.assertEqual(v['modes'], {'r2v': 2})
+        self.assertEqual(v['ref_how'].get('0'), 'bytes·1장')
 
     def test_i2v_uses_script_motion_only(self):
         sent, v = self.run_main({'s0.png': None, 's1.png': None})

@@ -5067,6 +5067,46 @@ def check_label_fill():
     return 0
 
 
+def check_gauge_harness():
+    """러버밴드 게이지 하네스 SSOT 게이트(운영자 260929 «게이지 조정 = 편집 메뉴에도 · 하네스 통일»).
+    정본 = viewer/nm-gauge.js(input[type=range][data-nmg] 자동 장착) + viewer/nm-shared.css「.nm-rbs」.
+    규칙 = 대상 표면(유튜브 ys · 편집 edit)의 설정 게이지 range 는 전부 data-nmg · 두 표면 모두 nm-gauge.js 로드 · 모양 규칙은 공용 CSS 에만.
+    스크럽 바(재생 위치 #scrubT)는 게이지가 아니라 대상 밖. 이 게이트가 막는 사고 = 한 탭만 다른 게이지로 조용히 갈라지는 것."""
+    SURF = ('viewer/ys.html', 'viewer/edit.html')
+    EXEMPT = ('id="scrubT"',)
+    bad = []
+
+    def _t(rel):
+        with open(os.path.join(ROOT, rel), encoding='utf-8') as fh:
+            return fh.read()
+    try:
+        css = _t('viewer/nm-shared.css')
+        if '.nm-rbs-fill' not in css or '.nm-rbs-knob' not in css:
+            bad.append('nm-shared.css 에 .nm-rbs 규칙 없음')
+        if 'window.nmGauge' not in _t('viewer/nm-gauge.js'):
+            bad.append('viewer/nm-gauge.js 정본 없음')
+        for f in SURF:
+            src = _t(f)
+            if '<script src="nm-gauge.js"></script>' not in src:
+                bad.append('%s — nm-gauge.js 미로드' % f)
+            for ln_no, ln in enumerate(src.splitlines(), 1):
+                for m in re.finditer(r'<input[^>]*type="range"[^>]*>', ln):
+                    tag = m.group(0)
+                    if 'data-nmg' not in tag and not any(x in tag for x in EXEMPT):
+                        bad.append('%s:%d — 하네스 밖 게이지: %s' % (f, ln_no, tag[:70]))
+            if re.search(r'^\s*\.nm-rbs-(track|fill|knob)\s*\{', src, re.M):
+                bad.append('%s — .nm-rbs 모양 규칙 사본(공용 CSS 에만)' % f)
+    except Exception as e:  # noqa: BLE001
+        print('⚠️ check_gauge_harness 스킵:', e); return 0
+    if bad:
+        print('❌ 게이지 하네스 게이트 — 유튜브·편집 탭 게이지 = nm-gauge.js 한 벌(운영자 260929 «하네스 통일»):')
+        for b in bad[:8]:
+            print('   ·', b)
+        return 1
+    print('✅ 게이지 하네스 게이트 — 유튜브·편집 탭 설정 게이지 전건 nm-gauge.js 장착(data-nmg) · 모양 = nm-shared.css 단일(스크럽 바 제외).')
+    return 0
+
+
 def check_loader_ssot():
     """로딩 표기 SSOT 게이트(운영자 260723 Q461 — "전역 앱 세션에서 정해진 로딩만 쓰도록").
     정본 = viewer/nm-loader.js window.nmLoader(type,label[,opts]) · **그래픽 1종(통통 튀는 도트3 · 운영자 260731 단일화)**·라벨 4개(Now loading/Thinking/Solving/Prompting = data-orb 의미 라벨).
@@ -11064,6 +11104,11 @@ def main():
             rc = 1
     except Exception as e:
         print('⚠️ check_loader_ssot 스킵:', e)
+    try:
+        if check_gauge_harness() != 0:   # 게이지 하네스 SSOT(운영자 260929 «하네스 통일» — ys·edit 게이지 = nm-gauge.js 한 벌)
+            rc = 1
+    except Exception as e:
+        print('⚠️ check_gauge_harness 스킵:', e)
     try:
         if check_model_ids() != 0:   # 모델 ID 드리프트(하드 — 승격 시 '한 곳 빠뜨림' 봉쇄 · 정본 shared/models.json · 승격기 = apply_models.py · 운영자 260725 한 수)
             rc = 1

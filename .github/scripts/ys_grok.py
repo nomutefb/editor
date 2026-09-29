@@ -237,37 +237,52 @@ def main(argv):
     lead = ('참조 모드(' + ' + '.join(x for x, k in (('스토리보드', 'board'), ('캐릭터 보드', 'hero')) if k in refs_raw) + ')') if refs_raw \
         else (f'첫 그림 {first_frames}장' if first_frames else '글→영상')
     progress(id_, 'run', f'그록 {total}장면 발사 · {lead} · 비트 {sum(len(b) for b in beats_of.values())}개', 0.02)
-    state = {'ok': 0, 'fin': 0}
-    costs, fails, t2v, modes, sent = [], [], [], {}, {}
+    state = {'ok': 0, 'fin': 0, 'ref_bad': set(), 'ref_err': ''}
+    costs, fails, t2v, modes, sent, hows = [], [], [], {}, {}, {}
+    refs_url = {k: f'{pub}/ys_img/{id_}/{k}.png' for k in refs_raw} if pub else {}   # 바이트가 막히면 주소로(xAI 가 직접 받는다)
+
+    def ladder(sc, img):
+        """이 장면이 시도할 발사 사다리 — 참조(바이트) → 참조(공개 주소) → 캐릭터 보드 1장 → 첫 그림 → 글→영상(+1회 재시도).
+        260929 실측 = 참조 2장 요청이 발사 단계에서 거절(5/7장면) · 예전 콘티 레인 = 몸집 거절이면 바이트↔주소 전환 → 같은 계보.
+        한 장면에서 거절된 사다리 칸은 전 장면 공용 표지(ref_bad)에 올라 남은 장면은 그 칸을 건너뛴다(같은 거절 반복 0)."""
+        kinds = (('hero',) if sc.get('hero') and 'hero' in refs_raw else ()) + (('board',) if 'board' in refs_raw else ())   # 주인공 없는 장면 = 인물 참조를 안 싣는다(실으면 사람을 넣는다)
+        steps = []
+        if kinds:
+            steps.append(('r2v', 'bytes', kinds))
+            if pub:
+                steps.append(('r2v', 'url', kinds))
+            if len(kinds) == 2:
+                steps.append(('r2v', 'bytes', ('hero',)))   # 두 장이 막히면 얼굴 한 장만(정체 우선 · 화풍은 글 STYLE)
+        steps = [x for x in steps if x not in state['ref_bad']]
+        if img.exists() and img.stat().st_size > 2048:
+            steps.append(('i2v', '', ()))
+        steps += [('t2v', '', ()), ('t2v', '', ())]
+        return steps
 
     def one(i):
         sc = scenes[i]
         img = img_dir / f's{i}.png'
         sec = seconds_for(timing['scenes'][i].get('dur'))
-        image, refs, kinds = None, None, ()
-        kinds = (('hero',) if sc.get('hero') and 'hero' in refs_raw else ()) + (('board',) if 'board' in refs_raw else ())   # 주인공 없는 장면 = 인물 참조를 안 싣는다(실으면 사람을 넣는다)
-        if state.get('ref_bad'):   # 앞 장면에서 창구가 참조 요청 자체를 거절 = 남은 장면은 처음부터 참조 없이(같은 거절 반복 0)
-            kinds = ()
-        if kinds:
-            refs, mode = [refs_raw[k] for k in kinds], 'r2v'
-        elif img.exists() and img.stat().st_size > 2048:
-            image, mode = img.read_bytes(), 'i2v'
-        else:
-            mode = 't2v'
-            t2v.append(i)
-        modes[i] = mode
-        # 첫 프레임 = 구도·조명을 그림이 쥐었다 → 대본 움직임만(감독 비트의 샷 크기·조명은 그림과 싸운다)
-        prompt = prompt_for(sc, mode, hero_en, beats_of.get(i) if mode != 'i2v' else None, i, kinds)
-        last = ''
-        for attempt in range(2):
-            if attempt and mode == 'r2v':   # 참조 요청이 막혔다 = 2회차는 참조 없이 글→영상(실패 호출 = 청구 0 · 모션 그래픽 강하보다 낫다)
-                refs, mode = None, 't2v'
-                modes[i] = 't2v'
-                prompt = prompt_for(sc, 't2v', hero_en, beats_of.get(i), i)
+        last, first, no_ref = '', True, False
+        for mode, how, kinds in ladder(sc, img):
+            if mode == 'r2v' and no_ref:
+                continue
             left = t_end - time.time()
             if left < 150:   # 마감 임박 = 새 발사 안 함(발사 120초 + 받기 여유)
                 last = last or '그록 마감 시간 초과'
                 break
+            if not first and mode != 'r2v':
+                time.sleep(4)
+            first = False
+            refs = None
+            if mode == 'r2v':
+                refs = [refs_raw[k] if how == 'bytes' else refs_url[k] for k in kinds]
+            image = img.read_bytes() if mode == 'i2v' else None
+            modes[i] = mode
+            if mode == 't2v' and i not in t2v:
+                t2v.append(i)
+            # 첫 프레임 = 구도·조명을 그림이 쥐었다 → 대본 움직임만(감독 비트의 샷 크기·조명은 그림과 싸운다)
+            prompt = prompt_for(sc, mode, hero_en, beats_of.get(i) if mode != 'i2v' else None, i, kinds)
             try:
                 sent[i] = prompt[:900]   # 실제로 나간 문장(판이 끝난 뒤 되짚기 · 예전 콘티 rec["prompt"] 선례)
                 rid = grok_api.start_video(prompt, token=tok, ratio=ratio, image=image, refs=refs, seconds=sec)
@@ -280,17 +295,26 @@ def main(argv):
                 os.unlink(f.name)
                 if not ok:
                     raise RuntimeError('받은 영상 파일이 깨졌어')
+                if mode == 'r2v':
+                    hows[i] = how + ('' if len(kinds) == len(refs_raw) or not sc.get('hero') else '·1장')
                 state['ok'] += 1
                 return
             except Exception as e:  # noqa: BLE001
                 last = str(e)[:100]
                 where = getattr(e, 'where', '')
-                if mode == 'r2v' and where == 'video-start' and not getattr(e, 'dead_auth', False):
-                    state['ref_bad'] = True   # 발사 단계 거절(몸집·형식) = 참조 탓 → 이 장면 2회차와 남은 장면은 글→영상
-                if getattr(e, 'dead_auth', False) or getattr(e, 'tier_blocked', False) or where == 'video-timeout' \
-                        or (where == 'video-moderated' and mode != 'r2v'):
-                    break   # 자격·통로 막힘·서버 지연·(참조 없는) 검열 = 같은 요청을 다시 쏴도 안 바뀐다 · 참조 검열은 글→영상으로 1회
-                time.sleep(4)
+                if getattr(e, 'dead_auth', False) or getattr(e, 'tier_blocked', False) or where == 'video-timeout':
+                    break   # 자격·통로 막힘·서버 지연 = 같은 요청을 다시 쏴도 안 바뀐다
+                if mode == 'r2v':
+                    no_ref = where == 'video-moderated'   # 참조 그림째 검열 = 같은 그림 다른 방식도 막힌다 → 바로 첫 그림·글→영상
+                    with _plock:
+                        if where == 'video-start':
+                            state['ref_bad'].add((mode, how, kinds))   # 발사 단계 거절(몸집·형식) = 그 사다리 칸은 전 장면 건너뛴다
+                        if not state['ref_err']:
+                            state['ref_err'] = f'{how}·{len(kinds)}장 · {where or type(e).__name__} · {last}'
+                            print(f'  참조 발사 거절(첫 사유) = {state["ref_err"]}')   # 다음 판이 원인을 보게 로그에 남긴다
+                    continue
+                if where == 'video-moderated':
+                    break   # 참조 없는 검열 = 같은 문장은 또 막힌다
         fails.append((i, last))
 
     def tick(fut):
@@ -309,8 +333,11 @@ def main(argv):
     used = state['ok']
     cost = sum(costs)
     info.update({'modes': {m: sum(1 for v in modes.values() if v == m) for m in set(modes.values())}, 'plan_src': gp.get('src', ''),
+                 'ref_how': {str(k): v for k, v in sorted(hows.items())}, 'ref_err': state['ref_err'],
                  'beats': sum(len(beats_of.get(i) or []) for i in range(total)), 'prompts': {str(k): v for k, v in sorted(sent.items())}})
     t2v_n = len([i for i, m in modes.items() if m == 't2v' and (out / f's{i}.mp4').exists()])
+    if state['ref_err']:
+        print(f"  참조 사다리 결과 = {info.get('ref_how') or '참조 성공 0'} · 거절 칸 {len(state['ref_bad'])}")
     t2v_note = '' if not t2v_n else (f' · 참조가 막힌 {t2v_n}장면은 글→영상' if refs_raw
                                      else ' · 스토리보드를 못 받아 글→영상으로 만들었어' if board_tried
                                      else ' · 맥이 꺼져 있어 첫 그림 없이 글→영상으로 만들었어' if not first_frames

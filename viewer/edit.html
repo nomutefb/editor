@@ -177,6 +177,7 @@
   .grow { display:grid; grid-template-columns:60px 1fr 44px; align-items:center; gap:9px; margin-top:9px; font-size:var(--fs-xs); }   /* 라벨 열 60px = track .mo-k 미러(구 52px = 「부드럽게」·「키잉 페더」 2줄 꺾임 — 이미지 제작 폼 결 정렬 · 운영자 260712) */
   .grow .k { color:var(--mut); font-weight:var(--fw-b); }
   .grow input[type=range] { width:100%; accent-color:var(--accent); }
+  .grow .nm-rbs, .lypv-row .nm-rbs { height:20px; }   /* raw-ok: 러버밴드 하네스(nm-gauge.js) 높이 20 = 옛 네이티브 range 행 높이 그대로(행 36 유지 · 손잡이 18 = 하네스 정본) */
   .grow .v { text-align:right; color:var(--accent); font-weight:var(--fw-x); font-variant-numeric:tabular-nums; }
   .trimrow { display:flex; gap:9px; align-items:center; margin-top:9px; }
   .trimrow input[type=number] { flex:1; width:100%; padding:10px 11px; background:rgba(14,15,17,.55); border:1px solid var(--line); border-radius:var(--r-s); color:var(--fg); font:inherit; font-size:16px; font-variant-numeric:tabular-nums; }   /* raw-ok: iOS 자동줌 방지 하한(구 var(--fs-sm)=12는 포커스 강제 줌 트리거 · 폼 입력 한정 상향 = 폼 외 타이포 티어 불변 · 감사2 260718) · 배경 = 이미지 모달 입력칸 정본 정렬(260712 6차) */
@@ -730,7 +731,7 @@
     <div class="lypv-row" id="lyPvRow" hidden>
       <label class="dl-full" title="삭제한 조각은 재생에서 건너뜀"><input type="checkbox" id="lySkip" checked><span class="dl-cbox"><svg viewBox="0 0 24 24"><path class="dl-dash" d="M6 12h12"/><path class="dl-chk" d="M5 13l4 4L19 7"/></svg></span><span class="lbl">컷 스킵</span></label>
       <button class="lyrate" id="lyRate" type="button" aria-label="재생 속도" title="재생 속도">1x</button>
-      <input type="range" id="lyFs" min="13" max="30" step="1" value="18" aria-label="자막 크기">
+      <input type="range" id="lyFs" data-nmg min="13" max="30" step="1" value="18" aria-label="자막 크기">
       <span class="lypv-fs" id="lyFsV">18px</span>
     </div>
   </div>
@@ -787,6 +788,7 @@
 <script src="nm-clip.js"></script><!-- 입력칸 클립 SSOT(복사·붙여넣기·지우개/되돌리기) — nm-svg.js 뒤 = 아이콘 상수 의존 순서 · 운영자 260803 "공식처럼가야함" -->
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로딩 표기 SSOT(orb Thinking/Solving/Prompting + shimmer · 운영자 260723 Q460) — window.nmLoader(type,label,opts) -->
+<script src="nm-gauge.js"></script><!-- 러버밴드 게이지 하네스 SSOT(운영자 260929 «게이지 조정 = 편집 메뉴에도 · 하네스 통일») — input[type=range][data-nmg] 자동 장착 · 스크럽 바(재생 위치)는 대상 밖 -->
 
 <script src="upload.js"></script><!-- R2 직업로드 공용(nmUpArm/nmUpload · conv와 공유 — 미가용 = 30MB base64 폴백) -->
 <script>
@@ -1051,7 +1053,7 @@ function subLineMirror(el, fs, f, box){   /* ★ 한국어 줄 = 러너(libass) 
   el.style.marginBottom=(Math.round(mb*1000)/1000)+'px';   // 1/1000 = 레이아웃 단위(1/64px)보다 촘촘 = 위 정수 기준선 유지
 }
 const gvTxt=(k,v,u)=>v+u;   // (260729) 구 'sh 100% = 기본' 특례 폐지 — 운영자 "딱딱 끊겨서 조절되는 게 아니라 자연스럽게": 숫자가 도중에 낱말로 바뀌면 연속 조절이 끊겨 보인다 → 전 게이지 숫자 단일 · 기준선 안내는 게이지 title로 이관
-function gauge(k, lbl, min, max, val, unit, tip){ return '<div class="grow"><span class="k">'+lbl+'</span><input type="range" min="'+min+'" max="'+max+'" step="1" value="'+val+'" data-g="'+k+'" aria-label="'+lbl+(tip?(' — '+tip):'')+'"'+(tip?(' title="'+esc(tip)+'"'):'')+'><span class="v">'+gvTxt(k,val,unit)+'</span></div>'; }   // tip = 기준선 안내(260729 — 구 값칸 낱말 치환 대체)
+function gauge(k, lbl, min, max, val, unit, tip){ return '<div class="grow"><span class="k">'+lbl+'</span><input type="range" data-nmg min="'+min+'" max="'+max+'" step="1" value="'+val+'" data-g="'+k+'" aria-label="'+lbl+(tip?(' — '+tip):'')+'"'+(tip?(' title="'+esc(tip)+'"'):'')+'><span class="v">'+gvTxt(k,val,unit)+'</span></div>'; }   // tip = 기준선 안내(260729 — 구 값칸 낱말 치환 대체)
 function prm(k){
   if(k==='sub'){ const C=x=>x?'<div class="scard">'+x+'</div>':'';   // 행 → 카드 1:1(운영자 260729 "이미지 스튜디오 디자인과 같이" · thumb .scard > .csec 정본 계승 · 빈 행은 카드도 안 만든다)
     return '<div class="pvslot" id="pvSlotSub"></div>'   // 도먼트(자막 탭 이관 260711) · 라이브 미리보기 자리(영속 #pv 노드를 render()가 이주)
@@ -1472,7 +1474,7 @@ $('#stack').addEventListener('click',e=>{
   const hd=e.target.closest('[data-open]'); if(hd){ OPEN=OPEN===hd.dataset.open?'':hd.dataset.open; render(); return; }
 });
 $('#stack').addEventListener('input',e=>{
-  const g=e.target.closest('[data-g]'); if(g){ P[g.dataset.g]=+g.value; g.parentElement.querySelector('.v').textContent=gvTxt(g.dataset.g,g.value,g.dataset.g==='size'?'‰':'%'); setEta(); pvSync(); return; }   // 게이지 = 미리보기 실시간 동기(260711) · 음영 100 = '기본'
+  const g=e.target.closest('[data-g]'); if(g){ P[g.dataset.g]=+g.value; g.closest('.grow').querySelector('.v').textContent=gvTxt(g.dataset.g,g.value,g.dataset.g==='size'?'‰':'%'); setEta(); pvSync(); return; }   // 게이지 = 미리보기 실시간 동기(260711) · 음영 100 = '기본'
   const cg=e.target.closest('[data-cutg]'); if(cg){ const i=Math.max(0,Math.min(3,Math.round(+cg.value))); _preManual();   // 컷 강도 4구간 게이지(운영자 260728 Q07) — 드래그 중 재렌더 금지(손잡이 유지) · 라벨·값만 즉시, 세부 행 개폐는 change에서
     if(i===0) ON.cut=false; else { clipRelease(); ON.cut=true; P.cutlv=CUTLV[i]; }
     const v=cg.parentElement.querySelector('.v'); if(v) v.textContent=CYL.cutlv[CUTLV[i]];
@@ -1766,16 +1768,16 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
   const chips=(key,attr,list)=>'<div class="prow">'+list.map(([v,l])=>'<button class="pc'+(XTR[key]===v?' on':'')+'" type="button" data-'+attr+'="'+v+'">'+l+'</button>').join('')+'</div>';
   let det='';
   if(XTR.mosaic) det+='<div class="plbl" style="margin-top:0">가림 모양</div><div class="prow">'+[['rect','네모'],['ellipse','타원']].map(([v,l])=>'<button class="pc'+(XTR.shape===v?' on':'')+'" type="button" data-xs="'+v+'">'+l+'</button>').join('')+'</div>'
-    +'<div class="grow"><span class="k">크기</span><input type="range" min="75" max="200" step="1" value="'+XTR.size+'" data-xg="size" aria-label="가림 크기"><span class="v">'+XTR.size+'%</span></div>'
-    +'<div class="grow"><span class="k">페더</span><input type="range" min="0" max="40" step="1" value="'+XTR.feather+'" data-xg="feather" aria-label="모자이크 페더"><span class="v">'+XTR.feather+'</span></div>';
-  if(XTR.keying) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>키잉</div><div class="grow"><span class="k">페더</span><input type="range" min="0" max="40" step="1" value="'+XTR.kfe+'" data-xg="kfe" aria-label="키잉 페더"><span class="v">'+XTR.kfe+'</span></div>';   // 구획 plbl+짧은 라벨 = 이미지 제작 결(구 「키잉 페더」 = 60px서도 wrap 실측 · 운영자 260712)
+    +'<div class="grow"><span class="k">크기</span><input type="range" data-nmg min="75" max="200" step="1" value="'+XTR.size+'" data-xg="size" aria-label="가림 크기"><span class="v">'+XTR.size+'%</span></div>'
+    +'<div class="grow"><span class="k">페더</span><input type="range" data-nmg min="0" max="40" step="1" value="'+XTR.feather+'" data-xg="feather" aria-label="모자이크 페더"><span class="v">'+XTR.feather+'</span></div>';
+  if(XTR.keying) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>키잉</div><div class="grow"><span class="k">페더</span><input type="range" data-nmg min="0" max="40" step="1" value="'+XTR.kfe+'" data-xg="kfe" aria-label="키잉 페더"><span class="v">'+XTR.kfe+'</span></div>';   // 구획 plbl+짧은 라벨 = 이미지 제작 결(구 「키잉 페더」 = 60px서도 wrap 실측 · 운영자 260712)
   if(XTR.silh){ det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>채움</div>'+chips('fill','xf',[['mosaic','모자이크'],['image','가면']]);   // 카드명(실루엣) 중복 컷 = 이미지 제작 결(§디자인 e 산문 최소 · 운영자 260712)
     if(XTR.fill==='image') det+=chips('preset','xp',[['smile','스마일'],['black','가림'],['heart','하트']]);
-    det+='<div class="grow"><span class="k">페더</span><input type="range" min="0" max="40" step="1" value="'+XTR.sfe+'" data-xg="sfe" aria-label="실루엣 페더"><span class="v">'+XTR.sfe+'</span></div>'; }
+    det+='<div class="grow"><span class="k">페더</span><input type="range" data-nmg min="0" max="40" step="1" value="'+XTR.sfe+'" data-xg="sfe" aria-label="실루엣 페더"><span class="v">'+XTR.sfe+'</span></div>'; }
   if(XTR.chroma){ det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>색상</div>'+chips('ckcolor','xc',[['green','그린'],['blue','블루']])
-    +'<div class="grow"><span class="k">강도</span><input type="range" min="1" max="50" step="1" value="'+XTR.cksim+'" data-xg="cksim" aria-label="크로마키 강도"><span class="v">'+XTR.cksim+'</span></div>'
-    +'<div class="grow"><span class="k">테두리</span><input type="range" min="-4" max="4" step="1" value="'+XTR.ckchoke+'" data-xg="ckchoke" aria-label="테두리 다듬기"><span class="v">'+XTR.ckchoke+'</span></div>'
-    +'<div class="grow"><span class="k">부드럽게</span><input type="range" min="0" max="10" step="1" value="'+XTR.ckfe+'" data-xg="ckfe" aria-label="매트 블러"><span class="v">'+XTR.ckfe+'</span></div>'; }
+    +'<div class="grow"><span class="k">강도</span><input type="range" data-nmg min="1" max="50" step="1" value="'+XTR.cksim+'" data-xg="cksim" aria-label="크로마키 강도"><span class="v">'+XTR.cksim+'</span></div>'
+    +'<div class="grow"><span class="k">테두리</span><input type="range" data-nmg min="-4" max="4" step="1" value="'+XTR.ckchoke+'" data-xg="ckchoke" aria-label="테두리 다듬기"><span class="v">'+XTR.ckchoke+'</span></div>'
+    +'<div class="grow"><span class="k">부드럽게</span><input type="range" data-nmg min="0" max="10" step="1" value="'+XTR.ckfe+'" data-xg="ckfe" aria-label="매트 블러"><span class="v">'+XTR.ckfe+'</span></div>'; }
   if(XTR.pinset){
     const used=new Set(); XTR_GRP.forEach(g=>g.pids.forEach(p=>used.add(p|0)));
     if(!XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'
@@ -1964,7 +1966,7 @@ $('#xtrsec').addEventListener('click',e=>{
 });
 $('#xtrsec').addEventListener('input',e=>{
   if(e.target && e.target.dataset && e.target.dataset.gn!==undefined){ const i=+e.target.dataset.gn; if(XTR_GRP[i]) XTR_GRP[i].name=e.target.value.slice(0,24); xtrSave(); return; }   // 이름칸 = 값만 갱신(renderXtr 재호출 = 입력 중 포커스·캐럿 소실 · 슬라이더와 동일 관례) · 보관은 여기서(이 경로만 renderXtr를 안 타 칸에 안 남던 자리)
-  const g=e.target.closest('[data-xg]'); if(!g) return; XTR[g.dataset.xg]=+g.value; const v=g.parentElement.querySelector('.v'); if(v) v.textContent=g.value+(g.dataset.xg==='size'?'%':''); });
+  const g=e.target.closest('[data-xg]'); if(!g) return; XTR[g.dataset.xg]=+g.value; const v=g.closest('.grow').querySelector('.v'); if(v) v.textContent=g.value+(g.dataset.xg==='size'?'%':''); });
 renderXtr();
 
 /* ══ 입력(파일 좌·URL 우 — 운영자 260710 · .file 픽토 계승) ══ */
@@ -2084,7 +2086,7 @@ function cropLayout(){
   _fit={dw,dh,fw,fh,horiz:fw<dw};
   return true;
 }
-function syncVposUI(){ const g=$('#stack input[data-g="vpos"]'); if(g){ g.value=P.vpos; const vv=g.parentElement.querySelector('.v'); if(vv) vv.textContent=P.vpos+'%'; } }   // 열린 게이지 라이브 동기(카드 접힘 = null 무해)
+function syncVposUI(){ const g=$('#stack input[data-g="vpos"]'); if(g){ g.value=P.vpos; const vv=g.closest('.grow').querySelector('.v'); if(vv) vv.textContent=P.vpos+'%'; } }   // 열린 게이지 라이브 동기(카드 접힘 = null 무해)
 function scrubOpen(){
   if(!FILE_URL) return;
   _posSnap=P.vpos;   // 취소 복원 스냅샷(드래그 = 라이브 반영 · conv 평의회6)
