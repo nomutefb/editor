@@ -161,6 +161,27 @@ class WireReprintTest(unittest.TestCase):
         self.assertEqual(K.mark_wire_reprints(arts), 0)
         self.assertTrue(all(a.get("src") is None for a in arts))
 
+    def test_own_dateline_and_flash_body_stay_separate(self):
+        # 평의회260929 #6 — 같은 보도자료 리드라도 자사 날짜머리(독립 보도국)는 전재 아님 · 연합 속보에 본문이 실려도 속보는 대조 안 함
+        lead = "산업통상자원부는 29일 올해 3분기 수출이 전년 동기 대비 8.2% 증가해 분기 기준 역대 최대치를 기록했다고 밝혔다."
+        t = "3분기 수출 역대 최대…전년 대비 8.2%↑"
+        arts = [art(t, "연합뉴스", summary="(세종=연합뉴스) 김기자 = " + lead),
+                art(t, "뉴시스", summary="[세종=뉴시스] 이기자 = " + lead)]
+        self.assertEqual(K.mark_wire_reprints(arts), 0)
+        f = "[속보] 李대통령 \"안보에 여야 없다…국방 예산 대폭 증액 추진하겠다\""
+        body = "이재명 대통령은 29일 안보에 여야가 없다며 국방 예산을 대폭 증액하는 방안을 추진하겠다고 말했다."
+        arts = [art(f, "연합뉴스", summary="(서울=연합뉴스) 임기자 = " + body), art(f, "JTBC", summary=body), art(f, "세계일보", summary=body)]
+        self.assertEqual(K.mark_wire_reprints(arts), 0)
+
+    def test_stock_code_and_hanja_title_key(self):
+        y = "(서울=연합뉴스) 박기자 = OCI[010060]가 29일 폴리실리콘 공장 증설에 1조원을 투자한다고 밝혔다. 회사는 내년 하반기 가동을 목표로 한다."
+        t = "OCI, 폴리실리콘 공장 증설에 1조원 투자"
+        arts = [art(t, "연합뉴스", summary=y), art(t, "세계일보", summary="OCI가 29일 폴리실리콘 공장 증설에 1조원을 투자한다고 밝혔다. 회사는 내년 하반기 가동을 목표로 한다.")]
+        self.assertEqual(K.mark_wire_reprints(arts), 1)                          # 종목코드 제거 뒤 대조
+        a1 = [art('與 "특검 수용 불가"', "연합뉴스", summary="(서울=연합뉴스) 김기자 = " + "여야는 29일 특검 법안을 두고 정면으로 충돌하며 협상이 결렬됐다고 밝혔다."),
+              art('野 "특검 수용 불가"', "세계일보", summary="여야는 29일 특검 법안을 두고 정면으로 충돌하며 협상이 결렬됐다고 밝혔다.")]
+        self.assertEqual(K.mark_wire_reprints(a1), 0)                            # 제목 키 = 한자 보존
+
     def test_existing_author_src_is_not_overridden(self):
         arts = [art(self.T, "연합뉴스", summary=self.Y), art(self.T, "조선일보", summary=self.Y[20:], src="뉴시스")]
         K.mark_wire_reprints(arts)

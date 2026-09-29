@@ -50,6 +50,7 @@ except ImportError:
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 수집 제외(SSOT · 운영자 260701)
 from lb_member import pick_lb              # 클러스터 최신 국면 멤버(lb) 선택 — 예고 대표에 묻힌 발생 1보 판정 입력(260913 평의회)
+from brk_tag import BREAKING_TAG            # 속보 태그 SSOT — 연합 전재 셈에서 속보 제외(평의회260929 #6)
 
 # ── 설정 ────────────────────────────────────────────────────────────
 # 평범한 브라우저로 위장. RSS는 봇 차단이 거의 없지만,
@@ -572,29 +573,38 @@ def _reprint_src(publisher, author):
 #   REPRINT_AUTHOR 로는 못 가른다(라이브 104건 중 22건 = 연합과 같은 제목 · 본문 = 연합 기사에서 「(서울=연합뉴스) 기자 =」만 뗀 것).
 #   판정 = 연합 기사와 제목이 같고(공백·문장부호 무시) **본문 첫머리 WIRE_PROBE 글자가 그대로 들어 있을 때만** 연합으로 센다.
 #   제목만 같은 건 제외 — 파이낸셜뉴스의 같은 제목 3건은 자사 기자 [속보]·연합 인용 재작성(본문 다름)이라 별개 보도다.
-#   같은 규칙에 SBS 디지털 전재(사진 설명 뒤 연합 본문)·싱글리스트 전재도 걸린다(매체 목록 없이 본문 대조 한 가지로 판정).
+#   같은 규칙에 SBS 디지털 전재(사진 설명 뒤 연합 본문)·경향 전재·싱글리스트 전재도 걸린다(매체 목록 없이 본문 대조 한 가지로 판정 ·
+#   운영자 260929 «SBS·경향도 연합으로 세는 거 괜찮아»). 자사 날짜머리 기사·속보 태그 제목은 대조하지 않는다(아래 함수 주석).
 WIRE_SRC = "연합뉴스"
 WIRE_PROBE = 30   # 대조 글자 수(한글·영숫자만) — 본문이 이보다 짧은 연합 기사([속보] 1줄 등)는 대조하지 않는다
 _WIRE_DATELINE = re.compile(r"^\s*\([^()=]{1,20}=연합뉴스\)\s*(?:[^=]{0,40}?=\s*)?")
 _ALNUM = re.compile(r"[^0-9A-Za-z가-힣]")
+_TKEY = re.compile(r"[^0-9A-Za-z가-힣一-鿿]")   # 제목 키 = 한자 보존(與 "X" ≠ 野 "X" · 평의회260929 #6)
+_STOCK = re.compile(r"\[\d{6}\]")             # 연합 리드 종목코드 [009150] = 전재본이 떼는 경우가 있어 대조 전에 지운다
+# 자사 날짜머리(「[서울=뉴시스] 기자 =」·「(서울=뉴스1)」) = 독립 보도국 기사 — 같은 보도자료 리드 30자가 겹쳐도 전재 아님(평의회260929 #6 실측 하루 5건)
+_OWN_DATELINE = re.compile(r"^\s*[\[(][^\])=]{1,20}=\s*(?!연합)[^\])]{1,15}[\])]")
 
 
 def mark_wire_reprints(articles):
-    """연합 기사 전재분에 src=연합뉴스 를 단다(교차·burst 셈 전용 · 표시·링크는 publisher 그대로). 반환 = 표시한 건수."""
+    """연합 기사 전재분에 src=연합뉴스 를 단다(교차·burst 셈 전용 · 표시·링크는 publisher 그대로). 반환 = 표시한 건수.
+    속보 태그 제목은 대조하지 않는다(평의회260929 #6 — 지금 속보가 안 합쳐지는 건 연합 RSS 가 속보 설명란을 비워 두는 **피드 형식 덕**이라,
+    형식이 바뀌면 여러 매체의 독립 속보 1보가 연합 하나로 접혀 burst 가 무너진다 = 빠른 속보 감지와 정반대)."""
     wire = {}
     for a in articles:
-        if _cross_key(a) != WIRE_SRC:
+        if _cross_key(a) != WIRE_SRC or BREAKING_TAG.search(a.get("title") or ""):
             continue
-        body = _ALNUM.sub("", _WIRE_DATELINE.sub("", a.get("summary") or ""))
+        body = _ALNUM.sub("", _STOCK.sub("", _WIRE_DATELINE.sub("", a.get("summary") or "")))
         if len(body) >= WIRE_PROBE:
-            wire.setdefault(_ALNUM.sub("", a.get("title") or ""), []).append(body[:WIRE_PROBE])
+            wire.setdefault(_TKEY.sub("", a.get("title") or ""), []).append(body[:WIRE_PROBE])
     n = 0
     for a in articles:
-        if a.get("src") or _cross_key(a) == WIRE_SRC:
+        if a.get("src") or _cross_key(a) == WIRE_SRC or BREAKING_TAG.search(a.get("title") or ""):
             continue
-        probes = wire.get(_ALNUM.sub("", a.get("title") or ""))
+        if _OWN_DATELINE.match(a.get("summary") or ""):
+            continue
+        probes = wire.get(_TKEY.sub("", a.get("title") or ""))
         if probes:
-            text = _ALNUM.sub("", a.get("summary") or "")
+            text = _ALNUM.sub("", _STOCK.sub("", a.get("summary") or ""))
             if any(p in text for p in probes):
                 a["src"] = WIRE_SRC
                 n += 1
