@@ -707,6 +707,22 @@ class Surge(unittest.TestCase):   # 급등 = 무장 ∧ 커뮤니티 1곳 이하
         sp = (st["k"].get("쯔양") or {}).get("sp") or {}
         self.assertEqual((sp.get("c"), sp.get("u")), (4, "https://c1/0"))
 
+    def test_probe_read_only(self):   # 조기 판정 = 새 급등 이름만 알려주고 상태는 안 바꾼다(기록자 = 러너 하나)
+        st = L.new_state()
+        t0, t1 = ep("2026-09-29 09:05"), ep("2026-09-29 09:37")
+        L.update(st, surge_snap(t0, [[("유튜버 닛몰캐쉬 폭로 나온듯", 3)]]), t0 + 60)
+        before = json.dumps(st, sort_keys=True)
+        self.assertEqual(S.surge_probe(st, surge_snap(t1, FOUR, ("닛몰캐쉬",)), t1 + 45), ["닛몰캐쉬"])
+        self.assertEqual(json.dumps(st, sort_keys=True), before)
+        old = L.STATE_RO
+        L.STATE_RO = True                                                    # 읽기 전용 환경에서도 판정은 한다
+        try:
+            self.assertEqual(S.surge_probe(st, surge_snap(t1, FOUR, ("닛몰캐쉬",)), t1 + 45), ["닛몰캐쉬"])
+            self.assertTrue(L.STATE_RO)
+        finally:
+            L.STATE_RO = old
+        self.assertEqual(S.surge_probe(st, surge_snap(t1, FOUR[:2], ("닛몰캐쉬",)), t1 + 45), [])
+
     def test_collection_gap_no_stale_baseline(self):   # 수집 공백 120분 넘음 = 비교할 회차 없음(평의회 B · 착지 실패 반복 발송 상한)
         st = L.new_state()
         t0, t1 = ep("2026-09-29 06:00"), ep("2026-09-29 09:37")

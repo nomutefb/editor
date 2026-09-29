@@ -423,6 +423,20 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
     return cands, S
 
 
+def surge_probe(st, snap, now):
+    """급등 조기 판정(읽기 전용 · sns-trends 가 새 커뮤니티 스냅샷 착지 직후) = 이 스냅샷으로 새 급등이 서는 이름들.
+    상태는 복사본에서만 굴린다(기록·알림 = 기록자 러너 하나 · 서면 러너를 바로 발동)."""
+    import copy
+    st = copy.deepcopy(st)
+    before = {k for k, e in (st.get("k") or {}).items() if isinstance(e, dict) and e.get("sg")}
+    ro, L.STATE_RO = L.STATE_RO, False
+    try:
+        eps = L.update(st, snap, now)
+    finally:
+        L.STATE_RO = ro
+    return sorted(k for k, e in eps.items() if e.get("sg") and k not in before)
+
+
 def fit_budget(cands, max_bytes):
     """바이트 하드예산(to_candidates 와 같은 선) — 초과분은 꼬리부터 · lv·씨앗 엔트리는 보호."""
     blob = json.dumps(cands, ensure_ascii=False)
@@ -453,6 +467,15 @@ def main():
         n = L.bootstrap_git(st, time.time())
         L.save_state(st)
         print(f"만성어 계수 보강: tbs 스냅샷 {n}개(최근 {L.CHRONIC_H}h git 이력)")
+        return 0
+    if "--surge-probe" in sys.argv:      # 급등 조기 판정 = 새 급등 수만 출력(상태 무기록)
+        if not L.ON or os.environ.get("LIVE_SURGE", "1").strip() == "0":
+            print(0)
+            return 0
+        names = surge_probe(L.load_state(), L.load_snapshots(), time.time())
+        print(len(names))
+        if names:
+            print("급등 후보: " + ", ".join(names), file=sys.stderr)
         return 0
     if not L.ON:
         print("확산 신호 OFF(LIVE_SIGNAL=0 또는 scraper/live_signal.off) — 생략")

@@ -67,6 +67,7 @@ on:
 
 permissions:
   contents: write
+  actions: write   # 커뮤니티 급등 조기 판정 → scrape 즉시 발동(GITHUB_TOKEN push 는 워크플로를 못 깨움 → 명시 발동)
 
 concurrency:
   group: sns-trends
@@ -164,6 +165,23 @@ jobs:
         # ⚠ 전제 = 인자 경로의 유일 기록자여야 한다(재적층이 남의 동시 변경을 덮을 수 있음). sns_trends/tbs/kw_sent/sns_brief = 이 워크플로 단독 소유(social-scan은 social_candidates.json만 커밋) = 충족. 롤백 = 이 두 스텝을 cbf24be 관용구로 원복.
         run: |
           bash .github/scripts/git_land.sh "sns-trends: 수집 갱신" viewer/sns_trends.json viewer/tbs_data.json push/kw_sent.json push/trend_sent.json "metrics/usage/${GITHUB_RUN_ID}-${GITHUB_JOB}-${GITHUB_RUN_ATTEMPT}.jsonl"
+
+      # ── 커뮤니티 급등 조기 판정(운영자 260929 «최대한 빠르게») — 새 커뮤니티 스냅샷이 착지하자마자 읽기 전용으로 급등만 보고,
+      #   서면 scrape 를 바로 발동한다(급등 기록·알림 = 기록자 러너 하나 · 정본 = scraper/live_signal.py SURGE_* · push_send --surge).
+      #   러너 15분 주기 대기와, 러너가 스냅샷을 건너뛰어 60분 창을 놓치는 누락을 없앤다. 끄기 = repo 변수 LIVE_SURGE=0.
+      - name: 커뮤니티 급등 조기 판정 → 수집 즉시 발동
+        env:
+          GH_TOKEN: ${{ github.token }}
+          LIVE_SURGE: ${{ vars.LIVE_SURGE || '1' }}
+          LIVE_SIGNAL: ${{ vars.LIVE_SIGNAL || '1' }}
+        run: |
+          git fetch -q origin main 2>/dev/null || true
+          git merge-base --is-ancestor HEAD origin/main 2>/dev/null || { echo "커뮤니티 스냅샷 미착지 — 조기 판정 생략(러너 정기 회차가 판정)"; exit 0; }
+          n=$(python3 scraper/live_seed.py --surge-probe) || n=""
+          case "$n" in ''|*[!0-9]*) echo "::warning::급등 조기 판정 실패(위 로그) — 러너 정기 회차가 판정"; exit 0;; esac
+          [ "$n" != "0" ] || { echo "급등 후보 없음"; exit 0; }
+          ok=0; for i in 1 2 3; do gh workflow run scrape.yml && { ok=1; break; }; sleep $((i * 3)); done
+          if [ "$ok" = 1 ]; then echo "급등 후보 ${n}건 — scrape 즉시 발동"; else echo "::warning::scrape 발동 실패 — 러너 정기 회차가 판정"; fi
 
       - name: Install Claude Code CLI (브리프 스텝용 — LLM 0콜 수집 레인이라 브리프 게이트와 동기)
         if: ${{ (inputs.brief || vars.SNS_BRIEF || '0') == '1' || (inputs.bsky_tr || '0') == '1' || (inputs.sns_sum || '1') == '1' }}   # 기본 ON 승격(§📰-e 이행 — 카나리아 run 2차 실측 260712: rc=0·브리프 626자 생성·sns_brief.json 커밋 09:44 KST · 1차 rc=127 = CLI 부재 → 이 스텝 신설로 봉합) · 롤백 = || '0' · 블루스카이 번역(bsky_tr)·트렌드 이미지(gt_img)·X/스레드 요약(sns_sum · 260726)도 CLI 필요(운영자 260713·260718 · gt_img 상시 ON 승격 = || '1')
