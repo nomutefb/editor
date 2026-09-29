@@ -53,14 +53,19 @@ MAX_AI_DEDUP = int(os.environ.get("AUTOPICK_MAX_AI", "8"))                # 런�
 CELEB_OK = os.environ.get("AUTOPICK_CELEB", "0").strip() == "1"
 
 
+try:   # 모듈 적재 1회(평의회260929 #9 — 호출마다 sys.path 누적 금지 · 실패는 소리 내고 종전 동작)
+    sys.path.insert(0, str(ROOT / ".github" / "scripts"))
+    import brk_gates as _bg
+except Exception as _e:  # noqa: BLE001
+    _bg = None
+    print(f"::warning::brk_gates 적재 실패 — 연예 관계·지위 자동픽 제외가 꺼진다: {_e}", file=sys.stderr)
+
+
 def celeb_rel(title):
-    try:
-        sys.path.insert(0, str(ROOT / ".github" / "scripts"))
-        import brk_gates as _bg
-        t = title or ""
-        return bool(_bg._CELEB.search(t) and not _bg._CELEB_KEEP.search(t))
-    except Exception:  # noqa: BLE001 — 게이트 모듈 부재 = 종전 동작(제외 없음)
+    if _bg is None:
         return False
+    t = title or ""
+    return bool(_bg._CELEB.search(t) and not _bg._CELEB_KEEP.search(t))
 
 
 def jload(p, d):

@@ -194,21 +194,27 @@ def casualty_gate(title, cat=None):
 
 # ── ② 연예 관계·지위 ──────────────────────────────────────────────────────────────────────────
 # `데이트(?!\s*폭)` = 데이트폭력·데이트 폭행은 연애 소식이 아니다(운영자 260929 A1 · 닛몰캐쉬 「데이트폭력·비하발언 폭로」가
-#   `데이트` 에 걸려 LLM 판정과 무관하게 X로 확정되던 오인). 통과어 폭력·폭언·폭로·활동 중단·하차 = 같은 사례의 후속 제목축.
+#   `데이트` 에 걸려 **판정기가 YES 를 줘도 X 로 확정될 자리**였다 — 9/29 실제 X 는 판정기 NO[런 36514123616 「속보 0건」·게이트 X 줄 0]).
+#   통과어 = 강력·성범죄 사건 명사만(평의회260929 #3 실측 — `폭로`·`하차`·`활동 중단` 은 「♥남편 반응 폭로」·「나란히 하차」 같은
+#   가십을 명단과 무관하게 다시 열어 260917 타이트닝에 역행 → 제외 · `폭력` 은 조직폭력배·법률 상담 칼럼 오탐을 줄이려 앞뒤 경계).
 _CELEB = re.compile(r"열애|결혼|결별|이혼|재혼|약혼|파혼|♥|혼인|예비신랑|예비신부|웨딩|상견례|재계약|전속계약|소속사|엔터(?:테인먼트)?와|"
                     r"입대|군대|제대|컴백|화보|근황|데이트(?!\s*폭)|목격담|품절남|품절녀|득남|득녀|임신|출산")
 _CELEB_KEEP = re.compile(r"사망|별세|숨|타계|부고|구속|입건|기소|체포|피소|송치|영장|사고|중상|의식불명|폭행|성폭|마약|음주|사기|협박|"
-                         r"고소|수사|경찰|검찰|해체|은퇴|탈퇴|제명|사형|실종|피해|학대|살해|폭력|폭언|폭로|활동 ?중단|하차")
+                         r"고소|수사|경찰|검찰|해체|은퇴|탈퇴|제명|사형|실종|피해|학대|살해|(?<!조직)폭력(?!배)|폭언|성추행|추행|불법촬영|스토킹|강간")
 
 # 메이저급 참조 명단(breaking_judge ROSTER 와 같은 파일) — 명단 인물이면 ② 축을 건너뛰고 루브릭 🎤 메이저 예외에 맡긴다.
-#   이름 일치 = 3자↑ 포함 · 2자 = 낱말 그대로 또는 조사 꼬리(«지민이»·«로제의») · 1자 = 제외(«비» 같은 이름은 제목 낱말과 구별 불가).
-#   파일 없음·깨짐 = 빈 명단(종전 동작 = 전원 ② 축 적용) — fail-soft.
+#   이름 일치(평의회260929 #4 실측 = 2자 이름 299개 대부분이 일반명사와 겹쳐 14일 524제목에 걸렸다 · 3자도 「서프라이즈⊃라이즈」):
+#     · 3자↑ = 앞 글자가 한글·영문이 아닐 때만(낱말 중간 부분일치 차단)
+#     · 2자 = **주어 자리**만 — 제목 첫 낱말이거나(조사 꼬리 허용) 바로 뒤가 `,`·`·`·`♥`·`&` 이거나 같은 제목에 그 사람의 그룹명이 있을 때
+#     · 1자 = 제외(「비」 같은 이름은 제목 낱말과 구별 불가)
+#   파일 없음·깨짐 = 빈 명단(종전 동작 = 전원 ② 축 적용) + ::warning::(조용한 엄격 모드 전환 금지 · 평의회 #6).
 _ROSTER_P = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "apps", "news", "major_award_winners.json")
 _JOSA = set("이가은는을를의와과도만에서부터께랑님씨측")
 _roster_cache = None
 
 
 def _roster():
+    """(3자↑ 이름 집합, 2자 이름 → 소속 그룹명 집합)."""
     global _roster_cache
     if _roster_cache is None:
         try:
@@ -217,27 +223,40 @@ def _roster():
                 d = json.load(f)
             groups = d.get("idol_groups") or {}
             names = set(d.get("names") or []) | set(groups) | {m for ms in groups.values() for m in ms}
-            _roster_cache = frozenset(n.strip() for n in names if isinstance(n, str) and len(n.strip()) >= 2)
-        except Exception:  # noqa: BLE001
-            _roster_cache = frozenset()
+            names = {n.strip() for n in names if isinstance(n, str) and len(n.strip()) >= 2}
+            grp_of = {}
+            for g, ms in groups.items():
+                for m in ms:
+                    grp_of.setdefault(str(m).strip(), set()).add(str(g).strip())
+            _roster_cache = (frozenset(n for n in names if len(n) >= 3),
+                             {n: frozenset(grp_of.get(n, ())) for n in names if len(n) == 2})
+        except Exception as e:  # noqa: BLE001
+            import sys
+            print(f"::warning::brk_gates 메이저급 명단 미도달({_ROSTER_P}) — 연예 ② 축을 명단 예외 없이 적용한다: {e}", file=sys.stderr)
+            _roster_cache = (frozenset(), {})
     return _roster_cache
+
+
+def _long_hit(n, t):
+    i = t.find(n)
+    while i >= 0:
+        if i == 0 or not re.match(r"[가-힣A-Za-z]", t[i - 1]):
+            return True
+        i = t.find(n, i + 1)
+    return False
 
 
 def major_in(title):
     """제목에 메이저급 참조 명단 인물이 있으면 그 이름(없으면 None)."""
     t = title or ""
-    words = None
-    for n in _roster():
-        if len(n) >= 3:
-            if n in t:
-                return n
-            continue
-        if n not in t:
-            continue
-        if words is None:
-            words = re.findall(r"[가-힣A-Za-z0-9]+", t)
-        for w in words:
-            if w == n or (len(w) <= len(n) + 2 and w.startswith(n) and all(ch in _JOSA for ch in w[len(n):])):
+    longs, shorts = _roster()
+    for n in longs:
+        if _long_hit(n, t):
+            return n
+    toks = [(m.group(0), m.end()) for m in re.finditer(r"[가-힣A-Za-z0-9]+", t)]
+    for idx, (w, end) in enumerate(toks):
+        for n in ((w,) if w in shorts else ()) + tuple(w[:2] for _ in (0,) if len(w) > 2 and w[:2] in shorts and all(ch in _JOSA for ch in w[2:])):
+            if idx == 0 or t[end:end + 1] in (",", "·", "♥", "&") or any(g and g in t for g in shorts[n]):
                 return n
     return None
 
@@ -245,7 +264,7 @@ def major_in(title):
 # 명단 인물이라도 건너뛰는 건 **루브릭 메이저 예외가 다루는 축**뿐 — 관계(열애·결혼·결별·이혼) · 지위(소속·전속계약·입대).
 #   컴백·화보·근황·임신·출산·데이트 목격·♥ 표기만 있는 근황은 루브릭도 X 라 종전대로 여기서 X(260917 타이트닝 보존 ·
 #   실측 14일 = 명단 인물 관문 X 192건 중 이 축 68건만 판정기로 넘어간다).
-_MAJOR_AXIS = re.compile(r"열애|결별|이혼|재혼|약혼|파혼|결혼|혼인|교제|전속계약|재계약|소속사|입대|군대|제대")
+_MAJOR_AXIS = re.compile(r"열애|결별|이혼|재혼|약혼|파혼|결혼|혼인|교제|품절|예비신|상견례|전속계약|재계약|소속사|입대|군대")   # 제대 = 복귀(활동 소식)라 비대상
 
 
 def celeb_gate(title):

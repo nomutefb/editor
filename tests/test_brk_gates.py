@@ -156,17 +156,26 @@ class CelebGate(unittest.TestCase):
         self.assertIsNotNone(G.celeb_gate("비 오는 날 결혼식 하객 패션"))        # 1자 이름은 일치 판정 제외
 
     def test_dating_violence_is_incident(self):
-        # 운영자 260929 A1 — 닛몰캐쉬 실측 제목: `데이트` 가 데이트폭력에 걸려 X 확정되던 오인
+        # 운영자 260929 A1 — 닛몰캐쉬 실측 제목: `데이트` 가 데이트폭력에 걸려 판정기 YES 를 X 로 확정할 자리
         for t in ["닛몰캐쉬, 데이트폭력·비하발언 폭로 터졌다…전 여친 녹취록 공개 '확산' [Oh!쎈 이슈]",
                   "'잘자요 아가씨' 닛몰캐쉬, 데이트 폭력 인정 \"주장 대부분 사실\" [공식입장]",
-                  "닛몰캐쉬 소속사 \"폭로 내용 인정\"…활동 중단", "유튜버 ○○, 전 여친에 폭언 녹취록…결국 하차"]:
+                  "아이돌 ○○, 성추행 혐의…소속사 \"법적 대응\"", "배우 ○○ 소속사 \"불법촬영 의혹 사실무근\""]:
             self.assertIsNone(G.celeb_gate(t), t)
         self.assertIsNotNone(G.celeb_gate("신인 배우 김아무개, 한강 데이트 포착"))   # 연애 데이트는 종전대로 X
 
-    def test_incident_pass(self):
-        for t in ["'이혼 빚 딛고 화가로 복귀' 낸시랭, 새벽 만취운전 경찰 적발", "‘화상·피폭·차별’ 넘은 타격왕 장훈 별세",
-                  "방송·사업 잘나가던 유명 女진행자 ‘마약 혐의’ 사형 선고", "○○ 그룹 해체 공식화", "배우 ○○ 고속도로 사고 중상"]:
-            self.assertIsNone(G.celeb_gate(t), t)
+    def test_gossip_stays_closed(self):
+        # 평의회260929 #3 실측 — 폭로·하차·조직폭력배 가십이 통과어로 다시 열리지 않는다(260917 타이트닝 보존)
+        for t in ["한혜진, '8살 연하' ♥기성용 분량 욕심 폭로 \"유튜브 자기 분량 체크해\"",
+                  "박보검♥신예은 로맨스 결국 못 본다…'밤 여행자' 편성 불발에 나란히 하차",
+                  "'두 번 이혼' 박원숙 \"전남편 빚 때문에 방송국에 조직폭력배 찾아와\""]:
+            self.assertIsNotNone(G.celeb_gate(t), t)
+
+    def test_roster_match_precision(self):
+        # 평의회260929 #4 — 2자 이름은 주어 자리만 · 3자↑ 는 낱말 중간 부분일치 제외
+        self.assertIsNone(G.major_in("'서프라이즈' 같네..'재혼 황후', 베일 벗을수록"))   # 라이즈 ⊂ 서프라이즈
+        self.assertIsNone(G.major_in("결혼식 지연 논란…하객 불만"))                       # 지연 = 일반명사 자리
+        self.assertEqual(G.major_in("지민이 열애 인정"), "지민")                           # 첫 낱말 + 조사 꼬리
+        self.assertEqual(G.major_in("수영, 열애 인정"), "수영")                             # 뒤 쉼표 = 주어 자리
 
 
 class JudicialGate(unittest.TestCase):
