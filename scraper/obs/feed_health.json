@@ -1,11 +1,16 @@
 {
- "ok": 183,
- "dead": 2,
+ "ok": 182,
+ "dead": 3,
  "dead_feeds": [
   {
    "publisher": "머니투데이",
    "title": "전체기사",
    "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "아시아경제",
+   "title": "전체기사",
+   "url": "https://www.asiae.co.kr/rss/all.htm"
   },
   {
    "publisher": "스타뉴스",
@@ -48,11 +53,6 @@
    "publisher": "미디어오늘",
    "title": "오피니언",
    "url": "https://www.mediatoday.co.kr/rss/S1N8.xml"
-  },
-  {
-   "publisher": "세계일보",
-   "title": "오피니언",
-   "url": "http://www.segye.com/Articles/RSSList/segye_opinion.xml"
   },
   {
    "publisher": "시사저널",
