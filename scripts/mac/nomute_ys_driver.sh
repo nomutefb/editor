@@ -57,7 +57,8 @@ Do not reproduce the sheet: no panels, grid, turnaround, multiple views, repeate
     if [ "$kind" = board ]; then   # 스토리보드 = 칸 여러 개가 정답(장면 1장 문구와 반대) → 정체만 잠그고 칸 배치는 묘사를 따른다
       refline="REFERENCE (identity-preserve, character consistency): the attached [Image #1] at $ws/reference.png is the protagonist's character sheet. Use it for identity only.
 When you call the image tool you MUST attach that file as its reference image: referenced_image_paths [$ws/reference.png] (if that read fails, retry once with num_last_images_to_include 1 instead). Never call the image tool without this reference. It is the only file you may read.
-In every panel where the protagonist appears, keep the same face, hairstyle, outfit, colors and proportions as the sheet. Follow the panel layout of the description, not the layout of the sheet."
+In every panel where the protagonist appears, keep the same face, hairstyle, outfit, colors and proportions as the sheet. Follow the panel layout of the description, not the layout of the sheet.
+Each panel shows its own described setting as a full background; never copy the sheet's plain backdrop, turnaround poses or labels; the protagonist appears at most once per panel."
     fi
   fi
   printf '%s\n' "Use \$imagegen through Codex's built-in image generation (ChatGPT subscription only — never an API key or the Images API) and end with exactly one successful image.
@@ -165,11 +166,13 @@ if [ -n "${YI_BOARD:-}" ]; then   # 그록 스토리보드 1장(운영자 260929
     SAVE_OR="$ORIENT_LINE"
     if [ "${YI_BOR:-landscape}" = portrait ]; then ORIENT_LINE="Portrait orientation, 2:3 (1024x1536)."; else ORIENT_LINE="Landscape orientation, 3:2 (1536x1024)."; fi
     BOUT="$W/board.png"; bd=0
+    BP="$YI_BOARD"; [ -n "${YI_HERO:-}" ] && BP="The protagonist is: $YI_HERO. $YI_BOARD"   # 글 정체(시트 첨부가 빠져도 칸끼리 같은 사람 · 장면 경로와 같은 규칙)
     for H in $AL; do
-      if gen_one "$H" "$YI_BOARD" "$BOUT" "$HERO_PNG" board >/dev/null; then bd=1; break; fi
+      [ $(( ${YI_DL:-0} - $(date +%s) )) -lt 130 ] && break   # 계정마다 마감 재확인(러너가 떠난 뒤 구독 한도 낭비 0)
+      if gen_one "$H" "$BP" "$BOUT" "$HERO_PNG" board >/dev/null; then bd=1; break; fi
     done
     if [ "$bd" = 0 ] && [ -n "$HERO_PNG" ] && [ $(( ${YI_DL:-0} - $(date +%s) )) -ge 130 ]; then
-      if gen_one "$(printf '%s\n' "$AL" | head -1)" "$YI_BOARD" "$BOUT" "" board >/dev/null; then bd=1; note "스토리보드 캐릭터 보드 없이 그림"; fi
+      if gen_one "$(printf '%s\n' "$AL" | head -1)" "$BP" "$BOUT" "" board >/dev/null; then bd=1; note "스토리보드 캐릭터 보드 없이 그림"; fi
     fi
     ORIENT_LINE="$SAVE_OR"
     if [ "$bd" = 1 ]; then

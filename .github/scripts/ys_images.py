@@ -88,23 +88,30 @@ def mac_state():
 def board_prompt(plan, hero, orient):
     """그록 스토리보드 1장 묘사 — 장면 순서대로 칸 N개(글자·번호 0 · 칸 = 영상 화면 비율). 맥 드라이버 상한 1800자 안."""
     n = len(plan['scenes'])
-    if orient == 'portrait':   # 세로 영상 = 가로 시트에 2줄(칸 ≈ 9:16)
-        grid, sheet = f'{-(-n // 2)} columns by 2 rows of tall vertical 9:16 panels', 'landscape'
-    else:                      # 가로 영상 = 세로 시트에 2열(칸 ≈ 16:9)
-        grid, sheet = f'2 columns by {-(-n // 2)} rows of wide 16:9 panels', 'portrait'
-    head = (f'Storyboard sheet for a short video: {n} panels in reading order (left to right, top to bottom), {grid}, '
-            'thin plain gutters, every panel filled edge to edge with its scene')
-    tail = f'{ART}. No numbers, no text, no speech bubbles'
-    room = max(60, (1750 - len(head) - len(tail)) // max(1, n) - 12)
+    if orient == 'portrait':   # 세로 영상 = 세로 2:3 시트 3~4열(칸이 세로로 길다 · 3:2 가로 시트 2줄엔 세로 칸이 물리적으로 안 들어간다 · 평의회 260929)
+        cols, sheet, kind = (3 if n <= 9 else 4), 'portrait', 'tall vertical'
+    else:                      # 가로 영상 = 세로 시트 2열(칸이 가로로 넓다)
+        cols, sheet, kind = 2, 'portrait', 'wide horizontal'
+    cols = max(1, min(cols, n))
+    rows = -(-n // cols)
+    last = n - cols * (rows - 1)
+    pl = lambda k, w: f"{k} {w}{'s' if k > 1 else ''}"
+    head = (f'Wordless storyboard sheet for a short video: exactly {n} {kind} panels in reading order (left to right, top to bottom), '
+            f"{pl(cols, 'column')} by {pl(rows, 'row')}" + (f", the last row has only {pl(last, 'panel')}" if last != cols else '')
+            + ', thin plain gutters, every panel filled edge to edge with its scene')
+    who = f'The protagonist in every panel where they appear: {cut(hero, 200)}. ' if hero else ''   # 글 정체 잠금(시트 첨부가 빠져도 칸끼리 같은 사람)
+    tail = f'In each panel keep faces and key action out of the band just below the middle. {ART}. No numbers, no text, no speech bubbles'
+    room = max(60, (1750 - len(head) - len(who) - len(tail)) // max(1, n) - 12)
     def desc(sc):
         d = clean(sc.get('img') or sc.get('head'), 400)
         return d if hero else PROTAG_RE.sub('a person', d)
     panels = ' '.join(f'Panel {k + 1}: {cut(desc(sc), room).rstrip(". ")}.' for k, sc in enumerate(plan['scenes']))
-    return {'board': clean(f'{head}. {panels} {tail}', 1800), 'board_orient': sheet}
+    return {'board': clean(f'{head}. {who}{panels} {tail}', 1800), 'board_orient': sheet}
 
 
-def done(outdir, used, note, total=0):
-    json.dump({'used': used, 'total': total, 'note': note}, open(Path(outdir) / 'img.json', 'w', encoding='utf-8'), ensure_ascii=False)
+def done(outdir, used, note, total=0, board=False):
+    with open(Path(outdir) / 'img.json', 'w', encoding='utf-8') as f:
+        json.dump({'used': used, 'total': total, 'note': note, **({'board': True} if board else {})}, f, ensure_ascii=False)
     print(f'장면 그림 {used}장 · {note}')
     return 0
 
@@ -151,9 +158,11 @@ def main(argv):
            'hero': hero if any(s['hero'] for s in scenes) else '', 'style': clean(ART, 200)}
     # 그록 = 장면 그림 N장 대신 캐릭터 보드 + 스토리보드 1장(운영자 260929 «예전 비디오 제작 방식 절충 · 보드는 GPT 로»)
     #   = 새 드라이버(drv 3)만 · 그림 2장이라 맥 대기가 장면 수와 무관(세로 7장 ≈ 14분 → ≈ 4~5분)
-    board = drv >= 3 and os.environ.get('YS_IMG') == 'grok' and bool(scenes)
+    board = (drv >= 3 and os.environ.get('YS_IMG') == 'grok' and os.environ.get('YS_GROK_ON', 'true') == 'true'
+             and os.environ.get('YS_GROK_REF', '1') != '0' and bool(scenes))
     if board:
-        job.update(board_prompt(plan, hero, orient), scenes=[], hero=hero if any(sc.get('hero') for sc in plan['scenes']) else '')
+        bh = hero if any(sc.get('hero') for sc in plan['scenes']) else ''
+        job.update(board_prompt(plan, bh, orient), scenes=[], hero=bh)
     with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False, encoding='utf-8') as f:
         json.dump(job, f, ensure_ascii=False)
     qkey = f'queue/ysimg/{id_}.json'   # 전용 접두(맥 워커가 본 큐보다 먼저 1잡씩 집는다 · 본 큐 적체와 무관)
@@ -197,7 +206,7 @@ def main(argv):
         hn = (outdir / 'hero.png').exists()
         progress(id_, 'done', ('스토리보드' + (' + 캐릭터 보드' if hn else '')) if ok else '스토리보드 없음')
         return done(outdir, 0, note0 + (('스토리보드' + (' + 캐릭터 보드' if hn else '') + ' 받음(맥 GPT) — 그록 참조 모드')
-                                        if ok else f'스토리보드를 못 받아 그록이 글→영상으로 만들어' + ('' if fin else f'(맥이 {WAIT // 60}분 안에 못 끝냄)')), total)
+                                        if ok else f'스토리보드를 못 받아 그록이 글→영상으로 만들어' + ('' if fin else f'(맥이 {WAIT // 60}분 안에 못 끝냄)')), total, board=True)
     used = len([p for p in outdir.glob('s*.png') if p.stat().st_size > 2048])
     if fin and used == total:
         progress(id_, 'done', f'장면 그림 {used}장')

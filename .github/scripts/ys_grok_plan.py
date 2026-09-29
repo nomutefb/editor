@@ -20,19 +20,20 @@ from ys_grok import seconds_for  # noqa: E402
 MAX_BEATS = 4
 CAM_MIN_WORDS = 9          # 예전 콘티 실측 하한(sb_qa CAM_MIN_WORDS 와 같은 값) — 미달 = 경고만(버리지 않는다)
 # 비주얼 부정문 = 그록 정본(prompts/grok-make.md)이 금지 — 부정어가 그 대상을 부른다
-NEG_RE = re.compile(r'(?i)[,;]?\s*\b(?:no|without|avoid|never)\b[^.;,]*\b(?:text|captions?|subtitles?|logos?|letters?|watermarks?|words?)\b[^.;,]*')
-DEFAULT_CAMS = [
-    'medium close-up at eye-level, 50mm lens, shallow depth of field, soft window light, slow push-in',
-    'wide shot from a low angle, 24mm wide lens, deep focus, overcast diffuse light, gentle pull back',
-    'over-the-shoulder medium shot, 35mm lens, handheld drift, warm practical lamps, rack focus to the subject',
-    'high angle full shot, 35mm lens, locked-off frame, blue hour ambient light, subtle arc around',
-]
+#   부정어 **바로 뒤 명사구만** 지운다(「no longer hides the letters」·「without a word」 같은 멀쩡한 동작은 살린다 · 평의회 260929 재현)
+NEG_RE = re.compile(r'(?i)[,;]?\s*\b(?:no|without(?:\s+any)?|avoid(?:ing)?)\s+(?:(?:visible|on-screen|onscreen|readable|burned-in)\s+)?'
+                    r'(?:text|captions?|subtitles?|logos?|lettering|watermarks?|typography)\b(?:\s+(?:on\s+screen|anywhere|in\s+frame))?')
+DEFAULT_CAM = 'medium shot at eye-level, 35mm lens, deep focus, slow push-in'   # 감독이 카메라를 비웠을 때만(조명·인물 무관 1줄 · 평의회 260929)
+NOBODY = 'No people in frame.'
 
 
 def clean(s, cap):
-    s = re.sub(r"[^A-Za-z0-9 ,.;:()'/-]+", ' ', str(s or ''))
-    s = NEG_RE.sub('', s)
-    return re.sub(r'\s+', ' ', s).strip(' ,;')[:cap].strip()
+    s = str(s or '').translate({0x2019: "'", 0x2018: "'", 0x201c: ' ', 0x201d: ' ', 0x2014: ', ', 0x2013: '-'})
+    s = re.sub(r"[^A-Za-z0-9 ,.;:()'/-]+", ' ', s)
+    s = re.sub(r'\s+([,.;:])', r'\1', re.sub(r'\s+', ' ', NEG_RE.sub('', s))).strip(' ,;').lstrip('. ')
+    if len(s) > cap:   # 낱말 경계에서 자른다(꼬리 문구가 반 토막 나지 않게)
+        s = s[:cap].rsplit(' ', 1)[0]
+    return s.strip(' ,;')
 
 
 def target(timing, i):
@@ -40,17 +41,26 @@ def target(timing, i):
     return seconds_for(t.get('dur'))
 
 
+def metaphor(plan, sc):
+    """주인공이 있는 영상의 「주인공 없음」 장면 = 은유 장면(ys-make.md · 얼굴 없는 사물·풍경). 주인공 없는 영상은 사람이 나올 수 있다."""
+    return bool((plan.get('hero') or {}).get('en')) and not sc.get('hero')
+
+
+def nobody(plan, sc, mv):
+    """은유 장면 = 비트마다 「빈 화면」 명시(보드에 사람이 있으면 모델이 기본으로 넣는다 · 예전 콘티 MOTION ⓑ = 부정문 금지의 유일한 예외)."""
+    return mv if not metaphor(plan, sc) or 'no people' in mv.lower() else mv.rstrip('. ') + '. ' + NOBODY
+
+
 def fallback(plan, timing, i):
+    """대본 motion 비트 1개 — 카메라는 비운다(대본 motion 에 이미 카메라 무브 1개가 들어 있다 · 덧붙이면 밀기+빼기 충돌)."""
     sc = plan['scenes'][i]
     mv = clean(sc.get('motion'), 220) or 'Slow push-in; subtle ambient motion.'
-    if not sc.get('hero') and 'no people' not in mv.lower():
-        mv = mv.rstrip('. ') + '. No people in frame.'
-    return [{'sec': target(timing, i), 'motion': mv, 'camera': DEFAULT_CAMS[i % len(DEFAULT_CAMS)]}]
+    return [{'sec': target(timing, i), 'motion': nobody(plan, sc, mv), 'camera': ''}]
 
 
 def fit(beats, total):
-    """초 합 = 클립 길이 — 비율로 늘리고 줄인 뒤 끝 비트로 나머지를 맞춘다(각 비트 ≥1초)."""
-    beats = beats[:max(1, min(MAX_BEATS, total))]
+    """초 합 = 클립 길이 — 비율로 늘리고 줄인 뒤 끝 비트로 나머지를 맞춘다(비트 수 ≤ 초/2 = 비트당 ~2초 이상)."""
+    beats = beats[:max(1, min(MAX_BEATS, total // 2))]
     s = sum(b['sec'] for b in beats)
     if s != total:
         for b in beats:
@@ -65,7 +75,8 @@ def normalize(j, plan, timing):
     """검문 → {i: beats} · 버린 사유 목록. 계약 위반 장면은 대체안(fallback)으로."""
     n = len(plan['scenes'])
     got, drop = {}, []
-    for c in (j.get('clips') or [])[:40] if isinstance(j, dict) else []:
+    clips = j.get('clips') if isinstance(j, dict) else None
+    for c in (clips if isinstance(clips, list) else [])[:40]:
         if not isinstance(c, dict):
             continue
         try:
@@ -74,21 +85,24 @@ def normalize(j, plan, timing):
             continue
         if not 0 <= i < n or i in got:
             continue
-        beats = []
-        for b in (c.get('beats') or [])[:MAX_BEATS]:
+        beats, raw_beats = [], c.get('beats')
+        for b in (raw_beats if isinstance(raw_beats, list) else [])[:MAX_BEATS]:
             if not isinstance(b, dict):
                 continue
             try:
-                sec = max(1, int(round(float(b.get('sec')))))
-            except (TypeError, ValueError):
+                sec = max(1, min(15, int(round(float(b.get('sec'))))))
+            except (TypeError, ValueError, OverflowError):
                 continue
             mv, cam = clean(b.get('motion'), 220), clean(b.get('camera'), 200)
             if len(mv) < 8:
                 continue
-            if len(cam.split()) < CAM_MIN_WORDS:
-                drop.append((i, f'카메라 {len(cam.split())}낱말(<{CAM_MIN_WORDS}) — 기본 카메라로'))
-                cam = DEFAULT_CAMS[(i + len(beats)) % len(DEFAULT_CAMS)]
-            beats.append({'sec': sec, 'motion': mv, 'camera': cam})
+            if metaphor(plan, plan['scenes'][i]) and re.search(r'(?i)\bprotagonist\b', mv):   # 은유 장면엔 인물 참조가 안 실린다 → 정의 없는 사람이 나온다
+                drop.append((i, '은유 장면에 주인공 등장'))
+                continue
+            if len(cam.split()) < CAM_MIN_WORDS:   # 미달 = 기록만(감독 문장을 그대로 둔다 · 예전 콘티 sb_qa 와 같은 태도) · 비면 기본 1줄
+                drop.append((i, f'카메라 {len(cam.split())}낱말(<{CAM_MIN_WORDS})'))
+                cam = cam or DEFAULT_CAM
+            beats.append({'sec': sec, 'motion': nobody(plan, plan['scenes'][i], mv), 'camera': cam})
         if not beats:
             drop.append((i, '비트 없음'))
             continue
@@ -100,9 +114,11 @@ def extract(raw):
     m = re.search(r'```[ \t]*(?:json)?\s*(\{[\s\S]*?)(?:```|\Z)', raw, re.I)
     for cand in ([m.group(1)] if m else []):
         try:
-            return json.loads(cand.strip())
+            obj = json.loads(cand.strip())
         except ValueError:
-            pass
+            continue
+        if isinstance(obj, dict) and isinstance(obj.get('clips'), list):
+            return obj
     dec = json.JSONDecoder()
     for mm in re.finditer(r'\{', raw):
         try:
@@ -126,14 +142,21 @@ def build(raw, plan, timing):
 
 
 def prompt_block(plan, timing, meta, ratio):
+    import os
     hero = (plan.get('hero') or {}).get('en', '')
+    try:
+        cap = max(10, min(90, int(os.environ.get('YS_CAP') or 65)))
+    except ValueError:
+        cap = 65
     out = [f"[영상] 제목: {meta.get('title', '')} · 채널: {meta.get('channel', '')} · 숏폼 제목: {plan.get('short_title') or plan.get('title', '')} · 화면 {ratio}",
-           f"[주인공] {hero}" if hero else '[주인공] 없음(전 장면 은유 · 사람 없이)',
+           f"[주인공] {hero}" if hero else '[주인공] 없음(고정 주인공 없이 · 사람이 나오면 식별 특징으로 부른다)',
+           f"[자막 띠] 화면 높이 {cap}% 부근(±8%)에 나레이션 자막이 얹힌다 — 얼굴·손·핵심 동작은 그 띠 밖에 두는 구도로",
            '[장면]']
     for i, sc in enumerate(plan['scenes']):
         t = timing['scenes'][i] if i < len(timing.get('scenes') or []) else {}
         beats = '; '.join(f"{a:.1f}~{z:.1f}s 「{s}」" for a, z, s in (t.get('sents') or []))
-        out.append(f"- i={i} · 초 {target(timing, i)} · 주인공: {'나옴' if sc.get('hero') and hero else '없음'} · 문장 박자: {beats or sc.get('vo', '')}\n"
+        who = ('나옴' if sc.get('hero') else '없음(은유 장면 · 사람 없이)') if hero else '해당 없음'
+        out.append(f"- i={i} · 초 {target(timing, i)} · 주인공: {who} · 문장 박자: {beats or sc.get('vo', '')}\n"
                    f"  그림: {clean(sc.get('img'), 200)} · 움직임 힌트: {clean(sc.get('motion'), 160)}")
     return '\n'.join(out)
 

@@ -44,7 +44,7 @@ permissions:
 jobs:
   ys:
     runs-on: ubuntu-latest
-    timeout-minutes: 110   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤25 + 그록 ≤20 + 렌더 ~10 + 환경 ~8 + STT 폴백 백스톱(화면 시간 초과 120분보다 짧게)
+    timeout-minutes: 110   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤25 + 그록 ≤25(연출 대기 ≤5 포함) + 렌더 ~10 + 환경 ~8 + STT 폴백 백스톱(화면 시간 초과 120분보다 짧게)
     env:
       YS_ID: ${{ inputs.id }}   # R2 키는 잡 전체가 아니라 쓰는 스텝에만 준다(설치 스크립트·npm postinstall 노출 0 · 레포 관례)
     steps:
@@ -287,7 +287,7 @@ jobs:
           python3 .github/scripts/ys_progress.py "$YS_ID" voice done "$(python3 -c "import json;t=json.load(open('/tmp/ys/audio/timing.json'));print(f\"{t['total']:.0f}초 · \"+{'eleven':'고급 음성','edge':'무료 음성','mixed':'일부 무료 음성 대체'}[t['engine']])")"
 
       - name: 그록 연출 감독 (Opus 5.5 high · 배경)
-        if: ${{ env.YS_IMG == 'grok' }}
+        if: ${{ env.YS_IMG == 'grok' && contains(inputs.opts, '"img":"grok"') }}   # 그록 스텝·잠금 줄과 같은 조건(한쪽만 도는 판 = 헛콜 0)
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
@@ -298,6 +298,7 @@ jobs:
           # 운영자 260929 «예전 비디오 제작 방식(클립 안 컷 여러 개)과 절충» — 장면별 비트(초·MOTION·CAMERA)를 감독 콜이 쓴다.
           #   배경으로 띄운다 = 맥 보드 그림 대기(수 분)와 겹쳐 제작 시간 0 추가 · 끝나면 grokplan.done(그록 스텝이 기다린다 · 실패 = 대본 움직임)
           unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+          touch /tmp/ys/grokplan.bg   # 그록 스텝이 이 표지를 보고만 기다린다(없으면 즉시 대본 움직임)
           nohup bash .github/scripts/ys_grok_plan.sh /tmp/ys "$YS_RATIO" > /tmp/ys/grokplan.log 2>&1 &
           echo "그록 연출 감독 배경 시작(pid $!)"
 
@@ -306,6 +307,8 @@ jobs:
         timeout-minutes: 28   # 대기 1500초 + 회수 여유
         env:
           YS_IMG_WAIT: ${{ vars.YS_IMG_WAIT || 1500 }}   # 260928 실측 = 세로 7장 849초(가로 426초의 2배) → 15분 한도에 닿았다
+          YS_GROK_REF: ${{ vars.YS_GROK_REF || '1' }}   # 0 = 그록도 장면 그림(첫 프레임) · 1 = 캐릭터 보드 + 스토리보드(참조 모드)
+          YS_GROK_ON: ${{ contains(inputs.opts, '"img":"grok"') }}   # 그록 스텝이 실제로 도는 판에서만 보드를 그린다(조건 3곳 동일)
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -328,6 +331,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}   # 참조 그림을 줄여도 본문 상한을 넘을 때만 주소로
+          YS_GROK_REF: ${{ vars.YS_GROK_REF || '1' }}   # A/B 레버 — 0 = 참조 모드 끔(맥 장면 그림 첫 프레임 · 예전 방식)
         run: |
           # 이관 칸(XAI_SECRET_PAT) = 깃허브 토큰 형식이면 되쓰기 열쇠로만 · 그 밖이면 그록 갱신 열쇠로(깃허브 토큰을 그록 서버로 보내지 않는다)
           case "$XAI_MOVED" in
@@ -341,12 +345,12 @@ jobs:
             export XAI_REFRESH_TOKEN="$XAI_MOVED" XAI_SECRET_NAME=XAI_SECRET_PAT   # 회전된 새 열쇠 = 운영자가 쓰는 그 칸에 되쓴다
           fi
           unset XAI_MOVED
-          pip install --quiet pynacl pillow || echo "::warning::pynacl·pillow 설치 실패 — 그록 열쇠 되쓰기·참조 축소가 안 될 수 있음"
-          # 연출 감독(배경) 대기 — 최대 YS_GROK_PLAN_WAIT 초(맥 대기 중 대부분 끝나 있다) · 못 끝나면 대본 움직임 비트로 간다
-          W=${YS_GROK_PLAN_WAIT:-300}; while [ ! -f /tmp/ys/grokplan.done ] && [ "$W" -gt 0 ]; do sleep 5; W=$((W-5)); done
-          tail -3 /tmp/ys/grokplan.log 2>/dev/null || true
+          pip install --quiet pynacl || echo "::warning::pynacl 설치 실패 — 그록 열쇠 되쓰기가 안 되면 다음 그록 발사(콘티 포함)가 자격 오류로 죽을 수 있음"
+          pip install --quiet pillow || echo "::warning::pillow 설치 실패 — 큰 참조 그림은 주소 방식으로 보낸다"   # 따로 = 한쪽 실패가 열쇠 되쓰기를 못 죽인다
+          # 연출 감독(배경) 대기는 ys_grok.py 가 자격 확인 뒤에 한다(최대 YS_GROK_PLAN_WAIT 초 · 만료 = 감독 끄고 대본 움직임)
           python3 .github/scripts/ys_grok.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys/img /tmp/ys/vid "$YS_RATIO"; rc=$?
           rm -f "$XAI_TOKEN_STORE" 2>/dev/null   # 방금 회전된 살아 있는 열쇠 평문 = 러너에 남기지 않는다
+          tail -3 /tmp/ys/grokplan.log 2>/dev/null || true
           exit $rc
 
       - name: 모션 디자인 (Opus 5.5 high · 글자 없는 장면 연기)
@@ -480,6 +484,7 @@ jobs:
                  'dur': ren['dur'], 'scenes': ren['scenes'], 'voice': tim.get('engine'), 'img': os.environ.get('YS_IMG'), 'img_used': ren.get('img_used', 0),
                  'vid_used': ren.get('vid_used', 0), 'depth_used': ren.get('depth_used', 0), 'mg_used': ren.get('mg_used', 0), 'mg_types': ren.get('mg_types', []),
                  'design_used': ren.get('design_used', 0), 'grok_cost_usd': vid.get('cost_usd', 0),
+                 **({'grok_modes': vid.get('modes', {}), 'grok_plan_src': vid.get('plan_src', ''), 'grok_beats': vid.get('beats', 0)} if vid.get('modes') else {}),   # 어느 모드·연출로 쐈나(판이 끝난 뒤 A/B 되짚기)
                  'font': os.environ.get('YS_FONT_USED') or os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
                  'subop': int(os.environ.get('YS_SUBOP') or 100), 'cap': int(os.environ.get('YS_CAP') or 65), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
                  'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',

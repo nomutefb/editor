@@ -18,6 +18,7 @@
 """
 import json
 import math
+import re
 import os
 import subprocess
 import sys
@@ -38,8 +39,11 @@ STYLE = os.environ.get('YS_VID_STYLE', 'Korean webtoon animation style, clean li
 I2V = 'Keep the exact art style, character design and colors of the first frame.'   # 첫 프레임이 있으면 = 화풍 재서술 대신 「첫 프레임 그대로」
 # 참조 정체문(예전 콘티 레인 SHEET_NOTE·SHEET_CLAUSE 계보) — 「이건 설계도지 화면이 아니다」를 못 박아 칸·시트가 화면으로 새지 않게
 HERO_NOTE = 'a multi-angle identity reference for that person only; in the video the person appears once, filmed inside the scene'
-BOARD_NOTE = ("the director's storyboard for the whole video, panels in reading order, read only for framing, setting and mood; "
-              "the finished video is one full-bleed camera view")
+BOARD_NOTE = ("the director's storyboard for the whole video, panels in reading order, read only for setting, look, palette and mood; "
+              "camera framing comes from the timeline below; the finished video is one full-bleed camera view")   # 구도 출처 = 비트 하나(보드·장면 줄과 3중 충돌 = 모델이 평균낸다 · 평의회 260929)
+SHOT_LEAD = re.compile(r'(?i)^(?:an?\s+|the\s+)?(?:extreme\s+|medium\s+|tight\s+|wide\s+|full\s+|low[- ]angle\s+|high[- ]angle\s+|overhead\s+|top[- ]down\s+)*'
+                       r'(?:close[- ]?up|shot|view|angle|portrait|framing|still)\s+(?:of\s+)?')
+LIPS = 'Lips closed and still.'   # 소리 = 트랙 제거 + 나레이션 → 입이 움직이면 립싱크처럼 보인다(예전 콘티 레인 sound_clause(False) 짝)
 EMBED_MAX = int(os.environ.get('YS_GROK_EMBED_MAX') or '900000')   # 참조를 본문에 싣는 상한(예전 콘티 레인 실측 = 주소 방식은 xAI 쪽 받기가 끊겨 편이 죽었다)
 
 
@@ -71,20 +75,26 @@ def prompt_for(sc, mode, hero_en='', beats=None, i=0, refs=()):
     beats = beats or [{'sec': 0, 'motion': (sc.get('motion') or '').strip() or 'Slow push-in; subtle ambient motion.', 'camera': ''}]
     tl = timeline(beats)
     if mode == 'i2v':   # 첫 프레임이 구도·화풍·얼굴을 이미 쥐었다 = 움직임만(구도 재서술은 그림과 싸운다)
-        return f"{tl} {I2V}"
+        return f"{tl}{' ' + LIPS if hero_en and sc.get('hero') else ''} {I2V}"
     scene = ' '.join(str(sc.get('img') or sc.get('head') or '').split())[:220].rstrip('. ')
+    hero_here = bool(hero_en and sc.get('hero'))
+    lips = f' {LIPS}' if hero_here else ''
+    who = f"The protagonist is {hero_en.rstrip('. ')}. " if hero_here else ''   # 주인공을 글로 정의(없으면 장면마다 다른 사람)
     if mode == 'r2v':
         parts = []
         for k, kind in enumerate(refs):
             if kind == 'hero':
                 parts.append(f"<IMAGE_{k}> shows the protagonist, {hero_en.rstrip('. ')}, {HERO_NOTE}.")
             elif kind == 'board':
-                parts.append(f"<IMAGE_{k}> shows {BOARD_NOTE}; this clip is panel {i + 1}.")
+                hint = ' '.join(SHOT_LEAD.sub('', scene).split()[:8])
+                parts.append(f"<IMAGE_{k}> shows {BOARD_NOTE}; this clip is panel {i + 1}" + (f" (the one showing {hint})." if hint else '.'))
         if 'hero' in refs:   # 잠금 = 사람 참조만(스토리보드를 잠그면 「칸을 그리지 마라」와 부딪친다)
             parts.append(f"Keep the protagonist's face, hair and wardrobe identical to <IMAGE_{list(refs).index('hero')}>.")
-        return ' '.join(parts + [f"Scene: {scene}." if scene else '', tl, STYLE + '.']).replace('  ', ' ').strip()
-    who = f"The protagonist is {hero_en.rstrip('. ')}. " if hero_en and sc.get('hero') else ''   # 글→영상 = 주인공을 글로 정의(없으면 장면마다 다른 사람)
-    return f"{who}{scene + '. ' if scene else ''}{tl} {STYLE}.".strip()
+        elif who:            # 캐릭터 보드가 없으면 글 정의로라도(보드는 구도·분위기만 읽으라 했으니 얼굴 출처가 0이 된다)
+            parts.insert(0, who.strip())
+        place = SHOT_LEAD.sub('', scene)   # 장면 줄 = 장소·행동만(샷 크기는 비트가 정한다)
+        return ' '.join(parts + [f"Scene: {place}." if place else '', tl + lips, STYLE + '.']).replace('  ', ' ').strip()
+    return f"{who}{scene + '. ' if scene else ''}{tl}{lips} {STYLE}.".strip()
 
 
 def embed(path, public=''):
@@ -113,6 +123,32 @@ def embed(path, public=''):
     return public or raw
 
 
+def kill_tree(pattern):
+    """명령줄에 pattern 이 든 프로세스와 그 자손 전부에 SIGTERM(대기 만료된 배경 감독 정리 · 평의회 260929)."""
+    import signal
+    mine, p = set(), os.getpid()   # 나와 내 조상(스텝 셸 등)은 제외 — 명령줄에 같은 글자가 들어 있어도 스스로를 죽이지 않게
+    while p > 1 and p not in mine:
+        mine.add(p)
+        try:
+            p = int(open(f'/proc/{p}/stat').read().rsplit(')', 1)[1].split()[1])
+        except (OSError, ValueError, IndexError):
+            break
+    todo = [int(x) for x in subprocess.run(['pgrep', '-f', pattern], capture_output=True, text=True).stdout.split()]
+    seen = set()
+    while todo:
+        p = todo.pop()
+        if p in seen or p in mine:
+            continue
+        seen.add(p)
+        todo += [int(x) for x in subprocess.run(['pgrep', '-P', str(p)], capture_output=True, text=True).stdout.split()]
+    for p in seen:
+        try:
+            os.kill(p, signal.SIGTERM)
+        except OSError:
+            pass
+    return len(seen)
+
+
 def strip_audio(src, dst):
     """그록 자체 소리 = 버린다(나레이션·자막은 우리가 덮는다) · 영상 트랙은 재인코딩 없이."""
     r = subprocess.run(['ffmpeg', '-y', '-v', 'error', '-i', str(src), '-an', '-c:v', 'copy', str(dst)], capture_output=True, text=True)
@@ -138,32 +174,41 @@ def main(argv):
         return 0
 
     t_end = time.time() + BUDGET
-    done(0, '그록 단계가 시간 안에 끝나지 못해 그림·모션 그래픽으로 만들었어(그록 서버 지연 추정).')   # 선기록 = 스텝이 시간 벽에 잘려도 사유가 남는다(끝나면 덮어쓴다)
+    done(0, '그록 단계가 시간 안에 끝나지 못해 그림·모션 그래픽으로 채웠어(그록 서버 지연 추정).')   # 선기록 = 스텝이 시간 벽에 잘려도 사유가 남는다(끝나면 덮어쓴다)
 
     if not os.environ.get('XAI_REFRESH_TOKEN'):
         progress(id_, 'skip', '그록 자격 미등록')
-        return done(0, '그록 자격(XAI_REFRESH_TOKEN)이 등록돼 있지 않아 그림·모션 그래픽으로 만들었어 — 관리자 설정이 필요해.')
+        return done(0, '그록 자격(XAI_REFRESH_TOKEN)이 등록돼 있지 않아 그림·모션 그래픽으로 채웠어 — 관리자 설정이 필요해.')
     try:
         import grok_api
     except Exception as e:  # noqa: BLE001  코드·설치 문제
         progress(id_, 'skip', '그록 모듈 로드 실패')
-        return done(0, f'그록 모듈을 불러오지 못해(코드·설치 문제) 그림·모션 그래픽으로 만들었어. ({type(e).__name__})')
+        return done(0, f'그록 모듈을 불러오지 못해(코드·설치 문제) 그림·모션 그래픽으로 채웠어. ({type(e).__name__})')
     try:
         tok = grok_api.fresh_token()
     except Exception as e:  # noqa: BLE001  사유 3갈래 = 자격 죽음(사람이 다시 로그인) · 통로 막힘(요금제) · 외부 장애(잠시 후)
         why = str(e)[:100]
         if getattr(e, 'dead_auth', False):
             progress(id_, 'skip', '그록 자격 만료')
-            return done(0, f'그록 로그인이 풀려 그림·모션 그래픽으로 만들었어 — 관리자가 그록 자격을 다시 등록해야 해. ({why})')
+            return done(0, f'그록 로그인이 풀려 그림·모션 그래픽으로 채웠어 — 관리자가 그록 자격을 다시 등록해야 해. ({why})')
         if getattr(e, 'tier_blocked', False):
             progress(id_, 'skip', '그록 통로 막힘')
-            return done(0, f'이 계정에 그록 영상 통로가 열려 있지 않아 그림·모션 그래픽으로 만들었어(요금제·권한 확인 필요). ({why})')
+            return done(0, f'이 계정에 그록 영상 통로가 열려 있지 않아 그림·모션 그래픽으로 채웠어(요금제·권한 확인 필요). ({why})')
         progress(id_, 'skip', '그록 인증 서버 장애')
-        return done(0, f'그록 인증 서버에 닿지 못해(외부 장애) 그림·모션 그래픽으로 만들었어 — 잠시 후 다시 해줘. ({why})')
+        return done(0, f'그록 인증 서버에 닿지 못해(외부 장애) 그림·모션 그래픽으로 채웠어 — 잠시 후 다시 해줘. ({why})')
 
     # 연출 비트 = 배경 감독 콜 산출(ys_grok_plan.sh → grokplan.json) · 없으면(콜 실패·미완) 대본 motion 비트 1개
+    #   기다림 = 자격 확인 **뒤**(자격이 죽은 판에서 헛대기 0) · 진행 게시 · 만료되면 감독을 끈다(결과를 안 쓰는 Opus 콜·토큰 노출 0)
     import ys_grok_plan
     gp_path = Path(os.environ.get('YS_GROK_PLAN') or Path(argv[2]).with_name('grokplan.json'))
+    done_mark = gp_path.with_name('grokplan.done')
+    if not done_mark.exists() and gp_path.with_name('grokplan.bg').exists():   # 감독 스텝이 배경으로 띄웠다는 표지
+        progress(id_, 'run', '연출 감독 기다리는 중', 0.01)
+        w_end = time.time() + int(os.environ.get('YS_GROK_PLAN_WAIT') or '300')
+        while not done_mark.exists() and time.time() < w_end:
+            time.sleep(5)
+        if not done_mark.exists():
+            kill_tree('ys_grok_plan.sh')   # 감독 셸 + 그 아래 콜 전부(안쪽 timeout 은 자기 프로세스 그룹이라 그룹 kill 로는 안 죽는다)
     try:
         with open(gp_path, encoding='utf-8') as f:
             gp = json.load(f)
@@ -175,26 +220,35 @@ def main(argv):
     hero_en = (plan.get('hero') or {}).get('en', '')
     pub = (os.environ.get('R2_PUBLIC_BASE') or '').rstrip('/')
     refs_raw = {}
-    for kind in ('hero', 'board'):
+    ref_on = os.environ.get('YS_GROK_REF', '1') != '0'   # A/B 레버(레포 변수 YS_GROK_REF=0 = 참조 모드 끔 → 첫 그림·글→영상 · 예전 콘티 SB_SHEET_REF 관례)
+    for kind in ('hero', 'board') if ref_on else ():
         p = img_dir / f'{kind}.png'
         if p.exists() and p.stat().st_size > 2048 and not p.is_symlink():
             refs_raw[kind] = embed(p, f'{pub}/ys_img/{id_}/{kind}.png' if pub else '')
     if not hero_en:
         refs_raw.pop('hero', None)   # 정의문 없는 인물 참조 = 누구를 잠그는지 모른다
     first_frames = sum(1 for i in range(total) if (img_dir / f's{i}.png').exists())
-    lead = ('참조 모드(스토리보드' + (' + 캐릭터 보드' if 'hero' in refs_raw else '') + ')') if 'board' in refs_raw \
+    try:
+        with open(img_dir / 'img.json', encoding='utf-8') as f:
+            board_tried = bool(json.load(f).get('board'))   # 맥이 켜져 스토리보드를 시도했는데 못 받은 판 = 「맥 꺼짐」이 아니다
+    except Exception:  # noqa: BLE001
+        board_tried = False
+    fill = '그림·모션 그래픽' if first_frames else '모션 그래픽'   # 보드 모드엔 장면 그림이 없다 = 빈 장면은 모션 그래픽만
+    lead = ('참조 모드(' + ' + '.join(x for x, k in (('스토리보드', 'board'), ('캐릭터 보드', 'hero')) if k in refs_raw) + ')') if refs_raw \
         else (f'첫 그림 {first_frames}장' if first_frames else '글→영상')
     progress(id_, 'run', f'그록 {total}장면 발사 · {lead} · 비트 {sum(len(b) for b in beats_of.values())}개', 0.02)
     state = {'ok': 0, 'fin': 0}
-    costs, fails, t2v, modes = [], [], [], {}
+    costs, fails, t2v, modes, sent = [], [], [], {}, {}
 
     def one(i):
         sc = scenes[i]
         img = img_dir / f's{i}.png'
         sec = seconds_for(timing['scenes'][i].get('dur'))
         image, refs, kinds = None, None, ()
-        if 'board' in refs_raw:
-            kinds = (('hero',) if sc.get('hero') and 'hero' in refs_raw else ()) + ('board',)   # 주인공 없는 장면 = 인물 참조를 안 싣는다(실으면 사람을 넣는다)
+        kinds = (('hero',) if sc.get('hero') and 'hero' in refs_raw else ()) + (('board',) if 'board' in refs_raw else ())   # 주인공 없는 장면 = 인물 참조를 안 싣는다(실으면 사람을 넣는다)
+        if state.get('ref_bad'):   # 앞 장면에서 창구가 참조 요청 자체를 거절 = 남은 장면은 처음부터 참조 없이(같은 거절 반복 0)
+            kinds = ()
+        if kinds:
             refs, mode = [refs_raw[k] for k in kinds], 'r2v'
         elif img.exists() and img.stat().st_size > 2048:
             image, mode = img.read_bytes(), 'i2v'
@@ -202,14 +256,20 @@ def main(argv):
             mode = 't2v'
             t2v.append(i)
         modes[i] = mode
-        prompt = prompt_for(sc, mode, hero_en, beats_of.get(i), i, kinds)
+        # 첫 프레임 = 구도·조명을 그림이 쥐었다 → 대본 움직임만(감독 비트의 샷 크기·조명은 그림과 싸운다)
+        prompt = prompt_for(sc, mode, hero_en, beats_of.get(i) if mode != 'i2v' else None, i, kinds)
         last = ''
         for attempt in range(2):
+            if attempt and mode == 'r2v':   # 참조 요청이 막혔다 = 2회차는 참조 없이 글→영상(실패 호출 = 청구 0 · 모션 그래픽 강하보다 낫다)
+                refs, mode = None, 't2v'
+                modes[i] = 't2v'
+                prompt = prompt_for(sc, 't2v', hero_en, beats_of.get(i), i)
             left = t_end - time.time()
             if left < 150:   # 마감 임박 = 새 발사 안 함(발사 120초 + 받기 여유)
                 last = last or '그록 마감 시간 초과'
                 break
             try:
+                sent[i] = prompt[:900]   # 실제로 나간 문장(판이 끝난 뒤 되짚기 · 예전 콘티 rec["prompt"] 선례)
                 rid = grok_api.start_video(prompt, token=tok, ratio=ratio, image=image, refs=refs, seconds=sec)
                 v = grok_api.wait_video(rid, token=tok, max_sec=max(30, int(left - 120)))
                 costs.append(float(v.get('cost_usd') or 0))   # 청구 = 완료 시점(받기·소리 제거가 깨져도 값은 기록)
@@ -225,8 +285,11 @@ def main(argv):
             except Exception as e:  # noqa: BLE001
                 last = str(e)[:100]
                 where = getattr(e, 'where', '')
-                if where in ('video-moderated', 'video-timeout') or getattr(e, 'dead_auth', False) or getattr(e, 'tier_blocked', False):
-                    break   # 검열·자격·통로 막힘·서버 지연 = 같은 요청을 다시 쏴도 안 바뀐다
+                if mode == 'r2v' and where == 'video-start' and not getattr(e, 'dead_auth', False):
+                    state['ref_bad'] = True   # 발사 단계 거절(몸집·형식) = 참조 탓 → 이 장면 2회차와 남은 장면은 글→영상
+                if getattr(e, 'dead_auth', False) or getattr(e, 'tier_blocked', False) or where == 'video-timeout' \
+                        or (where == 'video-moderated' and mode != 'r2v'):
+                    break   # 자격·통로 막힘·서버 지연·(참조 없는) 검열 = 같은 요청을 다시 쏴도 안 바뀐다 · 참조 검열은 글→영상으로 1회
                 time.sleep(4)
         fails.append((i, last))
 
@@ -246,17 +309,20 @@ def main(argv):
     used = state['ok']
     cost = sum(costs)
     info.update({'modes': {m: sum(1 for v in modes.values() if v == m) for m in set(modes.values())}, 'plan_src': gp.get('src', ''),
-                 'beats': sum(len(beats_of.get(i) or []) for i in range(total))})
-    t2v_n = len([i for i in t2v if (out / f's{i}.mp4').exists()])
-    t2v_note = '' if not t2v_n else (' · 맥이 꺼져 있어 첫 그림 없이 글→영상으로 만들었어' if not first_frames else f' · 첫 그림이 없는 {t2v_n}장면은 글→영상')
-    t2v_note = (f' · {lead}' if 'board' in refs_raw else '') + (' · 연출 비트 = 대본 움직임(감독 콜 없음)' if gp.get('src') != 'director' else '') + t2v_note
+                 'beats': sum(len(beats_of.get(i) or []) for i in range(total)), 'prompts': {str(k): v for k, v in sorted(sent.items())}})
+    t2v_n = len([i for i, m in modes.items() if m == 't2v' and (out / f's{i}.mp4').exists()])
+    t2v_note = '' if not t2v_n else (f' · 참조가 막힌 {t2v_n}장면은 글→영상' if refs_raw
+                                     else ' · 스토리보드를 못 받아 글→영상으로 만들었어' if board_tried
+                                     else ' · 맥이 꺼져 있어 첫 그림 없이 글→영상으로 만들었어' if not first_frames
+                                     else f' · 첫 그림이 없는 {t2v_n}장면은 글→영상')
+    t2v_note = (f' · {lead}' if refs_raw else '') + (' · 연출 비트 = 대본 움직임(감독 콜 없음)' if gp.get('src') != 'director' else '') + t2v_note
     if used == total:
         progress(id_, 'done', f'장면 영상 {used}장면')
         return done(used, f'그록 영상 {used}장면{t2v_note}', cost)
     fails.sort()
     why = '; '.join(f'장면 {i + 1}: {w}' for i, w in fails[:3])
     progress(id_, 'done', f'장면 영상 {used}/{total}')
-    return done(used, f'그록 영상 {used}/{total}장면만 받았어 — 나머지는 그림·모션 그래픽으로 채웠어{t2v_note}. ({why})', cost)
+    return done(used, f'그록 영상 {used}/{total}장면만 받았어 — 나머지는 {fill}으로 채웠어{t2v_note}. ({why})', cost)
 
 
 if __name__ == '__main__':
