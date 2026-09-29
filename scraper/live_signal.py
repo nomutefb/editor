@@ -74,7 +74,7 @@ STRONG_KEEP_H = 24      # 확인 뒤 [강] 유지 창 — 그 뒤 새 첨부는 
 KEEP_H = 72             # 상태 보관
 TIER_STRONG = 3         # 확산 [강] = breaking_judge·brk_gates·push_send·뷰어 isBreaking 이 읽는 단계(값 사본 = 3 고정)
 FAM = "CXGN"
-SURGE_C, SURGE_WIN_MIN = 4, 60   # 급등(sg) = 무장 ∧ 지금 커뮤니티 4곳↑ ∧ 직전 60분 회차 중 1곳 이하였던 회차가 있다(속도 · 운영자 260929) → 그 커뮤니티 글로 즉시 알림(push_send --surge)
+SURGE_C, SURGE_WIN_MIN = 4, 60   # 급등(sg) = 무장 ∧ 지금 커뮤니티 4곳↑ ∧ 직전 60분 회차 중 1곳 이하였던 회차가 있다(속도 · 운영자 260929 «적게 울리는게 나은데 닛몰캐쉬는 들어가야함») → 그 커뮤니티 글로 즉시 알림(push_send --surge)
 
 # ── 불용어 = 수집 정본 STOPWORDS + 소셜 레인 _STOP + 일반 명사(직업·지명·수식어) — 이름이 아닌 말이 갈래를 만들지 않게 ──
 _GENERIC = set("""

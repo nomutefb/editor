@@ -566,13 +566,15 @@ def surge_run():
     now = time.time()
     todo, ctx = [], None
     done = surged(st, now)
+    urls = {e["sp"].get("u") for e in (st.get("k") or {}).values() if isinstance(e, dict) and e.get("ss") and isinstance(e.get("sp"), dict)}
     for k, ep in surges(st, now):
-        if _nk(ep.get("d") or k) in done or alerted(ep.get("d") or k, jload(SENT, {}), jload(SENT_EV, []), now):
-            ep["ss"] = ep["sa"] = int(now)   # 이미 알린 사건(48h 안 급등 · 4h 안 긴급) = 알림·요청 생략(운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야»)
+        if ep["sp"]["u"] in urls or _nk(ep.get("d") or k) in done or alerted(ep.get("d") or k, jload(SENT, {}), jload(SENT_EV, []), now):
+            ep["ss"] = ep["sa"] = int(now)   # 이미 알린 사건(같은 글 · 48h 안 급등 · 4h 안 긴급) = 알림·요청 생략(운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야»)
             _save_live(st)
-            print(f"급등 {k}: 이미 알린 이름 — 알림·요약 요청 생략")
+            print(f"급등 {k}: 이미 알린 사건 — 알림·요약 요청 생략")
         else:
             todo.append((k, ep))
+            urls.add(ep["sp"]["u"])       # 같은 회차에 같은 글을 고른 두 이름(「25사단」·「지뢰」) = 한 번만
     if todo:
         ctx, why = _push_ctx()
         if ctx is None:

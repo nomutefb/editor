@@ -831,6 +831,16 @@ class SurgePush(unittest.TestCase):   # push_send --surge = 알림 → 요약 �
         self.assertEqual((log, asks), ([], []))
         self.assertTrue(st2["k"]["닛몰캐쉬"].get("ss"))
 
+    def test_same_post_two_names_once(self):   # 같은 글을 고른 두 이름(「25사단」·「지뢰」 · 「심수봉」·「김다현」) = 알림 1발(평의회 G 재생)
+        import time as _t
+        sp = {"u": "https://fm/9", "t": "[속보] 25사단서 DMZ 작전 중 중상자 발생…지뢰 추정", "c": 4}
+        st = {"k": {"25사단": {"sg": int(_t.time()) - 60, "sp": dict(sp)}, "지뢰": {"sg": int(_t.time()) - 60, "sp": dict(sp)}}}
+        log, st2, _, _ = self.run_surge(st)
+        self.assertEqual(len(log), 1)
+        self.assertTrue(all(e.get("ss") for e in st2["k"].values()))
+        st3 = {"k": {"김다현": {"sg": int(_t.time()) - 60, "sp": dict(sp)}, "심수봉": {"sg": 1, "ss": 1, "sp": dict(sp)}}}
+        self.assertEqual(self.run_surge(st3)[0], [])                         # 다음 회차에 같은 글로 뜬 이름도 생략
+
     def test_no_subscribers_retries(self):
         log, st, _, out = self.run_surge(self.fresh(), subs=False)
         self.assertEqual(log, [])
