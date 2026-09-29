@@ -696,6 +696,7 @@
   .trend-chg.dn { color:var(--mut); }   /* 하락 = 회색(식는 중) */
   .trend-q { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .trend-q.cnhot { color:var(--accent-4); }   /* 교차합의 키워드 = 골드레몬(평의회 260723 #9 · 운영자 260723 "불 빼고 노란색[골드레몬]" — 불꽃 어색[260714 TOP 선례와 동축] 교체) · signal∩gtrends 2소스 동시 등장 = 계정무관 핫 · 색·문법 = .trend-q.top3(박스오피스 핫 키워드 --accent-4) 100% 계승(아이콘·자식 0 = 정렬 무영향) */
+  .trend-q.cnhot.cn3 { color:var(--bias-l1); }   /* 3소스 교차합의(구글·시그널·나무위키 전부 · 운영자 260929 «3군데 겹치면 파란색 — 팔레트 안에 있는 파란색») = 스카이시안 --bias-l1(팔레트 기존값 · 골드레몬 다음 단계 = RV_COLORS 회차색 1→2 선례 동축 · 진한 파랑 --bias-l2는 작은 글자 대비 부족) · 2소스 = 위 골드레몬 그대로 */
   .fw-chip { flex:none; font-size:var(--fs-xs); color:var(--mut); background:rgba(255,255,255,.06); padding:0 var(--sp-1); margin-right:var(--sp-1); border-radius:var(--r-pill); white-space:nowrap; }   /* ⑭-i 추적 상태 칩 — 부품·값 = .tcard-ago(.fresh24) 정본 사본(pill·--sp-1·--r-pill·fs-xs) · 기본은 무채(진행 중 = 정보성) · 새 도형·새 값 0 */
   .fw-chip.on { color:var(--accent-4); background:rgba(var(--accent-4-rgb),.15); }   /* 큐 넘김 = 골드레몬 음영(.tcard-ago.fresh24 값 그대로) — 조치가 끝난 건만 강조색(진행 중까지 골드면 강조가 소음) */
   .trend-q.dis-crit { color:var(--accent-4); }   /* ⑭-d 지진·화재급 재난문자 = 골드레몬(운영자 260803 "지진, 화재 급은 골드노랑으로 표기") — 색·문법 = 바로 아래 .trend-q.top3 100% 계승(새 색·새 부품 0 · 아이콘·자식 0 = 정렬 무영향) · 판정 = 수집기 crit 플래그(sns_trends.DIS_CRIT_MIN 77 = 산불 이상) 단일 원천 · 폭염·호우 등 하위 유형은 종전 표기 그대로(전건 골드 = 강조가 소음) */

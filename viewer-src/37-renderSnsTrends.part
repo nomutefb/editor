@@ -344,13 +344,21 @@ function renderSnsTrends() {
   const _cnNorm = s => String(s || '').toLowerCase().replace(/\s+/g, '');   // 실검 키워드 정규화(공백붕괴·소문자) — "제이슨 데이"↔"제이슨데이"·라틴 대소문자 일치
   const _cnSig = new Set(sig.map(s => _cnNorm(s.query)).filter(Boolean));   // 시그널 실검 키워드 집합
   const _cnGt = new Set(gt.map(g => _cnNorm(g.query)).filter(Boolean));     // 구글 실검 키워드 집합
-  const _cnHotGt = t => { const n = _cnNorm(t); return !!n && _cnSig.has(n); };   // 골드레몬 구글 행: 시그널에도 있나 = 교차합의
-  const _cnHotSig = t => { const n = _cnNorm(t); return !!n && _cnGt.has(n); };   // 골드레몬 시그널 행: 구글에도 있나 = 교차합의(평의회 260723 #9 · 한 수) = signal∩gtrends 2소스 동시 = 계정무관 핫 · **반드시 상대 열 집합과 대조**(자기 집합 대조 = 전 행 오점화 · T10 실측 봉합) · xtrends는 팬덤이라 합의 제외(별도 X 실검 유지)
+  // 나무위키 실시간 검색어(운영자 260929 «블루스카이처럼 순위 · 겹치면 노란색 · 3군데 겹치면 파란색») — 공급 = 폰 전용(sns_trends.py namu_rank · 클라우드 403)
+  //   폰이 멈추면 순위가 낡는다 → namu_updated 180분 초과(폰 하트비트 phoneStale 임계 동률) = 「폰 점검 필요」 배지 + 교차합의 집합에서 제외(낡은 말로 색칠 금지)
+  const nmuL = (d.namu || []).slice(0, 10);
+  const nmuStale = !!(nmuL.length && (!d.namu_updated || Date.now() - new Date(d.namu_updated).getTime() > 180 * 60000));
+  const _cnNm = new Set(nmuStale ? [] : nmuL.map(g => _cnNorm(g.query)).filter(Boolean));   // 나무위키 검색어 집합(교차합의 3번째 소스)
+  // 교차합의 색 = 구글·시그널·나무위키 중 몇 곳에 떴나 — 2곳 = 골드레몬(cnhot · 종전 구글∩시그널 규칙 그대로) · 3곳 = 스카이시안(cnhot cn3)
+  //   **자기 집합 포함 셈**이라 2곳 이상 = 반드시 다른 열 1곳 이상과 겹친 것(자기 집합만 대조하던 전 행 오점화[T10]와 다른 축) · X·블스 = 팬덤이라 합의 제외 유지
+  const _cnCls = t => { const n = _cnNorm(t); if (!n) return undefined; const c = (_cnGt.has(n) ? 1 : 0) + (_cnSig.has(n) ? 1 : 0) + (_cnNm.has(n) ? 1 : 0); return c >= 3 ? 'cnhot cn3' : c >= 2 ? 'cnhot' : undefined; };
+  const _cnHotGt = t => _cnCls(t);    // 구글 행 색(구 시그널 대조 = 2곳 규칙에 흡수 · 호출부 무변경)
+  const _cnHotSig = t => _cnCls(t);   // 시그널 행 색(평의회 260723 #9 원 규칙 = 2곳 = 골드레몬 그대로)
   const rtBase = '';   // 소분류 "· HH:MM 기준" 캡션 폐지(운영자 260720 — 수집 시각 = 좌상단 #vhTime 1회로 집약 · 유튜브·틱톡·구글 실검 소분류 반복 시각 제거) · 금융 소분류 시각도 동일 폐지(운영자 260721 "금융 소분류 옆에 시간 다 빼주고" — 구 finBaseTxt 캡션 제거 · 등락 의미 = 전일 종가 대비 그대로·% 색이 전달) · tm은 #vhTime 전용 잔존
   const brow = (i, url, right, cls, rcls) => `<a class="trend-row" href="${escUrl(url)}" target="_blank" rel="noopener"><span class="trend-rank">${i + 1}</span><span class="trend-q${cls ? ' ' + cls : ''}"></span>${right ? `<span class="trend-traffic${rcls ? ' ' + rcls : ''}">${right}</span>` : ''}</a>`;   // 순위+검색어만(운영자 260718 "순위 빼고 다 없애자") · right = 부가 수치 옵션(박스오피스 관람객수 — 운영자 260720 · 미지정 = 구글·시그널 실검처럼 순위+제목만) · rcls = 우측 수치 셀 색 클래스(박스오피스 top3 관객수 히트 = bo-w/y/t · 운영자 260723 · 미지정 = 종전 --mut) — 변동배지·시각 열 제거 · .trend-row/-rank/-q/-traffic 계승 = 임베드 시퀀스·fillT 무영향 · 신규 컴포넌트 0
   const mag = n => n > 0 ? (n >= 1e4 ? vfmt(n) : n.toLocaleString()) : '';   // 크기 숫자 = 만단위(≥1만)∥천단위 콤마(<1만) — 구글 검색량·블스 포스트 공용(운영자 260723 "구글·블스 크기 숫자" · vfmt 단독은 <1만서 "0.17만" 깨짐 봉합)
   const gTraf = t => { const n = parseInt(String(t || '').replace(/[^0-9]/g, ''), 10); return n > 0 ? mag(n) + '+' : ''; };   // 구글 검색량 버킷 문자열 → "500+"·"5,000+"·"2만+"(플랫폼 내부 크기 · 크로스플랫폼 비교 아님)
-  const gtSec = gt.length ? sec('gt', '구글 실시간 검색어', rtBase, Math.min(gt.length, 10), gtR.map(z => brow(z[1], ggUrl(z[0]), gTraf(z[0].traffic), _cnHotGt(z[0].query) ? 'cnhot' : undefined)).join('')) : '';   // 검색량 재표시(운영자 260723 — 260718 미표기 되돌림 · 우측 = gTraf 만단위∥콤마 · 시그널·X는 원천 볼륨 없어 순위만)
+  const gtSec = gt.length ? sec('gt', '구글 실시간 검색어', rtBase, Math.min(gt.length, 10), gtR.map(z => brow(z[1], ggUrl(z[0]), gTraf(z[0].traffic), _cnHotGt(z[0].query))).join('')) : '';   // 검색량 재표시(운영자 260723 — 260718 미표기 되돌림 · 우측 = gTraf 만단위∥콤마 · 시그널·X는 원천 볼륨 없어 순위만)
   // (구 mkyt·ytZ·mktk·tkZ = tpg 레일 매핑/인터리브 잔재(호출 0) → 260720 평의회 zig·tpc와 동반 삭제 · ytnL만 생존)
   const ytnL = fill10(freshFirst(ytn), ytnRaw).map(v => ({ ...v, cover: String(v.thumb || ''), account: v.channel }));   // ⚠ 260804 = 구 `.replace('mqdefault','oardefault')` 제거(_sytCov 12414와 같은 사고·같은 봉합 — 세로원본 선요청은 covImg의 oar2가 수행 · 여기 cover는 그 **강등 대상**이라 유효 자산 mqdefault로 둬야 회수가 산다). (원래 취지 = 뉴스 = 쇼츠 매핑(shL 9501) 미러 · 커버 = 세로원본(oardefault 720~1080급) 선요청(운영자 260717 Q03 승인 — mq 320은 3/4 크롭 시 중앙 134px 2.3배 업스케일로 흐릿·양옆 블러 잔재) · 가로 영상(oar 404) 폴백 = fillT 뒤 승급 패스
   const ytGrid = bySort(cutH(ytRaw, 24), 'views').slice(0, 10).map(v => ({ ...v, cover: v.thumb }));   // 유튜브 인기 = 24h 이내만 + 조회수 내림차순(운영자 260726 "24시간 지난 것은 안나오게 · 조회수가 기준이면 동물이 1위여야" — 구 표시순 = mostPopular 차트 순서 그대로[상승속도·최신성 가중]라 58만이 352만 위에 서던 것 교정) · 컷 경계 = TOP 입장컷 TOP_MAX_H(24h · 260721) 동축 · 미상(NaN) = fail-soft 통과(cutH 공통) · 구 freshFirst(12h 부양)·fill10(24h 밖 스테일 채움 10개 보장 260721) = 조회수 순서 왜곡·24h 컷 위반이라 이 섹션 한정 폐지 → 부족분 = 조용한 공백(kobL "10개 안 나와도 괜찮아" 선례)
@@ -406,8 +414,12 @@ function renderSnsTrends() {
   gCUR += sxSec;   // X 구독 = 큐레이션 게시물 합류(운영자 260723 · 260724 지역 무관 단일 블록) · 구 gX(X 대분류) 소멸(트렌드는 gGG·구독은 gCUR)
   // (구 X 세계군 별도 sec[sx-gl] = 260724 지역 무관 통합으로 sx 단일 블록에 병합 · 국내/세계 구분 폐지)
   const sigSec = sig.length ? sec('sig', '시그널 실시간 검색어', rtBase, Math.min(sig.length, 10), sig.slice(0, 10).map((g, i) =>
-    brow(i, ggUrl(g), undefined, _cnHotSig(g.query) ? 'cnhot' : undefined)).join('')) : '';   // ⑨ 시그널 실검(운영자 260718) — 클릭 = 구글 웹검색 검색어 입력 상태(운영자 260803 "구글 뉴스가 아닌 '구글'에서 검색자로 투입" — 구 Google News 리버스크론[평의회 260723 #2]은 뉴스만 걸러 보여 원천 맥락이 좁았다 · 목적지 = ggUrl 정본 1곳 공용 = 구글 실검과 동일 문법) · 순위+검색어만(brow)
-  gGG += (gtSec && sigSec) ? '<div class="rt2col">' + gtSec + sigSec + '</div>' : gtSec + sigSec;   // 구글|시그널 좌우 2열 매칭(운영자 260718 · 모바일 1열 스택 = .rt2col 미디어) — 한쪽 결측 = 그리드 없이 단독(조용한 공백 동축)
+    brow(i, ggUrl(g), undefined, _cnHotSig(g.query))).join('')) : '';   // ⑨ 시그널 실검(운영자 260718) — 클릭 = 구글 웹검색 검색어 입력 상태(운영자 260803 "구글 뉴스가 아닌 '구글'에서 검색자로 투입" — 구 Google News 리버스크론[평의회 260723 #2]은 뉴스만 걸러 보여 원천 맥락이 좁았다 · 목적지 = ggUrl 정본 1곳 공용 = 구글 실검과 동일 문법) · 순위+검색어만(brow)
+  gGG += (gtSec && sigSec) ? '<div class="rt2col">' + gtSec + sigSec + '</div>' : gtSec + sigSec;
+  // 나무위키 = 구글|시그널 아래 단독 폭(교차합의 3소스 묶음 · rt2col 결측 단독 폭 관용구 = 신규 컴포넌트 0) · 행 = brow(순위+검색어 · 원천 수치 없음 = 시그널과 동일) · 클릭 = 나무위키 검색 검색어 입력 상태
+  const nmuSec = nmuL.length ? sec('nmu', '나무위키 실시간 검색어', nmuStale ? '<span class="tdash-time stale" title="폰 수집기가 3시간+ 멈춤 — 나무위키 순위가 오래됐다(공급원 = 폰 · 재가동 = phone_subs)">폰 점검 필요</span>' : rtBase, nmuL.length,
+    nmuL.map((g, i) => brow(i, 'https://namu.wiki/Search?q=' + encodeURIComponent(g.query || ''), undefined, _cnCls(g.query))).join('')) : '';
+  gGG += nmuSec;   // 구글|시그널 좌우 2열 매칭(운영자 260718 · 모바일 1열 스택 = .rt2col 미디어) — 한쪽 결측 = 그리드 없이 단독(조용한 공백 동축)
   // ⑩+⑦-b 실시간 트렌드 반갈(운영자 260721 "1~10위 엑스 | 1~10위 블루스카이 · 모양 = 실검 반갈[구글|시그널] 그대로") — rt2col+sec 블릿·마진 = 9915 관용구 100% 계승 · 행 = row(순위·키워드·시간 = 기존 xtr 그대로 · 블스 시간 = started[relT 문법]) · 좌 상한 15→10(운영자 "1위~10위") · 블스 결측 = X 단독 폭(조용한 공백 동축) · 클릭 = X 검색 / 블스 검색(둘 다 검색어 입력 상태 · 운영자 260803 — 구 블스 link 피드 우선 폐지)
   const xtrSec = xtr.length ? sec('xtr', 'X 실시간 트렌드', '', Math.min(xtr.length, 10), xtr.slice(0, 10).map((g, i) =>
     row(i, 'https://x.com/search?q=' + encodeURIComponent(g.query || ''), '', g, '')).join('')) : '';
@@ -572,6 +584,7 @@ function renderSnsTrends() {
   }
   fillT('gt', '.trend-q', gtR.map(z => z[0].ko || z[0].query || ''));   // 구글 실시간 검색어 = ko(번역) 우선(운영자 260719 "검색어도 번역" · facebook→페이스북) · .trend-q textContent = XSS 안전 · 클릭 URL은 원문 query(ggUrl)
   fillT('sig', '.trend-q', sig.slice(0, 10).map(g => g.ko || g.query || ''));   // ⑨ 시그널 실검 · ko 우선
+  fillT('nmu', '.trend-q', nmuL.map(g => g.query || ''));   // 나무위키 실시간 검색어(운영자 260929) · textContent 주입 = XSS 안전
   fillT('xtr', '.trend-q', xtr.slice(0, 10).map(g => g.ko || g.query || ''));   // ⑩ X 실시간 트렌드 · ko 우선 · 상한 10(운영자 260721 반갈 "1위~10위")
   fillT('btr', '.trend-q', (d.bsky_trends || []).slice(0, 10).map(g => g.ko || g.query || ''));   // ⑦-b 블스 실시간 트렌드(운영자 260721 반갈 · textContent 주입 = XSS 안전 · ko = 미래 번역축 대비 동일 폴백)
   fillT('yt', '.tcard-t', ytGrid.map(v => v.title || ''));   // 유튜브 인기 그리드 제목 = ytGrid 동일 원본(260721 채움 리스트와 1:1 — 별도 slice면 채움분 제목 밀림)
