@@ -22,9 +22,11 @@ AI 판정(RUBRIC)이 O를 줘도 아래 3축은 **제목만으로** 기계 판�
    (운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게» · 구판의 선고·판결 통과와 매체 몰림(cross≥8) 통과를 폐지).
    예외 2 = 사형(운영자 260831 «사형은 아무나 안때려» · 구형이어도 통과) · 탄핵(헌재 선고 = 정치 사태 축 · 사법 후속 아님).
 
-④ 확산 [강](lv.t≥3 · scraper/live_signal.py) = ② 관계·지위 축만 엶(명단 인물과 같은 폭 · 운영자 260929 A9 — 닛몰캐쉬 「데이트폭력 폭로」가 비메이저로
-   막히던 자리를 분포 증거로 푼다 · 판정은 루브릭 📡 〔확산〕 규칙) · ①·③은 그대로(평의회260929-2 #8 — 닛몰캐쉬 1보·익명·씨앗 제목은 사법 어휘가 없어
-   ③ 면제 없이도 통과 · 연예인 고소·수사·재판을 분포만으로 여는 것은 운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게»와 부딪혀 운영자 결정 대기).
+④ 확산 [강](lv.t≥3 · scraper/live_signal.py) + 연예·문화 인물 = ② 관계·지위 축을 명단 인물과 같게 열고(운영자 260929 A9 — 닛몰캐쉬 「데이트폭력 폭로」가
+   비메이저로 막히던 자리를 분포 증거로 푼다) ③은 **수사 단계**(고소·피소·고발·수사·입건·영장·송치·기소·압수수색)만 연다(운영자 260929 «고소 수사도 열어»).
+   재판 단계(구형·공판·선고·판결·항소심·확정 …)는 [강]이어도 그대로 X(운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게»). 판정 = 루브릭 📡 〔확산〕 규칙.
+⑤ 유명인 개인 사망 = ① 인명 문턱 밖(운영자 260929 «사망자수는 불특정 다수일때만이야»). 제목에 사망어가 있고 그 사람이 유명인일 수 있는 신호
+   (확산 [강] ∨ 메이저급 명단 인물 ∨ 직업·직함어)가 있으면 ①을 건너뛴다 — 유명인인지는 루브릭 👤 규칙으로 판정기가 가린다(게이트는 강등만 하는 층).
 
 되돌리기 = env BRK_GATES=0(전 축 OFF) · 축별 문턱은 env(아래). 사용 = gate_reason(title, cat, cross, live) → 사유 문자열 | None.
 """
@@ -177,9 +179,10 @@ def casualty_counts(title):
     return _casualty_counts(title)[0]
 
 
-def casualty_gate(title, cat=None):
+def casualty_gate(title, cat=None, notable=False):
+    """notable = 유명인 개인 사망일 수 있는 제목(gate_reason ⑤) = 문턱 밖(운영자 260929 · 판정기 👤 규칙이 가린다)."""
     t = title or ""
-    if _SKIP.search(t) or _VERDICT_WORDS.search(t):
+    if notable or _SKIP.search(t) or _VERDICT_WORDS.search(t):
         return None
     mil = bool(_MILITARY.search(t))
     (d, i, m, comb), cumulative = _casualty_counts(t)
@@ -297,9 +300,15 @@ _JUD = re.compile(r"구형|재판(?!매)|공판|(?<!특)수사|입건|송치|불
 _JUD_KEEP = re.compile(r"사형|탄핵")
 
 
-def judicial_gate(title, cross=0):
-    """cross 는 호출부 호환용(판정에 안 쓴다 · 매체 몰림 통과 폐지 260921)."""
+# 수사 단계 어휘(운영자 260929 «고소 수사도 열어» — 연예·문화 인물 확산 [강] 한정) · 재판 단계(구형·공판·선고·판결·항소심·확정·소송 …)는 남긴다.
+_JUD_EARLY = re.compile(r"고소|(?<!에)피소(?!드)|고발|(?<!특)수사|입건|불?송치|(?<![촬수])(?:구속\s*)?영장|기소|압수수색|조사 ?착수|증거 ?인멸")
+
+
+def judicial_gate(title, cross=0, early_ok=False):
+    """cross 는 호출부 호환용(판정에 안 쓴다 · 매체 몰림 통과 폐지 260921). early_ok = 수사 단계 어휘를 지우고 본다(gate_reason ④)."""
     t = title or ""
+    if early_ok:
+        t = _JUD_EARLY.sub(" ", t)
     if _JUD_KEEP.search(t):
         return None
     if _JUD.search(t):
@@ -309,15 +318,29 @@ def judicial_gate(title, cross=0):
 
 def gate_reason(title, cat=None, cross=0, live=0):
     """속보 O를 X로 내려야 하면 사유, 아니면 None. 순서 = 인명 문턱 → 연예 → 사법.
-    live = 확산 단계(scraper/live_signal.py lv.t) — [강](3↑)이면 연예·문화 인물(분류 문화 ∨ 연예 직업어 · 공직·체육 제외)의 ②연예 축을 명단 인물과 같게 관계·지위만 연다(운영자 260929 A9 · 루브릭 📡 〔확산〕 규칙).
-    ① 인명 문턱·③ 사법 축은 [강]이어도 그대로(숫자 문턱 = 루브릭 같은 줄 · 사법 = 운영자 260921 규칙)."""
+    live = 확산 단계(scraper/live_signal.py lv.t) — [강](3↑)이면 연예·문화 인물(분류 문화 ∨ 연예 직업어 · 공직·체육 제외)의 ②연예 축을 명단 인물과 같게
+    관계·지위만 열고 ③ 사법 축은 수사 단계만 연다(운영자 260929 A9 · «고소 수사도 열어» · 루브릭 📡 〔확산〕 규칙) — 재판 단계는 그대로(운영자 260921).
+    ① 인명 문턱은 불특정 다수 피해에만 — 유명인 개인 사망 신호(⑤)면 건너뛴다(운영자 260929 · 루브릭 👤 규칙). 숫자 문턱 자체는 [강]이어도 그대로."""
     if not GATES_ON:
         return None
-    major = (live or 0) >= 3 and not _OFFICE.search(title or "") and (cat == "문화" or bool(_ENT_HINT.search(title or "")))
-    return casualty_gate(title, cat) or celeb_gate(title, major=major) or judicial_gate(title, cross)
+    t = title or ""
+    live3 = (live or 0) >= 3
+    major = live3 and not _OFFICE.search(t) and (cat == "문화" or bool(_ENT_HINT.search(t)))
+    dead = casualty_counts(t)[0]
+    notable = bool(_DEATH.search(t)) and (dead is None or dead <= 1) and (live3 or bool(_NOTABLE.search(t)) or bool(major_in(t)))   # 확정 사망 2명↑ 명시 = 다수 피해 = ① 그대로
+    return casualty_gate(t, cat, notable=notable) or celeb_gate(t, major=major) or judicial_gate(t, cross, early_ok=major)
 
 
 # 확산 [강]의 ② 완화 범위 = 연예·문화 인물만(루브릭 📡 「④ 간주는 연예·문화 인물만 · 정치인·공직자·기업인·운동선수 제외」와 같은 선 · 검증 V7 —
 #   「손흥민 결혼」·「○○ 의원 결혼」이 [강]이면 결정적 X 가 풀리던 것) · 판별 = 분류 문화 ∨ 연예 직업어 · 공직·체육어 = 제외.
 _ENT_HINT = re.compile(r"유튜버|크리에이터|스트리머|인플루언서|\bBJ\b|배우(?!자)|가수(?!요)|아이돌|걸그룹|보이그룹|래퍼|개그맨|개그우먼|코미디언|방송인|예능|연예|아나운서|웹툰 ?작가")
 _OFFICE = re.compile(r"장관|(?<!한)의원|대통령|총리|위원장|도지사|구청장|군수|여사|배우자|검찰총장|대법관|판사|당선인|선수|감독")
+# ⑤ 유명인 개인 사망 신호(운영자 260929 «사망자수는 불특정 다수일때만이야») — 사망어 ∧ (확산 [강] ∨ 명단 인물 ∨ 직업·직함어).
+#   게이트는 강등만 하는 층이라 넓게 잡아도 판정기(👤 규칙 = 전국적으로 이름이 알려진 **특정** 인물만 O)가 무명·불특정 다수를 X 로 가린다.
+#   중상·의식불명 등 사망이 아닌 피해는 대상 밖(종전 ① 문턱) · `의원` = 병원·한의원·치과의원 제외.
+#   확정 사망 2명↑이 명시된 제목 = 다수 피해 사고 = ① 그대로(「유튜버 ○○ 촬영장 화재로 스태프 2명 사망」이 [강]으로 문턱을 비껴가지 않게 ·
+#   「배우 ○○ 등 2명 사망」류 동반 사망은 놓칠 수 있다 = 희소 · 판정기 대신 운영자 교정 축).
+_DEATH = re.compile(r"사망|숨져|숨지|숨진|숨졌|별세|타계|참변|사고사|추락사|익사|피살|순직|\bdie[sd]?\b|\bdead\b|\bkilled\b", re.I)
+_NOTABLE = re.compile(r"유튜버|크리에이터|스트리머|인플루언서|\bBJ\b|배우(?!자)|가수(?!요)|아이돌|걸그룹|보이그룹|래퍼|개그맨|개그우먼|코미디언|방송인|아나운서|"
+                      r"\bMC\b|작가|감독|화백|명창|국가대표|선수(?!단|촌)|메달리스트|대통령|총리|장관|(?<![병한치과])의원|회장|총수|창업주|교수|거장|원로|향년")   # 향년 = 부고 표기(특정 개인)
+

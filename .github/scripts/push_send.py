@@ -289,7 +289,7 @@ def _ai_same_event(title, recent_titles):
     return idx if 0 <= idx < len(recent_titles) else None
 
 
-_AI_LAST = {"ok": True}   # 마지막 _ai_same_event 가 실제 판정을 냈나(NONE·번호) — 실패·산문·토큰 없음 = False(씨앗 fail-closed 가 읽는다)
+_AI_LAST = {"ok": True}   # 마지막 _ai_same_event 가 실제 판정을 냈나(NONE·번호) — 실패·산문·토큰 없음 = False(씨앗·에피소드 실패 로그가 읽는다 · 260929 fail-open)
 
 def age_h(c):
     # 나이 = first_seen(갓 감지) 우선·published 폴백 — published 우선(구)은 syndication 지연·스탬프 오류로
@@ -517,7 +517,7 @@ def main():
                 continue                                                  #   안 남으면 그 기사를 멤버로 품은 다음 묶음이 멤버 검사를 비껴간다)
             if any(k in sent for k in ks if k.startswith("t:")):
                 continue                   # 같은 헤드라인 = 스킵(종전) · 나머지 키는 안 적는다(해시 충돌 = 별개 사건일 수 있다)
-            lv_hit = any(k in sent for k in ks if k.startswith("lv:"))   # 같은 확산 에피소드 = 같은 사건일 **가능성** → AI 심판 필수(실패 = 보류)
+            lv_hit = any(k in sent for k in ks if k.startswith("lv:"))   # 같은 확산 에피소드 = 같은 사건일 **가능성** → AI 심판 우선(실패 = 발송 · 운영자 260929)
             if any(str(m) in sent for m in (c.get("cluster_members") or [])):   # 이 묶음의 기사 하나가 이미 긴급으로 나갔다(단독 1보가 먼저 나간 뒤 다매체 묶음이 따로 뜬 경우 · 평의회3 260923) = 같은 사건
                 suppressed_keys.extend(ks)
                 continue
@@ -529,8 +529,10 @@ def main():
             # ⚠ 비교 대상은 **긴급 발송분만**(k != "iss") — 이슈 발송분까지 넣으면 이슈로 먼저 알린 사건이
             #   나중에 속보로 승격됐을 때 "이미 다룬 사건"으로 억제돼 **진짜 긴급을 놓친다**(비싼 방향의 오류).
             _brk_pool = [e for e in sent_events if e.get("k") != "iss"] + _run_brk   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
-            must = lv_hit or bool(c.get("seed"))   # 심판 없이는 안 보내는 것(fail-closed · 다음 런 재시도) = 구글 뉴스 씨앗(우리 피드와 이어 볼 결정적 키가 없다 ·
-            #                                        평의회3) · 확산 에피소드 적중(같은 이름의 별개 사건일 수 있다 · 검증 V1)
+            must = lv_hit or bool(c.get("seed"))   # 심판을 먼저 받아야 하는 것 = 구글 뉴스 씨앗(우리 피드와 이어 볼 결정적 키가 없다 · 평의회3) ·
+            #                                        확산 에피소드 적중(같은 이름의 별개 사건일 수 있다 · 검증 V1) → 이번 런 AI 콜 상한이면 다음 런으로 미룬다.
+            # ⚠ 심판이 **실패**(장애·한도·토큰 없음·산문 응답)하면 보류하지 않고 보낸다 = fail-open(운영자 260929 «중복 확인하는 ai가 고장나면
+            #   또 보내야지» · 같은 사건 2회 발송 위험보다 긴급 누락이 비싸다 · 일반 후보와 같은 축). 구판 = 실패 시 보류(fail-closed).
             if must and (ai_calls >= MAX_AI_DEDUP or (lv_hit and not _brk_pool)):
                 continue
             if _brk_pool and ai_calls < MAX_AI_DEDUP:
@@ -541,8 +543,7 @@ def main():
                     suppressed_keys.extend(ks)
                     continue
                 if must and not _AI_LAST["ok"]:
-                    print(f"  ⏸ 보류(사건중복 심판 실패 = fail-closed · {'씨앗' if c.get('seed') else '확산 에피소드'}): {(c.get('title') or '')[:34]}", file=sys.stderr)
-                    continue
+                    print(f"  ⚠ 사건중복 심판 실패 → 발송(fail-open · 운영자 260929 · {'씨앗' if c.get('seed') else '확산 에피소드'}): {(c.get('title') or '')[:34]}", file=sys.stderr)
             msgs.append({"keys": ks, "ev_title": c.get("title") or "", "title": "News", "body": ("(긴급) " + disp_title(c))[:120], "url": brk_url(c), "tag": "nomute-breaking-" + hashlib.md5((ks[0] if ks else "").encode("utf-8")).hexdigest()[:10], "kind": "brk", "icon": notif_icon("brk", "sig") or ""})   # 제목="News"(고정·OS 볼드) · 본문="(긴급) 헤드라인"(외신=번역 제목) · url=해당 건 딥링크(요약완료=요약창/미완료=메이저링크 · 운영자 260622)
         # ── ⚡이슈 발송(긴급 루프 뒤 = 긴급이 우선) ────────────────────────────────────────
         # ⚠️ 원장 키에 "iss:" 접두를 붙여 긴급 키와 **분리**한다 — 접두가 없으면 이슈로 먼저 나간 사건이

@@ -228,7 +228,8 @@ class LiveTier(unittest.TestCase):   # 확산 [강](lv.t≥3 · 260929 A9) = 연
         self.assertIsNone(G.gate_reason("상상력이 증거가 될 순 없어", "문화", 3, 0))
         self.assertIsNotNone(G.gate_reason("北 증거인멸 정황", "정치", 3, 0))
         self.assertIsNotNone(G.gate_reason("검찰, ○○ 증거 조작 의혹", "사회", 3, 0))
-        self.assertIsNotNone(G.gate_reason("유튜버 ○○, 전 여자친구에 피소", "문화", 3, 3))
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○, 전 여자친구에 피소", "문화", 3, 0))       # 피소 = 사법(확산 없음)
+        self.assertIsNone(G.gate_reason("유튜버 ○○, 전 여자친구에 피소", "문화", 3, 3))          # [강] 연예 = 수사 단계 개방(운영자 260929)
         self.assertIsNotNone(G.gate_reason("가수 ○○ 결혼 에피소드 공개", "문화", 3, 0))       # 에피소드 = 연예 통과어 아님 → 연예 축 X
         self.assertIsNone(G.gate_reason("예능 에피소드 화제", "문화", 3, 0))                   # 에피소드 = 사법어 아님
 
@@ -241,8 +242,13 @@ class LiveTier(unittest.TestCase):   # 확산 [강](lv.t≥3 · 260929 A9) = 연
             self.assertIsNotNone(G.gate_reason(t, "문화", 3, 3), t)
         self.assertIsNone(G.gate_reason("배우 ○○, 결혼 3년 만에 파경", "문화", 3, 3))
 
-    def test_strong_keeps_judicial(self):   # 평의회260929-2 #8 — 사법 축은 [강]·연예인이어도 그대로(운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게»)
-        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=3))
+    def test_strong_opens_investigation_only(self):   # 운영자 260929 «고소 수사도 열어» — [강] 연예 = 수사 단계만 · 재판 단계는 260921 그대로 · 공직 = 그대로
+        self.assertIsNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=3))
+        self.assertIsNone(G.gate_reason("유튜버 ○○ 구속영장 신청…증거인멸 우려", live=3))
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=2))    # [중] = 종전
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 재판 넘겨져…첫 공판", live=3))            # 재판 단계 = 그대로
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 1심서 징역형 집행유예", live=3))
+        self.assertIsNotNone(G.gate_reason("○○ 전 장관 고소…경찰 수사", "정치", 5, 3))           # 공직 = 개방 대상 아님
         self.assertIsNotNone(G.gate_reason("가수 ○○, 항소심서 징역 3년 선고", "문화", 11, 3))
         self.assertIsNotNone(G.gate_reason("○○ 전 장관, 항소심서 징역 2년 선고", "정치", 12, 3))
         self.assertIsNotNone(G.gate_reason("○○ 의원 뇌물 혐의 구속영장 청구", "사회", 5, 3))
@@ -308,3 +314,25 @@ class JudgeIntegration(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NotableDeath(unittest.TestCase):   # 운영자 260929 «사망자수는 불특정 다수일때만이야» — 유명인 개인 사망 = ① 인명 문턱 밖(⑤)
+    def test_notable_single_death_skips_casualty(self):
+        self.assertIsNone(G.gate_reason("배우 ○○ 교통사고로 사망", "문화"))
+        self.assertIsNone(G.gate_reason("前 국가대표 ○○, 등산 중 추락사", "스포츠"))
+        self.assertIsNone(G.gate_reason("○○ 전 장관, 자택 화재로 숨져", "사회"))
+        self.assertIsNone(G.gate_reason("○○ 교통사고로 숨져", "사회", 3, 3))                     # [강] = 유명인 신호
+        self.assertIsNone(G.gate_reason("'국민 MC' ○○, 교통사고로 사망…향년 58세", "문화"))       # MC·향년 = 특정 개인 신호
+
+    def test_anonymous_or_multi_or_nonfatal_keeps_casualty(self):
+        self.assertIsNotNone(G.gate_reason("30대 남성 교통사고로 숨져", "사회"))                   # 유명인 신호 없음
+        self.assertIsNotNone(G.gate_reason("관광버스 추락 2명 사망", "사회"))
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 촬영장 화재로 2명 사망", "문화", 3, 3))     # 확정 사망 2명↑ 명시 = 다수 피해
+        self.assertIsNotNone(G.gate_reason("가수 ○○ 교통사고로 중상", "문화"))                   # 사망 아님
+        self.assertIsNotNone(G.gate_reason("치과의원 화재로 1명 사망", "사회"))                   # 의원 ≠ 치과의원
+
+    def test_roster_adds_chungha(self):   # 운영자 260929 «연예인 맞어» — 청하 = 메이저급 명단(2자 = 주어 자리만)
+        self.assertEqual(G.major_in("청하, 3년간 함께했던 박재범 품 떠난다…모어비전 전속계약 종료"), "청하")
+        self.assertIsNone(G.gate_reason("청하, 3년간 함께했던 박재범 품 떠난다…모어비전 전속계약 종료", "문화"))
+        self.assertIsNone(G.major_in("요청하다 거절당해 결별"))
+

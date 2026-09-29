@@ -577,8 +577,14 @@ class PushMain(unittest.TestCase):   # push_send.main 실제 실행(웹푸시·A
         ep_key = "lv:하이브@" + a
         ev = [{"title": "하이브 방시혁 의장 입장문", "k": "brk"}]
         self.assertEqual(len(self.round([c], sent=[ep_key], events=ev, ai="none")[0]), 1)   # AI = 다른 사건 → 발송
-        self.assertEqual(self.round([c], sent=[ep_key], events=ev, ai="fail")[0], [])      # AI 실패 = 보류
+        self.assertEqual(len(self.round([c], sent=[ep_key], events=ev, ai="fail")[0]), 1)   # AI 실패 = 발송(fail-open · 운영자 260929)
         self.assertEqual(self.round([c], sent=[ep_key], events=ev, ai="same")[0], [])      # AI = 같은 사건 → 억제
+
+    def test_seed_ai_fail_sends(self):   # 운영자 260929 «중복 확인하는 ai가 고장나면 또 보내야지» — 씨앗도 fail-open(구판 = 영구 보류)
+        c = self.brk("https://g/A", "크리에이터 닛몰캐쉬, 폭언·폭행에 비하 논란까지", seed="gn", lv={"k": "닛몰캐쉬", "t": 3, "a": "2026-09-29T09:46:00+0900"})
+        ev = [{"title": "北 동해상 탄도미사일 발사", "k": "brk"}]
+        self.assertEqual(len(self.round([c], events=ev, ai="fail")[0]), 1)
+        self.assertEqual(self.round([c], events=ev, ai="same")[0], [])       # 심판이 같은 사건이라 하면 억제는 그대로
 
 
 class Budget(unittest.TestCase):
@@ -595,7 +601,8 @@ class Gates(unittest.TestCase):
     def test_strong_skips_celeb_axis_only(self):
         self.assertIsNotNone(BG.gate_reason("배우 ○○, 열애 인정"))
         self.assertIsNone(BG.gate_reason("배우 ○○, 열애 인정", live=3))
-        self.assertIsNotNone(BG.gate_reason("유튜버 ○○ 전 연인 고소…경찰 수사 착수", live=3))   # 사법 축 = [강]이어도 그대로(운영자 260921 · 평의회260929-2 #8)
+        self.assertIsNone(BG.gate_reason("유튜버 ○○ 전 연인 고소…경찰 수사 착수", live=3))      # [강] 연예 = 수사 단계 개방(운영자 260929 «고소 수사도 열어»)
+        self.assertIsNotNone(BG.gate_reason("유튜버 ○○, 항소심서 징역 3년 선고", live=3))       # 재판 단계 = 그대로(운영자 260921)
         self.assertIsNotNone(BG.gate_reason("유튜버 ○○ 촬영장 화재로 2명 사망", live=3))   # 인명 문턱은 그대로
         self.assertIsNotNone(BG.gate_reason("배우 ○○, 열애 인정", live=2))                 # [중] = 면제 없음
 
