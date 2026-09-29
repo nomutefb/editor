@@ -445,8 +445,8 @@ def main():
         }
         if url in solo_urls:
             fresh[url]["solo"] = 1
-        if a.get("px"):
-            fresh[url]["px"] = int(a["px"])   # 연예 전문지 부착 풀 매체 수(knews_scraper POOL_TAG) — 뷰어 누적 진입·랭킹의 실효 cross 입력 · 0 이면 키 없음(바이트 예산)
+        if isinstance(a.get("px"), int) and a["px"] > 0:
+            fresh[url]["px"] = a["px"]   # 연예 전문지 부착 풀 매체 수(knews_scraper POOL_TAG) — 뷰어 누적 진입·랭킹의 실효 cross 입력 · 0 이면 키 없음(바이트 예산)
         if LB_ON and isinstance(a.get("lb"), dict) and a["lb"].get("t"):
             fresh[url]["lb"] = a["lb"]   # 최신 국면 멤버(lb_member.pick_lb) — 있는 클러스터만 키를 박는다(없으면 키 자체 없음 = 예산)
 

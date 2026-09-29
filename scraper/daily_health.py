@@ -106,7 +106,7 @@ POOL_W = 0.5   # = viewer POOL_W 사본(패리티 = check_refs check_follow_ente
 
 
 def _eff_cross(x):
-    """실효 cross = cross + POOL_W × px(연예 전문지 부착 풀 매체 수 · knews_scraper POOL_TAG) — 누적 진입·랭킹 전용.
+    """실효 cross = cross + POOL_W × px(연예 전문지 부착 풀 매체 수 · knews_scraper POOL_TAG) — 누적 진입 전용(랭킹은 기존 cross).
     이슈 배지·속보·표시는 기존 cross 그대로(배지 계기판 _iss_ok 도 기존 cross)."""
     return (x.get("cross") or 0) + POOL_W * (x.get("px") or 0)
 
@@ -142,7 +142,7 @@ def screen_merge(cands):
         grades = [g for g in [anchor.get("grade")] + [m.get("grade") for m in mem] if g is not None]
         deco[ai] = {**anchor,
                     "cross": (anchor.get("cross") or 0) + sum((m.get("cross") or 0) for m in mem),
-                    "px": (anchor.get("px") or 0) + sum((m.get("px") or 0) for m in mem),   # 부착 풀 매체 수도 cross 처럼 합산(viewer mergeDecorate 짝)
+                    "px": max([anchor.get("px") or 0] + [m.get("px") or 0 for m in mem]),   # 부착 풀 매체 수 = 형제 최댓값(viewer mergeDecorate 짝 · 합산 = 중복 셈)
                     "breaking": bool(anchor.get("breaking")) or any(m.get("breaking") for m in mem),
                     "grade": max(grades) if grades else anchor.get("grade"),
                     "report_count": max([anchor.get("report_count") or 0]
@@ -315,7 +315,7 @@ def _dominance(cands, now):
             pool.append((c, a))
     if len(pool) < 15:
         return None
-    scored = sorted(pool, key=lambda x: (_eff_cross(x[0]) ** 1.3) / (1 + (x[1] / 13) ** 3.0),
+    scored = sorted(pool, key=lambda x: ((x[0].get("cross") or 0) ** 1.3) / (1 + (x[1] / 13) ** 3.0),   # 랭킹 = 기존 cross(viewer crossConvex 짝 · px 는 진입에만)
                     reverse=True)[:30]
     top = [c for c, _ in scored]
     tokenize, same_topic = _get_tokenizer()
@@ -524,7 +524,7 @@ def main():
             g = x.get("grade")
             return bool(x.get("breaking")) and (g is None or g >= 2)
         def _scr(x):   # 누적 scScore 근사(신곡선 부스트 포함)
-            cr = _eff_cross(x)   # 누적 랭킹 = 실효 cross(viewer crossConvex 짝)
+            cr = x.get("cross") or 0   # 누적 랭킹 = 기존 cross(viewer crossConvex 짝 · px 는 진입에만 = 연예 가중 0)
             rk = _iss_age(x) or 99
             ta = 1 / (1 + (max(_ba(x) or 99, 0) / 13) ** 3.0)
             fol = 1 + 0.5 * math.log2(1 + (x.get("report_count") or 0))

@@ -46,19 +46,19 @@ test('누적 진입 = 실효 cross(cross + 0.5×px) — 렌더 필터가 effCros
   assert.deepEqual(js, [false, false, true, true, true, true, false, false, true, false, false]);
 });
 
-test('병합 카드 px 합산 = daily_health.screen_merge 와 같은 값', () => {
+test('병합 카드 px = 형제 최댓값 = daily_health.screen_merge 와 같은 값', () => {
   const a = {url: 'A', cross: 5, px: 1, group_id: 'A'}, b = {url: 'B', cross: 2, px: 2, group_id: 'A'};
   const m = V.mergeDecorate(a, [b]);
   const p = py('print(json.dumps([x for x in D.screen_merge(d) if x["url"] == "A"][0]))', [a, b]);
-  assert.equal(m.px, 3);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
+  assert.equal(m.px, 2);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
   assert.equal(m.px, p.px);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
   assert.equal(m.cross, p.cross);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
   assert.equal(V.cum(m), py('print(json.dumps(D._cum_enter(d)))', p));   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
 });
 
-test('랭킹 = 댐핑 cross + 0.5×px · 배지·표시용 cross 는 그대로', () => {
-  assert.equal(V.rankCross({cross: 7, px: 4}), 9);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
-  assert.equal(V.rankCross({cross: 20, _rankCross: 16, px: 2}), 17);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
-  assert.ok(V.crossConvex({cross: 7, px: 2}) > V.crossConvex({cross: 7}));
-  assert.ok(/const issCross = c => \(\(c\.cross \|\| 0\) >= ISS_CROSS_MIN/.test(html), '⚡이슈 배지 = 기존 cross');
+test('랭킹 = 기존(댐핑) cross · px 무관(연예 가중 0 · 진입에만 쓴다)', () => {
+  assert.equal(V.rankCross({cross: 7, px: 4}), 7);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
+  assert.equal(V.rankCross({cross: 20, _rankCross: 16, px: 2}), 16);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
+  assert.equal(V.crossConvex({cross: 7, px: 2}), V.crossConvex({cross: 7}));   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
 });
+

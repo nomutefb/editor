@@ -626,7 +626,13 @@ def _cross_key(art):
 #   소비 = to_candidates(px 캐리) → 뷰어 누적 진입·랭킹의 실효 cross(cross + POOL_W×px · 이슈 배지·속보는 기존 cross).
 #   되돌리기 = feeds.csv 의 pool 행 제거(묶기·cross 는 이 풀과 무관하게 종전 그대로).
 POOL_TAG = "pool"
-POOL_PROMO = re.compile(r"[\[(][^\])]{0,8}(?:포토|사진|화보|영상|현장)[^\])]{0,4}[\])]|제작발표회|제작보고회|쇼케이스|시사회|무대인사|티저|포스터 공개|\[가요소식\]")
+POOL_PROMO = re.compile(r"[\[(【][^\])】]{0,8}(?:포토|사진|화보|영상|현장)[^\])】]{0,4}[\])】]|(?:콘셉트 |컨셉 )?포토 공개|"
+                        r"(?:제작발표회|제작보고회|쇼케이스|시사회|무대인사)(?=\s*(?:현장|개최|성료|진행|참석|포토|사진|$|[\])】…·,]))|"
+                        r"티저|포스터 공개|\[가요소식\]|\[방송소식\]")
+# 부착 제외 묶음(평의회260929 #5·#7 실측) — 과병합 허브(멤버·매체가 to_candidates MEGA 선 초과)는 공유 토큰이 많아 풀 기사를 빨아들이고,
+#   연예·문화·스포츠 기사가 한 건도 없는 묶음(보도자료·부동산)에 전체기사 피드(싱글리스트·스타뉴스·헤럴드뮤즈)가 붙어 px 가 새던 자리.
+POOL_MAX_MEMBERS, POOL_MAX_CROSS = 40, 18   # = to_candidates MEGA_MEMBERS·MEGA_CROSS 동값(과병합 의심선)
+_POOL_SEC = ("entertainment", "culture", "sports")
 
 
 def is_pool_feed(feed):
@@ -643,9 +649,12 @@ def _attach_pool(articles, toks, clusters, reps, pool):
         for w in t:
             index[w].add(i)
     keys = {r: {_cross_key(articles[m]) for m in mem} for r, mem in clusters.items()}
-    order = {r: (-len(keys[r]), -len(clusters[r]), articles[reps[r]].get("link") or "") for r in clusters}
-    promo = {r for r in clusters if any(POOL_PROMO.search(x or "") for x in (
-        articles[reps[r]].get("title"), (articles[reps[r]].get("breaking_pick") or {}).get("title")))}
+    def _promo(r):   # 홍보 묶음 = 멤버 과반이 사진·홍보 제목(대표·픽 한 건으로 판정하면 조선 [사진] 픽 하나에 진짜 사건이 막힌다 · 평의회260929 #5)
+        return sum(1 for m in clusters[r] if POOL_PROMO.search(articles[m].get("title") or "")) * 2 > len(clusters[r])
+    def _ent(r):     # 연예·문화·스포츠 섹션 멤버가 1건↑(섹션 미상 = 허용 · 수집기 산출은 항상 섹션 보유)
+        return any(not articles[m].get("category") or any(x in (articles[m].get("category") or "").split("|") for x in _POOL_SEC)
+                   for m in clusters[r])
+    blocked = {r for r in clusters if len(clusters[r]) > POOL_MAX_MEMBERS or len(keys[r]) > POOL_MAX_CROSS or _promo(r) or not _ent(r)}
     extra = defaultdict(set)
     attached = dropped = 0
     for a in pool:
@@ -654,11 +663,20 @@ def _attach_pool(articles, toks, clusters, reps, pool):
         if not t or POOL_PROMO.search(title):
             continue
         cand = set().union(*(index.get(w, ()) for w in t))   # 같은 사건 판정은 공유 토큰이 있어야 성립 = 역색인으로 후보만 대조
-        hits = {cid[i] for i in cand if same_topic(t, toks[i])} - promo
-        if not hits:
-            dropped += 1   # 풀 단독 사건(기존 수집에 없음 · 풀끼리 새 묶음을 만들지 않는다) 또는 홍보 묶음만 맞음 → 버림
+        score = {}
+        for i in cand:
+            r = cid[i]
+            if r in blocked or not same_topic(t, toks[i]):
+                continue
+            inter = len(t & toks[i])
+            s0 = (inter, inter / max(1, len(t | toks[i])))
+            if s0 > score.get(r, (-1, -1.0)):
+                score[r] = s0
+        if not score:
+            dropped += 1   # 풀 단독 사건(기존 수집에 없음 · 풀끼리 새 묶음을 만들지 않는다) 또는 제외 묶음만 맞음 → 버림
             continue
-        best = min(hits, key=order.__getitem__)   # cross 최대 → 멤버 수 → 대표 url(결정적)
+        # 부착 = 가장 강하게 겹치는 멤버를 가진 묶음(공유 토큰 수 → 자카드 → cross → 멤버 수 → 대표 url · 결정적) — 구판 「cross 최대」는 허브가 px 를 빨아들였다
+        best = max(score, key=lambda r: (score[r][0], score[r][1], len(keys[r]), len(clusters[r]), articles[reps[r]].get("link") or ""))
         attached += 1
         k = _cross_key(a)
         if k not in keys[best]:

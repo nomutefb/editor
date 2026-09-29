@@ -65,7 +65,7 @@ class PoolAttachTest(unittest.TestCase):
         self.assertTrue(all("pool" not in a for a in b1))                                # 풀 기사는 산출에 섞이지 않는다
 
     def test_pool_does_not_bridge_two_clusters_and_attaches_once(self):
-        # 두 묶음 모두와 같은 사건으로 판정되는 풀 기사 = 다리 금지(묶음 수 그대로) · cross 가 큰 한 곳에만 부착
+        # 두 묶음 모두와 같은 사건으로 판정되는 풀 기사 = 다리 금지(묶음 수 그대로) · 가장 강하게 겹치는 한 곳에만 부착
         a = [art("가수 김철수 신곡 발표 차트 1위", "TV리포트"), art("가수 김철수 신곡 발표 음원 1위", "일간스포츠"),
              art("가수 김철수 신곡 발표 차트 정상", "스포츠경향"),
              art("배우 김철수 결혼 발표 공식 입장", "스포츠조선")]
@@ -79,6 +79,32 @@ class PoolAttachTest(unittest.TestCase):
         self.assertEqual(sorted(v for v in pxs.values() if v), [1])
         big = max((x for x in after if x.get("is_cluster_rep")), key=lambda x: x["cross_score"])
         self.assertEqual(big.get("px"), 1)
+
+    def test_attach_skips_hub_and_non_entertainment_clusters(self):
+        # 평의회260929 #5·#7 — 과병합 허브(멤버 > 40)·연예/문화/스포츠 섹션 멤버 0 묶음엔 붙이지 않는다 · 가장 강하게 겹치는 묶음 선택
+        hub = [art(f"대법관 후보 청문회 쟁점 닛몰캐쉬 {i}", f"매체{i}", category="politics") for i in range(41)]   # 닛몰캐쉬 1토큰만 공유 = 연예 묶음과 별개
+        ent = [art("닛몰캐쉬 데이트 폭력 의혹 활동 중단", "TV리포트", category="entertainment"),
+               art("닛몰캐쉬 데이트 폭력 의혹 활동 중단 인정", "일간스포츠", category="entertainment")]
+        pa = art("대법관 청문회 쟁점 닛몰캐쉬 데이트 폭력", "마이데일리")   # 허브와 겹침 4 > 연예 묶음 3 — 허브 제외가 없으면 허브로 간다
+        self.assertEqual(len({x.get("cluster_size") for x in K.score_crosspost([dict(y) for y in hub + ent]) if x.get("is_cluster_rep")}), 2)
+        out = K.score_crosspost(hub + ent, [pa])
+        r = [x for x in out if x.get("is_cluster_rep") and x.get("px")]
+        self.assertEqual([x["publisher"] for x in r], ["TV리포트"])
+        biz = [art("매일유업 신제품 출시 기념 이벤트 진행", "매일경제", category="economy"),
+               art("매일유업 신제품 출시 기념 이벤트 개최", "서울경제", category="economy")]
+        out = K.score_crosspost(biz, [art("매일유업 신제품 출시 기념 이벤트 진행 안내", "싱글리스트")])
+        self.assertFalse(any(x.get("px") for x in out))
+
+    def test_promo_cluster_is_member_majority(self):
+        # 조선 [사진] 픽 1건이 진짜 사건 묶음을 막지 않는다(과반 기준)
+        b = [art("[사진] 백하나 이소희 금메달 도전", "조선일보"), art("백하나 이소희 금메달 도전 결승 진출", "연합뉴스", category="sports"),
+             art("백하나 이소희 금메달 도전 결승 확정", "뉴시스", category="sports")]
+        out = K.score_crosspost(b, [art("백하나 이소희 금메달 도전 결승 각오", "조이뉴스24")])
+        self.assertTrue(any(x.get("px") for x in out))
+        for t in ("【포토】 배우 입국", "콘셉트 포토 공개", "[방송소식] 달리는 디너쇼", "신작 쇼케이스 개최"):
+            self.assertTrue(K.POOL_PROMO.search(t), t)
+        for t in ("뉴진스 쇼케이스 전격 취소 사태", "신승호 \"무대인사 때 울컥했던 이유\""):
+            self.assertFalse(K.POOL_PROMO.search(t), t)
 
     def test_pool_only_event_is_dropped(self):
         pool = [art("아이돌 박영희 새 예능 합류 확정", "마이데일리"), art("아이돌 박영희 새 예능 합류 확정 소감", "텐아시아")]
@@ -207,11 +233,11 @@ class EffectiveCrossTest(unittest.TestCase):
         self.assertFalse(DH._cum_enter(cand("e", 3, px=1, rc=6)))
         self.assertEqual(DH._eff_cross({"cross": 7, "px": 4}), 9)
 
-    def test_screen_merge_sums_px(self):
+    def test_screen_merge_px_is_max(self):   # 형제 px = 최댓값(합산 = 같은 전문지 중복 셈 · 평의회260929 #7)
         m = DH.screen_merge([cand("g", 5, px=1, group_id="g"), cand("h", 2, px=2, group_id="g"), cand("i", 3)])
         anchor = [x for x in m if x["url"] == "g"][0]
-        self.assertEqual((anchor["cross"], anchor["px"]), (7, 3))
-        self.assertTrue(DH._cum_enter(anchor))   # 7 + 1.5
+        self.assertEqual((anchor["cross"], anchor["px"]), (7, 2))
+        self.assertTrue(DH._cum_enter(anchor))   # 7 + 1.0
 
     def test_orphan_gauge_ignores_pool_feeds(self):
         with tempfile.TemporaryDirectory() as d:
