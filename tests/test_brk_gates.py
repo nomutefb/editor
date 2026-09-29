@@ -223,6 +223,15 @@ class LiveTier(unittest.TestCase):   # 확산 [강](lv.t≥3 · 260929 A9) = 연
         self.assertTrue(G.gate_reason("유튜버 ○○ 탄 차량 사고로 2명 사망", live=3).startswith("국내"))
         self.assertIsNone(G.gate_reason("닛몰캐쉬, 데이트폭력·비하발언 폭로 터졌다…전 여친 녹취록 공개", "문화", 1, 3))   # 목표 사례 = 면제 없이도 통과
 
+    def test_evidence_and_episode_words(self):   # V6 — 「증거」 한 낱말 = 사법 아님 · 「피소」 = 사법 · 「에피소드」 ≠ 피소
+        self.assertIsNone(G.gate_reason("닛몰캐쉬 전 여친 «증거 있다»…녹취 공개", "문화", 3, 3))
+        self.assertIsNone(G.gate_reason("상상력이 증거가 될 순 없어", "문화", 3, 0))
+        self.assertIsNotNone(G.gate_reason("北 증거인멸 정황", "정치", 3, 0))
+        self.assertIsNotNone(G.gate_reason("검찰, ○○ 증거 조작 의혹", "사회", 3, 0))
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○, 전 여자친구에 피소", "문화", 3, 3))
+        self.assertIsNotNone(G.gate_reason("가수 ○○ 결혼 에피소드 공개", "문화", 3, 0))       # 에피소드 = 연예 통과어 아님 → 연예 축 X
+        self.assertIsNone(G.gate_reason("예능 에피소드 화제", "문화", 3, 0))                   # 에피소드 = 사법어 아님
+
     def test_strong_keeps_judicial(self):   # 평의회260929-2 #8 — 사법 축은 [강]·연예인이어도 그대로(운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게»)
         self.assertIsNotNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=3))
         self.assertIsNotNone(G.gate_reason("가수 ○○, 항소심서 징역 3년 선고", "문화", 11, 3))
