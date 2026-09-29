@@ -39,6 +39,14 @@ function applyMerges(pool) {
   }
   return out;
 }
+// 수집함 불러오기 실패 줄(운영자 260929 「목록이 안나와」) — 빈 메뉴 = 조용한 공백(260706)은 *받은 게 0건*일 때의 규칙이고, 못 받은 건 실패라
+//   사유 + 다음 행동을 띄운다(CLAUDE.md 실패 표시 계약). 문구 = 기존 만료·오류 문구 · 버튼 = 메시지함 조치 버튼(.md-actbtn · MSG_ACTIONS 라벨·아이콘) 계승 = 새 부품 0.
+//   줄이 생기면 #scrapList 에 자식이 생겨 vhSync 가 검색·설정 픽토그램도 연다 = 메시지함(로그인 만료 항목)까지 닿는다.
+function scrapErrHtml(k) {
+  const cfg = MSG_ACTIONS[k === 'auth' ? 'relogin' : 'data-retry'];
+  const msg = k === 'auth' ? AUTH_EXPIRED_TXT : k === 'net' ? '네트워크 오류로 수집함을 못 불러왔어' : '서버에서 수집함을 못 받아왔어';
+  return '<div class="scrap-empty">' + qEsc(msg) + (cfg ? '<br><br><button class="md-actbtn" type="button">' + cfg.svg + '<span>' + qEsc(cfg.label) + '</span></button>' : '') + '</div>';
+}
 function renderScrap() {
   let _scSig = '';   // 이번 렌더 카드 구성(트레이+양 칼럼 ID·칩 상태·검색어·접힘) 누적 — 커밋 직전 _scrapSig와 비교
   const host = $('#scrapList'); if (!host) return;
@@ -66,11 +74,14 @@ function renderScrap() {
     return true;
   }))));
   if (!pool.length && !failedShown.length) {
-    _scSig = 'E|' + q;
+    const _err = (!q && !CANDS.length && SCRAP_ERR) || '';   // 불러오기 실패로 빈 것(loadCandidates 판정) — 진짜 빈 목록·검색 0건은 종전 그대로
+    _scSig = 'E|' + q + '|' + _err;
     if (_scSig === _scrapSig && host.childElementCount) return;   // 동일 빈 상태 재호출 = 무접촉
     closeFailMenu(); document.querySelectorAll('.sc-rsn').forEach(closeRsn);
     if (_scIO) _scIO.disconnect();
-    host.classList.remove('scrap-cols'); host.innerHTML = q ? '<div class="scrap-empty">검색 결과 없음</div>' : ''; _scrapSig = _scSig; return;   // 빈 메뉴 = 조용한 공백(설명 글자열 전폐 · 운영자 260706 — §디자인 e) · 검색 중일 때만 상태 1줄
+    host.classList.remove('scrap-cols'); host.innerHTML = q ? '<div class="scrap-empty">검색 결과 없음</div>' : _err ? scrapErrHtml(_err) : ''; _scrapSig = _scSig;
+    if (_err) { const b = host.querySelector('.md-actbtn'), cfg = MSG_ACTIONS[_err === 'auth' ? 'relogin' : 'data-retry']; if (b && cfg) b.onclick = () => cfg.fn(b); }   // 조치 = 메시지함 버튼 핸들러 그대로(다시 로그인 = ?nosw=1 재진입 · 다시 받아오기 = loadCandidates 재탐색)
+    return;   // 빈 메뉴 = 조용한 공백(설명 글자열 전폐 · 운영자 260706 — §디자인 e) · 검색 중일 때만 상태 1줄
   }
   neo.innerHTML = (failedShown.length ? `<div class="sc-failtray"><div class="sc-failtray-list"></div></div>` : '') + SC_COLS_HTML;   // 실패 트레이 = 리스트만(설명 헤더 폐지 — 어포던스가 설명 = §디자인 e)가) 조용한 공백 · 운영자 260713)
   if (failedShown.length) {   // 실패 트레이 렌더(makeScItem 재사용 = Failed칩·재시도메뉴·카드탭→원문 그대로). 최신 실패 먼저.

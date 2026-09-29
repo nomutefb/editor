@@ -2,14 +2,15 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 // smoke_scraplive.js — 수집함 라이브 반영 · 알림 PICK 딥링크 상비 스모크 (운영자 260924 「추천 순서대로 ㄱㄱ」)
 //
-// 담당 표면(변경 시 커밋 전 rc=0): viewer-src/33-openQueue.part scrapAutoRefresh·loadCandidates(quiet) ·
-//   viewer-src/35-applyAutoGroups.part renderScrap no-anim · viewer-src/48-renderPinSlots.part openBreakingDeepLink·findPushCand·pickFromReq·pickFromPush
+// 담당 표면(변경 시 커밋 전 rc=0): viewer-src/33-openQueue.part scrapAutoRefresh·loadCandidates(quiet·SCRAP_ERR) ·
+//   viewer-src/35-applyAutoGroups.part renderScrap no-anim·scrapErrHtml · viewer-src/48-renderPinSlots.part openBreakingDeepLink·findPushCand·pickFromReq·pickFromPush
 //
 // 무엇을 검증하나:
 //   A1 라이브 폴(1분)이 받은 새 후보가 탭 이동 없이 목록에 뜬다(종전 = quiet 폴이라 탭을 옮겨야 보였다)
 //   A2 손대는 중(방금 탭)이면 반영을 미룬다(누르려던 카드가 밀리는 오탭 차단) → A3 손 뗀 뒤 반영
 //   P1 SW 보관 요청 = api/pick 1발 · 카드 Picking… · P2 재처리 = 중복 0 · P3 같은 묶음표 후보 여럿 = 보류
 //   P4 주소 쿼리 act=pick 만으로는 발사 0(외부 링크 무확인 과금 차단)
+//   F1~F4 불러오기 실패(회선·서버·로그인 만료) = 조용한 공백 대신 사유 1줄 + 조치 버튼 · 회복 뒤 목록 복귀
 //   C1 페이지 에러 0
 // 원커맨드:  node shared/smoke_scraplive.js   (종료코드 0 = 전부 PASS)
 // 리스크 통제: 네트워크 0(api·후보 전부 route 스텁) · 라이브 데이터 무관(합성 후보) · 포트대 8940~8944.
@@ -124,6 +125,46 @@ const mk = (i, t, h, cross, extra = {}) => ({ id: 'https://x.kr/' + i, url: 'htt
     await p2.goto('http://127.0.0.1:' + s.port + '/?nosw=1&brk=' + encodeURIComponent('https://x.kr/1') + '&bl=' + encodeURIComponent('https://x.kr/1') + '&act=pick');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     await p2.waitForTimeout(3500);
     ok('P4 주소 쿼리만(act=pick) = 발사 0(외부 링크 무확인 과금 차단) · act 제거', picks.length === 0 && !/act=/.test(await p2.evaluate(() => location.search)), 'picks=' + picks.length);   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    // ── F: 불러오기 실패 = 사유 1줄 + 조치 버튼(운영자 260929 「목록이 안나와」 — 실패가 조용한 공백·픽토그램 숨김과 겹쳐 빈 화면이던 것) ──
+    let fmode = 'net';   // net = fetch reject(회선) · auth = reject + 세션 프로브 302(Access 만료) · srv = 두 소스 다 [](서빙 실패 신호) · ok = 정상
+    const ctx2 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    await ctx2.route('**/*', route => {
+      const u = new URL(route.request().url());
+      if (u.pathname.endsWith('/api/candidates') || u.pathname.endsWith('/candidates.json')) return fmode === 'ok' ? route.fulfill({ json: base }) : fmode === 'srv' ? route.fulfill({ json: [] }) : route.abort('failed');
+      if (u.pathname.endsWith('/nm-sync.js') && route.request().method() === 'HEAD' && fmode === 'auth') return route.fulfill({ status: 302, headers: { location: 'https://nomute.cloudflareaccess.com/cdn-cgi/access/login' }, body: '' });
+      if (u.pathname.includes('/api/')) return route.fulfill({ json: {} });
+      if (u.hostname !== '127.0.0.1' && u.hostname !== 'localhost') return route.fulfill({ status: 204, body: '' });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
+      return route.continue();
+    });
+    const p3 = await ctx2.newPage();   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    p3.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
+    const fstate = () => p3.evaluate(() => { const e = document.querySelector('#scrapList .scrap-empty'), b = e && e.querySelector('.md-actbtn');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+      return { txt: e ? e.textContent : '', btn: b ? b.textContent : '', items: document.querySelectorAll('#scrapList .sc-item').length, vh: document.body.classList.contains('vh-ready') }; });
+    await p3.goto('http://127.0.0.1:' + s.port + '/?nosw=1&tab=scrap');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
+    await p3.waitForFunction(() => !!document.querySelector('#scrapList .scrap-empty .md-actbtn'), null, { timeout: 15000 });
+    let f = await fstate();
+    ok('F1 회선 실패 = 사유 줄 + 다시 받아오기 + 검색·설정 픽토그램 해금', /네트워크 오류/.test(f.txt) && /다시 받아오기/.test(f.btn) && f.vh, JSON.stringify(f));
+    fmode = 'ok';
+    await p3.click('#scrapList .scrap-empty .md-actbtn');
+    await p3.waitForFunction(() => document.querySelectorAll('#scrapList .sc-item').length >= 2, null, { timeout: 15000 }).catch(() => {});
+    f = await fstate();
+    ok('F2 회복 뒤 버튼 = 목록 복귀(사유 줄 소멸)', f.items >= 2 && !f.txt, JSON.stringify(f));
+    fmode = 'srv';
+    await p3.goto('http://127.0.0.1:' + s.port + '/?nosw=1&tab=scrap');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
+    await p3.waitForFunction(() => !!document.querySelector('#scrapList .scrap-empty .md-actbtn'), null, { timeout: 15000 }).catch(() => {});
+    f = await fstate();
+    ok('F3 서버 빈 응답 = 서버 사유(회선·만료와 구분) + 다시 받아오기', /서버/.test(f.txt) && /다시 받아오기/.test(f.btn), JSON.stringify(f));
+    fmode = 'auth';
+    await p3.evaluate(() => { try { sessionStorage.setItem('nmAuthAuto', String(Date.now())); } catch (_) {} });   // 자동 재로그인(열림 15s 창·3분 1회)은 이미 쓴 상태 = 빈 화면이 남던 경우 · seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    await p3.goto('http://127.0.0.1:' + s.port + '/?nosw=1&tab=scrap');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
+    await p3.waitForFunction(() => !!document.querySelector('#scrapList .scrap-empty .md-actbtn'), null, { timeout: 15000 }).catch(() => {});
+    f = await fstate();
+    const auOk = /로그인이 만료/.test(f.txt) && /다시 로그인/.test(f.btn);
+    await p3.evaluate(() => { window.__nmStay = 1; });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    if (auOk) { await p3.click('#scrapList .scrap-empty .md-actbtn'); await p3.waitForTimeout(1500); }
+    const moved = await p3.evaluate(() => !window.__nmStay && /nosw=1/.test(location.search)).catch(() => false);   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    ok('F4 로그인 만료 = 만료 문구 + 다시 로그인 → ?nosw=1 재진입(Access 로그인)', auOk && moved, JSON.stringify(f) + ' moved=' + moved);
+    await ctx2.close();
     ok('C1 페이지 에러 0', errs.length === 0, errs.length ? errs.slice(0, 3).join(' · ') : '콘솔 pageerror 0건');
   } catch (e) {
     R.push({ n: 'ABORT', c: false, d: String(e.message).slice(0, 200) });
