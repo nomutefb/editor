@@ -58,6 +58,7 @@ jobs:
             pending
             messages
             viewer
+            asks
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -94,6 +95,23 @@ jobs:
           GNEWS_IMG: ${{ vars.GNEWS_IMG || '1' }}           # 구글 뉴스 레인 공용 끄기 스위치(news-analyze·moreimg 와 같은 변수) = 0 이면 확인 검색·원문 해제 0회
         run: python3 scraper/live_seed.py scraper/out/articles.json || echo "::warning::live_seed 실패(비치명 — 다음 회차 재시도)"
 
+      # ── 커뮤니티 급등 알림(운영자 260929 «닛몰캐쉬 필수 · 최대한 빠르게 · 커뮤니티 글 먼저 알림, 그 뒤 요약») ──
+      #   급등 = 무장 ∧ 커뮤니티 1곳 이하 → 4곳↑(60분 안) · 정본 = scraper/live_signal.py SURGE_* · 발송 = push_send.py --surge.
+      #   판정 워크플로를 거치지 않는다(판정 대기열 = 앞 런이 돌면 수십 분 밀림) · 보낸 표시 = 확산 상태(아래 obs 커밋에 함께 착지).
+      #   끄기 = repo variable LIVE_SURGE=0(급등 알림만) · 파일 scraper/live_signal.off(확산 신호 전체).
+      - name: 커뮤니티 급등 알림 (그 글로 즉시 푸시 + 요약 요청)
+        id: surge
+        env:
+          LIVE_SURGE: ${{ vars.LIVE_SURGE || '1' }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
+        run: |
+          n=$(python3 .github/scripts/push_send.py --surge-count 2>/dev/null || echo 0)
+          [ "${n:-0}" != "0" ] || { echo "급등 없음"; exit 0; }
+          pip install --quiet pywebpush || { echo "::warning::pywebpush 설치 실패 — 급등 알림 다음 회차 재시도"; exit 0; }
+          python3 .github/scripts/push_send.py --surge | tee /tmp/surge.out || true
+          echo "asks=$(sed -n 's/^ASK_FILE=//p' /tmp/surge.out | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+
       - name: 관측 누적 (obs — 사건 cross/burst 궤적 영구 로그)
         run: |
           python3 scraper/snapshot.py || true   # 비치명: 실패해도 scrape 안 깸
@@ -124,6 +142,21 @@ jobs:
           #   「candidates push 실패」 → 뒤 스텝 화재 추적·속보 판정 디스패치·pending 적재가 매 런 통째 스킵).
           #   같은 커밋의 형제(:215 pending)와 pick.yml 은 조건 보유 = 이 자리만 알몸 판정이었다.
           [ "${pushed:-0}" = 1 ] || { echo "::error::candidates push 실패(재시도 소진) — 수집분이 main 에 안 올라갔다"; exit 1; }
+
+      # 급등 알림의 요약 요청(asks/<id>.json = SNS 카드 「전송」과 같은 형식) 착지 → news-ask 를 그 파일 하나로 발동(스윕 겹침 0).
+      - name: 급등 요약 요청 착지 & 발동
+        if: steps.surge.outputs.asks != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ASKS: ${{ steps.surge.outputs.asks }}
+        run: |
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "ask: 커뮤니티 급등 자동 요약 요청" ${ASKS}
+          git fetch -q origin main 2>/dev/null || true
+          git merge-base --is-ancestor HEAD origin/main 2>/dev/null || { echo "::warning::요약 요청 착지 실패 — 알림은 나갔고 요약만 빠짐"; exit 0; }
+          for f in ${ASKS}; do
+            ok=0; for i in 1 2 3; do gh workflow run news-ask.yml -f only="$f" && { ok=1; break; }; sleep $((i * 3)); done
+            [ "$ok" = 1 ] || echo "::warning::news-ask 디스패치 실패 — pending-sweep 백스톱이 처리"
+          done
 
       # ── ⑭-f 화재 재난문자 후속 추적(운영자 260803 "15분, 30분 뒤에 각각 검색해서 사상자가 있는지 확인 · 있다면 긴급보도 큐로") ──
       #   왜 여기인가 = 이 워크플로가 15분 정본 타이머(외부 cron-job.org)로 돌고, 바로 위에서 candidates.json(검색 대상)을

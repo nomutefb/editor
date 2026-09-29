@@ -18,6 +18,7 @@
 #        novel = 무장(armed) 3시간 전보다 이른 보도가 24시간 안에 없어야(묵은 사건의 재점화 = 속보 아님).
 #   ⚠ 한 갈래만으로는 절대 t2 이상이 안 된다(커뮤니티 단일 신호 정밀도 = 단일 원천 잡음 90%↑ · 백테스트 실측).
 #   ⚠ 만성어(지난 72h tbs 스냅샷의 15%↑에서 2곳↑에 뜬 말 · 최근 6h 제외)는 C 갈래로 안 센다(늘 떠 있는 말 = 사건 아님).
+# 급등(sg) = 무장 ∧ 커뮤니티 1곳 이하 → 4곳↑(60분 안) = 속도 — push_send --surge 가 그 글로 즉시 알린다(운영자 260929).
 # 실측(9/22~9/29 스크랩 1,039회 리플레이 · 평의회260929-2 반영 후) = 무장(t2) ≈3건/일 · 우리 수집함 확인 [강] 7일 1건(닛몰캐쉬) ·
 #   닛몰캐쉬 무장 09:46 → 구글 뉴스 [강] 10:31(색인 지연 ≤9분 가정 · 20분이면 10:45 = 낙관 하한).
 #
@@ -73,6 +74,7 @@ STRONG_KEEP_H = 24      # 확인 뒤 [강] 유지 창 — 그 뒤 새 첨부는 
 KEEP_H = 72             # 상태 보관
 TIER_STRONG = 3         # 확산 [강] = breaking_judge·brk_gates·push_send·뷰어 isBreaking 이 읽는 단계(값 사본 = 3 고정)
 FAM = "CXGN"
+SURGE_C, SURGE_WIN_MIN = 4, 60   # 급등(sg) = 무장 ∧ 지금 커뮤니티 4곳↑ ∧ 직전 60분 회차 중 1곳 이하였던 회차가 있다(속도 · 운영자 260929) → 그 커뮤니티 글로 즉시 알림(push_send --surge)
 
 # ── 불용어 = 수집 정본 STOPWORDS + 소셜 레인 _STOP + 일반 명사(직업·지명·수식어) — 이름이 아닌 말이 갈래를 만들지 않게 ──
 _GENERIC = set("""
@@ -461,7 +463,7 @@ def _soc_sig(soc3):
 def new_state():
     # tb = {6시간 칸(epoch//21600): 그 칸 tbs 스냅샷 수} · tl = 최근 스냅샷 id(분 · 재독 중복 차단) · hi = {이름: {칸: 2곳↑였던 스냅샷 수}}
     # (분 단위 목록이면 72h 에 220KB · 시 단위 136KB · 6시간 칸 ≈47KB = 리플레이 실측 · 만성 판정은 칸 단위 근사로 충분)
-    return {"v": 1, "tb": {}, "tl": [], "hi": {}, "k": {}, "gn": {}, "sd": {}}
+    return {"v": 1, "tb": {}, "tl": [], "hi": {}, "k": {}, "gn": {}, "sd": {}, "c2": {}}   # c2 = {이름: 최근 60분 2곳↑였던 스냅샷(분)} = 급등 판정 원료
 
 
 def load_state(p=None):
@@ -528,10 +530,18 @@ def chronic(st, key, now):
 def update(st, snap, now):
     """한 회차 관측을 상태에 반영 → {key: 에피소드}. 만성어 계수·갈래 최근 관측·무장·만료·정리."""
     obs, meta = observe(snap, now)
+    prior, cnow = [], set()                # prior = 이번 새 tbs 스냅샷 직전 60분 회차들 · cnow = 이번 회차 커뮤니티 갈래가 선 이름(만성어 아님)
     if meta["t_tbs"]:
         m, h = int(meta["t_tbs"] // 60), str(int(meta["t_tbs"] // BUCKET_S))
         tl = st.setdefault("tl", [])
         if m not in tl:                    # 같은 스냅샷(updated) 재독 = 이중 계수 0
+            prior = [x for x in tl if m - SURGE_WIN_MIN <= x < m] or tl[-1:]   # 60분 안 회차가 없으면(수집 공백) 직전 회차 하나
+            c2s = st.setdefault("c2s", m)
+            prior = [x for x in prior if x >= c2s]   # c2 기록 전 회차 = 비교 원료 없음(배포 첫 회차의 몰림 발사 차단)
+            c2 = {k: [x for x in v if x >= min(prior + [m])] for k, v in (st.get("c2") or {}).items()}   # 비교할 회차까지만 보관(상태 작게)
+            for k in meta["hi"]:
+                c2.setdefault(k, []).append(m)
+            st["c2"] = {k: v for k, v in c2.items() if v}
             st["tl"] = (tl + [m])[-24:]
             tb = st.setdefault("tb", {})
             tb[h] = tb.get(h, 0) + 1
@@ -558,6 +568,7 @@ def update(st, snap, now):
         comm = meta["tbs_fresh"] and (e.get("C", 0) >= COMM_MIN or (e.get("S", 0) >= COMM_MIN and e.get("C", 0) >= 2))
         if comm and not (chronic(st, k, now) or (len(k) >= 3 and k[-1] in _JOSA1 and chronic(st, k[:-1], now))):   # 조사형(「안세영이」)도 바탕 이름의 만성 판정을 따른다
             fams["C"] = meta["t_tbs"]
+            cnow.add(k)
         if "X" in e:
             fams["X"] = meta["t_sns"]
         if "G" in e:
@@ -597,8 +608,37 @@ def update(st, snap, now):
             ep.pop("a", None)              # 동시성이 끊긴 미확인 무장 = 해제([중]이 한 갈래만으로 하루씩 이어지고 늦은 확인이 붙던 것 · 평의회260929-2 #2-2)
             if ((st.get("gn") or {}).get(k) or {}).get("nov") != 0:
                 st.get("gn", {}).pop(k, None)   # 다시 동시에 뜨면 새 무장 시각 = novel 창도 새로 · 「새 사건 아님」 고정은 에피소드 만료까지 유지(V2)
+    if prior and not STATE_RO:             # 급등 = 에피소드당 1회(기록자 = 러너 하나)
+        c2 = st.get("c2") or {}
+        for k in cnow:
+            ep = eps.get(k)
+            if not ep or ep.get("sg") or obs[k].get("C", 0) < SURGE_C or tier(ep, now) < 2:
+                continue
+            forms = [k] + ([k[:-1]] if len(k) >= 3 and k[-1] in _JOSA_LINK else []) + [k + j for j in _JOSA_LINK]
+            if any(not any(x in c2.get(f, ()) for f in forms) for x in prior):
+                post = _surge_post(k, snap.get("tbs") if isinstance(snap.get("tbs"), dict) else {})
+                if post:
+                    ep["sg"], ep["sp"] = int(now), post
     prune(st, now)
     return eps
+
+
+def _surge_post(key, tbs):
+    """급등 이름이 든 커뮤니티 글 중 댓글 가장 많은 것 = 알림·요약 요청의 원문 {u, t, m, c(곳수)}."""
+    best, n = None, 0
+    for cm in tbs.get("communities") or []:
+        hit_any = False
+        for p in (cm.get("posts") or []) if isinstance(cm, dict) else []:
+            if not isinstance(p, dict) or not str(p.get("url") or "").startswith("http") or not hit(key, p.get("title")):
+                continue
+            hit_any = True
+            v = p.get("comment") if isinstance(p.get("comment"), int) else 0
+            if best is None or v > best[0]:
+                best = (v, {"u": str(p["url"]), "t": str(p.get("title") or "")[:120], "m": str(cm.get("name") or cm.get("id") or "")})
+        n += hit_any
+    if best:
+        best[1]["c"] = n
+    return best[1] if best else None
 
 
 def active(ep, now):

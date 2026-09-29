@@ -22,6 +22,10 @@ on:
         description: '스윕에서 이 분(min) 미만 신선 ask 스킵(0=전건 · pending-sweep 백스톱=40 — 자기 스코프 런이 처리 중인 신선 건과의 겹침 배제)'
         type: string
         default: '0'
+      only:
+        description: '이 ask 파일만 처리(asks/<id>.json · 커뮤니티 급등 자동 요약 요청 = scrape.yml · 비면 잔류 전건 스윕)'
+        type: string
+        default: ''
 
 # 병렬 처리(운영자 260720 "앞에 뭐 있어도 여러 개 동시에" — 직렬 그룹 폐지 2단 진화):
 #   ① 260720 오전: 런 레벨 그룹(news-ask)을 card_plan 꼬리(상한 165분)가 인질로 쥐어 새 요청이 착수도 못 함
@@ -138,6 +142,7 @@ jobs:
           SUMMARY_REPAIR_EFFORT: ${{ vars.SUMMARY_REPAIR_EFFORT || 'high' }}   # 분량 가드 보정 콜 노력도 = high(운영자 260912 · 실측 max 보정 콜 4.6~7.4분 · shared/summary_repair.sh 기본값과 동값) · 롤백 = repo 변수 SUMMARY_REPAIR_EFFORT=max
           ASK_SAFE_MODE: ${{ vars.ASK_SAFE_MODE || '1' }}   # 지침문서(CLAUDE.md) 스킵 = 기본 ON(260905 · analyze 와 동축 · 캡처 Read 는 safe-mode 무관) · 끄기 = repo 변수 ASK_SAFE_MODE 를 '1' 외 값
           EVT_NAME: ${{ github.event_name }}
+          ASK_ONLY_IN: ${{ inputs.only }}   # dispatch 전용 = 이 ask 파일 하나(급등 자동 요약 요청)
           EVT_BEFORE: ${{ github.event.before || '' }}   # push 직전 head — 병렬 스코프 범위 산출용(헤더 주석 ②)
           EVT_SHA: ${{ github.sha }}
           ASK_MIN_AGE_MIN: ${{ inputs.min_age_min || '0' }}   # 스윕 신선 배제(dispatch 전용 — push 스코프엔 무관)
@@ -163,7 +168,7 @@ jobs:
           #   ⓑ 전건 스윕 폴백은 '산출 불가'(zero-SHA·force-push 이력 부재·diff 실패)에만 — 유실 0 은 45분 백스톱이 담보.
           #   ⓒ pathspec = :(glob) — 기본 pathspec 의 * 는 / 를 넘어 asks/failed/ 격리본까지 매치(실측 · 검증 C5ⓒ)
           #      → 격리본 부활 처리 차단. dispatch 런 = ASK_ONLY 없음(잔류 스윕 · ASK_MIN_AGE_MIN 신선 배제).
-          ASK_ONLY=""
+          ASK_ONLY="${ASK_ONLY_IN:-}"   # dispatch only = 그 파일 하나(스윕 겹침 0)
           if [ "${EVT_NAME}" = "push" ]; then
             Z="0000000000000000000000000000000000000000"
             if [ -n "${EVT_BEFORE}" ] && [ "${EVT_BEFORE}" != "$Z" ] \

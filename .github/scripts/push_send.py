@@ -427,8 +427,92 @@ def notif_icon(kind, theme):
     return (b.get(kind) or {}).get(theme or "sig")
 
 
+# ── 커뮤니티 급등 알림(운영자 260929 «닛몰캐쉬 필수 · 최대한 빠르게 · 커뮤니티 글을 먼저 알림, 그 뒤 요약») ──
+#   급등 = scraper/live_signal(ep.sg · 무장 ∧ 커뮤니티 1곳 이하 → 4곳↑ 60분 안) · 러너 scrape 가 감지 직후 이 모드로 보낸다(판정 대기 0).
+#   보낸 표시(ep.ss)는 확산 상태 파일(기록자 = 러너 하나)에 둔다 = push/ 원장은 긴급 판정 워크플로 단독 소유(git_land 단일 기록자 전제).
+#   요약 = SNS 카드 「전송」과 같은 요약 요청(asks · srcUrl = 그 글 · 화제를 보고 뉴스를 찾아 요약) → news-ask 가 끝나면 「요약 완료」 알림.
+#   같은 이름 에피소드의 뒤 긴급 기사는 아래 main 이 억제(한 번 알린 사건 = 다시 긴급 안 울림 · 운영자 260929).
+LIVE_STATE = ROOT / "scraper" / "obs" / "live_state.json"
+ASKS = ROOT / "asks"
+SURGE_MAX_S = 3600   # 감지 뒤 이 안에만 보낸다(발송 실패 = 다음 회차 재시도 · 그 뒤는 뒷북)
+
+
+def surges(st, now):
+    """보낼 급등 = [(이름, 에피소드)] — 킬스위치(scraper/live_signal.off · env LIVE_SURGE=0)면 없음."""
+    if (ROOT / "scraper" / "live_signal.off").exists() or os.environ.get("LIVE_SURGE", "1").strip() == "0":
+        return []
+    return [(k, ep) for k, ep in ((st or {}).get("k") or {}).items()
+            if isinstance(ep, dict) and ep.get("sg") and isinstance(ep.get("sp"), dict) and ep["sp"].get("u")
+            and not ep.get("ss") and 0 <= now - ep["sg"] <= SURGE_MAX_S]
+
+
+def surged(st):
+    """이미 급등 알림이 나간 에피소드 {정규화 이름: 알린 글 제목} — 뒤 긴급 기사 억제·사건중복 비교용."""
+    out = {}
+    for k, ep in ((st or {}).get("k") or {}).items():
+        if isinstance(ep, dict) and ep.get("ss") and isinstance(ep.get("sp"), dict):
+            out[re.sub(r"[^0-9a-z가-힣]", "", str(ep.get("d") or k).lower())] = str(ep["sp"].get("t") or "")
+    return out
+
+
+def surge_ask(sp):
+    """요약 요청 1건(asks/<UTC YYYY-MM-DD-HHMM>-<5자>.json · 형식 = functions/api/submit.js · 프리셋 = SNS 카드 전송) → 상대 경로."""
+    ts = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
+    path = ASKS / ("%s-%s.json" % (ts, hashlib.md5(sp["u"].encode("utf-8")).hexdigest()[:5]))
+    body = {"ts": ts, "text": "\n".join(x for x in (sp.get("t"), sp["u"]) if x), "link": "", "linkForce": 0, "images": [], "nothumb": 1,
+            "preset": {"h24": 1, "fp": 0, "mj": 1, "og": 0, "noai": 1}, "srcUrl": sp["u"]}
+    ASKS.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
+    return str(path.relative_to(ROOT))
+
+
+def deliver(subs, payload, kind, pem_path, subj, webpush, WebPushException, dead):
+    """알림 1건 → 켜진 구독 전원(발송 한 곳 = 이 함수) · 하나라도 성공 = True · 죽은 구독(404/410) = dead 에 적는다."""
+    ok_any = False
+    for s in subs:
+        ep = (s or {}).get("endpoint")
+        if not ep:
+            continue
+        if (s or {}).get("off"):   # 화면에서 끈 기기 = 발송 제외(운영자 260819 «비활성화 시키면 그쪽에는 푸시를 안하는거로») · 구독은 목록에 남는다(다시 켜면 그대로 복귀)
+            continue
+        try:
+            webpush(subscription_info=s, data=payload, vapid_private_key=pem_path, vapid_claims={"sub": subj}, **push_opts(kind))   # ttl·Urgency = push_opts 정본(기본 ttl=0 폐기 축 봉합 260921)
+            ok_any = True
+        except WebPushException as e:
+            code = getattr(getattr(e, "response", None), "status_code", None)
+            if code in (404, 410):
+                dead.add(ep)
+            print(f"push 실패({code}): {ep[:60]}", file=sys.stderr)
+        except Exception as e:
+            print(f"push 오류: {e}", file=sys.stderr)
+    return ok_any
+
+
+def surge_send(subs, priv, subj, webpush, WebPushException):
+    st = jload(LIVE_STATE, {})
+    now = time.time()
+    todo = surges(st, now)
+    if not todo:
+        print("급등 없음 — 발송 생략"); return
+    pem_path = vapid_pem(priv)
+    for k, ep in todo:
+        sp = ep["sp"]
+        m = {"title": "News", "body": ("(긴급) " + str(sp.get("t") or k))[:110] + " · 커뮤니티 %s곳" % (sp.get("c") or ""),
+             "url": sp["u"], "tag": "nomute-breaking-" + hashlib.md5(sp["u"].encode("utf-8")).hexdigest()[:10], "kind": "brk",
+             "icon": notif_icon("brk", "sig") or ""}   # 본문 탭 = 그 커뮤니티 글(남의 주소 = SW 가 그대로 연다)
+        if deliver(subs, payload_of(m), "brk", pem_path, subj, webpush, WebPushException, set()):   # 죽은 구독 정리 = 구독 원장 소유자(판정 워크플로) 몫
+            ep["ss"] = int(now)
+            print(f"급등 발송: {k} · {sp.get('t', '')[:40]}")
+            print("ASK_FILE=" + surge_ask(sp))
+    tmp = LIVE_STATE.with_suffix(".tmp")   # 저장 형식 = scraper/live_signal.save_state 와 같음
+    tmp.write_text(json.dumps(st, ensure_ascii=False, separators=(",", ":"), sort_keys=True), encoding="utf-8")
+    os.replace(tmp, LIVE_STATE)
+
+
 def main():
     test = "--test" in sys.argv
+    if "--surge-count" in sys.argv:   # 러너 게이트(발송 라이브러리·비밀값 불요)
+        print(len(surges(jload(LIVE_STATE, {}), time.time()))); return
     suppressed_keys, sent_events = [], []   # 사건 dedup 상태 — 테스트·--notify 경로에서도 참조되므로 선초기화
     notify = None
     notify_url = "/"
@@ -479,6 +563,8 @@ def main():
     except ImportError:
         print("pywebpush 미설치 — 생략"); return
 
+    if "--surge" in sys.argv:
+        surge_send(subs, priv, subj, webpush, WebPushException); return
     if test:
         msgs = [{"keys": [f"test-{int(time.time())}"], "title": "🔔 노뮤트 테스트",
                  "body": "웹푸시 연결 정상! 긴급 속보가 이렇게 와.", "url": "/", "tag": "nomute-breaking",
@@ -501,6 +587,7 @@ def main():
         sent_events = [e for e in _ev_raw if isinstance(e, dict) and _sent_alive((e or {}).get("ts"), _now_ep2)] if isinstance(_ev_raw, list) else []
         ai_calls = 0
         msgs = []
+        sg_done = {} if (ROOT / "scraper" / "live_signal.off").exists() else surged(jload(LIVE_STATE, {}))
         for c in cands:
             if not is_breaking(c):
                 continue
@@ -514,6 +601,10 @@ def main():
                 continue
             ks = dedup_keys(c)
             if not ks:
+                continue
+            _lvk = re.sub(r"[^0-9a-z가-힣]", "", str((c.get("lv") or {}).get("k") or "").lower()) if isinstance(c.get("lv"), dict) else ""
+            if _lvk and _lvk in sg_done:   # 같은 이름 에피소드가 커뮤니티 급등으로 이미 울렸다 = 같은 사건(운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야»)
+                suppressed_keys.extend(k for k in ks if not _weak(k))
                 continue
             if any(k in sent for k in ks if not _weak(k)):   # 강한 키(event_key·group_id·승계 씨앗 키·url) = 같은 사건 확정 = 스킵
                 suppressed_keys.extend(k for k in ks if k not in sent)   # 나머지 키도 원장에(260929 — 씨앗 키를 승계한 실후보의 자기 url 이
@@ -532,7 +623,7 @@ def main():
             _run_brk = [{"title": m.get("ev_title") or ""} for m in msgs if m.get("kind", "brk") != "iss"]
             # ⚠ 비교 대상은 **긴급 발송분만**(k != "iss") — 이슈 발송분까지 넣으면 이슈로 먼저 알린 사건이
             #   나중에 속보로 승격됐을 때 "이미 다룬 사건"으로 억제돼 **진짜 긴급을 놓친다**(비싼 방향의 오류).
-            _brk_pool = [e for e in sent_events if e.get("k") != "iss"] + _run_brk   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
+            _brk_pool = [e for e in sent_events if e.get("k") != "iss"] + _run_brk + [{"title": t} for t in sg_done.values() if t]   # + 급등 알림 글 제목(이름이 달라도 같은 사건이면 억제)   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
             must = lv_hit or bool(c.get("seed"))   # 심판을 먼저 받아야 하는 것 = 구글 뉴스 씨앗(우리 피드와 이어 볼 결정적 키가 없다 · 평의회3) ·
             #                                        확산 에피소드 적중(같은 이름의 별개 사건일 수 있다 · 검증 V1) → 이번 런 AI 콜 상한이면 다음 런으로 미룬다.
             # ⚠ 심판이 **실패**(장애·한도·토큰 없음·산문 응답)하면 보류하지 않고 보낸다 = fail-open(운영자 260929 «중복 확인하는 ai가 고장나면
@@ -611,24 +702,7 @@ def main():
     pem_path = vapid_pem(priv)
     dead, sent_keys, sent_evs = set(), [], []
     for m in msgs:
-        payload = payload_of(m)
-        ok_any = False
-        for s in subs:
-            ep = (s or {}).get("endpoint")
-            if not ep:
-                continue
-            if (s or {}).get("off"):   # 화면에서 끈 기기 = 발송 제외(운영자 260819 «비활성화 시키면 그쪽에는 푸시를 안하는거로») · 구독은 목록에 남는다(다시 켜면 그대로 복귀)
-                continue
-            try:
-                webpush(subscription_info=s, data=payload, vapid_private_key=pem_path, vapid_claims={"sub": subj}, **push_opts(m.get("kind")))   # ttl·Urgency = push_opts 정본(기본 ttl=0 폐기 축 봉합 260921)
-                ok_any = True
-            except WebPushException as e:
-                code = getattr(getattr(e, "response", None), "status_code", None)
-                if code in (404, 410):
-                    dead.add(ep)
-                print(f"push 실패({code}): {ep[:60]}", file=sys.stderr)
-            except Exception as e:
-                print(f"push 오류: {e}", file=sys.stderr)
+        ok_any = deliver(subs, payload_of(m), m.get("kind"), pem_path, subj, webpush, WebPushException, dead)
         if ok_any:
             sent_keys.extend(m["keys"])   # event_key+제목해시(+group_id) 다 기록 = 다음 런에 어느 쪽으로 와도 dedup
             if m.get("ev_title") is not None:   # 긴급 발송만 사건 시그니처 기록(테스트·--notify 는 ev_title 없음)
