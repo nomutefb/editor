@@ -16,32 +16,52 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "3/ 오픈AI가 페이지를 살아 있는 문서라고 부르는 이유는 자동 갱신 기능에 있습니다. \n\n페이지에 무엇을 고칠지, 어떤 출처를 쓸지, 얼마나 자주 확인할지 지시를 남기면 ChatGPT가 정해진 주기로 페이지를 업데이트하고, 사용자는 돌아와 바뀐 부분을 검토합니다.\n\n공식 예시는 Slack, 이메일, 캘린더에서 할 일을 모아 마감일과 다음 단계를 계속 고쳐 쓰는 할 일 목록과, 연결된 데이터로 최신 상태를 유지하는 제품팀 현황표입니다.\n\n같은 날 발표된 MCP Events를 쓰면 프로젝트 보드에 새 작업이 올라오는 순간처럼 외부 앱의 변화가 자동화를 시작시킬 수 있습니다.",
-   "likes": 3,
-   "cmts": 1,
-   "time": 1790720734,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825352118_17989328247112832_2350203267402677034_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzE3NjcwOTQ3MTU1NzY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AALQ7J3utwIQ7kNvwECFfix&_nc_oc=AdqU69YVMhMkOruTGnTI_JmUzcymm4PY_7WVlCHhjVuh4-3V5S84PjjQns4gf8TUDKQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=npZqss7kvljP3DffglRFlA&_nc_ss=7a20f&oh=00_AQNCqVm8cOzRf7OGZ36LXuyIRvbbCleS_5f-0chy03ZGtw&oe=6AC20ABB",
-   "url": "https://www.threads.com/@choi.openai/post/Dd40-3ND45b",
+   "text": "3/ 이 구조를 먼저 들고나온 곳이 TypeSafe입니다.\n\nInstructGPT 연구에 참여했던 Diogo Almeida가 9월 15일 공개한 Jev는 문장을 생성하지 않고 여러 질문의 선택지 확률을 병렬로 계산하는 의사결정 전용 모델입니다. \n\n시연에서는 고객 문의 하나에 걸린 27개 질문을 0.114초에 모두 처리했고, 같은 질문을 받은 GPT-5.6 Terra는 8.566초 동안 답을 출력했습니다.\n\n가격은 입력 100만 토큰당 0.042달러에 출력은 무료이고, 확률이 실제 정답률과 맞도록 보정했다는 점을 내세웠습니다.\n\n확률이 높은 판단은 자동으로 처리하고 애매한 것만 사람에게 넘기는 설계가 가능해진 겁니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790724657,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825323761_1080291924599022_6553759187972687810_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NzE5NTk1Njg0ODAwMjgwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8SIRgZYi9KsQ7kNvwGEW2ds&_nc_oc=AdqKS2HEtD7BhJlczhUrbhdZEDTJMGBLWwG-E-PCKFCq2X4SS0HFnIStOZRhuVMlV5s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=x3Fe0j-zuuva0oyfZSk9Lw&_nc_ss=7a20f&oh=00_AQNfaTbg7kJmbOR0mWk-P80utjW3amIcB92QxFCUohijtw&oe=6AC22787",
+   "url": "https://www.threads.com/@choi.openai/post/Dd48dyFj456",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "2/ 페이지가 기존 문서와 다른 지점은 AI가 문서 안에서 직접 일한다는 데 있습니다.\n\nCodex 앱 팀의 세르히오 마테이가 소개한 기능을 보면, 문장을 쓰던 자리에서 바로 물어보고 이어질 글을 생성할 수 있고, 이미지 생성 블록으로 그림을 넣고, 표와 이미지를 와이드 화면 전시용으로 바꿀 수 있습니다.\n\n여러 사람이 동시에 조작하는 시각화와 앱을 페이지 안에 넣을 수 있고, 독자가 한 번 눌러 ChatGPT에 요청을 보내는 프롬프트 블록도 있는데요.\n\n사이드바에 따로 명령을 입력하다 문서로 돌아오던 흐름이 문장 안에서 끝납니다.\n\n읽는 사람도 페이지에 심어둔 프롬프트로 같은 맥락을 이어받아 다음 작업을 시작할 수 있습니다.",
-   "likes": 2,
+   "text": "2/ 오픈AI는 Decisions API가 결과를 150밀리초에 돌려주고, 같은 판단을 일반 GPT-6 Luna 호출로 하면 1.6초가 걸린다고 밝혔습니다.\n\n약 10배 차이인데요. 모델은 허용된 선택지만 평가하고 가장 가능성 높은 답을 신뢰도와 함께 반환합니다.\n\n대화형 모델처럼 자유롭게 쓰지 않으니 정해진 형식에서 벗어날 일이 없고, 따로 학습시킨 분류기처럼 라벨이 바뀔 때마다 다시 학습시킬 필요도 없습니다.\n\n가격은 아직 공개되지 않았고, Luna 자체의 API 가격은 100만 토큰당 입력 0.1달러, 출력 0.5달러입니다.",
+   "likes": 0,
    "cmts": 1,
-   "time": 1790720723,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825324684_17989328220112832_1188052183637386809_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NzE3NjY2MzQwMTM2NjMzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI4Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PK7g4dC2VhkQ7kNvwF33rHY&_nc_oc=AdpO7bYlY2d7BAmcLT-uq7zo60vIrU-bfwGLs54RAjV04WhBx2-EElNG9RxH95i0nbE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=npZqss7kvljP3DffglRFlA&_nc_ss=7a20f&oh=00_AQOUl7xg0GTuOfSk_1ZCpf1ughPPrgaGq1gxGd8krxUVVA&oe=6AC2147E",
-   "url": "https://www.threads.com/@choi.openai/post/Dd409jNDzAL",
+   "time": 1790724643,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/830572792_1084459441116631_7632516010319551207_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5NzE5NjU2NjE4ODEwMjYzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PbFcB6Gr-p4Q7kNvwGopzmi&_nc_oc=AdogJs12Y76-fao6ge_XSQ7cotDxLIaQ2UUlzaP2IbNCrhF4sdIaJ0fCeCc8QmcoNFg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=x3Fe0j-zuuva0oyfZSk9Lw&_nc_ss=7a20f&oh=00_AQN47o55HaE3A3laPoR2BIqReQpd2fMf1uChtMlkqYnLSA&oe=6AC21DDC",
+   "url": "https://www.threads.com/@choi.openai/post/Dd45RlRDZPo",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "1/ 오픈AI가 DevDay에서 ChatGPT Space를 공개했습니다.\n\n대화에서 만든 페이지와 파일을 모아두던 Library가 Space로 바뀌었고, 이곳에서 팀원과 ChatGPT, Codex, 그리고 같은 날 공개된 상시 에이전트 dot이 함께 일합니다.\n\n중심에는 페이지라는 새 문서 형식이 있는데요. 차트, 이미지, 체크리스트, 대시보드를 담는 대화형 문서이고, ChatGPT에 대화를 페이지로 만들어 달라고 하면 필요한 내용을 먼저 묻고 눈앞에서 초안을 씁니다.\n\nPro, Business, Enterprise 요금제부터 순차 적용되며 웹과 데스크톱에서 만들고 편집하고, 모바일에서는 읽기와 공유만 됩니다.\n\n함께 편집하는 슬라이드와 스프레드시트는 곧 추가됩니다.",
-   "likes": 8,
+   "text": "1/ 오픈AI가 DevDay에서 Decisions API를 공개했습니다.\n\n개발자가 질문과 가능한 답 목록을 정하고 텍스트나 이미지를 맥락으로 보내면, GPT-6 Luna가 그중 하나를 골라 돌려주는 방식입니다.\n\n고객 문의와 문의를 넘길 수 있는 팀 목록을 함께 보내면 앱이 바로 쓸 수 있는 배정 결과가 나오는 식인데요.\n\n오픈AI는 콘텐츠 분류, 요청 라우팅, 에이전트의 다음 행동 선택을 주요 용도로 꼽았습니다.\n\n지금은 일부 API 고객에게만 제한 프리뷰로 열렸고, 며칠 안에 더 넓게 풀릴 예정입니다.",
+   "likes": 1,
    "cmts": 1,
-   "time": 1790720712,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829806125_17989328199112832_2511766547949785844_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NzE3NzUwNDI1OTMxNzI5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTgxOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=S7HXX57QgKMQ7kNvwGeExte&_nc_oc=AdovWlPkrTJ4VMLqvyuPFCAYQvq4PCcU-ge0JJ-35UJPwwFw-rmuGovJFnbhg-Fmauo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=npZqss7kvljP3DffglRFlA&_nc_ss=7a20f&oh=00_AQMvmhUnL4aKlV5hPDI_UKWW9jAtj4vdAmQqiUadXfIgtg&oe=6AC2088B",
-   "url": "https://www.threads.com/@choi.openai/post/Dd408Mdjx4q",
+   "time": 1790724632,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829528176_17989330176112832_7806242399407059788_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzIxMDM5MTE1OTQ1NzE3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=f8RDpe7bGosQ7kNvwFPYE1B&_nc_oc=AdomDphkWFn79WvTLxmWKotslvXtH9GbXEzQamwamA4Q4efg43sZKO2A6de99hjKgl4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=x3Fe0j-zuuva0oyfZSk9Lw&_nc_ss=7a20f&oh=00_AQOEgxXYhoky3sic8y5LsJ37UuA-T2E8cVYaRsS5grKhOw&oe=6AC20C59",
+   "url": "https://www.threads.com/@choi.openai/post/Dd48awxj0Wa",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://github.com/jaredpalmer/kev",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790722895,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dd45GErn53g",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "개발자 제레드 팔머가 큐원 3.5와 큐원 3.8 모델을 바탕으로 직접 학습하고 실행할 수 있는 소형 의사결정 모델 케브를 공개했습니다. 예 아니오 판정이나 객관식 문항 그리고 점수 산정 같은 서로 다른 질문 형태를 단 한 번의 요청으로 동시에 처리할 수 있는 구조입니다. 모든 체크포인트에는 검증 데이터로 보정된 온도가 기본으로 적용되어 있어 확률값이 비교적 안정적으로 출력되도록 설계됐습니다. 타입세이프의 파이썬 소프트웨어 개발 도구와 호환되므로 기존 서버 설정을 바꾸지 않고 그대로 연동해 쓸 수 있습니다. 0.8B 규모의 가벼운 모델부터 데이터센터용 27B 모델까지 네 가지 크기로 나와 있어 환경에 맞춰 선택하는 것이 가능합니다. 라벨이 지정된 자체 데이터를 활용해 손쉽게 미세조정이 가능하며 모달 기반의 코딩 에이전트 스킬로 전체 학습 루프를 자동화할 수 있습니다.\n\n📷 사진 출처: github.com",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790722883,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829528633_18090634262407306_8069194897495310391_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NzE5NTY1MDExMTM1NTAyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NP_jTz6xgswQ7kNvwFtvuLJ&_nc_oc=AdqImff4d7I3r1ahcac1Mbr_Sth3LPMdsdfQOpq914fQioXXYkLtBRZn-j7s7fSe5dU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=S8zesIxoKnljhlfWqqLSBA&_nc_ss=7a20f&oh=00_AQOqlLddeUofaMuIryWIdd0SAj4Q-k2292uvJJC-0zSrvA&oe=6AC22F1F",
+   "url": "https://www.threads.com/@aipeekme/post/Dd45EQGn7iN",
    "region": "kr"
   },
   {
@@ -106,12 +126,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "오픈AI가 ChatGPT 안에 팀과 AI가 함께 쓰는 문서 공간 Space를 공개했습니다.\n\n페이지는 연결된 앱에서 스스로 내용을 갱신하고, 댓글로 dot을 부르면 다음 작업까지 넘겨받습니다.\n\n같은 날 나온 dots가 일하는 곳이 바로 여기입니다 🧵",
-   "likes": 20,
-   "cmts": 12,
-   "time": 1790720707,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825324677_1459127006137997_4791870251671727693_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5NzE3NzI2MDY0NTY1MTIyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=C_N84wqH4AAQ7kNvwE8FQJH&_nc_oc=AdpR94njLScqdEjfMM9akAN9kGhjwofeZCWlfcM2IvBSiJA1aGng5IbCZpjQEpKsIAw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=npZqss7kvljP3DffglRFlA&_nc_ss=7a20f&oh=00_AQN6nIjiVeeEL5M9nu8-4tamr3p4vLO9whuxlDrlCpTC5A&oe=6AC2059D",
-   "url": "https://www.threads.com/@choi.openai/post/Dd404plDZMd",
+   "text": "🚨 오픈AI가 Jev가 나온 지 2주 만에 같은 방식의 Decisions API를 내놨습니다.\n\nGPT-6 Luna가 미리 정한 선택지 중 하나를 고르는데, 응답까지 0.15초로 일반 Luna 호출보다 약 10배 빠릅니다 🧵",
+   "likes": 7,
+   "cmts": 5,
+   "time": 1790724627,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829197395_17989330722112832_3494973888623466105_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NzIxMDM0NTM5MTIyNzM5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v4YLrdMx5hgQ7kNvwGV-8Vw&_nc_oc=AdrHGxomWRKaXXdz4uxdcCMMzRSLzDlEaSrdHJHnnI7tezI7MTupmmjUgOFq-eBselQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=x3Fe0j-zuuva0oyfZSk9Lw&_nc_ss=7a20f&oh=00_AQOvNARLNlLiGlAGU3eD02KxvpYOg3A6BATdr8aWsKQPaQ&oe=6AC22C0B",
+   "url": "https://www.threads.com/@choi.openai/post/Dd48aGJj4IF",
    "region": "kr"
   },
   {
@@ -120,7 +140,7 @@
    "likes": 1,
    "cmts": 3,
    "time": 1790692823,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/828280572_17939043861362958_4098005355540784675_n.jpg?stp=cp6_dst-jpegr_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Njk0MzU1ODM2NDA1OTU5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ5Ni5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=go4Cmt9K6vIQ7kNvwHtcV8G&_nc_oc=AdoDYmPu85wRer4p4v9KiLMZT1gNDAsO8ecJmJdLNCe-h22HreM58DP8EL3LM_YxUOg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hbaxD2IfGkpSMLapJQrUqA&_nc_ss=7a20f&oh=00_AQODqp-Lg5Am-QRVjGWYgxLIntCCLiXPQNOsEFR1pfgcxg&oe=6AC20AA7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/828280572_17939043861362958_4098005355540784675_n.jpg?stp=cp6_dst-jpegr_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Njk0MzU1ODM2NDA1OTU5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ5Ni5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=go4Cmt9K6vIQ7kNvwHtcV8G&_nc_oc=AdoDYmPu85wRer4p4v9KiLMZT1gNDAsO8ecJmJdLNCe-h22HreM58DP8EL3LM_YxUOg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=C6s7UMoVOeqc73ykejN6Dg&_nc_ss=7a20f&oh=00_AQMPGDKpJywzgPxqRcQyuEI7eEqgF4DyToeu3UM1d9fmMg&oe=6AC20AA7",
    "url": "https://www.threads.com/@takepage_/post/Dd3_v1Xk1fM",
    "region": "kr"
   },
@@ -136,21 +156,21 @@
   },
   {
    "account": "choi.openai",
-   "text": "3/ 이 방향의 첫 신호는 작년 9월 Pulse였습니다.\n\nPulse는 사용자가 묻지 않아도 밤사이 대화 기록과 메모리, 캘린더를 바탕으로 조사를 돌리고 다음 날 아침 카드로 보여줬는데요.\n\n한 달 뒤 오픈AI는 맥 화면을 이해하고 앱을 조작하는 Sky의 개발사를 인수했습니다. \n\n먼저 말을 거는 능력과 컴퓨터를 직접 다루는 능력을 따로 확보해 둔 것입니다.\n\n올해 6월 Pulse는 종료되고 예약 작업으로 흡수됐는데, 지금 보면 dots를 위한 정리에 가까웠습니다.\n\n정보를 건네는 단계에서 멈췄던 Pulse에 실행 환경이 붙으면서 먼저 움직이는 AI가 완성됐습니다.",
-   "likes": 5,
+   "text": "3/ 오픈AI가 페이지를 살아 있는 문서라고 부르는 이유는 자동 갱신 기능에 있습니다. \n\n페이지에 무엇을 고칠지, 어떤 출처를 쓸지, 얼마나 자주 확인할지 지시를 남기면 ChatGPT가 정해진 주기로 페이지를 업데이트하고, 사용자는 돌아와 바뀐 부분을 검토합니다.\n\n공식 예시는 Slack, 이메일, 캘린더에서 할 일을 모아 마감일과 다음 단계를 계속 고쳐 쓰는 할 일 목록과, 연결된 데이터로 최신 상태를 유지하는 제품팀 현황표입니다.\n\n같은 날 발표된 MCP Events를 쓰면 프로젝트 보드에 새 작업이 올라오는 순간처럼 외부 앱의 변화가 자동화를 시작시킬 수 있습니다.",
+   "likes": 3,
    "cmts": 1,
-   "time": 1790714631,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825324441_17989315182112832_5423430831346060796_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5NzEyNjQ5Nzc0ODAzMTI2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzg0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=htHv_CZKUKsQ7kNvwH-XjKv&_nc_oc=AdoH1TEcEgUkb5fy2W3zpcXtUrMuZ1Os8bYW-rYW9KvzTYYsD5nxlojs-C_41g1kgos&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=npZqss7kvljP3DffglRFlA&_nc_ss=7a20f&oh=00_AQMQhroToKFDzSefq9ff9ff19RqfLNUuxB8EDsSJHtJW1w&oe=6AC2149B",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4pV88kpce",
+   "time": 1790720734,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825352118_17989328247112832_2350203267402677034_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzE3NjcwOTQ3MTU1NzY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AALQ7J3utwIQ7kNvwECFfix&_nc_oc=AdqU69YVMhMkOruTGnTI_JmUzcymm4PY_7WVlCHhjVuh4-3V5S84PjjQns4gf8TUDKQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=x3Fe0j-zuuva0oyfZSk9Lw&_nc_ss=7a20f&oh=00_AQO0gWf_D8PLs_AzIDyQGIwgWimVQonOuHJzNX8Zzdp-NQ&oe=6AC20ABB",
+   "url": "https://www.threads.com/@choi.openai/post/Dd40-3ND45b",
    "region": "kr"
   },
   {
    "account": "takepage_",
    "text": "AI 기반 결정이 돌아가는 구조",
-   "likes": 32,
+   "likes": 35,
    "cmts": 1,
    "time": 1790684573,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825270025_1377088147527427_5017873714086987451_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5Njg3NDI1MTQyNDQ4NzQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DOHUlGyefNQQ7kNvwHR6VQf&_nc_oc=AdpvjMSg8ZYxaixKeF5BLkp_fcjVf4DiT_K-itzewfBmtLLy8RI7Jo0SSjJjHlLGXCM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hbaxD2IfGkpSMLapJQrUqA&_nc_ss=7a20f&oh=00_AQNi6wvNgqBJnu_kzvBKlsFGsJzSzKXlJA4sVGSBDvRFQg&oe=6AC2027C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825270025_1377088147527427_5017873714086987451_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5Njg3NDI1MTQyNDQ4NzQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DOHUlGyefNQQ7kNvwHR6VQf&_nc_oc=AdpvjMSg8ZYxaixKeF5BLkp_fcjVf4DiT_K-itzewfBmtLLy8RI7Jo0SSjJjHlLGXCM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=C6s7UMoVOeqc73ykejN6Dg&_nc_ss=7a20f&oh=00_AQOS0QfoGYjEjPKsPr8LTntj90ZKq1ofiB-0hCJO-GF38g&oe=6AC2027C",
    "url": "https://www.threads.com/@takepage_/post/Dd3v_SQD9gn",
    "region": "kr"
   },
@@ -166,12 +186,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "2/ 오픈AI는 dots를 Codex와 ChatGPT Work 위에 얹힌 한 층으로 설명합니다.\n\nCodex로도 영상 편집이나 코드 수정은 할 수 있지만, dot은 한 번 보여준 작업 방식을 기억했다가 비슷한 상황이 오면 먼저 제안합니다.\n\n오픈AI 내부 사례를 보면, 한 엔지니어가 dot을 Slack에 연결해 제품 피드백을 듣게 하자 dot이 스스로 Codex 작업을 열고 PR과 이슈를 만들었습니다.\n\n여러 스레드를 오가던 그의 하루는 dot에게 진행 상황을 묻고 우선순위를 정하는 일로 바뀌었는데요.\n\n정해진 시간에 같은 일을 반복하는 예약 작업과 달리, 목표와 맥락을 들고 다음 할 일을 스스로 찾아냅니다.",
-   "likes": 5,
+   "text": "2/ 페이지가 기존 문서와 다른 지점은 AI가 문서 안에서 직접 일한다는 데 있습니다.\n\nCodex 앱 팀의 세르히오 마테이가 소개한 기능을 보면, 문장을 쓰던 자리에서 바로 물어보고 이어질 글을 생성할 수 있고, 이미지 생성 블록으로 그림을 넣고, 표와 이미지를 와이드 화면 전시용으로 바꿀 수 있습니다.\n\n여러 사람이 동시에 조작하는 시각화와 앱을 페이지 안에 넣을 수 있고, 독자가 한 번 눌러 ChatGPT에 요청을 보내는 프롬프트 블록도 있는데요.\n\n사이드바에 따로 명령을 입력하다 문서로 돌아오던 흐름이 문장 안에서 끝납니다.\n\n읽는 사람도 페이지에 심어둔 프롬프트로 같은 맥락을 이어받아 다음 작업을 시작할 수 있습니다.",
+   "likes": 2,
    "cmts": 1,
-   "time": 1790714621,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831423594_17989315161112832_410465117657310429_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NzEyNjQxMjEwODcwOTg0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzgxOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_uQFBESFsQ8Q7kNvwH6KYY2&_nc_oc=AdojsKWNzVYLx_5OTjq1yvKeU6OtD0SdVkv0utLkIPYl158MLH1pPg1MEiecqUANakA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=npZqss7kvljP3DffglRFlA&_nc_ss=7a20f&oh=00_AQO8uUL9jA-7CzNkfqMUa2wuAWVZzeR6EXX-J18C3HXxiw&oe=6AC2031E",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4pUtMEj_R",
+   "time": 1790720723,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825324684_17989328220112832_1188052183637386809_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=102&ig_cache_key=Mzk5NzE3NjY2MzQwMTM2NjMzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMjI4Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=PK7g4dC2VhkQ7kNvwF33rHY&_nc_oc=AdpO7bYlY2d7BAmcLT-uq7zo60vIrU-bfwGLs54RAjV04WhBx2-EElNG9RxH95i0nbE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=x3Fe0j-zuuva0oyfZSk9Lw&_nc_ss=7a20f&oh=00_AQPpSVvApMBtqjgrg1b4bB4zDT-ZQ0-jIM6ZZk6Y8WMr9g&oe=6AC2147E",
+   "url": "https://www.threads.com/@choi.openai/post/Dd409jNDzAL",
    "region": "kr"
   },
   {
@@ -180,7 +200,7 @@
    "likes": 8,
    "cmts": 0,
    "time": 1790677712,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/828069286_1835355704293332_3226968670426866871_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk5NjgxNTk5MDAyNTI5MDgwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xr5oiFK-gZAQ7kNvwH4NRyt&_nc_oc=Adqj718itABsAUvkTwLkBlQFNlHOjzZv48jsF6lIXnliOg9iccjAsQhB-TLBkTiikpw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=hbaxD2IfGkpSMLapJQrUqA&_nc_ss=7a20f&oh=00_AQPwucpP4ziivremprj2ULFSIR_GjXXuxWYBuWvBipVQQQ&oe=6AC1FAE4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/828069286_1835355704293332_3226968670426866871_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk5NjgxNTk5MDAyNTI5MDgwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xr5oiFK-gZAQ7kNvwH4NRyt&_nc_oc=Adqj718itABsAUvkTwLkBlQFNlHOjzZv48jsF6lIXnliOg9iccjAsQhB-TLBkTiikpw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=C6s7UMoVOeqc73ykejN6Dg&_nc_ss=7a20f&oh=00_AQMK1Gt3vVkoRf7qyJD0xnktOwopmAA9N9x0y2-gLTzAOQ&oe=6AC23324",
    "url": "https://www.threads.com/@takepage_/post/Dd3iveGDwQ5",
    "region": "kr"
   },
@@ -192,26 +212,6 @@
    "time": 1790641510,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Dd2d3V6gVYW",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 오픈AI가 DevDay가 열린 9월 29일 ChatGPT에 상시 에이전트 dots를 공개했습니다.\n\ndot 하나에 이름을 붙이고 목표와 권한을 정해주면, GPT-6 Astra가 자기 클라우드 컴퓨터에서 브라우저와 ChatGPT Work, Codex를 써서 일을 진행합니다.\n\n대화를 닫아도 작업을 이어가다가 판단이 필요한 순간에 결과와 선택지를 들고 돌아오는 방식입니다.\n\nChatGPT 메모리와 연결된 앱이 맥락이 되고, 채팅과 통화로 부를 수 있으며 문자·Slack·Teams·이메일 채널도 순차적으로 붙습니다.\n\n첫 대상은 EU·영국을 제외한 Pro와 Business Premium이고, 출시 후 한 달 동안 'dot 사용량은 요금제 한도'에 포함되지 않습니다.",
-   "likes": 19,
-   "cmts": 1,
-   "time": 1790714610,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825270075_17989315143112832_1049813379211064740_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NzEyNjMxNTQ3MTkyOTYzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzg0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GhbnZxC4fYIQ7kNvwHasoC1&_nc_oc=Adov8b9J4MwDeW9jR_i5lkMt-DjpsXSW0quidVdL8EHLbyKbo9LoAnjqPJgIxkCe3Sw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=npZqss7kvljP3DffglRFlA&_nc_ss=7a20f&oh=00_AQPMoldvhrPYXprKnH6WoJ56tv5mo8CQMg_HGAR3Z97Jkw&oe=6AC20E1B",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4pTTMEgEm",
-   "region": "kr"
-  },
-  {
-   "account": "takepage_",
-   "text": "그럼 이 판단을 사람이 먼저 해주면 어떨까요?\n\n“온라인 스토어를 만들어줘.\n\n- 상품 목록·상세·장바구니·주문 기능을 넣어줘\n- 결제는 테스트 모드로, 성공 확인 후 주문을 확정해줘\n- 재고가 1개면 동시에 주문해도 1건만 확정해줘\n- 결제 실패·취소가 확정되면 잡아둔 재고를 되돌려줘\n- 동시 주문과 중복 결제 요청까지 테스트해줘”\n\n이렇게 주면 AI가 혼자 정할 조건이 줄어듭니다.\n\n무엇을 만들지, 어떤 경우까지 확인할지\n사람이 이미 결정해둔 상태니까요.\n\n이런 상세한 명세가 있을 때는\neffort에 따른 결과 차이가 줄어들겠죠.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1790676946,
-   "thumb": "",
-   "url": "https://www.threads.com/@takepage_/post/Dd3hdr7EzI3",
    "region": "kr"
   }
  ],
@@ -241,7 +241,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 862000,
+   "views": 862300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=gZInnWn5%2Bs53yTQ8DLAk3yw4zV8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 594700,
+   "views": 595100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=6xM05ajAE%2FfC23fsTfbkFRY%2F5KY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=dEOFroDdVGS%2BUuGfXfnf8RK88Gg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790316395,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
    "region": "kr"
@@ -263,7 +263,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 556400,
+   "views": 556500,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=suJuRu4cYX660td0wklq0TokHSc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -274,7 +274,7 @@
   {
    "account": "jaemyung_lee",
    "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 298500,
+   "views": 298600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=2xazgu6R8X1pN%2F%2BLBujgSxDVm2s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -285,7 +285,7 @@
   {
    "account": "jaemyung_lee",
    "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 190200,
+   "views": 190300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=Z1Ox0%2Feen1prxpbLOJTRtjNMyb8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -307,7 +307,7 @@
   {
    "account": "jaemyung_lee",
    "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 93000,
+   "views": 93100,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=LP6ST%2FmjZKr7CkBIQiIOJE%2BYYbc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -325,40 +325,9 @@
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
-   "views": 15600,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=mRV%2BKKwXLurINxbq1pl0j1xswTM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790062603,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "올데이프로젝트(ALLDAY PROJECT) 영서, 러블리 영서❤️ / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시하",
-   "views": 3217,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQie1A8qsAPFBAtAiykiCVLCUuyfI2JACYMgEB~tplv-tiktokx-origin.image?dr=14575&x-expires=1790895600&x-signature=gFhAp%2FhR3%2B6TklAmF99y8lVXVSM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790062423,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7688259564650663175",
-   "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "mildlyinteresting",
-   "title": "My cat's nose glitters in direct sunlight",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ptawei40dish1.jpeg?width=640&crop=smart&auto=webp&s=ba8de477277050a4cf0ecc750fef651f871e7421",
-   "time": 1790708923,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wtj3m3/my_cats_nose_glitters_in_direct_sunlight/"
-  },
   {
    "sub": "pcmasterrace",
    "title": "Giveaway time! CONTROL Resonant Launch Megathread + Custom Wrapped GeForce RTX 5080 GPU Giveaway and game keys! Comment on this post to win!",
@@ -378,15 +347,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wtdbpr/being_told_my_tea_steeper_is_unprofessional/"
   },
   {
-   "sub": "AskReddit",
-   "title": "What's an obsure item you own that you're sure 99.99% of the population does not have?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790695726,
-   "url": "https://www.reddit.com/r/AskReddit/comments/1wtd6us/whats_an_obsure_item_you_own_that_youre_sure_9999/"
-  },
-  {
    "sub": "SipsTea",
    "title": "Ah yes, the \"American Dream\" package deal!",
    "score": 0,
@@ -396,31 +356,13 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wtkdwr/ah_yes_the_american_dream_package_deal/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "This dad agrees",
+   "sub": "AskReddit",
+   "title": "What's an obsure item you own that you're sure 99.99% of the population does not have?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/89fw3p4d4ish1.png?width=640&crop=smart&auto=webp&s=cd64ccd5e1aa283c773877525c40c599aec62437",
-   "time": 1790706029,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wtht87/this_dad_agrees/"
-  },
-  {
-   "sub": "politics",
-   "title": "White House’s New AI Website Confirms Trump Lost the 2020 Presidential Election",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Wrl8y6jzcQB24Vu8ZiiQb1yc2Kh9dU1mZE_FfgO2IgM.jpeg?width=640&crop=smart&auto=webp&s=7b58130388c51e6dbaed59168de51c4f45b4ef72",
-   "time": 1790707675,
-   "url": "https://www.reddit.com/r/politics/comments/1wtijj6/white_houses_new_ai_website_confirms_trump_lost/"
-  },
-  {
-   "sub": "interestingasfuck",
-   "title": "In Japan, a new trend called JUCY BOOK RAVE has people going to nightclubs just to sit quietly and read books while a DJ plays ambient music.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aGc1ZTVuMGZtaXNoMYYelKy83_mBK7g59JgiBO7XDnViI7a_OSWPJVGP4uRl.png?width=640&crop=smart&auto=webp&s=7e4ace524ab17f665d8287573b6d4b947fc2742c",
-   "time": 1790712389,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wtkmc1/in_japan_a_new_trend_called_jucy_book_rave_has/"
+   "thumb": "",
+   "time": 1790695726,
+   "url": "https://www.reddit.com/r/AskReddit/comments/1wtd6us/whats_an_obsure_item_you_own_that_youre_sure_9999/"
   },
   {
    "sub": "movies",
@@ -432,6 +374,33 @@
    "url": "https://www.reddit.com/r/movies/comments/1wtjy1s/my_14_year_old_son_agreed_to_watch_one_black_and/"
   },
   {
+   "sub": "mildlyinteresting",
+   "title": "My cat's nose glitters in direct sunlight",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ptawei40dish1.jpeg?width=640&crop=smart&auto=webp&s=ba8de477277050a4cf0ecc750fef651f871e7421",
+   "time": 1790708923,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wtj3m3/my_cats_nose_glitters_in_direct_sunlight/"
+  },
+  {
+   "sub": "MadeMeSmile",
+   "title": "This dad agrees",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/89fw3p4d4ish1.png?width=640&crop=smart&auto=webp&s=cd64ccd5e1aa283c773877525c40c599aec62437",
+   "time": 1790706029,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wtht87/this_dad_agrees/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "In Japan, a new trend called JUCY BOOK RAVE has people going to nightclubs just to sit quietly and read books while a DJ plays ambient music.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/aGc1ZTVuMGZtaXNoMYYelKy83_mBK7g59JgiBO7XDnViI7a_OSWPJVGP4uRl.png?width=640&crop=smart&auto=webp&s=7e4ace524ab17f665d8287573b6d4b947fc2742c",
+   "time": 1790712389,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wtkmc1/in_japan_a_new_trend_called_jucy_book_rave_has/"
+  },
+  {
    "sub": "NameMyCat",
    "title": "I'm hoping for a four letter grandma-esque name",
    "score": 0,
@@ -439,6 +408,24 @@
    "thumb": "https://preview.redd.it/82py7yxq7hsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=e17829c383802413f361e1206ea5583b857d557d",
    "time": 1790695052,
    "url": "https://www.reddit.com/r/NameMyCat/comments/1wtcvy9/im_hoping_for_a_four_letter_grandmaesque_name/"
+  },
+  {
+   "sub": "politics",
+   "title": "White House’s New AI Website Confirms Trump Lost the 2020 Presidential Election",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Wrl8y6jzcQB24Vu8ZiiQb1yc2Kh9dU1mZE_FfgO2IgM.jpeg?width=640&crop=smart&auto=webp&s=7b58130388c51e6dbaed59168de51c4f45b4ef72",
+   "time": 1790707675,
+   "url": "https://www.reddit.com/r/politics/comments/1wtijj6/white_houses_new_ai_website_confirms_trump_lost/"
+  },
+  {
+   "sub": "pics",
+   "title": "President Trump meets with AI executives at the White House",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/9wrwut7paish1.jpeg?width=640&crop=smart&auto=webp&s=8317d4c56064b68c9e4dc7c39492c9140f26ee33",
+   "time": 1790708151,
+   "url": "https://www.reddit.com/r/pics/comments/1wtir08/president_trump_meets_with_ai_executives_at_the/"
   },
   {
    "sub": "Steam",
@@ -450,13 +437,31 @@
    "url": "https://www.reddit.com/r/Steam/comments/1wta2y0/gabe_newells_mega_yacht/"
   },
   {
-   "sub": "pics",
-   "title": "President Trump meets with AI executives at the White House",
+   "sub": "korea",
+   "title": "Online hunt begins for Korean defendant in Cornell sexual assault suit",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/9wrwut7paish1.jpeg?width=640&crop=smart&auto=webp&s=8317d4c56064b68c9e4dc7c39492c9140f26ee33",
-   "time": 1790708151,
-   "url": "https://www.reddit.com/r/pics/comments/1wtir08/president_trump_meets_with_ai_executives_at_the/"
+   "thumb": "https://external-preview.redd.it/NzsxqcLku5xg-9_Fw3mJWTe6XirZo1_Rk-jPGeervYs.jpeg?width=640&crop=smart&auto=webp&s=bfbd72b4de35620c7f07105839ad4368136f12cb",
+   "time": 1790651315,
+   "url": "https://www.reddit.com/r/korea/comments/1wsz217/online_hunt_begins_for_korean_defendant_in/"
+  },
+  {
+   "sub": "korea",
+   "title": "South Korea's participation in the 2026 Aichi–Nagoya Asian Games has been marred by a persistent series of operational errors. These are some of the notable incidents.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790685184,
+   "url": "https://www.reddit.com/r/korea/comments/1wt8vxp/south_koreas_participation_in_the_2026/"
+  },
+  {
+   "sub": "korea",
+   "title": "Badminton women's singles world no. 1 Ahn Se Young dominates Yamaguchi to win second Asian Games title",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ceqpkn7nnfsh1.jpeg?width=320&crop=smart&auto=webp&s=6f65ce940da035f0af42642bf51d304e22ced0a4",
+   "time": 1790677317,
+   "url": "https://www.reddit.com/r/korea/comments/1wt6f83/badminton_womens_singles_world_no_1_ahn_se_young/"
   }
  ],
  "disaster": [],
@@ -466,15 +471,15 @@
    "rank": 1
   },
   {
-   "query": "사망여우",
+   "query": "맨시티",
    "rank": 2
   },
   {
-   "query": "맨시티",
+   "query": "암살자(들)",
    "rank": 3
   },
   {
-   "query": "암살자(들)",
+   "query": "사망여우",
    "rank": 4
   },
   {
@@ -482,28 +487,40 @@
    "rank": 5
   },
   {
-   "query": "신병4",
+   "query": "봉누도2",
    "rank": 6
   },
   {
-   "query": "봉누도2",
+   "query": "안세영",
    "rank": 7
   },
   {
-   "query": "안세영",
+   "query": "지뢰",
    "rank": 8
   },
   {
-   "query": "댱이",
+   "query": "신병4",
    "rank": 9
   },
   {
-   "query": "지뢰",
+   "query": "암살자들",
    "rank": 10
   }
  ],
  "_cover": {
   "ok": {
+   "x": [
+    "1992__j",
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "mugmulree",
+    "tech_meow"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -514,16 +531,19 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee",
-    "tictok_ent"
+    "jaemyung_lee"
    ]
   },
-  "why": {},
+  "why": {
+   "tiktok": {
+    "tictok_ent": "nolist"
+   }
+  },
   "landing": {
-   "at": "2026-09-30T07:31:28",
+   "at": "2026-09-30T08:01:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-30T08:01:20.943297+09:00"
+ "updated": "2026-09-30T08:36:10.022424+09:00"
 }
