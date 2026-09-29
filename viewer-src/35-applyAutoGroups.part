@@ -359,6 +359,19 @@ const fbJunk = c => {
 //    gradeW = 1.2(grade 2[1.0] 위 · grade 3[1.5] 아래) · grade 0·1·2·미채점 전부 대상(카테고리 무관 · 3은 불변).
 //    grade 원값·⚡배지·긴급·푸시·자동픽 전부 무접촉(랭킹 전용) — 시변 신호(대세)는 정적 룰북(RUBRIC)에 안 박는다(평의회 8인 260807 만장일치).
 const BUZZ_W = 1.2;   // S 레벨 배율(등급 사다리 0.5/0.7/1.0/**1.2**/1.7의 네 번째 단 · 운영자 260808 · 3점 1.5→1.7 = 260810) — 조정 가능 · 칩 표기 = GX(`isBuzzLv`)
+// 키워드 적중·겹침 정본(운영자 260929 «실검 키워드가 일부 겹쳐도 · 장문형도 키워드의 의미를 내포 · 가점에도 반영») = scraper/live_signal.hit 사본 —
+//   4자↑ = 붙인 본문 포함(공백·기호·대소문자 무시) · 2~3자 = 낱말 일치 또는 조사 꼬리 2자 이내(「로제」가 「프로젝트」에 안 걸림).
+//   소비 = 실검 교차합의 색(renderSnsTrends _cnCls) · 대세 가점(snsBuzz·_buzzSet 핵심 키워드).
+const trNorm = s => String(s || '').toLowerCase().replace(/[^0-9a-z가-힣]/g, '');
+const trIn = (k, t) => {
+  const n = trNorm(k);
+  if (n.length < 2) return false;
+  if (n.length >= 4) return trNorm(t).includes(n);
+  for (const w of String(t || '').toLowerCase().match(/[0-9a-z가-힣]+/g) || []) { if (w === n || (w.length <= n.length + 2 && w.startsWith(n) && [...w.slice(n.length)].every(ch => '이가은는을를의와과도만에서부터께랑님씨측'.includes(ch)))) return true; }
+  return false;
+};
+const trOverlap = (a, b) => trIn(a, b) || trIn(b, a);   // 한쪽 검색어가 다른 쪽 안에 들어 있다 = 같은 화제
+const namuFresh = d => !!(d && (d.namu || []).length && Date.parse(d.namu_updated) > Date.now() - 180 * 60000);   // 나무위키 = 폰 공급 · 180분 넘게 낡으면 합의·가점 불참(renderSnsTrends nmuStale 과 같은 선)
 let _buzzKw = null, _buzzTs = 0;
 const _buzzSet = () => {   // 실검 키워드 집합(5분 캐시) — TRENDS는 livePoll이 이미 물어오는 같은 데이터(추가 fetch 0)
   if (_buzzKw && Date.now() - _buzzTs < 300e3) return _buzzKw;
@@ -368,18 +381,17 @@ const _buzzSet = () => {   // 실검 키워드 집합(5분 캐시) — TRENDS는
       for (const t of (TRENDS.gtrends || [])) { const q = String(t.query || '').trim(); if (q.length >= 2) s.add(q); }
       for (const t of (TRENDS.gtrends_pool || [])) { const q = String(t.q || '').trim(); if (q.length >= 2) s.add(q); }
       for (const t of (TRENDS.xtrends || [])) { const q = String(t.name || t.q || t.query || '').trim(); if (q.length >= 2) s.add(q); }
+      // 교차 겹침의 핵심 키워드 = 구글·시그널·나무위키 중 다른 소스 검색어 안에 든 검색어(「닛몰캐쉬」 ⊂ 「닛몰캐쉬 데이트폭력」) — 장문형 검색어의 화제도 가점
+      const L = [TRENDS.gtrends, TRENDS.signal, namuFresh(TRENDS) ? TRENDS.namu : []].map(A => (A || []).map(t => String((t && t.query) || '').trim()).filter(q => q.length >= 2));
+      L.forEach((A, i) => A.forEach(a => { if (L.some((B, j) => j !== i && B.some(b => trIn(a, b)))) s.add(a); }));
     }
   } catch { /* 실검 파싱 실패 = 빈 집합 = 보정 없음(fail-soft) */ }
   if (!TRENDS) return s;   // ⚠️ 실검 **미로드** 상태는 캐시하지 않는다(260810 실측 봉합) — 구판은 빈 집합을 그대로 5분 캐시로 굳혀서, 부팅 직후처럼 loadTrends가 아직 안 끝난 순간에 첫 렌더가 들어오면 **대세 승격(1.2배)이 5분 내내 통째로 미발동**했다(브라우저 실측 = TRENDS 로드 완료인데 _buzzSet 크기 0 · 화면 증상은 「그냥 순위가 좀 다름」뿐이라 눈으로 못 잡는 축). 미로드는 캐시 없이 빈 집합만 돌려주고 다음 렌더에서 다시 시도한다(추가 fetch 0).
   _buzzKw = s; _buzzTs = Date.now(); return s;
 };
-const snsBuzz = c => {   // 매칭 술어(운영자 260808 "확인 로직이 중요") — 짧은 키워드(2~3자)는 substring이 오탐한다("로제"가 "프로젝트"에 매치) → ⓐ 4자+ 또는 공백 포함 구문 = 제목 substring ⓑ 2~3자 = 제목 토큰([가-힣A-Za-z0-9]+ 단위)의 정확일치 or 조사꼬리 2자 이내 전방일치("리센느가" ✓ · "프로젝트"의 중간 매치 ✗)
+const snsBuzz = c => {   // 매칭 술어(운영자 260808 "확인 로직이 중요") = trIn 정본(4자↑ = 붙인 본문 포함 · 2~3자 = 낱말·조사 꼬리 — 「로제」가 「프로젝트」에 안 걸림)
   const t = c.title || '';
-  const toks = t.match(/[가-힣A-Za-z0-9]+/g) || [];
-  for (const k of _buzzSet()) {
-    if (k.length >= 4 || k.includes(' ')) { if (t.includes(k)) return true; }
-    else { for (const w of toks) { if (w === k || (w.length <= k.length + 2 && w.startsWith(k) && [...w.slice(k.length)].every(ch => '이가은는을를의와과도만에서부터께랑님씨측'.includes(ch)))) return true; } }   // 꼬리 = 조사 문자만 허용("리센느가" ✓ · "로제타석" ✗ — 타≠조사)
-  }
+  for (const k of _buzzSet()) { if (trIn(k, t)) return true; }
   return false;
 };
 const gradeBase = c => { const ge = gEff(c); return gfixOf(c) ? (ge == null ? 1 : (GRADE_W[ge] ?? 1)) : (fbJunk(c) ? 0.5 : (ge == null ? 1 : (GRADE_W[ge] ?? 1))); };   // S 승격 *전* 배율(등급·교정·잡음눌림까지) — gradeW와 칩 표기(GX)가 **같은 술어**를 쓰게 분리(운영자 260810 "대세는 GX로 표기"): 표시를 따로 계산하면 화면이 1.2배가 아닌 카드에 GX를 그리는 거짓말이 난다.

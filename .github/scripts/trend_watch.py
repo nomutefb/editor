@@ -57,12 +57,13 @@ _JOSA = set("이가은는을를의와과도만에서부터께랑님씨측")
 
 
 def kw_hit(k, title):
-    k, t = str(k or "").strip(), str(title or "")
-    if not k:
+    """키워드 적중 = 뷰어 trIn 사본 = scraper/live_signal.hit 과 같은 뜻(4자↑ = 붙인 본문 포함 · 공백·기호·대소문자 무시 · 2~3자 = 낱말·조사 꼬리)."""
+    k, t = ckey(k), str(title or "").lower()
+    if len(k) < 2:
         return False
-    if len(k) >= 4 or " " in k:
-        return k in t
-    for w in re.findall(r"[가-힣A-Za-z0-9]+", t):
+    if len(k) >= 4:
+        return k in ckey(t)
+    for w in re.findall(r"[가-힣a-z0-9]+", t):
         if w == k or (len(w) <= len(k) + 2 and w.startswith(k) and all(ch in _JOSA for ch in w[len(k):])):
             return True
     return False
@@ -158,8 +159,8 @@ def key(s):
 
 
 def ckey(s):
-    """겹침 대조용 키 — 공백을 **지운다**(「리브 골프」 ↔ 「리브골프」가 같은 말로 잡히게)."""
-    return re.sub(r"\s+", "", str(s or "").lower()).strip()
+    """겹침 대조용 키 — 공백·기호를 **지운다**(「리브 골프」 ↔ 「리브골프」 · 「암살자(들)」 ↔ 「암살자들」이 같은 말로 잡히게)."""
+    return re.sub(r"[^0-9a-z가-힣]", "", str(s or "").lower())
 
 
 def load_social():
