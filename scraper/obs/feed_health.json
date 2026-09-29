@@ -1,7 +1,28 @@
 {
- "ok": 185,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 181,
+ "dead": 4,
+ "dead_feeds": [
+  {
+   "publisher": "SBS",
+   "title": "사회",
+   "url": "https://news.sbs.co.kr/news/SectionRssFeed.do?sectionId=03&plink=RSSREADER"
+  },
+  {
+   "publisher": "SBS",
+   "title": "연예",
+   "url": "https://ent.sbs.co.kr/news/xml/RSSFeed.do"
+  },
+  {
+   "publisher": "SBS",
+   "title": "헤드라인",
+   "url": "https://news.sbs.co.kr/news/headlineRssFeed.do?plink=RSSREADER"
+  },
+  {
+   "publisher": "SBS",
+   "title": "속보",
+   "url": "https://news.sbs.co.kr/news/newsflashRssFeed.do?plink=RSSREADER"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "국민일보",
