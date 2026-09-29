@@ -44,7 +44,9 @@ async function checkNewVersion(force) {
 }
 setTimeout(() => { checkNewVersion(true); }, 45000);   // 부팅 45s 후 1회(초기 로드·데이터 fetch 경쟁 회피)
 setInterval(checkNewVersion, 600000);                  // 10분 주기 = 열어 둔 화면도 배포를 안다
-document.addEventListener('visibilitychange', () => { if (!document.hidden) checkNewVersion(); });   // 폰·탭 복귀 순간 = 즉검(4분 스로틀 안에서)
+let _verHidAt = 0;
+document.addEventListener('visibilitychange', () => { if (document.hidden) { _verHidAt = Date.now(); return; } checkNewVersion(_verHidAt > 0 && Date.now() - _verHidAt >= 60000); });   // 폰·탭 복귀 순간 = 즉검(4분 스로틀 안에서) · 1분 넘게 가려졌다 돌아옴 = 「다시 접속」(운영자 260929 「사이트 접속 시 캐시 무시 강제 새로고침」 — 백그라운드 앱 재개는 내비게이션이 아니라 sw.js 진입 경로를 안 탄다 · 평의회260929 #8-4) = 스로틀 무시 즉검 → 한가하면 자동 반영
+window.addEventListener('pageshow', e => { if (e.persisted) checkNewVersion(true); });   // 뒤로가기 캐시(bfcache) 복귀 = 같은 사유
 // '탭하면 반영' reload 후 스크롤 복원(운영자 260717 — 시각 튜닝 시 맨위 튕김 방지) · 세션 1회성 · 콘텐츠 async 렌더라 충분히 길어질 때(또는 2.5s)까지 rAF 대기 후 복원 · 앱 재렌더 scrollY 보존 관례(12347 등) 계승
 (function restoreUpdScroll() {
   let y; try { y = sessionStorage.getItem('nmUpdScrollY'); if (y != null) sessionStorage.removeItem('nmUpdScrollY'); } catch { return; }

@@ -1,18 +1,19 @@
-// 노뮤트 서비스워커 — ① 긴급(breaking) 속보 웹푸시 수신·표시 ② HTML 셸 네트워크 우선(3s 캡) + 폴백 캐시.
-// 발송 = .github/scripts/push_send.py(pywebpush) / 구독 = api/push. 정본 설명 = CLAUDE.md §🚨·§8-5.
+// 노뮤트 서비스워커 — ① 긴급(breaking) 속보 웹푸시 수신·표시 ② HTML 셸 네트워크 우선 + 폴백 캐시.
+// 발송 = .github/scripts/push_send.py(pywebpush) / 구독 = api/push. 정본 설명 = docs/라우터_법령전문.md 제66조③·제67조.
 //
-// ── ② 셸 캐시(운영자 승인 260706 — OS 스플래시 노출 최단화 · 기틀검증 5인 260706) ──
+// ── ② 셸 캐시(운영자 승인 260706 · 기틀검증 5인 260706 — 260929 네트워크 우선 전환 = 평의회 8인) ──
 // 뷰어 index 셸(/·/index.html) 최상위 내비게이션*만* 캐시 대상. 260706 원안 = 캐시-우선(스플래시 최단화) →
 // 260929 운영자 지시로 네트워크 우선(아래 '진입 전략') — 캐시는 오프라인·지연·서버 오류 때 깨진 앱 대신 띄우는 폴백.
 // ⚠️ 스코프 = index 두 경로 화이트리스트가 기틀(평의회 1·2·4·5 수렴): 도구 HTML(thumb/ly/k/comp/track)은
 //    loadToolFrame의 `?v=Date.now()` 버스트 + _headers no-cache = '항상 최신' 계약이라 절대 캐시 대상 아님
 //    (전 내비게이션 캐시였던 초안이 이 계약을 무력화 → REJECT·수정). 스코프 넓히기 = 기틀 변경(재검증 필수).
 // 진입 전략(운영자 260929 「사이트 접속 시 캐시 무시하는 강제 새로고침」 — 260706 캐시 즉시 트레이드를 뒤집음):
-//    저장본이 있어도 매 진입 네트워크 우선 3s 캡 = 배포 뒤 첫 진입부터 최신 셸. 캐시 = 오프라인·지연(3s 초과)·서버 오류 폴백 전용.
+//    저장본이 있어도 매 진입 네트워크 우선(첫 응답 3s · 본문 10s 캡) = 배포 뒤 첫 진입부터 최신 셸. 캐시 = 오프라인·지연·서버 오류·잘린 본문 폴백
+//    + 방금(30s) 페이지가 받아 꽂은 최신(x-nm-put) 즉시 서빙.
 //    데이터 JSON(articles 등)·외부 JS·이미지는 fetch(비내비게이션)라 SW 불간섭 = 기사 내용 '항상 최신' 불변.
 // 가드 3중: ⓐ res.type==='basic' && ok && !redirected만 캐시 = Cloudflare Access 로그인/리다이렉트 오염 차단
 //          ⓑ ?nosw=1 = 캐시 전면 우회 탈출구(순수 네트워크)
-//          ⓒ 재검증이 리다이렉트/401·403 감지 시 클라이언트에 nm-auth-stale 통지 → 페이지가 ?nosw=1 재진입
+//          ⓒ 진입 응답이 리다이렉트/401·403 = 그대로 넘겨 로그인 화면 · 3s 넘겨 저장본을 띄운 뒤 만료가 보이면 nm-auth-stale 통지 → 페이지가 ?nosw=1 재진입
 //             = Access 세션 만료 시 '깨진 앱'에 안 갇히고 로그인 화면으로 자가치유(index 리스너와 한 쌍).
 // 롤백 런북(평의회 4): sw.js *삭제(404) 금지* — 삭제해도 브라우저는 기존 SW를 언레지스터하지 않고 캐시 서빙
 //    계속함. 반드시 '무해화 sw.js 배포'(fetch 핸들러 제거 + activate에서 nm-shell-* *전량* delete)로 되돌릴 것.
@@ -56,45 +57,71 @@ self.addEventListener('fetch', event => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin || !SHELL_PATHS.includes(url.pathname) || url.searchParams.has('nosw')) return;
   event.respondWith((async () => {
+    const t0 = Date.now();
     const key = url.origin + url.pathname;   // 쿼리 제거 정규화 = 딥링크(?a=·?msg=) 변형이 캐시를 늘리지도 가르지도 않음
     const cache = await caches.open(SHELL_CACHE);
     const cachedRaw = await cache.match(key);
+    // 방금 받은 최신 = 다시 안 받는다(평의회260929 — 네트워크 우선이 된 뒤 「새 버전 반영」 재진입이 방금 꽂은 셸을 두고 한 번 더 받아 260821 흰 번쩍이 되살아나던 것):
+    //    applyShellUpdate가 네트워크에서 막 받아 꽂은 사본엔 x-nm-put(꽂은 시각)이 붙는다 → 30s 안이면 네트워크와 같다 = 즉시 서빙(아래 절단 검문은 그대로 거친다).
+    const putAt = cachedRaw ? +(cachedRaw.headers.get('x-nm-put') || 0) : 0;
+    const justPut = putAt > 0 && Date.now() - putAt < 30000;
+    const resP = justPut ? null : fetch(req);   // 네트워크 먼저 출발 = 아래 저장본 검문 read와 겹쳐 돈다(캡 기준점 = 요청 시작)
+    if (resP) resP.catch(() => {});             // 체인이 붙기 전 거부 = 미처리 경고만 막는다(실제 처리는 아래)
     // ── 서빙 전 절단 검문(260802 2차 재발 봉합) — put 검문만으론 '이미 오염된 기기'를 못 구한다: 절단이 문서 초반부면
     //    head 자가치유 가드조차 사본에 안 실려 페이지 JS 전멸 = 페이지측 탈출 전무. SW는 no-cache로 항상 자동 갱신되므로
     //    「절단 사본은 서빙 자체가 안 된다」를 SW 불변식으로 승격 — 꼬리 </html> 아니면 즉시 소각 + 네트워크 직행.
-    //    비용 = 진입당 캐시 본문 1회 read(수십 ms급) — 콜드부트 즉시 페인트보다 무결성 우선(운영자 260802 재발 실측).
+    //    비용 = 진입당 캐시 본문 1회 read(수십 ms급) — 무결성 우선(운영자 260802 재발 실측).
     const cachedBody = cachedRaw ? await cachedRaw.clone().text().catch(() => null) : null;
     const cachedOk = cachedBody != null && /<\/html>\s*$/i.test(cachedBody);
     const cached = cachedOk ? cachedRaw : null;   // 이하 로직은 '검증된 사본'만 캐시로 취급
     if (cachedRaw && !cachedOk) event.waitUntil(cache.delete(key).catch(() => {}));   // 오염 사본 소각(다음 진입 = 순수 네트워크)
-    const netP = fetch(req).then(async res => {
+    if (justPut && cached) return cached;
+    const netRes = resP || fetch(req);
+    const sleep = ms => new Promise(r => setTimeout(() => r(null), Math.max(0, ms)));
+    const isAuth = r => !!r && (r.type === 'opaqueredirect' || r.status === 401 || r.status === 403);   // Access 만료 = 로그인 리다이렉트(내비게이션 = redirect 'manual' → opaqueredirect)·401·403
+    let netBody = null, netIntact = false, putRes = null;
+    const netP = netRes.then(async res => {
       if (res.ok && !res.redirected && res.type === 'basic') {
         // ── 절단 검문(260802 '상단만 렌더' 사고) — 라이브 index 응답은 content-length 없는 청크 스트림이라(실측)
-        //    전송 중 절단이 '정상 EOF'로 보여 res.ok 그대로다. 잘린 셸을 put하면 SWR이 그걸 매 진입 서빙 = 기기 감금.
-        //    본문 꼬리가 </html>인 것만 캐시 자격(아니면 기존 정상 사본 보존·서빙은 그대로 = 페이지 쪽 head 자가치유 가드가 탈출 담당).
-        //    비용 = 진입당 백그라운드 1회 전문 read(구 ETag 빠른 경로 대체 — 무결성 > 마이크로 성능 · ETag 부재 실측이라 실질 동일).
-        const body = await res.clone().text().catch(() => null);
-        const intact = body != null && /<\/html>\s*$/i.test(body);
-        let changed = false;   // 새 index 셸 배포 감지(옛≠새) → 열린 페이지에 nm-shell-updated 통지(운영자 260717 새버전 토스트)
-        if (cached && intact) {
-          const scrub = s => (s || '').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, m => (/cdn-cgi|cloudflareinsights/i.test(m) ? '' : m));   // 엣지 주입 노이즈 소거(운영자 260717 무한루프 실기록) — Cloudflare가 응답마다 다르게 심는 스크립트(RUM beacon rayId·챌린지 토큰)를 비교에서 제외. 같은 셸인데 주입 토큰만 달라 '다름' 오판 → 반영 탭 직후 또 "새 버전" 무한 재알림의 근원 차단(앱 자체 스크립트는 cdn-cgi·cloudflareinsights 문자열 0 = 소거 비대상)
-          changed = scrub(cachedBody) !== scrub(body);   // 본문 = 서빙 전 검문에서 이미 읽음(재read 0 · 비교 문법은 종전 그대로)
-        }
-        if (intact) await cache.put(key, res.clone()).then(() => {}, () => {});   // put을 체인에 태움 = waitUntil 수명 안(쓰기 유실 차단·평의회 1) · 실패(quota 등)해도 진행 = 정상 응답 폐기 안 함 · 절단 사본 = put 자격 없음
-        if (changed) self.clients.matchAll({ type: 'window' }).then(list => list.forEach(c => c.postMessage({ type: 'nm-shell-updated' })));   // 갱신 완료 후 통지 = 탭→reload가 새 셸 서빙 보장
-        return res;
-      }
-      if (cached && (res.redirected || res.type === 'opaqueredirect' || res.status === 401 || res.status === 403)) {
-        // Access 세션 만료 추정 — 캐시는 안 덮고(로그인 페이지 오염 방지) 열린 페이지에 통지
-        self.clients.matchAll({ type: 'window' }).then(list => list.forEach(c => c.postMessage({ type: 'nm-auth-stale' })));
+        //    전송 중 절단이 '정상 EOF'로 보여 res.ok 그대로다. 본문 꼬리가 </html>인 것만 서빙·캐시 자격(잘린 응답은 저장본이 있으면
+        //    저장본을 띄우고 · 없으면(첫 방문) 그대로 넘겨 head 자가치유 가드가 탈출 담당 · 평의회260929 #6-1).
+        putRes = res.clone();
+        netBody = await res.clone().text().catch(() => null);
+        netIntact = netBody != null && /<\/html>\s*$/i.test(netBody);
       }
       return res;
     });
-    if (cached) {   // 진입 = 네트워크 우선 3s 캡(운영자 260929 「사이트 접속 시 캐시 무시하는 강제 새로고침 · 컨트롤 쉬프트 알 개념」) — 종전엔 명시적 새로고침(Ctrl+R·당겨서 · 운영자 260720 평의회 F6)·알림 PICK 진입(act · 260924)만 이 분기였고 평소 진입은 캐시 즉시(SWR) = 배포 뒤 첫 진입이 직전판 셸이라 「고쳤는데 안 뜸」이 반복됐다(260929 수집함 실패 줄 배포 직후 실측). 이제 모든 진입이 이 분기(260706 스플래시 최단화 트레이드 = 운영자가 최신 우선으로 뒤집음)
-      const winner = await Promise.race([netP.catch(() => null), new Promise(r => setTimeout(() => r(null), 3000))]);
-      if (winner && (winner.ok || winner.type === 'opaqueredirect' || winner.redirected || winner.status === 401 || winner.status === 403)) return winner;   // 3s 내 도착 = 새 셸 즉시(netP가 캐시 put·통지까지 수행) · Access 만료(리다이렉트·401·403) = 그대로 넘겨 로그인 화면으로(옛 셸에 갇혀 목록이 비는 것 차단)
-      event.waitUntil(netP.catch(() => {})); return cached;                 // 미도착(오프라인·지연)·서버 오류(5xx·404) = 캐시 폴백(깨진 앱·오류 화면 방지 · 갱신은 백그라운드 지속)
+    // 저장·새 버전 통지 = 응답 경로 밖(첫 화면을 캐시 쓰기·비교에 붙잡지 않는다) — 무엇을 띄웠는지(served)가 정해진 뒤에만 판정.
+    let decide = () => {}; const decided = new Promise(r => { decide = r; }); setTimeout(() => decide(false), 20000);   // 안전핀 = 판정 누락이어도 수명 유한
+    const saveP = Promise.all([netP.catch(() => null), decided]).then(async ([res, servedNet]) => {
+      if (res && netIntact) {
+        let changed = false;   // 새 index 셸 배포 감지(옛≠새) → 열린 페이지에 nm-shell-updated 통지(운영자 260717 새버전 토스트)
+        if (cached) {
+          const scrub = s => (s || '').replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, m => (/cdn-cgi|cloudflareinsights/i.test(m) ? '' : m));   // 엣지 주입 노이즈 소거(운영자 260717 무한루프 실기록) — Cloudflare가 응답마다 다르게 심는 스크립트(RUM beacon rayId·챌린지 토큰)를 비교에서 제외. 같은 셸인데 주입 토큰만 달라 '다름' 오판 → 반영 탭 직후 또 "새 버전" 무한 재알림의 근원 차단(앱 자체 스크립트는 cdn-cgi·cloudflareinsights 문자열 0 = 소거 비대상)
+          changed = scrub(cachedBody) !== scrub(netBody);   // 두 본문 = 이미 읽음(재read 0 · 비교 문법은 종전 그대로)
+        }
+        await cache.put(key, putRes).then(() => {}, () => {});   // waitUntil 수명 안(쓰기 유실 차단·평의회 1) · 실패(quota 등)해도 진행 · 절단 사본 = put 자격 없음
+        if (changed) {   // 갱신 완료 후 통지 = 탭→reload가 새 셸 서빙 보장 · 방금 새 셸을 받은 이 내비게이션의 새·옛 문서는 제외(헛 리로드·옛 문서의 반영 도장 오염 차단)
+          const skip = servedNet ? [event.resultingClientId, event.replacesClientId].filter(Boolean) : [];
+          self.clients.matchAll({ type: 'window' }).then(list => list.forEach(c => { if (!skip.includes(c.id)) c.postMessage({ type: 'nm-shell-updated' }); }));
+        }
+      } else if (cached && !servedNet && isAuth(res)) {
+        // Access 세션 만료 추정 + 저장본을 띄운 경우만(3s 초과 폴백) — 캐시는 안 덮고(로그인 페이지 오염 방지) 열린 페이지에 통지.
+        //    로그인 리다이렉트를 그대로 넘긴 진입은 통지 안 함 = 떠나는 옛 페이지의 nosw 재진입이 딥링크 내비게이션과 경합하던 것 차단(평의회260929 #2-1·#5-1)
+        self.clients.matchAll({ type: 'window' }).then(list => list.forEach(c => c.postMessage({ type: 'nm-auth-stale' })));
+      }
+    }).catch(() => {});
+    event.waitUntil(saveP);
+    if (cached) {   // 진입 = 네트워크 우선(운영자 260929 「사이트 접속 시 캐시 무시하는 강제 새로고침 · 컨트롤 쉬프트 알 개념」) — 종전엔 명시적 새로고침(Ctrl+R·당겨서 · 260720 F6)·알림 PICK 진입(act · 260924)만 네트워크 우선이었고 평소 진입은 캐시 즉시(SWR) = 배포 뒤 첫 진입이 직전판이라 「고쳤는데 안 뜸」이 반복됐다(260929 실측)
+      const head = await Promise.race([netRes.catch(() => null), sleep(3000 - (Date.now() - t0))]);   // 첫 응답 3s 캡 = 서버가 살아 있나(본문 전체가 아니라 응답 머리 기준 · 느린 폰 회선에서 2.5MB 본문 때문에 옛 셸로 떨어지던 것 차단 · 평의회260929 #1-3·#3-1·#8-1)
+      if (isAuth(head)) { decide(true); return head; }   // Access 만료 = 그대로 넘겨 로그인 화면(옛 셸에 갇혀 목록이 비는 것 차단)
+      if (head && head.ok && head.type === 'basic' && !head.redirected) {
+        const res = await Promise.race([netP.catch(() => null), sleep(10000 - (Date.now() - t0))]);   // 응답이 왔으면 본문은 10s(요청 시작 기준)까지 기다린다 = 최신 우선
+        if (res && netIntact) { decide(true); return res; }   // 온전한 최신 = 즉시(Ctrl+Shift+R 과 같은 결과)
+      }
+      decide(false); return cached;   // 3s 무응답(오프라인·지연)·서버 오류(5xx·404)·본문 10s 초과·잘린 본문 = 저장본(깨진 앱·오류 화면 방지 · 갱신은 백그라운드 지속 → 새 버전 통지)
     }
+    decide(true);
     return netP.catch(() => Response.error());                              // 첫 방문 = 네트워크 그대로
   })());
 });
@@ -219,7 +246,7 @@ self.addEventListener('notificationclick', event => {
     // 2) 열린 탭이 있으면 그 탭을 타깃으로 *이동*시켜 제작 화면을 보여줌(과거: 무조건 포커스만 → 옛 화면/모달에 머묾)
     for (const c of list) {
       if ('navigate' in c && 'focus' in c) {
-        try { const nc = await c.navigate(target.href); return (nc || c).focus(); } catch (_) { /* navigate 불가 → 새 창 폴백 */ }
+        try { await c.focus().catch(() => {}); const nc = await c.navigate(target.href); return nc || c; } catch (_) { /* navigate 불가 → 새 창 폴백 */ }   // 앞으로 먼저(탭 권한 = focus 몫 · navigate 는 네트워크 우선이라 최대 수 초 · 평의회260929 #3-4·#5-2)
       }
     }
     // 3) 열린 탭 없음 → 새 창
