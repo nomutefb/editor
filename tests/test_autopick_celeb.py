@@ -19,6 +19,10 @@ class AutopickCeleb(unittest.TestCase):
         self.assertFalse(A.eligible(cand("아이유·이종석, 4년 열애 끝 결별")))
         self.assertFalse(A.eligible(cand("한예리, 신생 기획사와 전속계약 체결")))
 
+    def test_celeb_rel_axis(self):
+        self.assertEqual(A.celeb_rel("아이유·이종석, 열애 인정"), True)
+        self.assertEqual(A.celeb_rel("닛몰캐쉬, 데이트폭력 폭로"), False)
+
     def test_incident_kept(self):
         self.assertTrue(A.eligible(cand("닛몰캐쉬, 데이트폭력·비하발언 폭로 터졌다")))
         self.assertTrue(A.eligible(cand("공장 화재로 5명 사망")))

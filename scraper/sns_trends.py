@@ -1895,6 +1895,32 @@ def x_trends(limit=15):
     return []
 
 
+def namu_rank(limit=10):
+    """나무위키 실시간 검색 순위 — **폰(가정 IP) 전용**(운영자 260929 폰 실측 200 · 클라우드 IP = Cloudflare 403).
+    연예·인물 스캔들은 사람들이 나무위키에서 그 이름을 찾아보는 게 가장 먼저 뜨는 축이라 첫 보도 전 신호로 쓴다.
+    응답 = 검색어 목록(문자열 배열 또는 {keyword|text|name|title} 객체 배열 — 두 형태 모두 수용). 실패 = [] (fail-soft)."""
+    try:
+        req = urllib.request.Request("https://search.namu.wiki/api/ranking",
+                                     headers={"User-Agent": "Mozilla/5.0 (Linux; Android 14) Chrome/126", "Accept": "application/json"})
+        j = json.loads(urllib.request.urlopen(req, timeout=15, context=CTX).read().decode("utf-8", "ignore"))
+        if isinstance(j, dict):
+            j = j.get("data") or j.get("ranking") or j.get("items") or []
+        out = []
+        for i, x in enumerate(j if isinstance(j, list) else []):
+            q = x if isinstance(x, str) else next((x.get(k) for k in ("keyword", "text", "name", "title") if isinstance(x, dict) and x.get(k)), "")
+            q = re.sub(r"\s+", " ", str(q or "")).strip()
+            if q:
+                out.append({"query": q, "rank": i + 1})
+            if len(out) >= limit:
+                break
+        if not out:
+            print(f"::warning::namu_rank 응답은 왔는데 검색어 0건 — 형식 확인 필요: {str(j)[:160]}", file=sys.stderr)
+        return out
+    except Exception as e:  # noqa: BLE001
+        print(f"::warning::namu_rank 실패(스킵): {e}", file=sys.stderr)
+        return []
+
+
 def hackernews(limit=10):
     """⑫ 해커뉴스 톱스토리 — Firebase 공식 무키 API(hacker-news.firebaseio.com · 데이터센터 IP 친화).
     topstories.json(id 배열) → 상위 N개 item 조회(N+1콜·Firebase는 레이트리밋 관대). 정렬 = 스코어.
@@ -2651,6 +2677,7 @@ def main():
     xtr = x_trends() if XTR_ON else []       # ⑩ X 실시간 트렌드(동일)
     hn = hackernews() if HN_ON else []       # ⑫ 해커뉴스(무키 · 운영자 260713)
     fin = finance(prev.get("finance")) if FIN_ON else {}        # ⑬ 금융 환율+코인+국내증시+종목(무키 · throttle 상태 = prev.finance._ts 승계)
+    nm, nm_at = [], ""   # 나무위키 검색 순위 = 폰 신선분 채택만(아래 폰 채택 블록 · 러너는 403이라 수집 안 함)
     dis = disaster() if (SAFETY_KEY and SAFETY_RUNNER) else []   # ⑭ 재난문자 = 러너 기본 OFF(safetydata.go.kr 러너 IP 차단·타임아웃 실측 260713) → 폰(scripts/phone_subs) 신선분 채택이 주 공급(아래 폰 채택 블록) · SAFETY_RUNNER=1 = 러너도 시도
     kob = kobis() if KOBIS_KEY else []       # ⑮ KOBIS 박스오피스(키 게이트)
     exw = expressway() if EX_KEY else []     # ⑯ 고속도로 돌발·사고(키 게이트 · 운영자 260713 "대량 사고")
@@ -2735,6 +2762,10 @@ def main():
                 if _pr:
                     rd = _pr
                     print(f"phone-subs 채택: reddit {len(_pr)}건({_pm:.0f}분 전 수집)")
+                _pn = [it for it in (_ph.get("namu") or []) if isinstance(it, dict) and it.get("query")]   # 나무위키 검색 순위 = 폰 전용(클라우드 403 · 운영자 260929)
+                if _pn:
+                    nm, nm_at = _pn, str(_ph.get("updated") or "")
+                    print(f"phone-subs 채택: namu {len(_pn)}건({_pm:.0f}분 전 수집)")
                 _pd = [it for it in (_ph.get("disaster") or []) if isinstance(it, dict)]   # ⑭ 재난문자 = 러너 safetydata.go.kr IP 차단·타임아웃 실측(260713) → 폰 신선분이 주 공급(게이트 무관 채택 · 러너 SAFETY_RUNNER 기본 OFF)
                 if _pd:
                     dis = _pd
@@ -2959,6 +2990,8 @@ def main():
         "hackernews": hn or prev.get("hackernews") or [],   # ⑫ 해커뉴스(게이트 OFF/실패 = 직전분 · 운영자 260713)
         "finance": (fin if fin_any else (prev.get("finance") or {})),   # ⑬ 금융 {rates,coins}(실시간 시세 = 직전분 폴백)
         "disaster": dis or prev.get("disaster") or [],   # ⑭ 재난문자(키 없으면 [] · 있으면 최신)
+        "namu": nm or prev.get("namu") or [],   # 나무위키 실시간 검색 순위(폰 전용 · 폰 스테일 = 직전분 — 소비처는 namu_updated 로 신선도 판정)
+        "namu_updated": nm_at if nm else (prev.get("namu_updated") or ""),
         "kobis": kob or prev.get("kobis") or [],     # ⑮ KOBIS 박스오피스(키 게이트)
         "expressway": exw or prev.get("expressway") or [],   # ⑯ 고속도로 돌발·사고(키 게이트 · 사고성만 필터)
         "health": health,   # 소스별 {ok, n, last_ok[, off]} — 죽은 소스 가시화(260713 · 표시 전용 데이터 · 워치독 소비)
