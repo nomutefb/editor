@@ -14180,7 +14180,10 @@ function renderSnsTrends() {
     brow(i, ggUrl(g), undefined, _cnHotSig(g.query))).join('')) : '';   // ⑨ 시그널 실검(운영자 260718) — 클릭 = 구글 웹검색 검색어 입력 상태(운영자 260803 "구글 뉴스가 아닌 '구글'에서 검색자로 투입" — 구 Google News 리버스크론[평의회 260723 #2]은 뉴스만 걸러 보여 원천 맥락이 좁았다 · 목적지 = ggUrl 정본 1곳 공용 = 구글 실검과 동일 문법) · 순위+검색어만(brow)
   gGG += (gtSec && sigSec) ? '<div class="rt2col">' + gtSec + sigSec + '</div>' : gtSec + sigSec;
   // 나무위키 = 구글|시그널 아래 단독 폭(교차합의 3소스 묶음 · rt2col 결측 단독 폭 관용구 = 신규 컴포넌트 0) · 행 = brow(순위+검색어 · 원천 수치 없음 = 시그널과 동일) · 클릭 = 나무위키 검색 검색어 입력 상태
-  const nmuSec = nmuL.length ? sec('nmu', '나무위키 실시간 검색어', nmuStale ? '<span class="tdash-time stale" title="폰 수집기가 3시간+ 멈춤 — 나무위키 순위가 오래됐다(공급원 = 폰 · 재가동 = phone_subs)">폰 점검 필요</span>' : rtBase, nmuL.length,
+  const _nmPh = d.health && d.health.phone, _nmPhAlive = !!(_nmPh && _nmPh.updated && Date.now() - new Date(_nmPh.updated).getTime() <= 180 * 60000);   // 폰 하트비트(아래 phoneStale 과 같은 180분 축) — 폰은 살았는데 나무만 막힌 경우를 가른다(평의회260929 #3)
+  const nmuSec = nmuL.length ? sec('nmu', '나무위키 실시간 검색어', !nmuStale ? rtBase : _nmPhAlive
+    ? '<span class="tdash-time stale" title="폰 수집기는 정상인데 나무위키 순위가 3시간+ 안 들어왔다 — 나무위키 쪽 응답 차단·형식 변경 의심(폰 로그 「나무 N건」 확인)">나무위키 응답 없음</span>'
+    : '<span class="tdash-time stale" title="폰 수집기가 3시간+ 멈춤 — 나무위키 순위가 오래됐다(공급원 = 폰 · 재가동 = phone_subs)">폰 점검 필요</span>', nmuL.length,
     nmuL.map((g, i) => brow(i, 'https://namu.wiki/Search?q=' + encodeURIComponent(g.query || ''), undefined, _cnCls(g.query))).join('')) : '';
   gGG += nmuSec;   // 구글|시그널 좌우 2열 매칭(운영자 260718 · 모바일 1열 스택 = .rt2col 미디어) — 한쪽 결측 = 그리드 없이 단독(조용한 공백 동축)
   // ⑩+⑦-b 실시간 트렌드 반갈(운영자 260721 "1~10위 엑스 | 1~10위 블루스카이 · 모양 = 실검 반갈[구글|시그널] 그대로") — rt2col+sec 블릿·마진 = 9915 관용구 100% 계승 · 행 = row(순위·키워드·시간 = 기존 xtr 그대로 · 블스 시간 = started[relT 문법]) · 좌 상한 15→10(운영자 "1위~10위") · 블스 결측 = X 단독 폭(조용한 공백 동축) · 클릭 = X 검색 / 블스 검색(둘 다 검색어 입력 상태 · 운영자 260803 — 구 블스 link 피드 우선 폐지)

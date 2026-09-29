@@ -1876,12 +1876,15 @@ def x_trends(limit=15):
             #   그 목록 항목은 `<li><span class=trend-name><a …>말</a>` 이라 구판 패턴(`<li><a`)이 한 줄도 못 잡고,
             #   페이지 아래 통계 칸(오래 걸린 말·광고성 해시태그)만 걸렸다(실측 9/29 = X 1위 닛몰캐쉬가 목록에 없고
             #   「콰삭모짜킹」 같은 장기 체류 광고어가 상위 · 운영자 260929 근본 해결). 목록을 못 찾으면 구판 패턴 그대로(fail-soft).
-            m0 = re.search(r'<ol[^>]*class="?trend-card__list[^>]*>(.*?)</ol>', b, re.S) if "trends24" in url else None
-            if m0:
+            if "trends24" in url:
+                m0 = re.search(r'<ol[^>]*class=["\']?[^"\'>]*\btrend-card__list\b[^>]*>(.*?)</ol>', b, re.S)
+                if not m0:   # 순위 목록 못 찾음 = 마크업 변경 → 구판 패턴(통계 칸 광고어)으로 조용히 돌아가지 말고 폴백 창구로(평의회260929 #3)
+                    print("::warning::x_trends trends24 순위 목록(trend-card__list) 미발견 — getdaytrends 폴백", file=sys.stderr)
+                    continue
                 b, pat = m0.group(1), r'<a[^>]*>([^<]{2,40})</a>'
             seen, out = set(), []
             for m in re.finditer(pat, b):
-                q = re.sub(r"\s+", " ", m.group(1)).strip()
+                q = re.sub(r"\s+", " ", html.unescape(m.group(1))).strip()   # &quot;·&amp; 엔티티 = 화면·검색어에 문자 그대로 새지 않게
                 if not q or q.lower() in seen:
                     continue
                 seen.add(q.lower())
@@ -2883,6 +2886,7 @@ def main():
               "hackernews": _hh("hackernews", hn, HN_ON), "finance": _hh("finance", (fin.get("rates") or []) + (fin.get("coins") or []) if fin else [], FIN_ON),
               # ⑭ KM 폴백 상시 = 키 없어도 축은 살아있음(off 딱지 금지 · 260802)
               "disaster": _hh("disaster", dis, True), "kobis": _hh("kobis", kob, bool(KOBIS_KEY)),
+              "namu": _hh("namu", nm, True),   # 나무위키 순위(폰 전용) — 폰은 살았는데 나무만 막힌 경우도 last_ok 노후로 보이게(평의회260929 #3)
               "expressway": _hh("expressway", exw, bool(EX_KEY)),
               "subs": _hh("subs", (subs_new if (subs_new is not None and subs_any) else []), SUBS_ON)}
     if subs_new is not None and acc:

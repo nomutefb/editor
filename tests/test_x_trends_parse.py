@@ -29,6 +29,13 @@ class XTrendsParse(unittest.TestCase):
         S._get = lambda url, *a, **k: PAGE
         self.assertEqual([x["query"] for x in S.x_trends()], ["닛몰캐쉬", "오하욘사"])
 
-    def test_falls_back_to_legacy_pattern_without_list(self):
-        S._get = lambda url, *a, **k: '<ul><li><a href="#">옛말</a></li></ul>'
-        self.assertEqual([x["query"] for x in S.x_trends()], ["옛말"])
+    def test_no_list_goes_to_getdaytrends_not_stats(self):
+        # 순위 목록이 없으면 trends24 통계 칸(광고어)으로 돌아가지 않고 getdaytrends 로 넘어간다(평의회260929 #3)
+        S._get = lambda url, *a, **k: ('<section id=stats><ul><li><a href="#">콰삭모짜킹</a></li></ul></section>' if "trends24" in url
+                                       else '<a class="string" href="#">닛몰캐쉬</a><a class="string" href="#">A &amp; B</a>')
+        self.assertEqual([x["query"] for x in S.x_trends()], ["닛몰캐쉬", "A & B"])
+
+    def test_single_quoted_and_multi_class_list(self):
+        for attr in ("class='trend-card__list'", 'class="x trend-card__list"'):
+            S._get = lambda url, *a, attr=attr, **k: f'<ol {attr}><li><span><a href="#">닛몰캐쉬</a></span></li></ol><ul><li><a>광고</a></li></ul>'
+            self.assertEqual([x["query"] for x in S.x_trends()], ["닛몰캐쉬"], attr)
