@@ -362,6 +362,9 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
             continue
         k = L.norm_key(c["lv"].get("k"))
         sd = (st.get("sd") or {}).get(k)
+        if not isinstance(sd, dict) and not L.STATE_RO:   # 다른 레인이 만든 씨앗 = 러너 장부에 처음 기록(판정 NO 정리 후 재생성·재판정 차단 · V8)
+            ft = L._ts(c.get("first_seen"))
+            sd = st.setdefault("sd", {})[k] = {"u": c.get("url"), "at": int(ft or now), "ek": c.get("event_key") or c.get("url")}
         if isinstance(sd, dict) and sd.get("u") == c.get("url"):
             sd.update({f: c[f] for f in _SEED_KEEP if c.get(f) is not None})
         g = (st.get("gn") or {}).get(k) or {}

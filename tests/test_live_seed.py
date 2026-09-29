@@ -3,6 +3,7 @@
 import importlib.util
 import io
 import json
+import os
 import contextlib
 import sys
 import tempfile
@@ -410,6 +411,174 @@ class DupPush(unittest.TestCase):   # 평의회3 260929 — 같은 사건 2발 �
         old = {"k": "닛몰캐쉬", "t": 3, "f": "CX", "c": 4, "x": 1, "gn": 7, "a": "A0"}
         new = {"k": "닛몰캐쉬", "t": 2, "f": "G", "c": 2, "x": 5, "g": 20000, "a": "A1"}
         self.assertEqual(S._keep_strong(old, new), {"k": "닛몰캐쉬", "t": 3, "f": "CXG", "c": 4, "x": 1, "g": 20000, "gn": 7, "a": "A0"})
+
+
+class Guards(unittest.TestCase):   # 검증 V8 뮤테이션 생존 가드 — 한 줄 되돌리면 실패해야 하는 것들
+    def test_relight_only_ungraded_or_breaking(self):   # 경중 0·1 채점 NO 한 매체 lv 엔트리 = 재점등 0(260924 계약)
+        t = ep("2026-09-29 09:46")
+        st = armed_state()
+        g1 = cand("u1", "닛몰캐쉬 폭로", t, cross=1, solo=1, grade=1, breaking=False)
+        out, _ = S.run([g1], [], ARMED, st, t, net=False)
+        self.assertEqual(out[0]["lv"]["t"], 2)
+        self.assertFalse(out[0].get("breaking_candidate"))              # 채점 NO(경중 1) = 재점등 0
+        g0 = cand("u2", "닛몰캐쉬 근황", t, cross=1, solo=1)
+        out, _ = S.run([g0], [], ARMED, armed_state(), t, net=False)
+        self.assertTrue(out[0].get("breaking_candidate"))               # 채점 전 = 재점등(판정·채점 대상)
+
+    def test_ro_lane_does_not_save_state(self):
+        import time as _t
+        with tempfile.TemporaryDirectory() as d:
+            stp, cp = Path(d) / "live_state.json", Path(d) / "candidates.json"
+            st = L.new_state()
+            st["tl"] = [int(_t.time() // 60)]
+            L.save_state(st, stp)
+            before = stp.read_bytes()
+            cp.write_text("[]", encoding="utf-8")
+            old = (L.STATE, S.CAND, L.STATE_RO, L.ON, sys.argv)
+            L.STATE, S.CAND, L.STATE_RO, L.ON, sys.argv = stp, cp, True, True, ["live_seed.py", str(Path(d) / "none.json")]
+            try:
+                with contextlib.redirect_stdout(io.StringIO()):
+                    S.main()
+            finally:
+                L.STATE, S.CAND, L.STATE_RO, L.ON, sys.argv = old
+            self.assertEqual(stp.read_bytes(), before)
+
+    def test_kill_switch_file_push_and_judge(self):
+        c = {"breaking": True, "grade": 1, "cross": 1, "title": "t", "lv": {"k": "x", "t": 3}}
+        self.assertTrue(PS.is_breaking(c) and PS.push_cross_ok(c))
+        with tempfile.TemporaryDirectory() as d:
+            (Path(d) / "scraper").mkdir()
+            (Path(d) / "scraper" / "live_signal.off").write_text("", encoding="utf-8")
+            old = PS.ROOT
+            PS.ROOT = Path(d)
+            try:
+                self.assertFalse(PS.is_breaking(c))
+                self.assertFalse(PS.push_cross_ok(c))
+            finally:
+                PS.ROOT = old
+        bj = _load(ROOT / ".github" / "scripts" / "breaking_judge.py", "bj_off")
+        bj._LIVE_OFF = True
+        self.assertEqual(bj._lv_t(c), 0)
+
+    def test_kill_switch_file_strips_lv_in_to_candidates(self):
+        T = S.T
+        now = datetime.now(KST).timestamp()
+        prev = {"id": "U", "url": "U", "title": "닛몰캐쉬 폭로", "cross": 3, "event_key": "U", "lv": {"k": "닛몰캐쉬", "t": 3},
+                "published": utc(now - 1800), "first_seen": iso(now - 1800), "cluster_members": ["U", "V", "W"], "arts": 3}
+        rep = {"link": "U", "title": "닛몰캐쉬 폭로", "publisher": "매체", "category": "", "published": utc(now - 1800),
+               "is_cluster_rep": True, "cross_score": 3, "burst": 0, "cluster_size": 3, "cluster_members": ["U", "V", "W"],
+               "breaking_pick": {"url": "U", "media": "매체", "title": "닛몰캐쉬 폭로"}}
+        o = (T.SRC, T.DST, T._LIVE_OFF)
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                for off, want in ((False, True), (True, False)):
+                    T.SRC, T.DST, T._LIVE_OFF = Path(d) / "a.json", Path(d) / "c.json", off
+                    T.SRC.write_text(json.dumps([rep], ensure_ascii=False), encoding="utf-8")
+                    T.DST.write_text(json.dumps([prev], ensure_ascii=False), encoding="utf-8")
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        T.main()
+                    out = {c["url"]: c for c in json.loads(T.DST.read_text(encoding="utf-8"))}
+                    self.assertEqual("lv" in out["U"], want)
+        finally:
+            T.SRC, T.DST, T._LIVE_OFF = o
+
+    def test_no_decode_after_google_failure(self):   # glive — 이 회차 구글 실패 있음 = 원문 해제도 쉰다(네트워크 0)
+        import gnews_search as G
+        t = ep("2026-09-29 10:31")
+        st, fetch = strong_state(t)
+        calls = []
+        old = (G.STATS.get("fail"), G.decode)
+        G.STATS["fail"], G.decode = 1, (lambda link, http=None: calls.append(link) or "")
+        try:
+            S.run([], [], ARMED, st, t, gn_fetch=fetch)
+        finally:
+            G.STATS["fail"], G.decode = old
+        self.assertEqual(calls, [])
+
+    def test_ro_created_seed_recorded_by_runner(self):   # V8 — 폰이 만든 씨앗도 러너 장부(sd)에 첫 기록
+        now = ep("2026-09-29 10:31")
+        st = L.new_state()
+        _strong(st, "닛몰캐쉬", now, {"p": int(now - 5000), "t": "닛몰캐쉬, 채널 삭제", "m": "금강일보", "l": "https://g/A"})
+        seed = S._seed_entry("닛몰캐쉬", st["k"]["닛몰캐쉬"], st["gn"]["닛몰캐쉬"], now - 900)
+        seed["lv"] = L.lv_of(st, "닛몰캐쉬", now)
+        seed.update(breaking=False, breaking_rubric="NO", grade=1)
+        S.run([seed], [], EMPTY, st, now, net=False, gn_decode=lambda l: "")
+        self.assertEqual((st["sd"]["닛몰캐쉬"]["u"], st["sd"]["닛몰캐쉬"]["breaking_rubric"]), ("https://g/A", "NO"))
+
+
+class PushMain(unittest.TestCase):   # push_send.main 실제 실행(웹푸시·AI 스텁) — 강·약 키 · 에피소드 AI 필수 · 강 키 적중 원장 기록(검증 V1·V8)
+    def round(self, cands, sent=None, events=None, ai="none"):
+        import types
+        from datetime import datetime as _dt
+        now_iso = _dt.now(KST).isoformat(timespec="seconds")
+        log = []
+        pw = types.ModuleType("pywebpush")
+
+        class WPE(Exception):
+            pass
+        pw.webpush, pw.WebPushException = (lambda subscription_info, data, **kw: log.append(json.loads(data)["body"])), WPE
+
+        def fake_ai(title, pool):
+            if not pool:
+                PS._AI_LAST["ok"] = True
+                return None
+            PS._AI_LAST["ok"] = ai != "fail"
+            return 0 if ai == "same" else None
+        with tempfile.TemporaryDirectory() as d:
+            D = Path(d)
+            (D / "subs.json").write_text(json.dumps([{"endpoint": "https://push/x", "keys": {}}]), encoding="utf-8")
+            (D / "sent.json").write_text(json.dumps({k: now_iso for k in (sent or [])}), encoding="utf-8")
+            (D / "ev.json").write_text(json.dumps([dict(e, ts=now_iso) for e in (events or [])], ensure_ascii=False), encoding="utf-8")
+            (D / "cand.json").write_text(json.dumps(cands, ensure_ascii=False), encoding="utf-8")
+            keep = {n: getattr(PS, n) for n in ("SUBS", "SENT", "CAND", "SENT_EV", "vapid_pem", "notif_icon", "_ai_same_event", "ISS_PUSH")}
+            old_mod, old_argv, old_env = sys.modules.get("pywebpush"), sys.argv, os.environ.get("VAPID_PRIVATE_KEY")
+            PS.SUBS, PS.SENT, PS.CAND, PS.SENT_EV = D / "subs.json", D / "sent.json", D / "cand.json", D / "ev.json"
+            PS.vapid_pem, PS.notif_icon, PS._ai_same_event, PS.ISS_PUSH = (lambda raw: "/dev/null"), (lambda k, t: ""), fake_ai, False
+            sys.modules["pywebpush"], sys.argv, os.environ["VAPID_PRIVATE_KEY"] = pw, ["push_send.py"], "x"
+            try:
+                with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+                    PS.main()
+            finally:
+                for n, v in keep.items():
+                    setattr(PS, n, v)
+                sys.argv = old_argv
+                if old_mod is None:
+                    sys.modules.pop("pywebpush", None)
+                else:
+                    sys.modules["pywebpush"] = old_mod
+                if old_env is None:
+                    os.environ.pop("VAPID_PRIVATE_KEY", None)
+                else:
+                    os.environ["VAPID_PRIVATE_KEY"] = old_env
+            return log, set(json.loads((D / "sent.json").read_text(encoding="utf-8")))
+
+    def brk(self, url, title, **kw):
+        now = int(datetime.now(KST).timestamp())
+        c = {"url": url, "id": url, "event_key": url, "title": title, "breaking": True, "grade": 2, "cross": 3,
+             "published": utc(now - 900), "first_seen": iso(now - 900), "cluster_members": [url]}
+        c.update(kw)
+        return c
+
+    def test_strong_key_hit_records_url(self):
+        log, sent = self.round([self.brk("R", "닛몰캐쉬 사생활 논란", event_key="SEED")], sent=["SEED"])
+        self.assertEqual(log, [])
+        self.assertIn("R", sent)                                             # 씨앗 키 승계 실후보의 자기 url 이 원장에
+
+    def test_title_hash_hit_records_nothing_else(self):
+        c = self.brk("B", "北 동해상 탄도미사일 발사")
+        tkey = [k for k in PS.dedup_keys(c) if k.startswith("t:")][0]
+        log, sent = self.round([c], sent=[tkey])
+        self.assertEqual(log, [])
+        self.assertNotIn("B", sent)                                          # 해시 충돌 = 별개 사건일 수 있다 → url 안 적음
+
+    def test_episode_key_needs_ai(self):
+        a = "2026-09-29T09:46:00+0900"
+        c = self.brk("B", "[속보] 하이브 본사 압수수색", lv={"k": "하이브", "t": 3, "a": a})
+        ep_key = "lv:하이브@" + a
+        ev = [{"title": "하이브 방시혁 의장 입장문", "k": "brk"}]
+        self.assertEqual(len(self.round([c], sent=[ep_key], events=ev, ai="none")[0]), 1)   # AI = 다른 사건 → 발송
+        self.assertEqual(self.round([c], sent=[ep_key], events=ev, ai="fail")[0], [])      # AI 실패 = 보류
+        self.assertEqual(self.round([c], sent=[ep_key], events=ev, ai="same")[0], [])      # AI = 같은 사건 → 억제
 
 
 class Budget(unittest.TestCase):

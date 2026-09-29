@@ -95,6 +95,7 @@ _GENERIC = set("""
 때문 많이 문제 하나 사유 난리난 일침 개인정보 유포 사생활 스토킹 영구정지 게임 만화 아파트 신입사원
 열애설 결혼설 이혼설 결별설 불화설 임신설 사망설 은퇴설 해체설 탈퇴설 교제설 재혼설 지지율 선수 감독님
 쇼트트랙 여자농구 남자농구 농구대표팀 사브르 에페 플뢰레 펜싱 핸드볼 여자핸드볼 남자핸드볼 세팍타크로 e스포츠 격투게임 배구 여자배구 남자배구 탁구 양궁 수영 육상 태권도 유도 레슬링 복싱 체조 골프 테니스 배드민턴 하키 럭비 역도 사격 카누 요트 승마 마라톤 컬링 바둑 볼링 한일전 한중전 결승 준결승 예선 결승전 살인 살해 콘크리트 추석인사 인사 며느리 시어머니 시아버지 사위 장모 장인 시댁 처가 포로 폭발 폭발현장 계주 릴레이
+음주 부고 매니저 불륜 외도 이적 부상 체포 실종 입대 전역 복귀 투병 수술 입원 퇴원 응급실 교통사고 도박 탈세 표절 사과문 합의 양육비 스캔들 재결합 해체 영입 방출 경질 선임 우승 준우승 탈락 부진 폭로전 저격글 입장문 녹음 영상유출 사진유출 유출 공개열애 이혼소송 스포츠
 공식입장 추가 확산 직접 사실 인정 부인 반박 사실무근 법적 대응 자숙 퇴출 폐쇄 삭제 비공개 파혼 재혼 득남 득녀 모친상 부친상 비보 발인
 발매 첫방 예매율 관객수 연속 인터뷰 포토 온라인 성추행 명예훼손 허위사실 악플 루머 가짜뉴스 합성 딥페이크 서울시 인천시 대구시 부산시 경기도
 jpg jpeg gif png mp4 webp ㄷㄷ ㄷㄷㄷ ㅋㅋ ㅋㅋㅋ ㅎㄷㄷ
@@ -115,7 +116,8 @@ STOP = frozenset({w.lower() for w in (set(_KSTOP) | set(_SSTOP) | _GENERIC)})
 _JOSA = ("에서는", "에게서", "으로부터", "으로는", "이라는", "라는", "에서", "에게", "으로", "까지", "부터", "마저", "조차", "처럼",
          "보다", "이랑", "하고", "과의", "와의", "이의", "의", "은", "는", "이", "가", "을", "를", "에", "도", "와", "과", "로", "만", "측", "씨")
 _JOSA_LONG = tuple(j for j in _JOSA if len(j) >= 2 and not all(ch in "이가은는을를의와과도만에서부터께랑님씨측" for ch in j))   # 곳수 계산 바탕형 전용(hit = kw_hit 사본은 그대로)
-_JOSA1 = set("이가은는을를의와과도만에서부터께랑님씨측")   # 조사 꼬리 글자 = .github/scripts/trend_watch._JOSA 사본(kw_hit 의미 동일)
+_JOSA1 = set("이가은는을를의와과도만에서부터께랑님씨측")
+_JOSA_LINK = ("이", "가", "은", "는", "을", "를", "의")   # 회차 간 조사형 에피소드 잇기 = 격조사만(「강화」↔「강화도」·「사랑」↔「사랑이」 오병합 줄임 · V2)   # 조사 꼬리 글자 = .github/scripts/trend_watch._JOSA 사본(kw_hit 의미 동일)
 _BAD_END = re.compile(r"(하는|하던|했던|하게|하고|해서|했다|한다|된다|됐다|되는|되던|이는|이던|스러운|같은|없는|있는|많은|좋은|나는|가는|오는|"
                       r"보는|먹는|싶은|받은|당한|입은|터진|터짐|했음|했네|하네|인데|는데|라는|이라|이다|합니다|해요|했어|같음|없음|있음|ㄷㄷ|ㅋㅋ)$")
 _WORD = re.compile(r"[가-힣]{2,}|[A-Za-z][A-Za-z0-9]+")
@@ -160,6 +162,8 @@ def tokens(title):
     out = set()
     for w in raw:
         lw = w.lower()
+        if lw in STOP:
+            continue              # 낱말 그대로 불용어(「태권도」) = 조사를 떼 보지 않는다(「태권」 누수 · V2)
         if len(lw) >= 3 and lw[-1] in "인적하" and lw[:-1] in STOP:
             continue              # 「논란인」·「일침하」 = 불용어 + 서술 꼬리
         s = _strip_josa(lw)
@@ -180,11 +184,27 @@ def tokens(title):
     return out
 
 
-def _rest_generic(short, long_d):
-    """long_d(표시형) 안에서 short 가 든 낱말을 뺀 나머지가 전부 일반어(불용어·조사형 불용어)인가 — 한 낱말이면 참(조사·붙임형)."""
+def _rest_generic(short, long_d, names=()):
+    """long_d(표시형) 안에서 short 가 든 낱말(띄어 쓴 이름 = 이어진 낱말 여럿 · 「닛몰 캐쉬」 · V8)을 뺀 나머지가 전부 일반어(불용어·사건어)인가 —
+    한 낱말이면 참(조사·붙임형) · names = 호출부가 넘기면 그 이름들도 나머지로 허용(기본 없음)."""
     ws = disp(long_d).lower().split()
-    rest = [w for w in ws if not hit(short, w)]
-    return len(rest) < len(ws) and all(norm_key(w) in STOP or _strip_josa(norm_key(w)) in STOP for w in rest)
+    k = norm_key(short)
+    span = next(((i, i) for i, w in enumerate(ws) if hit(short, w)), None)
+    if span is None:                     # 띄어 쓴 이름 = 첫 낱말에서 시작해 마지막 낱말에서 끝나는 최소 구간
+        for i in range(len(ws)):
+            for j in range(i + 1, min(len(ws), i + 4)):
+                parts = [norm_key(w) for w in ws[i:j + 1]]
+                acc = "".join(parts)
+                at = acc.find(k)
+                if at >= 0 and at < len(parts[0]) and at + len(k) > len(acc) - len(parts[-1]):
+                    span = (i, j)
+                    break
+            if span:
+                break
+    if span is None:
+        return False
+    rest = ws[:span[0]] + ws[span[1] + 1:]
+    return all(norm_key(w) in STOP or _strip_josa(norm_key(w)) in STOP or norm_key(w) in names for w in rest)
 
 
 def _contains_ok(k):
@@ -395,19 +415,20 @@ def observe(snap, now):
         if s:
             put(k, d, "S", s)
     # ④ 갈래 통합 — 이름이 트렌드 검색어 안에 있거나(「닛몰캐쉬」 ⊂ 「닛몰캐쉬 데이트폭력」) 그 반대면 같은 이름
-    #   ⚠ 검색어의 나머지 낱말이 전부 일반어일 때만(「살림하는 남자들」⊃「남자들」·「가득한 한가위」⊃「한가위」·「이재명 지지율」 = 다른 뜻 · #2-3)
+    #   ⚠ 검색어의 나머지 낱말이 전부 일반어일 때만(「살림하는 남자들」⊃「남자들」·「가득한 한가위」⊃「한가위」 = 다른 뜻 · 두 이름 검색어(「뉴진스 하니 열애」)는 통합 안 함 = 「개혁 의지 왜곡」이 낱말마다 무장하던 잡음과 맞바꿈 · #2-3·V8)
     absorbed = set()
     for k in list(obs):
         kd = dmap.get(k, k)
         for f, qk, qd, v in tkeys:
-            if qk != k and (((_contains_ok(k) or k in twords) and hit(k, qd) and _rest_generic(k, qd))
+            if qk != k and (((_contains_ok(k) or k in twords) and (hit(k, qd) or k in qk) and _rest_generic(k, qd))
                             or (_contains_ok(qk) and hit(qk, kd) and _rest_generic(qk, kd))):
                 put(k, kd, f, v)
-                if len(qd.split()) > 1 and hit(k, qd):
+                if len(qd.split()) > 1 and (hit(k, qd) or k in qk):
                     absorbed.add(qk)       # 「왕사남 보고」·「일본 우루과이」 = 이름(왕사남·우루과이) 에피소드 하나로(별도 에피소드 = 구글 뉴스 예산·씨앗 중복 · #2-8)
     for qk in absorbed:
         obs.pop(qk, None)
         hi = [x for x in hi if x != qk]
+    tset = {qk for _, qk, _, _ in tkeys}
     # 조사 한 글자 차이 짝(「닛몰캐쉬」↔「닛몰캐쉬가」 · 「김고」↔「김고은」) = 한 이름 — 낱말 그대로 더 많이 쓰인 쪽만 남긴다
     #   ⚠ 트렌드·통합 **뒤**에 돈다(앞에서 지운 쪽을 트렌드 키가 되살려 한 사건이 에피소드 2개가 되던 것 · #2-8)
     for k in sorted(list(obs), key=len, reverse=True):
@@ -416,6 +437,8 @@ def observe(snap, now):
         s = k[:-1]
         if s in obs:
             keep, drop = (k, s) if exact.get(k, 0) > exact.get(s, 0) else (s, k)
+            if s in tset and k not in tset:
+                keep, drop = s, k          # 트렌드가 바탕형(「김고은」)을 가리키면 그쪽(조사형 「김고은이」 위주 커뮤니티 제목에 먹히던 것 · V8)
             for f, v in obs[drop].items():
                 put(keep, dmap.get(keep, keep), f, v)
             obs.pop(drop, None)
@@ -523,9 +546,10 @@ def update(st, snap, now):
     for k in list(obs):                    # 회차마다 조사 짝 중 남는 쪽이 달라도(「사촌동생」↔「사촌동생이」) 이미 있는 에피소드 이름으로 잇는다(#2-8)
         if k in eps:
             continue
-        alt = [a for a in ([k[:-1]] if len(k) >= 3 and k[-1] in _JOSA1 else []) + [k + j for j in _JOSA1] if a in eps]
+        alt = [a for a in ([k[:-1]] if len(k) >= 3 and k[-1] in _JOSA_LINK else []) + [k + j for j in _JOSA_LINK] if a in eps]   # 고정 순서 = 실행마다 같은 결과(V8)
         if alt and alt[0] not in obs:
-            obs[alt[0]] = obs.pop(k)
+            e = obs[alt[0]] = obs.pop(k)
+            e["d"] = eps[alt[0]].get("d") or alt[0]   # 표시명도 기존 에피소드 것(조사형 「김철수이」가 lv.k 로 굳어 씨앗 이관·장부 조회가 빗나가던 것 · V8)
     for k, e in obs.items():
         fams = {}
         if not soc_fresh:
@@ -543,8 +567,8 @@ def update(st, snap, now):
         if not fams:
             continue
         ep = eps.setdefault(k, {"f": {}, "m": {}})
-        if e["d"] != k:
-            ep["d"] = e["d"]               # 표시형(여러 낱말 검색어) — 키와 같으면 생략(상태 작게)
+        if e["d"] != k and norm_key(e["d"]) == k:
+            ep["d"] = e["d"]               # 표시형(여러 낱말 검색어) — 키와 같으면 생략(상태 작게) · 정규형이 키와 다른 표시명은 안 받는다(V8)
         for f, t in fams.items():
             t = int(min(t or now, now))
             ep["f"][f] = max(ep["f"].get(f, 0), t)
@@ -571,7 +595,8 @@ def update(st, snap, now):
             ep["a"] = int(now)
         elif len(act) < 2 and ep.get("a") and not ep.get("cf"):
             ep.pop("a", None)              # 동시성이 끊긴 미확인 무장 = 해제([중]이 한 갈래만으로 하루씩 이어지고 늦은 확인이 붙던 것 · 평의회260929-2 #2-2)
-            st.get("gn", {}).pop(k, None)  #   다시 동시에 뜨면 새 무장 시각 = novel 창도 새로(묵은 보도가 있으면 재점화로 막힌다)
+            if ((st.get("gn") or {}).get(k) or {}).get("nov") != 0:
+                st.get("gn", {}).pop(k, None)   # 다시 동시에 뜨면 새 무장 시각 = novel 창도 새로 · 「새 사건 아님」 고정은 에피소드 만료까지 유지(V2)
     prune(st, now)
     return eps
 
@@ -597,7 +622,8 @@ def novel_ours(ep, recs):
     if not a:
         return True
     for c in recs:
-        ts = [x for x in (_ts(c.get("first_seen")), _ts(c.get("published"))) if x]
+        pub = c.get("published") if re.search(r"(Z|[+-]\d\d:?\d\d)$", str(c.get("published") or "")) else None   # 시간대 없는 발행 = 믿지 않는다(9h 어긋남 한 건이 확인을 막던 것 · V8)
+        ts = [x for x in (_ts(c.get("first_seen")), _ts(pub)) if x]
         t = min(ts) if ts else None        # 발행이 더 이르면 발행(늦게 수집된 전날 기사 = first_seen 만 보면 새 사건으로 오인 · #2-1)
         if t and a - NOVEL_BACK_H * 3600 <= t < a - NOVEL_H * 3600:
             return False
@@ -635,8 +661,8 @@ def _gn():
 
 
 def _tkey(t):
-    """전재 판별용 제목 지문 = 글자·숫자만(띄어쓰기·문장부호·괄호 기호 차이 무시 · 「속보」 같은 머리 낱말·한자는 그대로 = 다르면 다른 지문 = 과대 쪽)."""
-    return re.sub(r"[^0-9a-z가-힣]", "", (t or "").lower())
+    """전재 판별용 제목 지문 = 괄호 머리말([속보]·(종합)·【단독】) 통째 제거 뒤 글자·숫자만(띄어쓰기·문장부호 무시 · 한자는 그대로 = 과대 쪽 · V8)."""
+    return re.sub(r"[^0-9a-z가-힣]", "", re.sub(r"\[[^\]]*\]|\([^)]*\)|【[^】]*】|<[^>]*>", " ", (t or "").lower()))
 
 
 def gn_count(items, key, now, armed):

@@ -321,6 +321,9 @@ class SocialFresh(unittest.TestCase):   # 평의회260929-2 #8 — 커뮤니티 
         st = L.new_state()
         L.update(st, {"tbs": {}, "sns": {}, "social": [{"title": "시어머니가 며느리에게 보낸 문자", "source_count": 5, "age_h": 1.0}]}, t)
         self.assertNotIn("며느리", st["k"])
+        st = L.new_state()                               # 불용어 아닌 이름 · tbs 1곳 + 소셜 5 = 뒷받침 부족 → 갈래 아님(V8 뮤테이션)
+        L.update(st, dict(snap(t, [["홍길순 근황"]]), social=[{"title": "홍길순 폭로 정리", "source_count": 5, "age_h": 1.0}]), t)
+        self.assertNotIn("C", (st["k"].get("홍길순") or {}).get("f", {}))
 
     def test_old_social_post_not_simultaneous(self):
         t = ep("2026-09-29 09:37")
@@ -369,6 +372,51 @@ class Noise0929(unittest.TestCase):   # 평의회260929-2 #2 — 7일 리플레�
         st = L.new_state()
         n = L.bootstrap_git(st, ep("2026-09-29 09:37"), root="/nonexistent")
         self.assertEqual((n, st["k"]), (0, {}))
+
+
+class Guards8(unittest.TestCase):   # 검증 V8 — 뮤테이션 생존 가드·새 결함
+    def test_social_needs_tbs_two(self):   # S 뒷받침 = tbs 2곳 + 소셜 3 → C · tbs 2곳만 → C 아님
+        t = ep("2026-09-29 09:37")
+        two = [["닛몰캐쉬 폭로"], ["닛몰캐쉬 근황"]]
+        st = L.new_state()
+        L.update(st, snap(t, two), t)
+        self.assertNotIn("닛몰캐쉬", st["k"])
+        st = L.new_state()
+        L.update(st, dict(snap(t, two), social=[{"title": "닛몰캐쉬 폭로 정리", "source_count": 4, "age_h": 1.0}]), t)
+        self.assertIn("C", st["k"]["닛몰캐쉬"]["f"])
+
+    def test_josa_variant_keeps_episode_display(self):   # 조사형 관측이 기존 에피소드로 옮겨져도 표시명은 바탕형
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        L.update(st, snap(t, [["김철수 폭로"]] * 3, x=["김철수"]), t)
+        L.update(st, snap(t + 900, [["김철수이 또 폭로"]] * 3), t + 900)
+        self.assertNotIn("김철수이", st["k"])
+        self.assertEqual(L.lv_of(st, "김철수", t + 900)["k"], "김철수")
+
+    def test_trend_base_form_wins_josa_pair(self):   # 트렌드 「김고은」 + 커뮤니티 「김고은이…」 위주 = 바탕형 에피소드
+        t = ep("2026-09-29 09:37")
+        obs, _ = L.observe(snap(t, [["김고은이 열애 인정"], ["김고은이 결혼"], ["김고은이 소속사"], ["김고은 근황"]], x=["김고은"]), t)
+        self.assertIn("김고은", obs)
+        self.assertNotIn("김고은이", obs)
+
+    def test_spaced_name_trend_containment(self):   # 「닛몰 캐쉬 데이트폭력」 = 띄어 쓴 이름 + 일반어 → 같은 이름
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        L.update(st, snap(t, [["닛몰캐쉬 폭로"]] * 3, x=["닛몰 캐쉬 데이트폭력"]), t)
+        self.assertEqual(L.tier(st["k"]["닛몰캐쉬"], t), 2)
+
+    def test_tkey_strips_bracket_heads(self):
+        self.assertEqual(L._tkey("[속보] 北, 동해상 탄도미사일 발사"), L._tkey("北, 동해상 탄도미사일 발사(종합)"))
+
+    def test_josa_variant_follows_base_chronic(self):   # 조사형(「안세영이」)도 바탕 이름의 만성 판정
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        lo = int((t - 70 * 3600) // L.BUCKET_S)
+        for h in range(lo, lo + 10):
+            st["tb"][str(h)] = 3
+            st["hi"].setdefault("안세영", {})[str(h)] = 3
+        L.update(st, snap(t, [["안세영이 우승"]] * 3, x=["안세영이"]), t)
+        self.assertNotIn("C", (st["k"].get("안세영이") or {}).get("f", {}))
 
 
 class Tail(unittest.TestCase):
