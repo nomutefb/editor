@@ -16,32 +16,32 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "3/ Opus 5.5와의 비교도 살펴볼 수 있었는데요.\n\n표와 작은 글씨가 섞인 PDF로 금융·의료·법률 실무 질문에 답하는 GDP.pdf에서 6.1 Sol은 high 설정 32.0%를 0.35달러에 냈고, 폴백을 켠 Opus 5.5의 최고점은 28.8%(0.83달러)였습니다.\n\n47개 도구로 영업·재무·인사 업무를 끝까지 처리하는 AutomationBench에서는 중간 설정끼리 31.7% 대 29.5%로 Sol이 앞섰고 비용은 0.19달러 대 0.65달러입니다.\n\n같은 차트의 최대 설정에서는 Opus 5.5가 42.5%로 가장 높고 Astra 41.4%, 6.1 Sol 36.1% 순인데요.\n\n6.1 Sol 최대 설정의 비용은 0.30달러로 Opus 5.5의 1.44달러와 비교하면 약 5분의 1입니다.",
-   "likes": 4,
+   "text": "3/ 이 방향의 첫 신호는 작년 9월 Pulse였습니다.\n\nPulse는 사용자가 묻지 않아도 밤사이 대화 기록과 메모리, 캘린더를 바탕으로 조사를 돌리고 다음 날 아침 카드로 보여줬는데요.\n\n한 달 뒤 오픈AI는 맥 화면을 이해하고 앱을 조작하는 Sky의 개발사를 인수했습니다. \n\n먼저 말을 거는 능력과 컴퓨터를 직접 다루는 능력을 따로 확보해 둔 것입니다.\n\n올해 6월 Pulse는 종료되고 예약 작업으로 흡수됐는데, 지금 보면 dots를 위한 정리에 가까웠습니다.\n\n정보를 건네는 단계에서 멈췄던 Pulse에 실행 환경이 붙으면서 먼저 움직이는 AI가 완성됐습니다.",
+   "likes": 1,
    "cmts": 1,
-   "time": 1790710966,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/828280565_17989310217112832_4309190196656359979_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5NzA5NDM5MDM1MzgxMTI3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM0Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nDdBkgvqMAgQ7kNvwGJvMky&_nc_oc=AdpCwxJsOsBICzZJHAN9efUeXg6MUtV4AK4lDE41jOHLB2jHz84wIdHBU4rdo3uWUpc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7PmMoU6a4XIdPCMyxNYxlQ&_nc_ss=7a20f&oh=00_AQP8DiB-RGhglbbZARcmkH_irhRf7y5UUkNYrEwGDoUGNA&oe=6AC1FCF5",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4iWiEEgNm",
+   "time": 1790714631,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825324441_17989315182112832_5423430831346060796_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5NzEyNjQ5Nzc0ODAzMTI2Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzg0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=htHv_CZKUKsQ7kNvwH-XjKv&_nc_oc=AdoH1TEcEgUkb5fy2W3zpcXtUrMuZ1Os8bYW-rYW9KvzTYYsD5nxlojs-C_41g1kgos&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b0hg6x3jfhi6rw9Y_qQRIg&_nc_ss=7a20f&oh=00_AQNQFDgKTh3t9jPr6CwYRk9M0gjgPA1gQV0MmDzvii640Q&oe=6AC2149B",
+   "url": "https://www.threads.com/@choi.openai/post/Dd4pV88kpce",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "2/ 오픈AI가 가장 먼저 내세운 결과는 코딩입니다.\n\nDeepSWE v1.1은 실제 코드베이스에서 새로 설계한 장기 소프트웨어 과제를 에이전트가 끝까지 해결하는지 보는 평가인데요.\n\nGPT-6.1 Sol은 high 설정에서 75.2%를 작업당 0.65달러에 기록해, Astra의 최고점인 매우 높음 설정 74.1%(4.43달러)를 약 7분의 1 비용으로 넘었습니다.\n\n가장 낮은 설정도 64.4%를 0.17달러에 냈는데, 같은 설정의 GPT-6 Sol은 37.2%였습니다. 추론을 최대로 올리면 71.9%로 내려가 high 근처가 가장 효율적인 지점입니다.\n\nJetBrains가 Three.js로 로켓 발사 장면을 만들게 한 비교에서도 6.1 Sol은 0.553달러와 17분, 6 Sol은 1.01달러와 22분이 들었습니다.",
+   "text": "2/ 오픈AI는 dots를 Codex와 ChatGPT Work 위에 얹힌 한 층으로 설명합니다.\n\nCodex로도 영상 편집이나 코드 수정은 할 수 있지만, dot은 한 번 보여준 작업 방식을 기억했다가 비슷한 상황이 오면 먼저 제안합니다.\n\n오픈AI 내부 사례를 보면, 한 엔지니어가 dot을 Slack에 연결해 제품 피드백을 듣게 하자 dot이 스스로 Codex 작업을 열고 PR과 이슈를 만들었습니다.\n\n여러 스레드를 오가던 그의 하루는 dot에게 진행 상황을 묻고 우선순위를 정하는 일로 바뀌었는데요.\n\n정해진 시간에 같은 일을 반복하는 예약 작업과 달리, 목표와 맥락을 들고 다음 할 일을 스스로 찾아냅니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790714621,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831423594_17989315161112832_410465117657310429_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NzEyNjQxMjEwODcwOTg0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzgxOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_uQFBESFsQ8Q7kNvwH6KYY2&_nc_oc=AdojsKWNzVYLx_5OTjq1yvKeU6OtD0SdVkv0utLkIPYl158MLH1pPg1MEiecqUANakA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b0hg6x3jfhi6rw9Y_qQRIg&_nc_ss=7a20f&oh=00_AQO2_UwJFCRQXuFsx8IPWpcZtYfuEoax02N0ty_mPTN6Gw&oe=6AC2031E",
+   "url": "https://www.threads.com/@choi.openai/post/Dd4pUtMEj_R",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 오픈AI가 DevDay가 열린 9월 29일 ChatGPT에 상시 에이전트 dots를 공개했습니다.\n\ndot 하나에 이름을 붙이고 목표와 권한을 정해주면, GPT-6 Astra가 자기 클라우드 컴퓨터에서 브라우저와 ChatGPT Work, Codex를 써서 일을 진행합니다.\n\n대화를 닫아도 작업을 이어가다가 판단이 필요한 순간에 결과와 선택지를 들고 돌아오는 방식입니다.\n\nChatGPT 메모리와 연결된 앱이 맥락이 되고, 채팅과 통화로 부를 수 있으며 문자·Slack·Teams·이메일 채널도 순차적으로 붙습니다.\n\n첫 대상은 EU·영국을 제외한 Pro와 Business Premium이고, 출시 후 한 달 동안 'dot 사용량은 요금제 한도'에 포함되지 않습니다.",
    "likes": 2,
    "cmts": 1,
-   "time": 1790710955,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830612427_17989310190112832_8730899983464211766_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5NzA5NTY1OTEwMjcxMDYzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM0Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=G34E1lPHbPUQ7kNvwHo-mch&_nc_oc=AdqzXpJrjNjIK4RVo1PjC80jqrCmkxZMFwyxZxRaAAIBxtBUbMi8FJo-77ePqSYffRw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7PmMoU6a4XIdPCMyxNYxlQ&_nc_ss=7a20f&oh=00_AQMjeJdDVmkZ0moMmBvAiPScWq54B6KxqeXCFr33C0oDjw&oe=6AC1E82A",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4iVMOEqts",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 오픈AI가 DevDay에서 GPT-6.1 Sol을 공개했습니다.\n\n일주일 전 나온 GPT-6 Sol의 업그레이드 모델로, 오픈AI는 GPT-6 Astra에 근접한 성능을 Astra 표준 토큰 가격의 5분의 1에 제공한다고 설명했습니다.\n\nAPI 가격은 100만 토큰당 입력 2달러, 출력 10달러로 GPT-6 Sol과 같고, 캐시된 입력은 0.1달러로 표준 입력보다 95%, GPT-6 Sol의 캐시 가격보다 50% 낮아졌습니다.\n\n오픈AI는 종합 역량에서는 Astra가 여전히 가장 뛰어난 모델이라고 함께 밝혔습니다.",
-   "likes": 4,
-   "cmts": 1,
-   "time": 1790710950,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4iUmskqlN",
+   "time": 1790714610,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825270075_17989315143112832_1049813379211064740_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NzEyNjMxNTQ3MTkyOTYzOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzg0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GhbnZxC4fYIQ7kNvwHasoC1&_nc_oc=Adov8b9J4MwDeW9jR_i5lkMt-DjpsXSW0quidVdL8EHLbyKbo9LoAnjqPJgIxkCe3Sw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b0hg6x3jfhi6rw9Y_qQRIg&_nc_ss=7a20f&oh=00_AQOYffsjGR4z-2UkA_cuIpMQeafm6Gx_7yAhsvY8kRvGXw&oe=6AC20E1B",
+   "url": "https://www.threads.com/@choi.openai/post/Dd4pTTMEgEm",
    "region": "kr"
   },
   {
@@ -106,12 +106,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "🚨 오픈AI가 GPT-6 Sol을 출시한 지 일주일 만에 후속 모델 GPT-6.1 Sol을 공개했습니다.\n\nAstra에 근접한 성능을 최대 7분의 1 수준의 작업 비용으로 제공하며, 일부 코딩 평가에서는 Astra까지 넘어섰는데요.\n\n모델 경쟁의 기준이 성능에서 ‘작업당 비용’으로 바뀌고 있습니다.\n\nGPT-6.1 Sol의 달라진 점을 정리했습니다. 🧵",
-   "likes": 14,
-   "cmts": 13,
-   "time": 1790710946,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829967364_1406170114563565_382676488720773473_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NzA5NTE2NDQ1OTc1MDU0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9vNJNvJ97J0Q7kNvwF-KbZ9&_nc_oc=Adrl47yKPO1cDEjYZk_PfpLBY5D8Oov8Ch8g31uSjUqai-MV7oRNZ4YJkAFARNgdnZE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7PmMoU6a4XIdPCMyxNYxlQ&_nc_ss=7a20f&oh=00_AQO5CvASPXeVRf7s878zZ5lksmh_ck4iy9GeLvUGheIP8Q&oe=6AC2000E",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4iN_jDhSO",
+   "text": "🚨 와.. 오픈AI가 24시간 일하는 상시 에이전트 dots를 공개했습니다.\n\n목표와 권한만 정해주면 전용 클라우드 컴퓨터에서 혼자 일을 이어가고, 대화를 닫아도 멈추지 않습니다.\n\n오픈AI가 그리는 미래를 보면 세상이 정말 달라보일 것입니다.\n\n작년 Pulse부터 이어진 신호와 다음 사이클이 왜 컴퓨터인지 정리했습니다 🧵",
+   "likes": 15,
+   "cmts": 16,
+   "time": 1790714604,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/828871957_1782530776396218_8845321629844318334_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzExNzQxMzIyMTUzMDcwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=sKpkDKakxQQQ7kNvwEmWPqi&_nc_oc=AdpXBZFeG9c3WAGdx25XrFx6yroivKqEenB79qMjrRr-AO-YgJ-iFb7AZ1728ZLCHS8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b0hg6x3jfhi6rw9Y_qQRIg&_nc_ss=7a20f&oh=00_AQOh3RAKDoxSHpB7Q0t2hufbvhhLJr6QMaTb_8IhyccCug&oe=6AC1EC77",
+   "url": "https://www.threads.com/@choi.openai/post/Dd4nRwUmPxU",
    "region": "kr"
   },
   {
@@ -120,7 +120,7 @@
    "likes": 1,
    "cmts": 3,
    "time": 1790692823,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/828280572_17939043861362958_4098005355540784675_n.jpg?stp=cp6_dst-jpegr_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Njk0MzU1ODM2NDA1OTU5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ5Ni5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=go4Cmt9K6vIQ7kNvwHtcV8G&_nc_oc=AdoDYmPu85wRer4p4v9KiLMZT1gNDAsO8ecJmJdLNCe-h22HreM58DP8EL3LM_YxUOg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QotRs4R5Rwobx-oi3zjKHQ&_nc_ss=7a20f&oh=00_AQPzm4sVhrCXYid2vh67HJ7unq3kLA45SrmEMqdCJYYO-A&oe=6AC20AA7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/828280572_17939043861362958_4098005355540784675_n.jpg?stp=cp6_dst-jpegr_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Njk0MzU1ODM2NDA1OTU5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ5Ni5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=go4Cmt9K6vIQ7kNvwHtcV8G&_nc_oc=AdoDYmPu85wRer4p4v9KiLMZT1gNDAsO8ecJmJdLNCe-h22HreM58DP8EL3LM_YxUOg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ivy3cvcfgCdiZA4YNYjQeg&_nc_ss=7a20f&oh=00_AQNrgY45uIy5ODT6Kkm1vMoalYoPmbDkS9H2wsQ8ZpnE_g&oe=6AC20AA7",
    "url": "https://www.threads.com/@takepage_/post/Dd3_v1Xk1fM",
    "region": "kr"
   },
@@ -136,21 +136,21 @@
   },
   {
    "account": "choi.openai",
-   "text": "Openclaw의 아버지",
-   "likes": 13,
-   "cmts": 3,
-   "time": 1790708520,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830999721_17989305504112832_5492140547965749587_n.jpg?stp=cp6_dst-jpegr_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5NzA3NTIzNDQ1MjYzNjY0MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNDA5Ni5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nxCjjfBlVVwQ7kNvwETUPUg&_nc_oc=AdqHhmFP6HwCU9gOkz8meueSwa0CIMWKYWFuedEvR2vORRBOmiI8MJyoxLQN7QTdWiU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7PmMoU6a4XIdPCMyxNYxlQ&_nc_ss=7a20f&oh=00_AQNfwzJJ9isG90S7PibZ83z0U3JyeIc5GW0Mk4nUVBOjVw&oe=6AC1FB97",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4dr-SD4Pg",
+   "text": "3/ Opus 5.5와의 비교도 살펴볼 수 있었는데요.\n\n표와 작은 글씨가 섞인 PDF로 금융·의료·법률 실무 질문에 답하는 GDP.pdf에서 6.1 Sol은 high 설정 32.0%를 0.35달러에 냈고, 폴백을 켠 Opus 5.5의 최고점은 28.8%(0.83달러)였습니다.\n\n47개 도구로 영업·재무·인사 업무를 끝까지 처리하는 AutomationBench에서는 중간 설정끼리 31.7% 대 29.5%로 Sol이 앞섰고 비용은 0.19달러 대 0.65달러입니다.\n\n같은 차트의 최대 설정에서는 Opus 5.5가 42.5%로 가장 높고 Astra 41.4%, 6.1 Sol 36.1% 순인데요.\n\n6.1 Sol 최대 설정의 비용은 0.30달러로 Opus 5.5의 1.44달러와 비교하면 약 5분의 1입니다.",
+   "likes": 4,
+   "cmts": 1,
+   "time": 1790710966,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/828280565_17989310217112832_4309190196656359979_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5NzA5NDM5MDM1MzgxMTI3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTM0Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nDdBkgvqMAgQ7kNvwGJvMky&_nc_oc=AdpCwxJsOsBICzZJHAN9efUeXg6MUtV4AK4lDE41jOHLB2jHz84wIdHBU4rdo3uWUpc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b0hg6x3jfhi6rw9Y_qQRIg&_nc_ss=7a20f&oh=00_AQN8s-PUn3BgeoaMlMLlbNrHUXn7NnLAkynNzptFwmr0Ag&oe=6AC1FCF5",
+   "url": "https://www.threads.com/@choi.openai/post/Dd4iWiEEgNm",
    "region": "kr"
   },
   {
    "account": "takepage_",
    "text": "AI 기반 결정이 돌아가는 구조",
-   "likes": 21,
+   "likes": 22,
    "cmts": 1,
    "time": 1790684573,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825270025_1377088147527427_5017873714086987451_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5Njg3NDI1MTQyNDQ4NzQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DOHUlGyefNQQ7kNvwHR6VQf&_nc_oc=AdpvjMSg8ZYxaixKeF5BLkp_fcjVf4DiT_K-itzewfBmtLLy8RI7Jo0SSjJjHlLGXCM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QotRs4R5Rwobx-oi3zjKHQ&_nc_ss=7a20f&oh=00_AQN7iLYPz2CgYyWYaozihm7xfsMVH7LcxE1oLv0aZZA83w&oe=6AC2027C",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/825270025_1377088147527427_5017873714086987451_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5Njg3NDI1MTQyNDQ4NzQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DOHUlGyefNQQ7kNvwHR6VQf&_nc_oc=AdpvjMSg8ZYxaixKeF5BLkp_fcjVf4DiT_K-itzewfBmtLLy8RI7Jo0SSjJjHlLGXCM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ivy3cvcfgCdiZA4YNYjQeg&_nc_ss=7a20f&oh=00_AQNn9CSySx1-ZURiLpUfzwBodP4qsK2KmsFRmEWEpLlaqg&oe=6AC2027C",
    "url": "https://www.threads.com/@takepage_/post/Dd3v_SQD9gn",
    "region": "kr"
   },
@@ -166,12 +166,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "3. Meetings\n\n회의 내용도 다음 작업으로 이어집니다.\nMeetings 플러그인이 회의 내용을 바탕으로 개인화된 요약과 할 일을 Space에 저장합니다. 이후 프로젝트 계획을 업데이트하거나 후속 메시지를 작성하도록 요청할 수 있습니다.\nmacOS용 ChatGPT 데스크톱에서 Pro·Business 베타로 시작하고 Enterprise는 추후 지원합니다. 메모가 준비되면 오디오는 삭제되며 다시 들을 수 없습니다.",
-   "likes": 5,
+   "text": "2/ 오픈AI가 가장 먼저 내세운 결과는 코딩입니다.\n\nDeepSWE v1.1은 실제 코드베이스에서 새로 설계한 장기 소프트웨어 과제를 에이전트가 끝까지 해결하는지 보는 평가인데요.\n\nGPT-6.1 Sol은 high 설정에서 75.2%를 작업당 0.65달러에 기록해, Astra의 최고점인 매우 높음 설정 74.1%(4.43달러)를 약 7분의 1 비용으로 넘었습니다.\n\n가장 낮은 설정도 64.4%를 0.17달러에 냈는데, 같은 설정의 GPT-6 Sol은 37.2%였습니다. 추론을 최대로 올리면 71.9%로 내려가 high 근처가 가장 효율적인 지점입니다.\n\nJetBrains가 Three.js로 로켓 발사 장면을 만들게 한 비교에서도 6.1 Sol은 0.553달러와 17분, 6 Sol은 1.01달러와 22분이 들었습니다.",
+   "likes": 2,
    "cmts": 1,
-   "time": 1790706782,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829528186_1614694333477885_5953664298339995731_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=111&ig_cache_key=Mzk5NzA2MDQ1NzQ2NzM2ODMyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=dW_lkFD0qxAQ7kNvwGOyjG-&_nc_oc=AdrxjcwVyHQPTSJ5vjop82Z70poEiH2MuydMMV54_YqHqx1ZYeY1D0qlPgnv5v9iMEc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7PmMoU6a4XIdPCMyxNYxlQ&_nc_ss=7a20f&oh=00_AQMEv91LkZJFNHucub9qNw73QbI85Y0lriW41sK42Jgpng&oe=6AC1FE3C",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4aU8JGlOA",
+   "time": 1790710955,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830612427_17989310190112832_8730899983464211766_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5NzA5NTY1OTEwMjcxMDYzNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM0Mi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=G34E1lPHbPUQ7kNvwHo-mch&_nc_oc=AdqzXpJrjNjIK4RVo1PjC80jqrCmkxZMFwyxZxRaAAIBxtBUbMi8FJo-77ePqSYffRw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=b0hg6x3jfhi6rw9Y_qQRIg&_nc_ss=7a20f&oh=00_AQMcAUkjL04qzryy-HOlkBsrI_1jFpgtaRGhKtkj_6qaUg&oe=6AC1E82A",
+   "url": "https://www.threads.com/@choi.openai/post/Dd4iVMOEqts",
    "region": "kr"
   },
   {
@@ -180,7 +180,7 @@
    "likes": 8,
    "cmts": 0,
    "time": 1790677712,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/828069286_1835355704293332_3226968670426866871_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk5NjgxNTk5MDAyNTI5MDgwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xr5oiFK-gZAQ7kNvwH4NRyt&_nc_oc=Adqj718itABsAUvkTwLkBlQFNlHOjzZv48jsF6lIXnliOg9iccjAsQhB-TLBkTiikpw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=QotRs4R5Rwobx-oi3zjKHQ&_nc_ss=7a20f&oh=00_AQNQKHVDBSTaYvQl2ZF5CW39P7hlY3dFVxXilngYQfBUFQ&oe=6AC1FAE4",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/828069286_1835355704293332_3226968670426866871_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk5NjgxNTk5MDAyNTI5MDgwOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=xr5oiFK-gZAQ7kNvwH4NRyt&_nc_oc=Adqj718itABsAUvkTwLkBlQFNlHOjzZv48jsF6lIXnliOg9iccjAsQhB-TLBkTiikpw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ivy3cvcfgCdiZA4YNYjQeg&_nc_ss=7a20f&oh=00_AQNb6SmSbmmbynHwuaFbggajhVg-Mh9OSe-TIVn-pErkZw&oe=6AC1FAE4",
    "url": "https://www.threads.com/@takepage_/post/Dd3iveGDwQ5",
    "region": "kr"
   },
@@ -196,12 +196,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "2. Space·Pages·협업 슬라이드\n\nChatGPT에 함께 쓰는 작업 공간 ‘Space’와 협업 문서 ‘Pages’가 등장합니다.\n문서·파일을 모으고, 동료와 각자의 ChatGPT가 같은 페이지를 편집하며 댓글을 남깁니다. 차트·이미지·인터랙티브 콘텐츠도 넣을 수 있습니다. Pro·Business·Enterprise 대상입니다.\n협업 슬라이드는 앞으로 몇 주 내 제공 예정입니다. 대화나 템플릿에서 덱을 만들고 함께 편집한 뒤 PowerPoint·Google Slides로 내보내는 방식입니다.\n\n영상: 원본 무음·한국어 설명 자막",
-   "likes": 5,
+   "text": "1/ 오픈AI가 DevDay에서 GPT-6.1 Sol을 공개했습니다.\n\n일주일 전 나온 GPT-6 Sol의 업그레이드 모델로, 오픈AI는 GPT-6 Astra에 근접한 성능을 Astra 표준 토큰 가격의 5분의 1에 제공한다고 설명했습니다.\n\nAPI 가격은 100만 토큰당 입력 2달러, 출력 10달러로 GPT-6 Sol과 같고, 캐시된 입력은 0.1달러로 표준 입력보다 95%, GPT-6 Sol의 캐시 가격보다 50% 낮아졌습니다.\n\n오픈AI는 종합 역량에서는 Astra가 여전히 가장 뛰어난 모델이라고 함께 밝혔습니다.",
+   "likes": 4,
    "cmts": 1,
-   "time": 1790706544,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/830390319_2500946757063141_1238679504517261957_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NzA1ODQ0MDM2NzA5MDU4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ndqbHoTRGp8Q7kNvwFEyTtB&_nc_oc=AdqA6P64tukecHVjE0EBX4IDUi7p2Ugb7ykJcweVQBffg8tj-IEqIsaKO6KNnatr1A0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7PmMoU6a4XIdPCMyxNYxlQ&_nc_ss=7a20f&oh=00_AQPrVsEvS2MfaPvi4FOPoZcS2k3TJ74tUYuSRYKhguIXAQ&oe=6AC1E6EE",
-   "url": "https://www.threads.com/@choi.openai/post/Dd4Z3lkjquV",
+   "time": 1790710950,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dd4iUmskqlN",
    "region": "kr"
   },
   {
@@ -222,7 +222,7 @@
    "views": 3900000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=rKF%2BHQIKNpV6Y0qTSzEJxyyTleY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=5K62vldyPztyLDh38qfRbRz%2BMt8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790240939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
    "region": "kr"
@@ -233,7 +233,7 @@
    "views": 1300000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=Ghd28QnXmLQ5akjWiLqcoZxglzc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=8zLaZkDiYsNlZ%2FnpquXLJ6YZ%2Fvk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790294103,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
    "region": "kr"
@@ -241,10 +241,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 860400,
+   "views": 860700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=OiLIGImVjNBhFBLmWfQ6WhfrYG0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=ix4hAN5pLioCdxeEUKRJuR2mqZM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790285661,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
    "region": "kr"
@@ -252,10 +252,10 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 593600,
+   "views": 593800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=3sS%2ByUfmRdteqsrB0BAi%2Fo4F5yY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=TiF41Az5OV5QBS5GjBmVFJZYFkA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790316395,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
    "region": "kr"
@@ -263,10 +263,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 556100,
+   "views": 556200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=N9KTJlubw5AyCb0zUKLKtmZeVwQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=qSYOv545636Qqxtb%2BkBjLy9OXos%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -277,7 +277,7 @@
    "views": 298400,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=RjxB%2BFAHEnOJsbdUhuqniLJkG8Y%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=EIU40BxMgH4Lz3Ib9%2BQ70CADhgo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -285,10 +285,10 @@
   {
    "account": "jaemyung_lee",
    "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 189500,
+   "views": 189600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=Czvj21LiqRdQMBIOM2SXvHEnlqs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=k1iVbF4T4g1xsOri5DaYVXVD%2BsQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790384214,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
    "region": "kr"
@@ -299,7 +299,7 @@
    "views": 142300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=X%2BbMnb07HgRKeoFsfZDkn64ycyI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=35ipuaDxGHYYxDF5PDfUbv%2Fbaq4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -310,7 +310,7 @@
    "views": 92800,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=Dr%2FvF9SExDs41WJM8oX%2FGEI55WM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=mPP5A1t0SB9FMsaxutnHFHmNMSA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -321,13 +321,44 @@
    "views": 80600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790884800&x-signature=xGCziGrCBwgvYXRJIda7WKu8fB4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=PbIlBbGVpQNKWJrvD1%2B3Bfe8L5M%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
+   "views": 15600,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooyVfsECyAObdyUAC9AHMGgEDfAwFBAocCAqjI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=X4sDMZRm%2FMJt869okd0o5lXQ9Jw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790062603,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7688260337883270407",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올데이프로젝트(ALLDAY PROJECT) 영서, 러블리 영서❤️ / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시하",
+   "views": 3207,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQie1A8qsAPFBAtAiykiCVLCUuyfI2JACYMgEB~tplv-tiktokx-origin.image?dr=14575&x-expires=1790888400&x-signature=OXShLERnkuNPtqII94xTri5JgLY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790062423,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7688259564650663175",
    "region": "kr"
   }
  ],
  "reddit": [
+  {
+   "sub": "MadeMeSmile",
+   "title": "This dad agrees",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/89fw3p4d4ish1.png?width=640&crop=smart&auto=webp&s=cd64ccd5e1aa283c773877525c40c599aec62437",
+   "time": 1790706029,
+   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wtht87/this_dad_agrees/"
+  },
   {
    "sub": "pcmasterrace",
    "title": "Giveaway time! CONTROL Resonant Launch Megathread + Custom Wrapped GeForce RTX 5080 GPU Giveaway and game keys! Comment on this post to win!",
@@ -345,15 +376,6 @@
    "thumb": "https://preview.redd.it/y3xx31umahsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=6cf946c741979cb2358fedf9141c3bdb5745c0ca",
    "time": 1790696021,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wtdbpr/being_told_my_tea_steeper_is_unprofessional/"
-  },
-  {
-   "sub": "MadeMeSmile",
-   "title": "This dad agrees",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/89fw3p4d4ish1.png?width=640&crop=smart&auto=webp&s=cd64ccd5e1aa283c773877525c40c599aec62437",
-   "time": 1790706029,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wtht87/this_dad_agrees/"
   },
   {
    "sub": "mildlyinteresting",
@@ -392,6 +414,15 @@
    "url": "https://www.reddit.com/r/Steam/comments/1wta2y0/gabe_newells_mega_yacht/"
   },
   {
+   "sub": "todayilearned",
+   "title": "TIL that William Whipple, one of the 56 signers of the Declaration of Independence, freed his slave after signing it because he believed one cannot simultaneously fight for freedom and hold another pe",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/-zfwdnEZjiLXd1v8DyqEMRcVa165lbxmu5_IPTQzkfg.jpeg?width=640&crop=smart&auto=webp&s=dbc59d56a050708aa81dc05552c6c12caafd7e42",
+   "time": 1790703059,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1wtggy0/til_that_william_whipple_one_of_the_56_signers_of/"
+  },
+  {
    "sub": "NameMyCat",
    "title": "I'm hoping for a four letter grandma-esque name",
    "score": 0,
@@ -399,6 +430,15 @@
    "thumb": "https://preview.redd.it/82py7yxq7hsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=e17829c383802413f361e1206ea5583b857d557d",
    "time": 1790695052,
    "url": "https://www.reddit.com/r/NameMyCat/comments/1wtcvy9/im_hoping_for_a_four_letter_grandmaesque_name/"
+  },
+  {
+   "sub": "politics",
+   "title": "White House’s New AI Website Confirms Trump Lost the 2020 Presidential Election",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/Wrl8y6jzcQB24Vu8ZiiQb1yc2Kh9dU1mZE_FfgO2IgM.jpeg?width=640&crop=smart&auto=webp&s=7b58130388c51e6dbaed59168de51c4f45b4ef72",
+   "time": 1790707675,
+   "url": "https://www.reddit.com/r/politics/comments/1wtijj6/white_houses_new_ai_website_confirms_trump_lost/"
   },
   {
    "sub": "MadeMeSmile",
@@ -410,58 +450,13 @@
    "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wt7n6i/miss_rachel_is_the_richest_woman_in_the_world/"
   },
   {
-   "sub": "todayilearned",
-   "title": "TIL that William Whipple, one of the 56 signers of the Declaration of Independence, freed his slave after signing it because he believed one cannot simultaneously fight for freedom and hold another pe",
+   "sub": "law",
+   "title": "WATCH: Schmitt suggested Jack Smith perjured himself about a basketball game, but mixed up 2 teams",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/-zfwdnEZjiLXd1v8DyqEMRcVa165lbxmu5_IPTQzkfg.jpeg?width=640&crop=smart&auto=webp&s=dbc59d56a050708aa81dc05552c6c12caafd7e42",
-   "time": 1790703059,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1wtggy0/til_that_william_whipple_one_of_the_56_signers_of/"
-  },
-  {
-   "sub": "PremierLeague",
-   "title": "Premier League Statement: Manchester City FC",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/UkX6WwnAgV6ABTVbr1inXQBVE8MZghgfe2jtfhBMnro.png?width=640&crop=smart&auto=webp&s=93e6bf8e494814ec005b3997b233c41eb7b31913",
-   "time": 1790697701,
-   "url": "https://www.reddit.com/r/PremierLeague/comments/1wte2c7/premier_league_statement_manchester_city_fc/"
-  },
-  {
-   "sub": "comics",
-   "title": "Woman in male fields - SD series [OC]",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/i0khmnezzfsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=2fb0835ec4b9e2f1c372f72a96a70c8e6799a039",
-   "time": 1790680331,
-   "url": "https://www.reddit.com/r/comics/comments/1wt7abk/woman_in_male_fields_sd_series_oc/"
-  },
-  {
-   "sub": "korea",
-   "title": "Online hunt begins for Korean defendant in Cornell sexual assault suit",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NzsxqcLku5xg-9_Fw3mJWTe6XirZo1_Rk-jPGeervYs.jpeg?width=640&crop=smart&auto=webp&s=bfbd72b4de35620c7f07105839ad4368136f12cb",
-   "time": 1790651315,
-   "url": "https://www.reddit.com/r/korea/comments/1wsz217/online_hunt_begins_for_korean_defendant_in/"
-  },
-  {
-   "sub": "korea",
-   "title": "South Korea's participation in the 2026 Aichi–Nagoya Asian Games has been marred by a persistent series of operational errors. These are some of the notable incidents.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790685184,
-   "url": "https://www.reddit.com/r/korea/comments/1wt8vxp/south_koreas_participation_in_the_2026/"
-  },
-  {
-   "sub": "korea",
-   "title": "Badminton women's singles world no. 1 Ahn Se Young dominates Yamaguchi to win second Asian Games title",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ceqpkn7nnfsh1.jpeg?width=320&crop=smart&auto=webp&s=6f65ce940da035f0af42642bf51d304e22ced0a4",
-   "time": 1790677317,
-   "url": "https://www.reddit.com/r/korea/comments/1wt6f83/badminton_womens_singles_world_no_1_ahn_se_young/"
+   "thumb": "https://external-preview.redd.it/dW91MXRvODF5aHNoMYzRJdIe0te0lSX6qQ4Quwapp7COQwooAYp1O8n0CqT-.png?width=640&crop=smart&auto=webp&s=3a67d8214bd441579ecb82f804ad11437fb9d793",
+   "time": 1790704042,
+   "url": "https://www.reddit.com/r/law/comments/1wtgwfk/watch_schmitt_suggested_jack_smith_perjured/"
   }
  ],
  "disaster": [],
@@ -471,15 +466,15 @@
    "rank": 1
   },
   {
-   "query": "사망여우",
+   "query": "맨시티",
    "rank": 2
   },
   {
-   "query": "맨시티",
+   "query": "사망여우",
    "rank": 3
   },
   {
-   "query": "봉누도2",
+   "query": "암살자(들)",
    "rank": 4
   },
   {
@@ -487,40 +482,28 @@
    "rank": 5
   },
   {
-   "query": "신병4",
+   "query": "봉누도2",
    "rank": 6
   },
   {
-   "query": "펩 과르디올라",
+   "query": "댱이",
    "rank": 7
   },
   {
-   "query": "안세영",
+   "query": "부캉이",
    "rank": 8
   },
   {
-   "query": "암살자(들)",
+   "query": "안세영",
    "rank": 9
   },
   {
-   "query": "망내",
+   "query": "펩 과르디올라",
    "rank": 10
   }
  ],
  "_cover": {
   "ok": {
-   "x": [
-    "1992__j",
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "mugmulree",
-    "tech_meow"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -531,19 +514,16 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee"
+    "jaemyung_lee",
+    "tictok_ent"
    ]
   },
-  "why": {
-   "tiktok": {
-    "tictok_ent": 503
-   }
-  },
+  "why": {},
   "landing": {
-   "at": "2026-09-30T05:01:35",
+   "at": "2026-09-30T05:36:19",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-30T05:36:11.590690+09:00"
+ "updated": "2026-09-30T06:01:21.795004+09:00"
 }
