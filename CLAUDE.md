@@ -41,6 +41,7 @@
 - 기능별 공용 부품은 아래 색인으로 찾고, 변경할 때 호출부와 생성·검사 경로도 함께 확인한다.
 
 ## 공용 부품 색인
+- `viewer/nm-alpha.js`
 - `viewer/nm-clip.js`
 - `viewer/nm-gauge.js`
 - `viewer/nm-jobs.js`

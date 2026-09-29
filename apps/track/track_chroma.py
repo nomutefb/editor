@@ -105,6 +105,60 @@ def probe(src):
     return W, H, fps, float(dur)
 
 
+SCREEN_MIN_FRAC = 0.5    # 가장자리 띠에서 스크린 색 화소 비율 하한 — 이 위 = 그린/블루 스크린 촬영으로 본다
+SCREEN_BAND = 0.1        # 가장자리 띠 폭(긴 쪽이 아닌 각 변 기준 비율) — 좌·우·위 3변(아래는 몸통이 걸치는 자리라 뺀다)
+SCREEN_HSV = {           # OpenCV HSV(H 0~180) — 채도·명도 하한 = 회색 벽·어두운 그림자를 스크린으로 오인하지 않게
+    "green": ((35, 85), 90, 60),
+    "blue": ((95, 130), 90, 60),
+}
+
+
+def detect_screen(src, samples=6):
+    """배경 빼기 자동 판별(운영자 260929 «키잉·크로마키 하나로 · AI+크로마 섞기») — 그린/블루 스크린으로 찍은 영상인가.
+    몇 장면의 좌·우·위 가장자리 띠를 HSV로 재서 스크린 색 비율이 SCREEN_MIN_FRAC 이상이면
+    {"kind": "green"|"blue", "color": "#RRGGBB"(실제 스크린 색 중앙값), "frac": 비율} · 아니면 None.
+    실제 색을 쓰는 이유 = 조명 탓에 스크린이 #00FF00 에서 벗어나 있어도 키 기준이 스크린 그 자체가 된다(관용 여유 확보).
+    전면 fail-soft = 못 읽으면 None(= 스크린 아님으로 취급 → AI 경로)."""
+    try:
+        import cv2
+        import numpy as np
+    except Exception:
+        return None
+    cap = cv2.VideoCapture(src)
+    try:
+        n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
+        idx = [int(n * (k + 0.5) / samples) for k in range(samples)] if n > samples else [0]
+        tot = {"green": 0, "blue": 0}
+        pix, keep = 0, {"green": [], "blue": []}
+        for i in idx:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, i)
+            ok, fr = cap.read()
+            if not ok or fr is None:
+                continue
+            h, w = fr.shape[:2]
+            bw, bh = max(2, int(w * SCREEN_BAND)), max(2, int(h * SCREEN_BAND))
+            band = np.concatenate([fr[:, :bw].reshape(-1, 3), fr[:, w - bw:].reshape(-1, 3), fr[:bh, bw:w - bw].reshape(-1, 3)])
+            hsv = cv2.cvtColor(band.reshape(-1, 1, 3), cv2.COLOR_BGR2HSV).reshape(-1, 3)
+            pix += len(hsv)
+            for kind, ((h0, h1), smin, vmin) in SCREEN_HSV.items():
+                m = (hsv[:, 0] >= h0) & (hsv[:, 0] <= h1) & (hsv[:, 1] >= smin) & (hsv[:, 2] >= vmin)
+                tot[kind] += int(m.sum())
+                if m.any():
+                    keep[kind].append(band[m][:: max(1, int(m.sum()) // 4000)])   # 색 표본(프레임당 ~4천 화소)
+    except Exception:
+        return None
+    finally:
+        cap.release()
+    if pix <= 0:
+        return None
+    kind = max(tot, key=tot.get)
+    frac = tot[kind] / float(pix)
+    if frac < SCREEN_MIN_FRAC or not keep[kind]:
+        return None
+    b, g, r = (int(v) for v in np.median(np.concatenate(keep[kind]), axis=0))
+    return {"kind": kind, "color": "#%02X%02X%02X" % (r, g, b), "frac": round(frac, 3)}
+
+
 def build_filter(o, kind):
     """키잉 필터그래프 문자열 — 마스터/프리뷰 분기 전 공통 구간(알파 완성까지)."""
     col = "0x" + o["color"].lstrip("#")

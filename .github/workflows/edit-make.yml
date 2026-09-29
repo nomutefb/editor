@@ -457,14 +457,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ env.pythonLocation }}/lib/python3.12/site-packages
-          key: nomute-track-pydeps-${{ runner.os }}-py312-${{ hashFiles('apps/track/setup.sh') }}-h${{ (contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}-v1
+          key: nomute-track-pydeps-${{ runner.os }}-py312-${{ hashFiles('apps/track/setup.sh') }}-h${{ (contains(inputs.opts, '"bgrm":true') || contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"chroma":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}-v1
 
       - name: 트래킹 모델 캐시
         if: ${{ contains(inputs.opts, '"xtr"') && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
         uses: actions/cache@v4
         with:
           path: ~/.cache/nomute-track
-          key: nomute-track-models-${{ hashFiles('apps/track/setup.sh') }}-h${{ (contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}-v1
+          key: nomute-track-models-${{ hashFiles('apps/track/setup.sh') }}-h${{ (contains(inputs.opts, '"bgrm":true') || contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"chroma":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}-v1
 
       - name: 트래킹 환경 (자동 가림·키잉·크로마키)
         if: ${{ contains(inputs.opts, '"xtr"') && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
@@ -475,10 +475,10 @@ jobs:
           setup: apps/track/setup.sh
           apt: ffmpeg fonts-noto-cjk   # 핀셋 이름표 한글 폰트(모자이크·크로마키는 불요지만 .deb 캐시 공유라 비용 0)
         env:
-          TRACK_HEAVY: ${{ (contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}   # 키잉·실루엣만 torch+SAM2(모자이크·핀셋·크로마키 = 경량)
+          TRACK_HEAVY: ${{ (contains(inputs.opts, '"bgrm":true') || contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"chroma":true') || contains(inputs.opts, '"silh":true')) && '1' || '' }}   # 배경 빼기(구 키잉·크로마키 = AI 피사체 필요)·실루엣만 torch+SAM2(모자이크·핀셋 = 경량)
 
-      - name: 키잉 스택 (torch+SAM2 · 키잉·실루엣만)
-        if: ${{ (contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"silh":true')) && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
+      - name: 키잉 스택 (torch+SAM2 · 배경 빼기·실루엣만)
+        if: ${{ (contains(inputs.opts, '"bgrm":true') || contains(inputs.opts, '"keying":true') || contains(inputs.opts, '"chroma":true') || contains(inputs.opts, '"silh":true')) && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
         timeout-minutes: 20   # 콜드런 torch+ultralytics+SAM2(~1.6GB)
         continue-on-error: true   # 설치 실패 = 키잉만 스킵(편집 잡은 살린다)
         env:
@@ -527,7 +527,7 @@ jobs:
           case "$IN_ID" in *[!0-9a-f-]*) echo "::error::잘못된 id"; exit 1;; esac
           python3 .github/scripts/ly_burn.py "$IN_ID" "${EDIT_SRC:-}"
 
-      - name: 자동 가림 post (키잉·실루엣·크로마키 = 알파 종점)
+      - name: 자동 가림 post (배경 빼기·실루엣 = 알파 종점)
         if: ${{ contains(inputs.opts, '"xtr"') && !contains(inputs.opts, '"clip":true') && !contains(inputs.opts, '"cutscan":true') }}
         timeout-minutes: 45   # 키잉 ≈25분(track-make 실측)
         continue-on-error: true

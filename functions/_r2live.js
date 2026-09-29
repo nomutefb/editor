@@ -8,7 +8,7 @@ const CT = {
   txt: 'text/plain; charset=utf-8', log: 'text/plain; charset=utf-8',
   srt: 'text/plain; charset=utf-8', vtt: 'text/vtt; charset=utf-8',
   jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp',
-  mp4: 'video/mp4', mp3: 'audio/mpeg', wav: 'audio/wav', m4a: 'audio/mp4',
+  mp4: 'video/mp4', mp3: 'audio/mpeg', wav: 'audio/wav', m4a: 'audio/mp4', webm: 'video/webm', mov: 'video/quicktime',
 };
 
 export async function r2live(prefix, { request, env, params }) {
@@ -17,14 +17,25 @@ export async function r2live(prefix, { request, env, params }) {
   if (!rel || rel.includes('..') || !/^[A-Za-z0-9._\-/]+$/.test(rel)) return env.ASSETS.fetch(request);
   try {
     if (env.R2) {
-      const o = await env.R2.get(`${prefix}/${rel}`);
+      // 구간 요청(Range) = 206(260929 «아이폰 진짜 투명 재생») — 아이폰 사파리는 영상을 **구간 요청으로만** 재생한다
+      //   (첫 요청 bytes=0-1 → 206이 아니면 재생 거부). 스택 알파 미리보기(nm-alpha.js)는 WebGL 보안 규칙상 같은 출처라야 해서
+      //   이 경로로 받는다 = 여기가 구간을 못 주면 아이폰에서만 조용히 안 나온다. Range 없는 요청 = 종전 그대로(200 전량).
+      const rg = request.headers.get('range');
+      const o = await env.R2.get(`${prefix}/${rel}`, rg ? { range: request.headers } : undefined);
       if (o) {
         const ext = rel.split('.').pop().toLowerCase();
-        return new Response(o.body, {
-          headers: { 'content-type': CT[ext] || 'application/octet-stream', 'cache-control': 'no-store', 'x-nomute-live': 'r2' },
-        });
+        const h = { 'content-type': CT[ext] || 'application/octet-stream', 'cache-control': 'no-store', 'x-nomute-live': 'r2', 'accept-ranges': 'bytes' };
+        const r = rg && o.range;
+        if (r && typeof o.size === 'number') {
+          const off = 'suffix' in r ? Math.max(0, o.size - r.suffix) : (r.offset || 0);
+          const len = 'suffix' in r ? o.size - off : (typeof r.length === 'number' ? r.length : o.size - off);
+          h['content-range'] = `bytes ${off}-${off + len - 1}/${o.size}`;
+          h['content-length'] = String(len);
+          return new Response(o.body, { status: 206, headers: h });
+        }
+        return new Response(o.body, { headers: h });
       }
     }
-  } catch (_) { /* R2 이상 = 정적 폴백(악화 경로 0) */ }
+  } catch (_) { /* R2 이상(범위 밖 구간 포함) = 정적 폴백(악화 경로 0) */ }
   return env.ASSETS.fetch(request);   // 미스 = 종전 정적 자산 그대로(배포분)
 }

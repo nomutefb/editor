@@ -451,6 +451,7 @@
   /* (구 .pvsec.stuck .fl 글래스 필 = 폐지 260716 — 쉘 정본 mat(불투명 스포티파이 블랙)가 스크롤 커버 전담 = 필의 존재 사유 소멸 · .stuck 토글 JS(센티널 judge)는 도먼트 존치{페인트 규칙만 제거} · 복원 = 이 자리 1행) */
   .pvstage { background:var(--bg); }   /* 스테이지 여백만 --bg(스포티파이 블랙) 오버라이드 — 캔버스(순검정)와 경계 구분(운영자 260711 "어디까지가 영상인지") */
   .vstage video { width:100%; display:block; max-height:62vh; background:#000; }
+  .vstage .nm-alpha > canvas { max-height:62vh; }   /* 스택 알파 재생기(nm-alpha.js) = 위 video 자리 높이 상한 그대로(모양 = nm-shared.css「.nm-alpha」) */
   .vstage.alpha { background:repeating-conic-gradient(var(--line) 0% 25%, var(--pan) 0% 50%) 0 0/22px 22px; }   /* 투명 표시 체커보드(키잉 승인 배치 ④ · 근접 토큰 계승) */
   .vstage.alpha video { background:transparent; }   /* ⚠ (260816) 위 2줄 = `viewer/track.html` 178~179행 **바이트 사본**(값·패턴·크기 창작 0). 계승 사유 = 트래킹 탭은 알파 산출(키잉·크로마키)을 체커보드로 정확히 보여주는데 **편집 탭만 그 계승을 안 했다** = 이 레포 최빈 축 「형제는 가진 걸 자기만 안 가졌다」(260807 금융 티커·260808 크로미엄 경로·260816 푸시 명단과 동형). 비용 = 배경이 빠진 자리를 위 `.vstage`·`.vstage video`의 **순흑 배경**이 그대로 메워서, 키잉이 실제로 성공해도(실측 260816 = 알파 평균 69/255 = 배경 73% 제거) 운영자 눈엔 "동작을 안 해"로 보였다. 어두운 실내 영상이면 원본과 구분이 원리적으로 불가능하다. */
   .vstage[hidden] { display:none; }
@@ -535,7 +536,7 @@
   /* 완성 영상(#lyBurn) — ly.html 정본 verbatim 계승(.lypv 크롬 동일) · B-2 이식 때 CSS만 누락돼 video가 원본 해상도 그대로 패널을 뚫던 회귀 봉합(260712) = 비율·해상도 무관 폭 100%+높이 캡 영역 안 표시 */
   .lyburn { margin:16px 0 0; }
   .lyburn[hidden] { display:none; }
-  .lyburn video { display:block; width:100%; max-height:min(320px, 40dvh); background:var(--bg); border:1px solid var(--line); border-radius:var(--r-m); }
+  .lyburn video, .lyburn .nm-alpha > canvas { display:block; width:100%; max-height:min(320px, 40dvh); background:var(--bg); border:1px solid var(--line); border-radius:var(--r-m); }   /* 캔버스 = 스택 알파 재생기(nm-alpha.js) 콤마 편승 */
   .lyburn video[hidden] { display:none; }
   .lyburn-row { display:flex; align-items:center; gap:10px; margin-top:8px; }
   /* 완성 영상 우상단 오버레이 다운로드(운영자 260731 "이미지 스튜디오처럼") — 기하 = thumb .imgdl 정본 그대로(top/right 10 · 34px · r10) · 플레이트/색 = nm-cards.css .imgdl.dlbtn 상속(여긴 위치/크기만) */
@@ -555,8 +556,8 @@
   .spchip.skip { cursor:default; opacity:.55; }   /* 칩 경계를 넘는 교정(띄어쓰기 등) = 표시만·적용 불가(어절 타임스탬프 보존 우선) — 조용한 유실 금지 */
   /* 섹션 위계 들여쓰기 마감 — ly.html 260712 정본("위치 이런 것들 들여쓰기, 그 내용도") 계승 누락분 이식: 소머리(.fl) = 좌측 기둥 유지 · 하위 내용 = 한 단 인셋 --sp-2(블릿 '• ' 폭 근사 = 소머리 텍스트 선 정렬) · 소스/완성영상/작업내역 공통(PREVIEW #pvSlot 미리보기 = ly .lyoptpv 중앙 비대상 동일) */
   .srcrow, .lyburn-row, #lyJobList { margin-left:var(--sp-2); }
-  #lyBurn video { width:calc(100% - var(--sp-2)); margin-left:var(--sp-2); }   /* width:100% 블록 = margin만 주면 우측 넘침 → 폭 동보정(ly 원문 동일 · id 특이도로 .lyburn video 원규칙을 이김) */
-  .lyburn-stage.alpha video { background:repeating-conic-gradient(var(--line) 0% 25%, var(--pan) 0% 50%) 0 0/22px 22px; }   /* ⚠ (260816) 자막 동반 알파 산출의 투명 체커보드 — 값·패턴·크기는 위 `.vstage.alpha`(= track.html 178행) **그대로**, 거처만 video 자신으로 옮겼다. 사유 = 이 창의 video는 바로 윗줄이 좌측 `--sp-2` 만큼 들여쓰므로 컨테이너에 깔면 왼쪽에 영상 밖 체커보드 띠가 남는다(형제 `.vstage`는 video가 폭 100%라 컨테이너가 정확히 맞는다). 계승 사유 = 자막과 크로마키·키잉을 같이 켜면 완성본이 `#vwrap`이 아니라 이 창으로 라우팅되는데(3128행), 여기만 안 고치면 같은 사고가 그 조합에서 그대로 산다 = 「같은 병의 형제를 놓치는」 이 레포 최빈 반쪽 봉합. */
+  #lyBurn video, #lyBurn .nm-alpha { width:calc(100% - var(--sp-2)); margin-left:var(--sp-2); }   /* width:100% 블록 = margin만 주면 우측 넘침 → 폭 동보정(ly 원문 동일 · id 특이도로 .lyburn video 원규칙을 이김) */
+  .lyburn-stage.alpha video, .lyburn-stage.alpha .nm-alpha > canvas { background:repeating-conic-gradient(var(--line) 0% 25%, var(--pan) 0% 50%) 0 0/22px 22px; }   /* ⚠ (260816) 자막 동반 알파 산출의 투명 체커보드 — 값·패턴·크기는 위 `.vstage.alpha`(= track.html 178행) **그대로**, 거처만 video 자신으로 옮겼다. 사유 = 이 창의 video는 바로 윗줄이 좌측 `--sp-2` 만큼 들여쓰므로 컨테이너에 깔면 왼쪽에 영상 밖 체커보드 띠가 남는다(형제 `.vstage`는 video가 폭 100%라 컨테이너가 정확히 맞는다). 계승 사유 = 자막과 크로마키·키잉을 같이 켜면 완성본이 `#vwrap`이 아니라 이 창으로 라우팅되는데(3128행), 여기만 안 고치면 같은 사고가 그 조합에서 그대로 산다 = 「같은 병의 형제를 놓치는」 이 레포 최빈 반쪽 봉합. */
   .lyburn-note { color:var(--mut); font-size:var(--fs-sm); min-width:0; }
   /* 상세 툴바 — 전체선택(.dl-cbox)+아이콘 버튼(.sbtn 규격 30px) */
   .lytool { display:flex; align-items:center; gap:7px; margin:0 0 10px; }
@@ -806,7 +807,8 @@
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로딩 표기 SSOT(orb Thinking/Solving/Prompting + shimmer · 운영자 260723 Q460) — window.nmLoader(type,label,opts) -->
 <script src="nm-gauge.js"></script><!-- 러버밴드 게이지 하네스 SSOT(운영자 260929 «게이지 조정 = 편집 메뉴에도 · 하네스 통일») — input[type=range][data-nmg] 자동 장착 · 스크럽 바(재생 위치)는 대상 밖 -->
-<script src="nm-snap.js"></script><!-- Snap Rail 하네스 SSOT(운영자 260929 «편집탭 통일» — 유튜브 탭과 공용) — [data-nmsnap] 자동 장착 · 하나 고르기 행(의역·글자 형태·음영·화면 방식·클리퍼 감독) -->
+<script src="nm-snap.js"></script>
+<script src="nm-alpha.js"></script><!-- 스택 알파 재생기 SSOT(운영자 260929 «B 진짜 투명 재생기») — 배경 빼기 결과 = 윈도우·아이폰 공통 진짜 투명(WebGL) · 실패 = 원래 webm video 그대로 --><!-- Snap Rail 하네스 SSOT(운영자 260929 «편집탭 통일» — 유튜브 탭과 공용) — [data-nmsnap] 자동 장착 · 하나 고르기 행(의역·글자 형태·음영·화면 방식·클리퍼 감독) -->
 
 <script src="upload.js"></script><!-- R2 직업로드 공용(nmUpArm/nmUpload · conv와 공유 — 미가용 = 30MB base64 폴백) -->
 <script>
@@ -1757,7 +1759,7 @@ let XTR_FACES=[];   // **지금 붙어 있는 영상**의 인물 얼굴(칸 = �
    "2번 작업물에 트래킹을 붙일 방법이 없다"의 정체), 첫 작업이 뒤에서 끝나면 그 얼굴이 두 번째 화면 목록을 덮었으며,
    발사 페이로드 names가 첫 영상 번호로 나가 러너의 새 번호와 어긋났다(맞으면 **엉뚱한 사람에게 이름** · edit_track 239행 `pid_i in pids`).
    → 소스 키로 칸을 나눈다. 화면은 지금 붙은 영상 칸만 읽고, 뒤에서 끝난 작업은 **자기 영상 칸**에만 쓴다.
-   ⚠ 모자이크·키잉·크로마키는 이 칸과 무관하다(xtrOpts가 사람 번호를 안 싣고 러너가 완성본을 다시 분석해 전원 자동 적용) — 칸에 드는 건 번호에 매달린 축(얼굴·이름·색)뿐. */
+   ⚠ 모자이크·배경 빼기는 이 칸과 무관하다(xtrOpts가 사람 번호를 안 싣고 러너가 완성본을 다시 분석해 전원 자동 적용) — 칸에 드는 건 번호에 매달린 축(얼굴·이름·색)뿐. */
 const XTR_BOX='nm_xtr_src';        // {소스키:{f:얼굴, g:이름묶음, a:활성폼, s:분석상태, i:분석작업id, t:시각}} · 최근 XTR_BOX_MAX칸 롤링
 const XTR_BOX_MAX=8;
 const XTR_JOBSRC='nm_xtr_jobsrc';  // {작업id:소스키} — 뒤에서 끝난 작업의 얼굴을 **그 영상 칸**에 넣기 위한 이름표(새로고침 뒤 재개도 이 맵으로 잇는다)
@@ -1834,7 +1836,9 @@ function jobCfgApply(id){   // 그 작업의 설정을 화면에 되씌운다(�
   try{
     if(c.on&&typeof c.on==='object') Object.keys(ON).forEach(k=>{ if(k in c.on) ON[k]=!!c.on[k]; });
     if(c.p&&typeof c.p==='object') Object.keys(P).forEach(k=>{ if(k in c.p) P[k]=c.p[k]; });
-    if(c.xtr&&typeof c.xtr==='object') Object.keys(XTR).forEach(k=>{ if(k in c.xtr) XTR[k]=c.xtr[k]; });
+    if(c.xtr&&typeof c.xtr==='object'){ Object.keys(XTR).forEach(k=>{ if(k in c.xtr) XTR[k]=c.xtr[k]; });
+      if(c.xtr.keying||c.xtr.chroma) XTR.bgrm=true;   // (260929) 통합 전 저장분 = 키잉·크로마키 → 배경 빼기
+      if(!('bgfe' in c.xtr)&&typeof c.xtr.kfe==='number') XTR.bgfe=c.xtr.kfe; }
     render(); renderXtr(); setEta();
   }catch(e){ return false; }
   return true;
@@ -1844,25 +1848,21 @@ function jobCfgApply(id){   // 그 작업의 설정을 화면에 되씌운다(�
    ⚠ 사본을 남기면 러너와 조용히 갈린다 — 그 드리프트를 막으려고 있던 게 그 게이트라, 미리보기가 없어지면 사본도 게이트도 존재 이유가 함께 사라진다.
    렌더 규격의 유일 정본 = 러너 `apps/track/track_render.py` PIN_SPEC·PALETTE(뷰어는 이제 그 값을 아예 안 든다 = 갈릴 여지 0).
    되살릴 때 = 두 함수와 상수를 되돌리고 게이트도 같이 되살린다(한쪽만 되살리면 그 순간부터 미리보기가 거짓말을 한다). */
-const XTR={mosaic:false,pinset:false,keying:false, silh:false, chroma:false, trans:false, names:'', shape:'ellipse', size:115, feather:5, kfe:0, fill:'mosaic', preset:'smile', sfe:8, ckcolor:'green', cksim:18, ckchoke:0, ckfe:1};   // trans = 번역(운영자 260720 "빈자리에 번역") — 가림 계열과 배타(클릭 핸들러) · 트래킹 발사 축(any)엔 미포함   // 기본 = 트래킹 새 기본값과 동일(타원·115·5·키잉0 · 실루엣 페더8 · 크로마 그린/18/0/1 — 실루엣·크로마키 카드 = 운영자 260712 "한수 ㄱㄱ" 승인)
+const XTR={mosaic:false,pinset:false,bgrm:false, silh:false, trans:false, names:'', shape:'ellipse', size:115, feather:5, bgfe:0, fill:'mosaic', preset:'smile', sfe:8};   // (260929) 배경 빼기(bgrm) = 구 키잉·크로마키 통합(운영자 «하나로 · 5번 = AI로 사람 영역 + 초록만 크로마키») — 스크린 색은 러너가 영상에서 직접 재서(track_chroma.detect_screen) 색·강도 노브(ckcolor·cksim·ckchoke·ckfe)는 걷었다 · bgfe = 부드럽게(구 키잉 페더 kfe 자리)   // trans = 번역(운영자 260720 "빈자리에 번역") — 가림 계열과 배타(클릭 핸들러) · 트래킹 발사 축(any)엔 미포함   // 기본 = 트래킹 새 기본값과 동일(타원·115·5·키잉0 · 실루엣 페더8 · 크로마 그린/18/0/1 — 실루엣·크로마키 카드 = 운영자 260712 "한수 ㄱㄱ" 승인)
 function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운영자 260712 5차 "한줄 배치·끔 아니라 OFF>누르면 ON" — 이미지 모달 상태 인라인 틀 계승 · 구 끔/적용 2버튼 seg 폐지) · 세부 게이지 = 켠 것만 아래 전폭 카드(1/3폭엔 게이지 미달) · 2행 = 실루엣·크로마키 2분할(260712 2차 · tg 패턴 그대로)
   const el=$('#xtrsec'); if(!el) return;
   xtrSync();   // 그리기 직전에 **지금 붙은 영상 칸**으로 맞춘다(영상이 바뀌었으면 여기서 갈아끼워진다)
-  const any=XTR.mosaic||XTR.pinset||XTR.keying||XTR.silh||XTR.chroma;
+  const any=XTR.mosaic||XTR.pinset||XTR.bgrm||XTR.silh;
   const tg=(k,nm,ttl)=>'<div class="scard cyc"><div class="hd st"'+(ttl?' title="'+ttl+'"':'')+'><span class="cyv'+(XTR[k]?'':' off')+'" data-xo="'+k+'" role="button" tabindex="0" aria-pressed="'+(XTR[k]?'true':'false')+'" aria-label="'+nm+'">'+nm+'</span></div></div>';   // 워드 토글 = 라벨 자체 점등(운영자 260803 "기능 워딩이 점등하냐 안하냐로 onoff" · thumb #cnTog 정본 — 구 'nm | ON/OFF' 이중 표기 폐지 · data-xo·핸들러·배타 로직 불변)
   const chips=(key,attr,list)=>'<div class="prow">'+list.map(([v,l])=>'<button class="pc'+(XTR[key]===v?' on':'')+'" type="button" data-'+attr+'="'+v+'">'+l+'</button>').join('')+'</div>';
   let det='';
   if(XTR.mosaic) det+='<div class="plbl" style="margin-top:0">가림 모양</div><div class="prow">'+[['rect','네모'],['ellipse','타원']].map(([v,l])=>'<button class="pc'+(XTR.shape===v?' on':'')+'" type="button" data-xs="'+v+'">'+l+'</button>').join('')+'</div>'
     +'<div class="grow"><span class="k">크기</span><input type="range" data-nmg min="75" max="200" step="1" value="'+XTR.size+'" data-xg="size" aria-label="가림 크기"><span class="v">'+XTR.size+'%</span></div>'
     +'<div class="grow"><span class="k">페더</span><input type="range" data-nmg min="0" max="40" step="1" value="'+XTR.feather+'" data-xg="feather" aria-label="모자이크 페더"><span class="v">'+XTR.feather+'</span></div>';
-  if(XTR.keying) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>키잉</div><div class="grow"><span class="k">페더</span><input type="range" data-nmg min="0" max="40" step="1" value="'+XTR.kfe+'" data-xg="kfe" aria-label="키잉 페더"><span class="v">'+XTR.kfe+'</span></div>';   // 구획 plbl+짧은 라벨 = 이미지 제작 결(구 「키잉 페더」 = 60px서도 wrap 실측 · 운영자 260712)
+  if(XTR.bgrm) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>배경 빼기</div><div class="grow"><span class="k">부드럽게</span><input type="range" data-nmg min="0" max="40" step="1" value="'+XTR.bgfe+'" data-xg="bgfe" aria-label="배경 빼기 부드럽게"><span class="v">'+XTR.bgfe+'</span></div>';   // (260929) 구 키잉 페더 자리 그대로 · 라벨 「부드럽게」 = 구 크로마키 카드 같은 노브 낱말(창작 0)   // 구획 plbl+짧은 라벨 = 이미지 제작 결(구 「키잉 페더」 = 60px서도 wrap 실측 · 운영자 260712)
   if(XTR.silh){ det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>채움</div>'+chips('fill','xf',[['mosaic','모자이크'],['image','가면']]);   // 카드명(실루엣) 중복 컷 = 이미지 제작 결(§디자인 e 산문 최소 · 운영자 260712)
     if(XTR.fill==='image') det+=chips('preset','xp',[['smile','스마일'],['black','가림'],['heart','하트']]);
     det+='<div class="grow"><span class="k">페더</span><input type="range" data-nmg min="0" max="40" step="1" value="'+XTR.sfe+'" data-xg="sfe" aria-label="실루엣 페더"><span class="v">'+XTR.sfe+'</span></div>'; }
-  if(XTR.chroma){ det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>색상</div>'+chips('ckcolor','xc',[['green','그린'],['blue','블루']])
-    +'<div class="grow"><span class="k">강도</span><input type="range" data-nmg min="1" max="50" step="1" value="'+XTR.cksim+'" data-xg="cksim" aria-label="크로마키 강도"><span class="v">'+XTR.cksim+'</span></div>'
-    +'<div class="grow"><span class="k">테두리</span><input type="range" data-nmg min="-4" max="4" step="1" value="'+XTR.ckchoke+'" data-xg="ckchoke" aria-label="테두리 다듬기"><span class="v">'+XTR.ckchoke+'</span></div>'
-    +'<div class="grow"><span class="k">부드럽게</span><input type="range" data-nmg min="0" max="10" step="1" value="'+XTR.ckfe+'" data-xg="ckfe" aria-label="매트 블러"><span class="v">'+XTR.ckfe+'</span></div>'; }
   if(XTR.pinset){
     const used=new Set(); XTR_GRP.forEach(g=>g.pids.forEach(p=>used.add(p|0)));
     if(!XTR_FACES.length) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>등장인물</div>'
@@ -1882,15 +1882,14 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
       +'</div><button type="button" class="pc xgadd" id="xgAdd">+ 이름 추가</button>'
   }
   if(XTR.trans) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>번역</div><div class="xnote" style="margin-top:0">외국어 이미지에 한국어 번역을 덮어 씌워 — 켜면 가림(모자이크) 계열은 자동으로 꺼져.</div>';   // 번역 카드 상세(운영자 260720) · 렌더 엔진 = 별도 배선
-  const on=[['mosaic','모자이크'],['keying','키잉'],['pinset','트래킹'],['chroma','크로마키']].filter(a=>XTR[a[0]]).map(a=>a[1]);   // 접힌 줄 요약 = 켠 것 이름(없으면 끔)
+  const on=[['mosaic','모자이크'],['pinset','트래킹'],['bgrm','배경 빼기']].filter(a=>XTR[a[0]]).map(a=>a[1]);   // 접힌 줄 요약 = 켠 것 이름(없으면 끔)
   el.innerHTML=
     '<div class="sech"><span class="nm">추가 옵션</span></div>'   // 개명(운영자 260728 Q11 '· 추가 옵션')
     /* (260929) 네 토글 = 「인물·배경 설정」 접이 한 장(운영자 «그것도 묶음으로 넣어줘» · 설정 스택 접이 accShell 공용 · 기본 접힘 · 펼침 = ACC_OPEN.xtr = 다시 그려도 유지)
-       ⚠ 운영자 «크로마키랑 키잉은 잘 안될걸? 안되면 삭제» → 실측 260929(편집 워크플로 · 6초 실영상) = 둘 다 정상:
-         크로마키 = 그린 스크린 배경 투명 73% · 인물 불투명 · 초록 번짐 0 / 키잉 = 과자 상자 벽 앞 인물 = 벽 제거·곱슬머리까지 유지 → 삭제 안 함 */
+       ⚠ 운영자 «크로마키랑 키잉은 잘 안될걸? 안되면 삭제» → 실측 260929 = 둘 다 정상(삭제 안 함) → 같은 날 «하나로 · 5번» = 배경 빼기 한 칸으로 통합
+         (러너 edit_track.py = 초록·파랑 스크린이면 AI 사람 영역 + 크로마키 섞기 · 아니면 AI만 · 결과 = 스택 알파 재생기 nm-alpha.js = 아이폰도 진짜 투명) */
     +accShell('xtr','인물·배경 설정',on.length?on.join(' · '):'끔','<div class="optcards">'
-      +'<div class="cyrow">'+tg('mosaic','모자이크')+tg('keying','키잉','피사체만 남김')+'</div>'   // 행 재편(운영자 260728 Q11 "모자이크|키잉 / 트래킹|크로마키" — 둘째 행 '모자이크' 중복 표기는 크로마키 오타로 해석 = ⚠해석)
-      +'<div class="cyrow">'+tg('pinset','트래킹','핀셋 이름표')+tg('chroma','크로마키','특정 색 빼기')+'</div>'
+      +'<div class="cyrow tri">'+tg('mosaic','모자이크')+tg('pinset','트래킹','핀셋 이름표')+tg('bgrm','배경 빼기','사람만 남김 · 초록·파랑 배경은 색까지 자동 정리')+'</div>'   // (260929) 한 줄 3분할(자막|번역|고프레임 .cyrow.tri 정본 계승) — 구 2행(모자이크|키잉 / 트래킹|크로마키 · 운영자 260728 Q11)에서 키잉·크로마키가 배경 빼기 하나로 합쳐져 칸이 셋 = 인물(모자이크·트래킹) → 배경 순서(접이 이름 「인물·배경 설정」과 같은 순)   // 행 재편(운영자 260728 Q11 "모자이크|키잉 / 트래킹|크로마키" — 둘째 행 '모자이크' 중복 표기는 크로마키 오타로 해석 = ⚠해석)
       /* 실루엣 = 숨김(운영자 260728 Q12 "일단 숨김 — 내가 어떻게 할지 알려줌" · XTR.silh 상태·세부 카드·트래킹 핸드오프 전부 보존 · 복원 = tg('silh','실루엣','픽셀 실루엣 추종 모자이크·가면') 1줄) · 번역(trans) 카드 = 삭제(운영자 260728 Q06 "아래에 있는 번역은 삭제" — 하이라이트 자막 번역 토글이 대체 · XTR.trans 배타 코드 보존) */
       +(det?'<div class="scard"><div class="prm">'+det+'</div></div>':'')
       +'</div>'
@@ -2001,18 +2000,17 @@ function xgWireDrag(el){   // PC 끌어놓기 — 폰은 위 탭 경로가 담�
   });
 }
 function xtrOpts(){   // 발사 페이로드 축(운영자 260808) — 켠 축만 담고 값은 **폼 단위 그대로**(러너 edit_track이 배율·비율로 환산 = 단위 변환 1곳)
-  if(!(XTR.mosaic||XTR.pinset||XTR.keying||XTR.silh||XTR.chroma)) return null;
+  if(!(XTR.mosaic||XTR.pinset||XTR.bgrm||XTR.silh)) return null;
   xtrSync();   // 발사 직전에도 칸을 맞춘다 — 이름·번호는 **지금 붙은 영상 것**만 실린다(구판은 앞 영상 번호가 그대로 나가 러너의 새 번호와 어긋났다)
-  const x={mosaic:!!XTR.mosaic, pinset:!!XTR.pinset, keying:!!XTR.keying, silh:!!XTR.silh, chroma:!!XTR.chroma};
+  const x={mosaic:!!XTR.mosaic, pinset:!!XTR.pinset, bgrm:!!XTR.bgrm, silh:!!XTR.silh};
   if(XTR.mosaic||XTR.pinset){ x.shape=XTR.shape; x.size=XTR.size; x.feather=XTR.feather; }
   if(XTR.pinset){   // 핀셋 라벨 = {pid: 이름} 맵 — 같은 사람이 #1·#3·#4로 쪼개지므로 여러 번호에 같은 이름을 준다(묶음)
     const nm={}, cols={}; XTR_GRP.forEach(g=>{ const n=(g.name||'').trim().slice(0,24); if(!n) return; const ci=(g.col|0)%3; g.pids.forEach(p=>{ nm[String(p|0)]=n; if(ci&&XCOL_HEX[ci]) cols[String(p|0)]=XCOL_HEX[ci]; }); });
     if(Object.keys(nm).length) x.names=nm;   // 어느 폼에도 안 담긴 # = 맵에 없음 = **영상에 표기 안 함**(운영자 260809 「미지정」)
     if(Object.keys(cols).length) x.colors=cols;   // 이름별 글자색(운영자 260810) — 기본 흰은 미동봉(렌더 기본값) · 강조 토글 이름의 pid만 hex
   }
-  if(XTR.keying) x.kfe=XTR.kfe;
+  if(XTR.bgrm) x.bgfe=XTR.bgfe;
   if(XTR.silh){ x.fill=XTR.fill; x.preset=XTR.preset; x.sfe=XTR.sfe; }
-  if(XTR.chroma){ x.ckcolor=XTR.ckcolor; x.cksim=XTR.cksim; x.ckchoke=XTR.ckchoke; x.ckfe=XTR.ckfe; }
   return x;
 }
 /* 추가 옵션 워드 토글 = 캡슐 전면이 히트존(smoke_hitzone H1·H2 · 운영자 260803 "기본 아냐 저건?") — 위 document 위임(1246행)은 `.hd.st > .cyv:only-child`를 찾아 doCyc()를 부르는데 추가 옵션 칩은 `data-cyc`가 아니라 `data-xo` 축이라 doCyc가 `CYC[undefined]`로 즉시 반환 = **캡슐 여백 탭이 통째로 죽어 있었다**(실측 260804 = 히트 27px / 캡슐 37.2px · 260803 봉합이 #stack 축만 덮은 잔여).
@@ -2021,7 +2019,7 @@ const xoCap=(el)=>{ const h=el.closest&&el.closest('.hd.st'); return h?h.querySe
 $('#xtrsec').addEventListener('click',e=>{
   const t=e.target.closest('[data-xo]')||xoCap(e.target);
   if(t){ const k=t.dataset.xo; XTR[k]=!XTR[k];
-    if(XTR[k]){ if(k==='trans'){ XTR.mosaic=XTR.pinset=XTR.keying=XTR.silh=XTR.chroma=false; } else { XTR.trans=false; } }   // 탭 = OFF↔ON 토글(순환값 문법 · 260712 5차) · 번역 XOR 가림 계열 배타(운영자 260720)
+    if(XTR[k]){ if(k==='trans'){ XTR.mosaic=XTR.pinset=XTR.bgrm=XTR.silh=false; } else { XTR.trans=false; } }   // 탭 = OFF↔ON 토글(순환값 문법 · 260712 5차) · 번역 XOR 가림 계열 배타(운영자 260720)
     // 트래킹 ON = **그 자리에서 인물 분석 발사**(운영자 260809 "트래킹 누르면 바로 #이 뜨게끔") — 구판은 XTR_FACES가 생성 폴 완료에서만 채워져
     //   한 번 생성하기 전까진 #이 영영 안 떴다. 여기서 /api/track analyze를 걸어 생성을 기다리지 않는다.
     if(k==='pinset'&&XTR[k]&&!XTR_FACES.length&&!XTR_RUN[XTR_SRC]) setTimeout(xtrScan,0);   // 판정 = **그 영상이 지금 분석 중인가**(구판 XTR_SCAN은 화면 전역이라 다른 영상 분석이 이 영상 발사를 막았다)
@@ -2037,7 +2035,6 @@ $('#xtrsec').addEventListener('click',e=>{
   const sx=e.target.closest('[data-xs]'); if(sx){ XTR.shape=sx.dataset.xs; renderXtr(); return; }
   const xf=e.target.closest('[data-xf]'); if(xf){ XTR.fill=xf.dataset.xf==='image'?'image':'mosaic'; renderXtr(); return; }
   const xp=e.target.closest('[data-xp]'); if(xp){ XTR.preset=['smile','black','heart'].includes(xp.dataset.xp)?xp.dataset.xp:'smile'; renderXtr(); return; }
-  const xc=e.target.closest('[data-xc]'); if(xc){ XTR.ckcolor=xc.dataset.xc==='blue'?'blue':'green'; renderXtr(); return; }
   const gc=e.target.closest('[data-gc]');   // 글자색 동그라미 토글(운영자 260810) — 탭마다 흰→강조1→강조2→흰 순환
   if(gc){ const g=XTR_GRP[+gc.dataset.gc]; if(g){ g.col=((g.col|0)+1)%3; renderXtr(); } return; }
   const gd=e.target.closest('[data-gd]');   // 드롭존 탭 = 그 폼을 활성으로(폰 = 여기에 #을 담는다)
@@ -2048,8 +2045,8 @@ $('#xtrsec').addEventListener('click',e=>{
   if(fc){ xgPut(+fc.dataset.pid, XTR_ACT); return; }
   if(e.target.closest('#xgAdd')){ if(XTR_GRP.length<12){ XTR_GRP.push({name:'',pids:[],col:0}); XTR_ACT=XTR_GRP.length-1; renderXtr(); } return; }   // 상한 12 = 한 화면에 담기는 실질 한도(api 32키 예산 안)
   if(e.target.closest('#xtrGo')){
-    const mode=XTR.chroma?'chroma':XTR.silh?'maskfx':XTR.keying?'keying':XTR.pinset?'pinset':'mosaic';   // 다중 ON = 신규 모드 우선(서브뷰서 모드 재전환 자유)
-    try{ localStorage.setItem('nm_track_preset', JSON.stringify({t0:Date.now(), mode, opts:{shape:XTR.shape,pxw:9,pxh:9,size:XTR.size,feather:XTR.feather}, kfe:XTR.kfe, fill:XTR.fill, preset:XTR.preset, sfe:XTR.sfe, ck:{color:XTR.ckcolor, similarity:XTR.cksim, choke:XTR.ckchoke, feather:XTR.ckfe}})); }catch(err){}
+    const mode=XTR.silh?'maskfx':XTR.bgrm?'keying':XTR.pinset?'pinset':'mosaic';   // 배경 빼기 = 트래킹 탭의 키잉(수동 선택 경로)   // 다중 ON = 신규 모드 우선(서브뷰서 모드 재전환 자유)
+    try{ localStorage.setItem('nm_track_preset', JSON.stringify({t0:Date.now(), mode, opts:{shape:XTR.shape,pxw:9,pxh:9,size:XTR.size,feather:XTR.feather}, kfe:XTR.bgfe, fill:XTR.fill, preset:XTR.preset, sfe:XTR.sfe})); }catch(err){}
     try{ parent.postMessage({nm:'nmToolTab', src:'/track.html'}, location.origin); }catch(err){}
     return; }
 });
@@ -2322,7 +2319,7 @@ function buildOpts(scan){   // scan = 이번 발사가 '컷 미리보기 스캔'
   if(ON.fps) o.vid_fps=P.fps;
   if(ON.anorm) o.aud_norm=true;
   if(ON.sdr) o.vid_sdr=true;   // SDR 변환(운영자 260913) — 러너 ly_burn sdr_chain: HDR(HLG·PQ) 원본만 실변환 · SDR 원본 = 생략 note
-  { const xo=xtrOpts(); if(xo) o.xtr=xo; }   // 추가 옵션(가림·키잉·크로마키) 동봉(운영자 260808) — 러너 edit_track이 컴포즈 산출에 인물 분석→자동 전대상 적용까지 이어 붙인다(트래킹 탭 경유 0) · 스캔 경로(clip·cutscan)는 위에서 early return = 미동봉(렌더가 아니라 분석이라 얹을 그림이 없다)
+  { const xo=xtrOpts(); if(xo) o.xtr=xo; }   // 추가 옵션(가림·배경 빼기) 동봉(운영자 260808) — 러너 edit_track이 컴포즈 산출에 인물 분석→자동 전대상 적용까지 이어 붙인다(트래킹 탭 경유 0) · 스캔 경로(clip·cutscan)는 위에서 early return = 미동봉(렌더가 아니라 분석이라 얹을 그림이 없다)
   if(CUT_REF){   // 승인 컷 렌더(260727 ③) — 자를 곳은 스캔 승인본이 정본이라 자동 컷 축을 뺀다 = **전사 재실행 0**(자막 ON이면 자막 몫으로만 돎)
     delete o.cut; delete o.cutlv; delete o.cutfill; delete o.take;
     o.cutref=CUT_REF.id; if(CUT_REF.off.length) o.cutoff=CUT_REF.off.join(',');
@@ -2342,7 +2339,7 @@ $('#editGo').addEventListener('click',async()=>{
   const url=$('#url').value.trim();
   if(!url && !FILE_B64 && !FILE_R2 && !_lastFile) return errStatus('입력 필요');
   if(url && !/^https?:\/\//i.test(url)) return errStatus('주소 오류');
-  if(!ORDER.some(k=>ON[k])&&!CUT_REF&&!xtrOpts()) return errStatus('선택 필요');   // 승인 컷 렌더 = 컷 축이 opts에서 빠지므로 예외(260727 ③) · xtr(가림·키잉·크로마키) 단독도 유효(운영자 260808 주 시나리오 = "모자이크만 켜고 생성") — ⚠ ORDER는 자막·화면·소리 **편집 축** 목록이라 추가 옵션이 안 들어간다(넣으면 eta 합산·리드백 시트 계수까지 오염) → 발사 게이트에서만 별도 항으로 인정. 서버 api/edit.js의 같은 축 게이트(`!opts.xtr`)와 한 쌍 = 한쪽만 고치면 여기서 막히거나 저기서 400이다
+  if(!ORDER.some(k=>ON[k])&&!CUT_REF&&!xtrOpts()) return errStatus('선택 필요');   // 승인 컷 렌더 = 컷 축이 opts에서 빠지므로 예외(260727 ③) · xtr(가림·배경 빼기) 단독도 유효(운영자 260808 주 시나리오 = "모자이크만 켜고 생성") — ⚠ ORDER는 자막·화면·소리 **편집 축** 목록이라 추가 옵션이 안 들어간다(넣으면 eta 합산·리드백 시트 계수까지 오염) → 발사 게이트에서만 별도 항으로 인정. 서버 api/edit.js의 같은 축 게이트(`!opts.xtr`)와 한 쌍 = 한쪽만 고치면 여기서 막히거나 저기서 400이다
   if(!_scan && !ON.clip && ON.trim && (P.segs||[]).length && !fireSegs().length){ accSet('cuts',true); return errStatus('구간 오류'); }   // 고칠 칸이 보이게 컷·구간 접이를 펼친다(260929)   // 전량 탈락 구간 = 정직 거절(평의회3 260731) — fireSegs가 유효하지 않은 구간을 continue로 버리면 vid_t0/t1이 **애초에 undefined**라 아래 1504행 역전 가드도, 서버 edit.js의 역전 검사도 발동하지 못한다. 다른 축이 하나라도 켜져 있으면 "처리 없음" 400에도 안 걸려, 사용자는 잘랐다고 믿는데 **원본 전체 길이로 렌더**되고 잡 시간만 태웠다
   const o=buildOpts(_scan);
   if(o.vid_t0!==undefined&&o.vid_t1!==undefined&&o.vid_t1<=o.vid_t0){ accSet('cuts',true); return errStatus('구간 오류'); }
@@ -3194,7 +3191,8 @@ function lyBurnShow(j) {
   if (!/^https?:\/\//i.test(j.url || '') && !/^ly_out\//.test(j.url || '')) return;   // 스킴 화이트리스트 = javascript:/data: 싱크 차단(방어심화·평의회)
   const bx = $('#lyBurn'); if (!bx) return; bx.hidden = false;
   const v = $('#lyBurnVid'); if (v.getAttribute('src') !== j.url) v.src = j.url; v.hidden = false;
-  if (v.parentElement) v.parentElement.classList.toggle('alpha', !!j.preview);   /* 투명 체커보드 = `#vwrap` 형제와 같은 술어(`preview` 존재 = 알파 산출) · 자막+크로마키·키잉 조합이 이 창으로 오는 경로 담당 */
+  if (v.parentElement) v.parentElement.classList.toggle('alpha', !!j.preview);
+  if (window.nmAlpha) { if (/^ly_out\/[A-Za-z0-9._\-\/]+(\?v=\d+)?$/.test(String(j.preview_stacked || ''))) nmAlpha.mount(v, String(j.preview_stacked), { w: j.stacked_w, h: j.stacked_h }); else nmAlpha.unmount(v); }   /* 스택 알파 재생기 = `#vwrap` 형제와 같은 술어 · 대기·초기화의 v.hidden 에 재생기가 스스로 걷힌다(nm-alpha.js 관찰자) */   /* 투명 체커보드 = `#vwrap` 형제와 같은 술어(`preview` 존재 = 알파 산출) · 자막+크로마키·키잉 조합이 이 창으로 오는 경로 담당 */
   const opv = $('#lyPv'); if (opv && !opv.hidden) { try { const ov = $('#lyVid'); if (ov && !ov.paused) ov.pause(); } catch (e) {} opv.hidden = true; lyPvSync(); }   // 완성본 등장 = 원본 미리보기 숨김(운영자 260731 "작업본만 나오게" — 위아래 이중 영상 제거) · src 보존 = 조각 편집 lySeek는 hidden 가드로 무동작
 
   if (window.nmEta && _lyBurnT0) { nmEta.done('edit-burn', (Date.now() - _lyBurnT0) / 1000); _lyBurnT0 = 0; }   // 예상 학습 = 성공 완료만(ly 동문 · sb·k 배선 그대로)
@@ -3342,7 +3340,8 @@ function showResult(d, sec){
   vw.classList.toggle('alpha',!!d.preview);   /* ⚠ (260816) 투명 표시 체커보드 = `viewer/track.html` 905행 **배선 사본**(`$('#vwrap').classList.toggle('alpha',keying)`). 술어만 이 탭 축으로 옮겼다 — track은 `d.mode`로 가르지만 편집 탭엔 mode가 없고, 러너 `edit_track.py`가 **알파 산출일 때만** `video.json`에 `preview`를 싣는다(LOCAL_OUT 41~47행 = 프리뷰를 가진 축은 keying·chroma 둘뿐 · mosaic·pinset·maskfx는 None) → `d.preview` 존재가 곧 알파의 정확한 신호다(실측 = 크로마·키잉 산출엔 있고 모자이크 산출엔 없다). 재생 소스는 track과 달리 갈 필요가 없다 = 러너가 이미 `url`을 프리뷰로 바꿔 놓는다(edit_track 355~357행 「화면 재생 = webm 프리뷰 우선」). */   // (260804) `$('#pv').hidden=true` 제거 — 완성 시 도크가 접히는 건 그대로(아래 dockSync)지만, 하드 숨김까지 걸리면 요약 스트립으로 **다시 펼쳐도 미리보기가 빈 채**라 이어서 제작할 수가 없었다(접힘 ≠ 소멸)   // 결과 = 미리보기 도크 자동 접힘(운영자 260728 "완성본 보이는 타이밍에 자동으로 접히게 — 자연스럽게" · 구 _ps.hidden 즉시 소멸 → .fold 전환 · 재펼침 = 요약 스트립 탭)
   dlPark();   // ⚠ 저장 버튼 되돌리기 선행 — 이 줄 아래가 창을 통째로 갈아엎는다(연속 제작 2번째에서 버튼 노드가 사라지던 자리 · 스모크 실측 봉합)
   vw.innerHTML='<video controls playsinline preload="metadata" src="'+esc(d.url)+'"></video>'
-    +'<span class="hist-cap vmeta" id="vMeta" hidden></span>';   /* 값 칩 = nm-hist.css `.hist-cap` 정본 그대로(좌상단 검은 알약 · 값 신설 0) — 우상단 저장 버튼 자리는 그 정본의 max-width가 이미 비워 둔다(운영자 260811 "영상 길이, 비율, 해상도 나오게") */
+    +'<span class="hist-cap vmeta" id="vMeta" hidden></span>';
+  if(window.nmAlpha&&/^ly_out\/[A-Za-z0-9._\-\/]+(\?v=\d+)?$/.test(String(d.preview_stacked||''))) nmAlpha.mount(vw.querySelector('video'), String(d.preview_stacked), {w:d.stacked_w, h:d.stacked_h});   /* (260929 운영자 «B 진짜 투명 재생기») 배경 빼기 결과 = 스택 알파(WebGL) — 윈도우·아이폰 공통 진짜 투명 · 같은 출처 경로만(다른 출처 = WebGL 보안 오염) · 실패 = 위 webm video 그대로 */   /* 값 칩 = nm-hist.css `.hist-cap` 정본 그대로(좌상단 검은 알약 · 값 신설 0) — 우상단 저장 버튼 자리는 그 정본의 max-width가 이미 비워 둔다(운영자 260811 "영상 길이, 비율, 해상도 나오게") */
   dockSync();   // 대기 스테이지(.scanline)가 완성본 video로 교체된 **뒤** 판정(재검① 260728 — 앞에 두면 scanline이 살아 있어 완성본에서 되레 펼쳐졌다)
   $('#dlVid').hidden=false;
   dlOver();   // 저장 버튼 = 완성 영상 **우상단 오버레이**(운영자 260811 "다 만들어지고 우상단에 위치하게(영상에 오버렙되게)") — 자리·크기는 nm-hist.css `.imgdl` 정본

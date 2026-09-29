@@ -48,6 +48,42 @@ IMGSZ = 512              # SAM2 입력 긴 변 — 1024는 3937ms/f로 불가(�
 FEATHER_DFLT = 3         # 512 업스케일 계단 완화 기본 페더 px
 PREVIEW_LONG = 960       # 프리뷰 긴 변(9:16 = 540×960)
 GIT_FALLBACK_MAX = 30 * 1024 * 1024
+# 배경 빼기 섞기(운영자 260929 «키잉·크로마키 하나로 · 5번 = AI로 사람 영역을 잡고 그 안에 남은 초록만 크로마키로 정리»)
+#   req["screen"] = {"color":"#RRGGBB","kind":"green|blue"}(track_chroma.detect_screen 산출)일 때만 켠다 — 없으면 종전 AI 단독 그대로.
+#   알파 = min(크로마, dilate(AI)) — 운영자 원문 그대로 「AI로 사람 영역을 잡고(dilate(AI) = 넉넉한 사람 테두리) 그 안에 남은 초록만 크로마키로」
+#     · 영역 밖 = 스탠드·조명·스크린 끝단·주름 그림자처럼 크로마가 못 빼는 것도 투명(가비지 매트)
+#     · 영역 안 = 크로마 알파 = 머리카락 같은 잔경계까지 색 정밀도(512 AI 마스크의 계단 대체) · 색 = 스필 제거된 색
+#   ⚠ 「몸 안쪽은 크로마가 빼도 살린다(max(erode(AI), …))」 판을 먼저 짰다가 실측으로 걷었다(260929 그린스크린 6초):
+#     AI가 팔·몸 사이 틈을 몸으로 잡으면 그 틈의 초록이 도로 살아 테두리에 초록 조각이 남았다(360프레임 중 351프레임).
+#     그 판이 막으려던 「초록 옷」은 그린스크린 촬영에서 원래 피하는 경우라, 흔한 쪽(틈)을 깨끗하게 하는 게 맞다(정직 한계 = 초록 옷은 같이 빠진다).
+MIX_ZONE = 0.03          # 사람 영역 팽창 폭(긴 변 비율 · 1920 → 58px) — 흩날린 머리카락 끝까지 크로마에 맡길 폭(512 업스케일 오차 ≈4px의 10배+)
+MIX_S_PF = 0.04          # 실측 단가: 섞기 추가 s/원본프레임(1080×1920 · 팽창 캐시 + 합치기 + 파이프 읽기) — 예산 가드 반영
+MIX_CHROMA = {"similarity": 0.15, "blend": 0.05, "despill": 0.5, "choke": 0, "feather": 1, "edge": "high"}
+
+
+def mix_zone(ai, zone_k):
+    """AI 마스크(uint8 0~255) → 사람 영역(zone). zone_k = 팽창 커널 지름(px · 홀수).
+    AI 마스크는 세그 15fps hold라 바뀔 때만 다시 잰다(콜러 캐시 — 실측 1080×1920 ≈ 35ms/회)."""
+    zone = cv2.dilate(ai, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (zone_k, zone_k))) if zone_k > 1 else ai
+    return cv2.GaussianBlur(zone, (0, 0), max(1.0, zone_k / 6.0))   # 영역 끝단 = 칼선 대신 완만하게(크로마가 못 뺀 잔여가 딱 끊겨 보이지 않게)
+
+
+def mix_apply(zone, chroma_a):
+    """섞기 알파 한 장 = min(chroma_a, zone) — 사람 영역 밖은 무조건 투명 · 안은 크로마가 초록을 뺀다."""
+    return np.minimum(chroma_a, zone)
+
+
+def _chroma_pipe(src, screen, W2, H2):
+    """크로마 알파+스필 제거 색을 원본 프레임과 1:1로 흘리는 ffmpeg 파이프(BGRA rawvideo).
+    필터 = track_chroma.build_filter 정본 재사용(사본 0) · 색 = 판별된 실제 스크린 색.
+    -fps_mode passthrough = 디코드 프레임 1:1(가변 fps 영상도 cv2 순차 디코드와 개수 일치)."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import track_chroma as tc
+    o = dict(MIX_CHROMA, color=tc._hex_color(screen.get("color"), "#00FF00"))
+    kind = screen.get("kind") if screen.get("kind") in ("green", "blue") else tc._kind(o["color"])
+    vf = tc.build_filter(o, kind) + f",crop={W2}:{H2}:0:0,format=bgra"
+    return subprocess.Popen(["ffmpeg", "-v", "error", "-i", src, "-map", "0:v:0", "-vf", vf, "-fps_mode", "passthrough",
+                             "-f", "rawvideo", "-pix_fmt", "bgra", "-"], stdout=subprocess.PIPE, bufsize=W2 * H2 * 4)
 
 
 def _r2_upload_file(path, key, ctype):
@@ -234,7 +270,8 @@ def run(vid_id, req, doc, outdir):
     est_seg = sum((min(float(p["f0"]), total_f) if p.get("rev") else max(0.0, total_f - p["f0"])) / fps
                   * SEG_FPS * (SEG_S_1 + SEG_S_OBJ * max(0, len(p.get("pt_norm") or p["prompts"]) - 1))
                   for p in passes)   # 역패스 커버 = [0, f0) — 예산에 자동 포함(직접 지정 1개 = 순+역 합이 영상 전체 1회분)
-    est = est_seg + total_f * TAIL_S_PF * (W * H / 2_073_600.0)
+    screen = req.get("screen") if isinstance(req.get("screen"), dict) else None   # 배경 빼기 섞기(그린/블루 스크린 판별분)
+    est = est_seg + total_f * (TAIL_S_PF + (MIX_S_PF if screen else 0.0)) * (W * H / 2_073_600.0)
     if est > KEY_BUDGET_SEC:
         raise RuntimeError(f"이 조합은 렌더가 너무 오래 걸려(예상 {int(est // 60)}분) — "
                            f"피사체 수·영상 길이를 줄이거나(60fps면 더 짧게) 같은 시점에 함께 나오는 것끼리 골라줘.")
@@ -329,6 +366,15 @@ def run(vid_id, req, doc, outdir):
          "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-crf", "34", "-b:v", "0", "-cpu-used", "6", "-row-mt", "1",
          "-c:a", "libopus", "-b:a", "64k", "-shortest", out_webm], stdin=subprocess.PIPE)
 
+    ck = None   # 섞기 크로마 파이프 — 실패·조기 종료 = 그 프레임부터 AI 단독(fail-soft · 산출은 계속)
+    if screen:
+        try:
+            ck = _chroma_pipe(src, screen, W2, H2)
+        except Exception as e:
+            print(f"::warning::크로마 섞기 시작 실패 — AI 단독으로 계속: {e}", flush=True)
+            ck = None
+    zone_k = max(3, int(max(W2, H2) * MIX_ZONE)) | 1
+    mix_key, zone, n_mix = None, None, 0
     cap.release()
     cap = cv2.VideoCapture(src)   # 처음부터 재디코드(첫 프레임 포함 순차)
     try:
@@ -347,7 +393,8 @@ def run(vid_id, req, doc, outdir):
                 break
             frame = frame[:H2, :W2]
             alpha = None
-            for p in passes:
+            used = []   # 이 프레임 알파에 실제로 들어간 (패스, 마스크 번호) — 섞기 캐시 키(패스가 켜지고 꺼지는 순간도 잡는다)
+            for k_, p in enumerate(passes):
                 if p.get("rev"):   # 역패스 커버 = [0, f0) — 역재생이라 인덱스 뒤집기(원본 0초 = 마지막 마스크)
                     if f >= p["f0"]:
                         continue
@@ -367,9 +414,27 @@ def run(vid_id, req, doc, outdir):
                 if p["cur"] is not None:
                     c = p["cur"][:H2, :W2]
                     alpha = c if alpha is None else np.maximum(alpha, c)
+                    used.append((k_, j))
             if alpha is None:
                 alpha = np.zeros((H2, W2), np.uint8)
-            elif fe > 0:
+            cbgra = None
+            if ck is not None:
+                buf = ck.stdout.read(W2 * H2 * 4)
+                if len(buf) == W2 * H2 * 4:
+                    cbgra = np.frombuffer(buf, np.uint8).reshape(H2, W2, 4)
+                else:   # 파이프 조기 종료(프레임 수 불일치·ffmpeg 실패) = 남은 구간 AI 단독 — 산출은 끊지 않는다
+                    print(f"::warning::크로마 섞기 파이프 {f}f에서 끊김 — 남은 구간 AI 단독", flush=True)
+                    ck.kill()
+                    ck = None
+            if cbgra is not None:
+                key = tuple(used)
+                if key != mix_key:   # AI 마스크가 바뀐 때만 팽창 재계산(세그 15fps hold)
+                    zone = mix_zone(alpha, zone_k)
+                    mix_key = key
+                alpha = mix_apply(zone, cbgra[:, :, 3])
+                frame = cbgra[:, :, :3]   # 스필 제거된 색(가장자리 초록물 빠짐)
+                n_mix += 1
+            if fe > 0:
                 alpha = cv2.GaussianBlur(alpha, (kblur, kblur), fe * 0.6)
             bgra = np.dstack((frame, alpha))
             try:
@@ -389,10 +454,12 @@ def run(vid_id, req, doc, outdir):
         rc_p = enc_p.wait(timeout=1200)
     finally:
         cap.release()
-        for enc in (enc_m, enc_p):
+        for enc in (enc_m, enc_p) + ((ck,) if ck is not None else ()):
             if enc.poll() is None:
                 enc.kill()
         shutil.rmtree(mask_root, ignore_errors=True)
+    if screen:
+        print(f"배경 빼기 섞기 {n_mix}/{f}프레임(AI 사람 영역 + 크로마)", flush=True)
     if rc_m != 0 or not os.path.isfile(out_mov) or os.path.getsize(out_mov) < 1024:
         raise RuntimeError("영상 인코딩 실패(마스터) — 다시 시도해줘.")
     if rc_p != 0 or not os.path.isfile(out_webm) or os.path.getsize(out_webm) < 1024:
@@ -414,4 +481,5 @@ def run(vid_id, req, doc, outdir):
         raise RuntimeError("결과 업로드 실패(R2) — 잠시 후 다시 렌더해줘.")
     tr.out_json(outdir, {"url": (f"{url}?v={bust}" if url else ""), "preview": (f"{prev}?v={bust}" if prev else ""),
                          "mode": "keying", "n": n_obj, "frames": f, "opts": {"feather": fe},
+                         "mix": {"frames": n_mix, "color": (screen or {}).get("color")} if screen else None,
                          "note": ("" if url else "master-lost")})   # 마스터 유실(R2 미설정·대용량) = 프리뷰만 — 뷰어가 정직 표시

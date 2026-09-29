@@ -96,19 +96,20 @@ export async function onRequestPost({ request, env }) {
     if (cf.length > 900) { const t = cf.split(','); while (t.length && t.join(',').length > 900) t.pop(); cf = t.join(','); }
     if (cf) opts.cutoff = cf;
   }
-  // ── 추가 옵션(가림·키잉·크로마키) — 생성에 동봉되면 러너가 컴포즈 뒤에 [인물 분석 → 자동 전대상 적용]까지 잇는다(운영자 260808
+  // ── 추가 옵션(가림·배경 빼기 · 구 키잉·크로마키 = 260929 통합) — 생성에 동봉되면 러너가 컴포즈 뒤에 [인물 분석 → 자동 전대상 적용]까지 잇는다(운영자 260808
   //   "모자이크 누르고 옵션 선택한 다음에 생성 누르면 트래킹해서 모자이크까지 자동으로"). 소비 = .github/scripts/edit_track.py
   //   ⚠ 값 단위 = **폼 그대로**(size 75~250% · cksim 1~50%) — 배율(1.15)·비율(0.18) 환산은 러너 1곳에서만 한다.
   //     단위 변환을 여기서도 하면 반드시 갈린다(실측 260808 = api/track.js가 뷰어의 1~50 강도를 0.01~0.5로 클램프해
   //     **전 구간이 0.5로 붙어** 크로마키가 화면을 통째로 지웠다 = 라이브 무동작).
   if (o.xtr && typeof o.xtr === 'object') {
     const x = o.xtr, xt = {};
-    for (const k of ['mosaic', 'pinset', 'keying', 'silh', 'chroma']) { if (x[k] === true) xt[k] = true; }
+    for (const k of ['mosaic', 'pinset', 'bgrm', 'silh']) { if (x[k] === true) xt[k] = true; }
+    if (x.keying === true || x.chroma === true) xt.bgrm = true;   // 배경 빼기 통합(운영자 260929 «키잉·크로마키 하나로») — 구 두 축 = bgrm 하나(저장된 옛 설정·열린 옛 화면 하위호환)
     if (Object.keys(xt).length) {
       if (x.shape === 'ellipse' || x.shape === 'rect') xt.shape = x.shape;
       const xsz = num(x.size, 75, 250); if (xsz !== null) xt.size = Math.round(xsz);              // 가림 크기 %
       const xfe = num(x.feather, 0, 40); if (xfe !== null) xt.feather = Math.round(xfe);          // 모자이크 페더
-      const xkf = num(x.kfe, 0, 40); if (xkf !== null) xt.kfe = Math.round(xkf);                  // 키잉 페더
+      const xbf = num(x.bgfe ?? x.kfe, 0, 40); if (xbf !== null) xt.bgfe = Math.round(xbf);       // 배경 빼기 부드럽게(px · 구 키잉 페더 kfe 수용)
       const xsf = num(x.sfe, 0, 40); if (xsf !== null) xt.sfe = Math.round(xsf);                  // 실루엣 페더
       if (x.fill === 'image' || x.fill === 'mosaic') xt.fill = x.fill;
       if (['smile', 'black', 'heart'].includes(x.preset)) xt.preset = x.preset;                   // 가면 프리셋(py 화이트리스트와 이중)
@@ -135,10 +136,7 @@ export async function onRequestPost({ request, env }) {
         }
         if (cn) xt.colors = cm;
       }
-      if (x.ckcolor === 'blue' || x.ckcolor === 'green') xt.ckcolor = x.ckcolor;
-      const xcs = num(x.cksim, 1, 50); if (xcs !== null) xt.cksim = Math.round(xcs);              // 크로마 강도 %
-      const xcc = num(x.ckchoke, -4, 4); if (xcc !== null) xt.ckchoke = Math.round(xcc);
-      const xcf = num(x.ckfe, 0, 10); if (xcf !== null) xt.ckfe = Math.round(xcf);
+      // (260929) 크로마키 색·강도·수축·페더 노브는 걷었다 — 배경 빼기가 스크린 색을 영상에서 직접 재서(track_chroma.detect_screen) 정한다
       opts.xtr = xt;
     }
   }

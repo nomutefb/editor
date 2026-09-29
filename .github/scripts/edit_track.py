@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-# 편집 발사 자동 트래킹 — 편집 폼(기타 옵션)에서 켠 가림·키잉·크로마키를 **트래킹 탭을 안 거치고** 그 자리에서 적용.
+# 편집 발사 자동 트래킹 — 편집 폼(기타 옵션)에서 켠 가림·배경 빼기를 **트래킹 탭을 안 거치고** 그 자리에서 적용.
+#   배경 빼기(bgrm · 운영자 260929 «키잉·크로마키 하나로 · 5번») = 스크린 판별 → 그린/블루 스크린이면 AI+크로마 섞기,
+#   아니면 AI 단독(구 키잉) · 스크린인데 사람을 못 찾았거나 90초 초과면 색 단독(구 크로마키) — 한 버튼이 알아서 고른다.
 #   사용: edit_track.py <id> <입력mp4> [pre|post]
 #     pre  = **컴포즈 앞** — 픽셀에 굽는 계열(모자이크·핀셋). 산출 경로를 /tmp/edit_track_pre.txt 에 도장하면
 #            워크플로가 그걸 EDIT_SRC로 갈아끼워 ly_burn이 그 위에 자막을 얹는다 = **자막이 모자이크보다 위**.
-#     post = **컴포즈 뒤** — 알파를 만드는 계열(키잉·실루엣·크로마키). 알파 산출은 종점이라 자막 번인 뒤가 맞다.
+#     post = **컴포즈 뒤** — 알파를 만드는 계열(배경 빼기·실루엣). 알파 산출은 종점이라 자막 번인 뒤가 맞다.
 #   env: OPTS = 편집 옵션 JSON — 이 스크립트가 읽는 축은 opts.xtr 하나뿐
 #        R2_*  = 최종 산출 업로드(미설정 = ly_burn과 동일하게 git 폴백)
 #
@@ -15,7 +17,7 @@
 #
 # 계약:
 #   · 대상 자동 선정 = 검출 전원(가림은 빠뜨리는 쪽이 사고 · track_render 원칙 ③ 과잉 커버 편향 계승)
-#   · 체인 = 모자이크 → 핀셋 → (키잉|실루엣|크로마키 중 하나 = 알파 산출이라 종점)
+#   · 체인 = 모자이크 → 핀셋 → (배경 빼기|실루엣 중 하나 = 알파 산출이라 종점)
 #   · 전면 fail-soft = 트래킹이 실패해도 **편집 산출물은 그대로 살아 있다**(rc 0 · video.json의 url 무접촉 + xtr_note 기록)
 #   · 순서 = 픽셀 번인(모자이크·핀셋)은 **자막보다 먼저** 구워야 한다(운영자 260809 "모자이크가 자막 위로 올라가버려서
 #     자막이 가려져"). 구판은 컴포즈 뒤 한 지점에서 전부 처리해 **자막 위에 모자이크가 덮였다**.
@@ -52,11 +54,13 @@ def log(m):
 
 
 def norm_xtr(o):
-    """편집 폼 XTR → 정규화. 켠 게 없으면 None(= 무동작)."""
+    """편집 폼 XTR → 정규화. 켠 게 없으면 None(= 무동작).
+    배경 빼기(bgrm · 운영자 260929 «키잉·크로마키 하나로») = 구 keying·chroma도 여기로 모은다(저장된 옛 설정·직접 발사 하위호환)."""
     x = o.get("xtr")
     if not isinstance(x, dict):
         return None
-    on = {k: bool(x.get(k)) for k in ("mosaic", "pinset", "keying", "silh", "chroma")}
+    on = {k: bool(x.get(k)) for k in ("mosaic", "pinset", "bgrm", "silh")}
+    on["bgrm"] = on["bgrm"] or bool(x.get("keying")) or bool(x.get("chroma"))
     if not any(on.values()):
         return None
     return on, x
@@ -131,6 +135,67 @@ def render(tid, payload, mode):
     return main_p, (prev_p if (prev_p and os.path.isfile(prev_p)) else None)
 
 
+KEY_MAX_SEC = 90      # AI 배경 빼기 길이 캡 = track_keying.KEY_MAX_SEC 동값(넘으면 스크린 영상은 크로마 단독 · 아니면 정직 사유)
+STACK_LONG = 960      # 스택 알파 미리보기 긴 변(= webm 프리뷰 동값 · 9:16 → 540×960 두 장 = 540×1920)
+
+
+def detect_screen(src):
+    """그린/블루 스크린 판별 — track_chroma.detect_screen 정본 위임(사본 0) · 실패 = None(= AI 단독)."""
+    try:
+        sys.path.insert(0, TRACK_DIR)
+        import track_chroma as tc
+        return tc.detect_screen(src)
+    except Exception as e:
+        log("스크린 판별 건너뜀: " + str(e)[:80])
+        return None
+
+
+def bgrm_route(scr, n_subj, dur):
+    """배경 빼기 길 고르기(순수 함수 · tests/test_bgrm.py) → (엔진 "keying"|"chroma"|None, 사유 문구|None).
+    · 스크린 + 사람 O + 90초 이하 = keying(섞기 · 사유 없음)
+    · 스크린인데 사람 X 또는 90초 초과 = chroma(색 단독 · 성공해도 남길 설명)
+    · 스크린 X + 90초 초과 = None(정직 사유) · 스크린 X + 사람 X = None(정직 사유) · 스크린 X + 사람 O = keying(AI 단독)"""
+    long_ = dur > KEY_MAX_SEC + 1
+    if scr and (not n_subj or long_):
+        return "chroma", ("%d초가 넘어서 색으로만 뺐어(사람 윤곽 보정 없음 · %d초 이하로 자르면 더 깔끔해)." % (KEY_MAX_SEC, KEY_MAX_SEC) if long_
+                          else "사람을 못 찾아서 색으로만 뺐어 — 스탠드·조명이 남았으면 화면 밖으로 잘라줘.")
+    if long_:
+        return None, "배경 빼기는 %d초까지야(초록 배경 영상은 더 길어도 돼) — 잘라서 다시 해줘." % KEY_MAX_SEC
+    if n_subj:
+        return "keying", None
+    return None, "영상에서 사람을 못 찾아서 배경을 못 뺐어 — 트래킹 탭에서 수동으로 해줘."
+
+
+def make_stacked(master, out):
+    """알파 마스터(MOV) → 스택 알파 H.264(위 = 색 · 아래 = 알파를 밝기로) — 운영자 260929 «윈도우·아이폰 둘 다 진짜 투명».
+    ⚠ 왜 따로 만드나 = 알파 webm(VP9)은 아이폰 사파리가 알파를 못 읽어 **검은 배경**으로 나오고, HEVC 알파는
+      맥 VideoToolbox에서만 인코딩된다. H.264는 모든 브라우저가 읽으니 알파를 **그림으로** 실어 보내고
+      화면(viewer/nm-alpha.js)이 WebGL로 두 장을 합쳐 진짜 투명을 그린다. 실패 = None(webm 프리뷰가 그대로 폴백)."""
+    sc = (f"scale='if(gt(iw,ih),min({STACK_LONG},iw),-2)':'if(gt(iw,ih),-2,min({STACK_LONG},ih))',"
+          "crop=trunc(iw/2)*2:trunc(ih/2)*2")
+    fc = f"[0:v]{sc},format=yuva444p,split[c][a];[c]format=yuv420p[cc];[a]alphaextract,format=yuv420p[aa];[cc][aa]vstack=inputs=2[v]"
+    try:
+        r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", master, "-filter_complex", fc, "-map", "[v]", "-map", "0:a?",
+                            "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
+                            "-c:a", "aac", "-b:a", "96k", "-movflags", "+faststart", out], timeout=900)
+    except Exception as e:
+        log("스택 미리보기 실패: " + str(e)[:80])
+        return None
+    if r.returncode != 0 or not os.path.isfile(out) or os.path.getsize(out) < 1024:
+        log("스택 미리보기 실패 rc=%s" % r.returncode)
+        return None
+    w = h = 0
+    try:   # 색 절반 치수 = 화면이 첫 프레임 전에도 틀 비율을 잡게(아이폰은 재생 전엔 영상 크기를 안 준다)
+        pr = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+                             "-of", "csv=p=0", out], capture_output=True, text=True, timeout=60)
+        w, h = (int(v) for v in pr.stdout.strip().split(",")[:2])
+        h //= 2
+    except Exception:
+        w = h = 0
+    log("스택 미리보기 %dx%d · %.1fMB" % (w, h, os.path.getsize(out) / 1048576))
+    return out, w, h
+
+
 ALPHA_NOOP_MIN = 254.5   # 알파 평균이 이 위 = 뺀 화소가 사실상 0(실측 근거 = 아래 _alpha_note 독스트링 표)
 ALPHA_GONE_MAX = 0.5     # 이 아래 = 화면이 통째로 비었다(0 = 전 화소 투명 = 퇴화 끝점이라 보정이 필요한 값이 아니다)
 
@@ -179,10 +244,9 @@ def _alpha_note(path, mode):
       유효 구간 (254.21, 254.88) 의 중앙 = 254.5(양쪽 여유 0.29·0.38). 손실 인코딩 왕복 뒤에도 진짜
       무동작은 정확히 255.00으로 떨어져서(합성·실물 둘 다) 이 마진이면 충분하다.
 
-    ⚠ 문구는 새로 짓지 않았다 — 앞절 골격은 216행 「영상에서 사람을 못 찾아서 …」, 꼬리는 193행 「 — …해줘」,
-      기능 이름은 화면 라벨 그대로(크로마키 = 특정 색 빼기 · 키잉 = 피사체만 남김)를 가져왔다.
-      ⚠ 대안으로 「실루엣」은 안 권한다 = 그 카드는 260728부터 화면에서 숨겨져 있어(edit.html) 없는 버튼을
-      누르라는 오안내가 된다."""
+    ⚠ 문구 골격 = 「영상에서 사람을 못 찾아서 …」 + 꼬리 「 — …해줘」(이 파일 기존 문구 계승).
+      mode = 배경 빼기가 **실제로 간 길**(keying = AI(+섞기) · chroma = 색 단독) — 260929 통합 뒤로는 화면에
+      「키잉·크로마키」 버튼이 없으니 그 이름을 권하지 않는다(없는 버튼 안내 = 오안내 · 실루엣 선례와 같은 축)."""
     m = _alpha_mean(path)
     if m is None:
         log("알파 판정 유보 — 측정값 0줄(%s)" % os.path.basename(path))
@@ -190,13 +254,12 @@ def _alpha_note(path, mode):
     log("알파 평균 %.2f/255 (%s)" % (m, mode))
     if m >= ALPHA_NOOP_MIN:
         if mode == "chroma":
-            return ("영상에서 지정한 색을 거의 못 찾아서 뺀 것 없이 그대로야 — "
-                    "초록 배경으로 찍은 영상이 아니면 크로마키 대신 키잉(피사체만 남김)을 써줘.")
-        return "영상에서 피사체를 못 가려내서 배경이 그대로 남았어 — 트래킹 탭에서 수동으로 해줘."
+            return "배경 색을 거의 못 찾아서 뺀 것 없이 그대로야 — 트래킹 탭에서 수동으로 해줘."
+        return "영상에서 사람을 못 가려내서 배경이 그대로 남았어 — 트래킹 탭에서 수동으로 해줘."
     if m <= ALPHA_GONE_MAX:
         if mode == "chroma":
-            return ("지정한 색이 화면 거의 전부라 통째로 지워졌어 — 강도를 낮춰서 다시 해줘.")
-        return "피사체를 못 붙잡아서 화면이 통째로 비었어 — 트래킹 탭에서 수동으로 해줘."
+            return "배경 색이 화면 거의 전부라 통째로 지워졌어 — 사람이 크게 나온 구간으로 잘라서 다시 해줘."
+        return "사람을 못 붙잡아서 화면이 통째로 비었어 — 트래킹 탭에서 수동으로 해줘."
     return None
 
 
@@ -236,7 +299,7 @@ def main():
 
     tid = vid_id   # 트래킹 작업폴더 = 같은 id(viewer/track_out/<id> · 커밋 스텝은 ly_out만 add = 레포 무오염)
     order = [m for m in ("mosaic", "pinset") if on[m]] if phase == "pre" else []
-    endpoint = ("chroma" if on["chroma"] else "keying" if on["keying"] else "maskfx" if on["silh"] else "") if phase == "post" else ""
+    endpoint = ("bgrm" if on["bgrm"] else "maskfx" if on["silh"] else "") if phase == "post" else ""
     if not order and not endpoint:
         if phase == "post":   # 알파 축이 없어도 pre가 구운 게 있으면 최종 기록에 남긴다(컴포즈가 video.json을 새로 쓰므로 여기서만 가능)
             try:
@@ -255,8 +318,15 @@ def main():
         return 0
     log("[%s] 적용 축: %s" % (phase, ",".join(order + ([endpoint] if endpoint else []))))
 
-    need_analyze = bool(order) or endpoint in ("keying", "maskfx")
+    # 배경 빼기 = 스크린 판별 먼저(운영자 260929 «5번») — 그린/블루 스크린이면 AI+크로마 섞기, 아니면 AI 단독.
+    scr = detect_screen(src) if endpoint == "bgrm" else None
+    if scr:
+        log("스크린 판별: %s %s(가장자리 %.0f%%)" % (scr["kind"], scr["color"], scr["frac"] * 100))
+    need_analyze = bool(order) or endpoint in ("bgrm", "maskfx")
     doc = analyze(tid, src) if need_analyze else stub_tracks(tid, src)
+    if doc is None and scr:   # 인물 분석이 죽어도 스크린 영상이면 크로마 단독으로 뺄 수 있다(색만 쓰는 경로 = 분석 불요)
+        log("분석 실패 — 스크린 영상이라 크로마 단독으로 계속")
+        doc = stub_tracks(tid, src)
     if doc is None:
         log("분석 실패 — 편집본 그대로 둔다")
         vj["xtr_note"] = "인물 분석에 실패해서 가림을 못 넣었어 — 트래킹 탭에서 수동으로 해줘."
@@ -335,33 +405,48 @@ def main():
         shutil.copyfile(got, keep)
         cur, done = keep, done + [mode]
 
+    bnote = None   # 배경 빼기 경로 설명(크로마 단독으로 간 이유 등) — 성공 회차에도 화면에 남긴다(아래 pop 뒤에 다시 쓴다)
+    stacked, method = None, None   # method = 배경 빼기가 실제로 간 길(keying = AI(+섞기) · chroma = 색 단독)
     if endpoint:
         set_src(tid, doc, cur)
-        if endpoint == "chroma":
-            sim = _num(x.get("cksim"), 1, 50, 18) / 100.0   # 폼 강도 = % 정수(18) · ffmpeg chromakey similarity = 0~1
-            payload = {"mode": "chroma", "opts": {
-                "color": {"blue": "#0000FF"}.get(x.get("ckcolor"), "#00FF00"),
-                "similarity": round(sim, 3), "choke": int(_num(x.get("ckchoke"), -4, 4, 0)),
-                "feather": int(_num(x.get("ckfe"), 0, 10, 1)), "despill": 0.5, "blend": 0.05, "edge": "high"}}
+        mode, payload = endpoint, None
+        if endpoint == "bgrm":
+            route, why = bgrm_route(scr, len(sids), _num((doc.get("meta") or {}).get("dur"), 0, 1e9, 0))
+            if route == "chroma":
+                # 스크린 영상인데 AI가 사람을 못 잡았거나 AI 캡(90초)을 넘었다 = 색 단독(판별한 실제 스크린 색 · 사람 영역 보정 없음)
+                mode, bnote = "chroma", why
+                payload = {"mode": "chroma", "opts": {
+                    "color": scr["color"], "similarity": 0.15, "blend": 0.05, "despill": 0.5, "choke": 0,
+                    "feather": int(_num(x.get("bgfe", x.get("kfe")), 0, 10, 1)), "edge": "high"}}
+            elif route == "keying":
+                mode = "keying"
+                payload = {"mode": "keying", "keep": sids, "keepP": [], "extra": [],
+                           "opts": {"feather": int(_num(x.get("bgfe", x.get("kfe")), 0, 40, 0))}}
+                if scr:
+                    payload["screen"] = {"color": scr["color"], "kind": scr["kind"]}   # track_keying 섞기 켜기
+            else:
+                log("bgrm 스킵 — " + why)
+                vj["xtr_note"] = why
         elif sids:
             payload = {"mode": endpoint, "keep": sids, "keepP": [], "extra": [],
-                       "opts": {"feather": int(_num(x.get("sfe") if endpoint == "maskfx" else x.get("kfe"), 0, 40,
-                                                    8 if endpoint == "maskfx" else 0))}}
-            if endpoint == "maskfx":
-                payload["fill"] = "image" if x.get("fill") == "image" else "mosaic"
-                if payload["fill"] == "image":
-                    payload["preset"] = x.get("preset") if x.get("preset") in ("smile", "black", "heart") else "smile"
+                       "opts": {"feather": int(_num(x.get("sfe"), 0, 40, 8))}}
+            payload["fill"] = "image" if x.get("fill") == "image" else "mosaic"
+            if payload["fill"] == "image":
+                payload["preset"] = x.get("preset") if x.get("preset") in ("smile", "black", "heart") else "smile"
         else:
-            payload = None
             log(endpoint + " 스킵 — 대상 피사체 0개")
             vj["xtr_note"] = "영상에서 피사체를 못 찾아서 그 단계는 빠졌어."
         if payload:
-            got, gotp = render(tid, payload, endpoint)
+            got, gotp = render(tid, payload, mode)
             if got:
-                cur, prev, done = got, gotp, done + [endpoint]
+                cur, prev, done, method = got, gotp, done + [endpoint], mode
+                if endpoint == "bgrm":
+                    stacked = make_stacked(got, "/tmp/edit_track_stacked.mp4")   # (경로, 폭, 높이) | None
             else:
                 log(endpoint + " 렌더 실패 — 직전 산출로 계속")
-                vj["xtr_note"] = f"{endpoint} 처리에 실패해서 그 단계는 빠졌어."
+                vj["xtr_note"] = ("배경 빼기 처리에 실패해서 그 단계는 빠졌어." if endpoint == "bgrm"
+                                  else f"{endpoint} 처리에 실패해서 그 단계는 빠졌어.")
+                bnote = None
 
     if not done:
         if phase == "post":
@@ -410,6 +495,20 @@ def main():
         if not pv and os.path.getsize(prev) <= GIT_FALLBACK_MAX:
             shutil.copyfile(prev, os.path.join(outdir, "preview.webm"))
             pv = f"ly_out/{vid_id}/preview.webm"
+    sk = ""   # 스택 알파 미리보기(윈도우·아이폰 공통 진짜 투명) — 키는 **같은 출처 상대 경로**로 기록한다:
+    #   R2 공개 도메인은 CORS 헤더가 없어 WebGL이 그 영상을 텍스처로 못 읽는다(보안 오염) → 화면은 /ly_out/ 함수
+    #   (functions/_r2live.js = 같은 출처 R2 서빙)로 받는다. git 폴백도 같은 경로라 기록 값이 하나로 끝난다.
+    if stacked:
+        ok_ = False
+        try:
+            ok_ = bool(_upload(stacked[0], f"ly_out/{vid_id}/preview_stacked.mp4", "video/mp4"))
+        except Exception:
+            ok_ = False
+        if not ok_ and os.path.getsize(stacked[0]) <= GIT_FALLBACK_MAX:
+            shutil.copyfile(stacked[0], os.path.join(outdir, "preview_stacked.mp4"))
+            ok_ = True
+        if ok_:
+            sk = f"ly_out/{vid_id}/preview_stacked.mp4"
     if not url and not pv:
         log("업로드 실패 + git 폴백 초과 — 편집본 그대로 둔다")
         vj["xtr_note"] = "가림은 됐는데 결과를 못 올렸어 — 다시 생성해줘."
@@ -429,9 +528,20 @@ def main():
     vj["xtr"] = done
     if pv:
         vj["preview"] = f"{pv}?v={bust}"
+    for k_ in ("preview_stacked", "stacked_w", "stacked_h", "bgrm"):
+        vj.pop(k_, None)
+    if sk:
+        vj["preview_stacked"] = f"{sk}?v={bust}"
+        if stacked[1] > 1 and stacked[2] > 1:
+            vj["stacked_w"], vj["stacked_h"] = stacked[1], stacked[2]
+    if endpoint == "bgrm" and method:
+        vj["bgrm"] = {"method": ("mix" if (method == "keying" and scr) else "ai" if method == "keying" else "color"),
+                      "screen": (scr or {}).get("kind"), "color": (scr or {}).get("color")}
     if not url:
         vj["note"] = "master-lost"   # 뷰어가 정직 표시(다운로드용 알파 마스터 없음 · 화면 재생은 프리뷰) — track_keying·track_chroma 동일 문자열
     vj.pop("xtr_note", None)
+    if bnote:   # 배경 빼기 경로 설명(색 단독으로 간 이유) — pop 뒤라야 남는다 · 아래 무동작 검문이 더 급하면 그게 덮는다
+        vj["xtr_note"] = bnote
     # ⚠ 「조용한 무동작」 검문 — 자리가 계약이다. 바로 윗줄 pop이 **성공 회차의 사유까지 지우므로**
     #   이 판정은 반드시 pop **뒤**에 와야 한다(앞에 두면 쓰자마자 지워져 화면에 영영 안 뜬다).
     #   대상 = 알파를 만드는 두 축(크로마키·키잉) — 한 자리로 둘 다 덮는다. 엔진 쪽(track_chroma·track_keying)에
@@ -439,9 +549,9 @@ def main():
     #   실루엣(maskfx)은 프리뷰가 없어(LOCAL_OUT) 자연 제외 = 알파가 없는 산출이라 이 축의 대상이 아니다.
     #   전면 fail-soft = 측정이 실패하든 값이 애매하든 산출물·url은 무접촉이고 rc는 그대로 0.
     #   끄기 = EDIT_ALPHA_PROBE=0(종전 동작 100% 복귀).
-    if alpha and prev and endpoint in ("chroma", "keying") and os.environ.get("EDIT_ALPHA_PROBE", "1") != "0":
+    if alpha and prev and method in ("chroma", "keying") and os.environ.get("EDIT_ALPHA_PROBE", "1") != "0":
         try:
-            _an = _alpha_note(prev, endpoint)
+            _an = _alpha_note(prev, method)
             if _an:
                 vj["xtr_note"] = _an
         except Exception as e:
