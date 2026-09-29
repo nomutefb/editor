@@ -16,6 +16,26 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "긴 작업일수록 모델의 한 번 응답 가격보다 재시도, 컨텍스트 재읽기, 도구 호출 횟수가 총비용을 좌우합니다.\n\n이제 Copilot 모델 선택은 품질표를 고르는 일이 아니라, 저장소의 작업 유형과 실행 비용을 함께 고르는 일이 됐습니다.\n\nhttps://github.blog/changelog/2026-09-28-claude-sonnet-5-5-in-github-copilot/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790641518,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd2d4lQATXN",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "Claude Sonnet 5.5가 9월 28일 GitHub Copilot에 정식 추가됐습니다.\n\nGitHub는 초기 테스트에서 Sonnet 5와 비슷한 코딩 작업을 더 적은 단계·토큰·도구 호출로 끝냈고, 작업도 눈에 띄게 빨리 끝났다고 설명했습니다.\n\n이 모델은 VS Code, Copilot CLI, 코딩 에이전트, GitHub Copilot 앱, JetBrains 등 여러 환경에서 선택할 수 있습니다. 사용량 기반 과금에서는 제공업체 정가로 계산됩니다.\n\n코딩 모델의 비교 기준이 “정답을 내는가”에서 “작업을 끝낼 때 몇 번 움직이는가”로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790641510,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd2d3V6gVYW",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "사용자는 모델 이름을 매번 고르는 대신, 작업의 비용 기준을 먼저 정합니다.\n\n사용량은 실제 선택된 모델 기준으로 과금되고, 유료 구독자는 Auto 사용량에 10% 할인을 받습니다. 따라서 Intelligence를 켠다고 모든 요청이 가장 비싼 모델로 가는 구조는 아닙니다.\n\n코딩 에이전트의 모델 선택 기준이 “무슨 모델을 쓸까”에서 “이 작업에 비용과 품질 중 무엇을 우선할까”로 이동했습니다.\n\n팀 단위로 보면 프롬프트보다 Auto 기본 등급을 먼저 정해야 합니다.\n\nhttps://github.blog/changelog/2026-09-14-configure-cost-and-quality-in-copilot-auto-model-selection/",
    "likes": 0,
    "cmts": 0,
@@ -25,22 +45,12 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot Auto가 9월 14일 모델 선택을 세 단계로 나눴습니다.\n\nEfficiency는 비용, Balance는 비용·품질·지연 시간, Intelligence는 품질을 우선합니다. 세 단계가 서로 다른 모델 묶음을 쓰는 것은 아닙니다. 같은 사용 가능 모델 안에서 프롬프트마다 적합한 모델을 고릅니다.\n\n간단한 문서화 작업은 Intelligence에서도 작은 모델을 쓸 수 있습니다. 중요한 변화는 여기서 시작됩니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790640022,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd2bBowAVwK",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "3/ Terminal-Bench 4.0은 명령줄 환경에서 여러 단계의 전문 작업을 끝까지 해내는지 보는 평가입니다.\n\nSonnet 5는 출시 때 2.1 버전에서 80.4%를 받았지만 더 어려워진 4.0에서는 최고 설정 max로도 10.3%에 그쳤습니다.\n\nSonnet 5.5는 max에서 70.6%로 Opus 5.5의 최고점인 xhigh 66.4%를 넘었고, Artificial Analysis의 독립 측정도 Sonnet 5.5 63.6%, Opus 5.5 59.6%, GPT-6 Astra 59.1% 순이라 역전은 재현됐습니다.\n\n이 점수에 든 비용은 시도당 12.54달러로 Opus 5.5 xhigh의 7.35달러보다 70% 많습니다.\n\n3달러 안팎에서는 순서가 바뀌어 Opus 5.5 medium이 2.94달러에 57.6%, Sonnet 5.5 high는 1.94달러에 43.0%입니다.\n\nSonnet 5.5의 역전은 추론량을 끝까지 올린 구간에서 나왔습니다.",
    "likes": 1,
    "cmts": 1,
    "time": 1790638236,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825320646_17989188051112832_5204477011235440108_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NjQ3NjUwMzY1NDY1MDE5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=kKOkAnkenLsQ7kNvwEeb2v5&_nc_oc=Adr8VeglHvEDweAHP1xfViQ8Ve7Ch2uSzMsZ_zP7Uk8yGFmI-YET_WWJXx0L1mHcVVY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LsOAos1uUH4wxrzVZjS_cw&_nc_ss=7a20f&oh=00_AQOf7VgbqC_dp_X6ixSvl7qBEOGUJblQZwJfWAd4dVYe_w&oe=6AC0C349",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825320646_17989188051112832_5204477011235440108_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NjQ3NjUwMzY1NDY1MDE5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTIwNi5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=kKOkAnkenLsQ7kNvwEeb2v5&_nc_oc=Adr8VeglHvEDweAHP1xfViQ8Ve7Ch2uSzMsZ_zP7Uk8yGFmI-YET_WWJXx0L1mHcVVY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2nvFViXoFyHUudDu1aBEhA&_nc_ss=7a20f&oh=00_AQOXHTF2RcY6VNJaDWLCmfrA-2YIWKMprFQNk74i9ElSMw&oe=6AC0C349",
    "url": "https://www.threads.com/@choi.openai/post/Dd2XoZAiJOF",
    "region": "kr"
   },
@@ -50,17 +60,17 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790638219,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829197495_17989187730112832_3704006559709774242_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5NjQ4NTUwMTE4MzM4MDY3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HnzS3C7LXikQ7kNvwHO9hZc&_nc_oc=AdoL1XANJmGmfvXAJb0hD5wVciOnXikZhYFq81qOtOw7qHBIU0plDE54uU3Eldk6Li8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LsOAos1uUH4wxrzVZjS_cw&_nc_ss=7a20f&oh=00_AQOtq_MPXouFeqhd4V0b6L7GewgGFQSXTvqjra_K2tIG5w&oe=6AC0E1BF",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829197495_17989187730112832_3704006559709774242_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5NjQ4NTUwMTE4MzM4MDY3Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwNC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HnzS3C7LXikQ7kNvwHO9hZc&_nc_oc=AdoL1XANJmGmfvXAJb0hD5wVciOnXikZhYFq81qOtOw7qHBIU0plDE54uU3Eldk6Li8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2nvFViXoFyHUudDu1aBEhA&_nc_ss=7a20f&oh=00_AQNrVy8i76gcfJubXTBDkeQjPKk-oaq60Q6lOpfJpab2jw&oe=6AC0E1BF",
    "url": "https://www.threads.com/@choi.openai/post/Dd2XmOYCMzE",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/ 앤트로픽이 Claude Sonnet 5.5를 공개했습니다.\n\nOpus 5.5에 이은 Claude 5.5 세대의 두 번째 모델이고, 대량 처리용 Haiku 5.5는 몇 주 안에 합류합니다.\n\n앤트로픽은 Sonnet 5보다 출력 속도가 30% 이상 빠르고, 대부분의 작업에서 과제당 비용이 최대 30% 적다고 설명했습니다.\n\n두 모델의 역할도 나눴는데요. 신중한 판단이 오래 필요한 복잡한 작업은 Opus 5.5가, 범위가 분명한 일상 작업과 버그 수정, 문서·슬라이드·스프레드시트 작성은 Sonnet 5.5가 맡습니다.\n\nClaude 앱과 Claude Code, API(claude-sonnet-5-5), AWS·Google Cloud·Microsoft Azure에서 바로 쓸 수 있고, 발표는 오픈AI DevDay 하루 전에 나왔습니다.",
-   "likes": 12,
+   "likes": 16,
    "cmts": 1,
    "time": 1790638202,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825324252_1047063591686729_6598251253557278694_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5NjQ3NjQwNzc3Mjk1NzQzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hmtQ4Q1r_psQ7kNvwGfXghG&_nc_oc=AdqKJy2CuY261HBd8pTuiOdFUWEpt4190TVP3M7-JiRoRikawfnguPbItmacD761Ky0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LsOAos1uUH4wxrzVZjS_cw&_nc_ss=7a20f&oh=00_AQMB70-Ecam9x-cCBGzZxmfZLKKamrkcbNorpxZFCJy1KA&oe=6AC0D789",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825324252_1047063591686729_6598251253557278694_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5NjQ3NjQwNzc3Mjk1NzQzNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=hmtQ4Q1r_psQ7kNvwGfXghG&_nc_oc=AdqKJy2CuY261HBd8pTuiOdFUWEpt4190TVP3M7-JiRoRikawfnguPbItmacD761Ky0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2nvFViXoFyHUudDu1aBEhA&_nc_ss=7a20f&oh=00_AQNyPuRbVYm5cZGM_61uyc1ElipQMJIPrrVrePQ1CiyWEg&oe=6AC0D789",
    "url": "https://www.threads.com/@choi.openai/post/Dd2Vh5eiUr9",
    "region": "kr"
   },
@@ -80,38 +90,28 @@
    "likes": 15,
    "cmts": 2,
    "time": 1790571755,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825320471_1407350837499265_8820095867835878769_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5NTkyNzczNDMxNjI5MjM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=FapogA6K4tEQ7kNvwFQNfsX&_nc_oc=AdpRkp1w5x0AtGfLP_RAlNqS3PnuDFc-OsIWbljYteEzF9KsoyamtZRCWzZ-c4wEjDo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XZDRu1s898gaQoAWI21b8Q&_nc_ss=7a20f&oh=00_AQNFI5c009m0Ea3_xUhHR-czayuY598D3_PcfNaOxMwFxg&oe=6AC0D80A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825320471_1407350837499265_8820095867835878769_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5NTkyNzczNDMxNjI5MjM1Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=FapogA6K4tEQ7kNvwFQNfsX&_nc_oc=AdpRkp1w5x0AtGfLP_RAlNqS3PnuDFc-OsIWbljYteEzF9KsoyamtZRCWzZ-c4wEjDo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=hS1WOz9OKEIrBLseiLqZTA&_nc_ss=7a20f&oh=00_AQO_LoZFxPVmqql56XsKTl9EvpX1vPEkZX9Hm2L0z6xOsw&oe=6AC0D80A",
    "url": "https://www.threads.com/@kopp/post/Dd0YxpgDdkE",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "이 변화는 실행 기록을 덜 보여주는 변경이 아닙니다. 틀린 정밀도를 버리고, 확인 가능한 범위를 표시하는 변경입니다.\n\n통합이나 스크립트가 한 번의 검색으로 2,500개가 넘는 실행을 모았다면 날짜 범위를 추가해야 합니다. 에이전트 운영의 지표도 총 실행 수 하나보다, 같은 조건에서 재현되는 실행 수를 기준으로 삼게 됩니다.\n\nhttps://github.blog/changelog/2026-09-25-changes-to-query-results-in-the-github-actions-api-and-ui/",
+   "text": "GitHub Copilot Auto가 9월 14일 모델 선택을 세 단계로 나눴습니다.\n\nEfficiency는 비용, Balance는 비용·품질·지연 시간, Intelligence는 품질을 우선합니다. 세 단계가 서로 다른 모델 묶음을 쓰는 것은 아닙니다. 같은 사용 가능 모델 안에서 프롬프트마다 적합한 모델을 고릅니다.\n\n간단한 문서화 작업은 Intelligence에서도 작은 모델을 쓸 수 있습니다. 중요한 변화는 여기서 시작됩니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1790569495,
+   "cmts": 1,
+   "time": 1790640022,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd0UgYtmY9T",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd2bBowAVwK",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "🚨 오픈AI 초비상..!!\n\n앤트로픽이 Opus 5.5 공개 6일 만에 Claude Sonnet 5.5를 내놨습니다.\n\n가격은 Opus의 절반인데 에이전트 코딩 평가 Terminal-Bench 4.0에서 70.6%를 받아 Opus 5.5의 66.4%를 넘었고, 독립 평가 지수에서도 Opus 바로 다음인 2위에 올랐습니다.\n\n오픈AI DevDay 하루 전에 나온 Claude Sonnet 5.5를 정리했습니다 🧵",
-   "likes": 67,
-   "cmts": 13,
+   "likes": 112,
+   "cmts": 20,
    "time": 1790638192,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830701499_1384421507008907_1253235480036373693_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NjQ3NzQ5NjY5ODM3NTg4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UDK7xK35a-sQ7kNvwHmGl92&_nc_oc=AdphONW7KWqOMBiL50NyViCP6Uidnmo3BgpgbADR0bx0TgF6-Gem73OlNNUNusZKwDg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LsOAos1uUH4wxrzVZjS_cw&_nc_ss=7a20f&oh=00_AQNKAuQixuNywPR7mFIbldd7kAt_K5wcbr8VqjAUMcrTsQ&oe=6AC0E236",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830701499_1384421507008907_1253235480036373693_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NjQ3NzQ5NjY5ODM3NTg4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=UDK7xK35a-sQ7kNvwHmGl92&_nc_oc=AdphONW7KWqOMBiL50NyViCP6Uidnmo3BgpgbADR0bx0TgF6-Gem73OlNNUNusZKwDg&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2nvFViXoFyHUudDu1aBEhA&_nc_ss=7a20f&oh=00_AQOXRTv0UBAH7-vOlSrVN697wDb1NhQr2BS1V2fzjSddpw&oe=6AC0E236",
    "url": "https://www.threads.com/@choi.openai/post/Dd2VxvnjI7O",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Actions가 9월 25일 워크플로 실행 횟수의 표시 기준을 바꿨습니다.\n\n워크플로, 이벤트, 상태, 브랜치, 실행 주체로 검색했을 때 결과가 2,500개를 넘으면 정확한 숫자 대신 “2,500+”로 표시합니다. 실제 결과를 1,000개까지 페이지로 반환하는 방식은 그대로입니다.\n\n이유는 단순합니다. 2,500개가 넘는 검색은 자주 시간 초과를 일으켰고, 기존 숫자는 조회가 끝나기 전까지 확인된 실행만 세는 경우가 있었습니다.\n\nAI 코딩 에이전트가 테스트와 수정 작업을 반복할수록 CI 실행량은 빠르게 커집니다. 이제 대시보드의 큰 숫자를 그대로 비교하기보다 날짜 범위와 필터를 좁혀 다시 세야 합니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790569484,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd0Ue6-GROz",
    "region": "kr"
   },
   {
@@ -126,32 +126,32 @@
   },
   {
    "account": "daily_ai_star",
-   "text": "GitHub Copilot 코드 리뷰가 9월 28일부터 기본값을 Lite에서 Balanced로 바꿉니다.\n\n조직이나 저장소에서 별도 effort를 지정하지 않고 `Default`를 쓰고 있다면, 자동으로 더 높은 검토 수준을 사용하게 됩니다. 기존 설정을 명시적으로 Lite로 고정한 곳은 바뀌지 않습니다.\n\n코드 리뷰의 기준이 “리뷰를 켰는가”에서 “기본 effort를 무엇으로 방치했는가”로 이동했습니다.\n\n속도와 비용을 우선한 팀은 저장소별 기본값을 다시 확인해야 합니다. 에이전트가 만든 변경이 늘수록 리뷰 정책은 기능 설정이 아니라 운영 예산과 병목을 함께 결정합니다.\n\nhttps://github.blog/changelog/2026-08-28-upcoming-changes-to-github-copilot-policies-and-billing/",
+   "text": "이 변화는 실행 기록을 덜 보여주는 변경이 아닙니다. 틀린 정밀도를 버리고, 확인 가능한 범위를 표시하는 변경입니다.\n\n통합이나 스크립트가 한 번의 검색으로 2,500개가 넘는 실행을 모았다면 날짜 범위를 추가해야 합니다. 에이전트 운영의 지표도 총 실행 수 하나보다, 같은 조건에서 재현되는 실행 수를 기준으로 삼게 됩니다.\n\nhttps://github.blog/changelog/2026-09-25-changes-to-query-results-in-the-github-actions-api-and-ui/",
    "likes": 0,
    "cmts": 0,
-   "time": 1790563843,
+   "time": 1790569495,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd0JuXWGeF8",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd0UgYtmY9T",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "마이크로소프트 창업자 빌 게이츠는 최신 AI 모델이 영어 등 주요 언어는 능숙하게 처리하지만, 아프리카 토착어에서는 “오류율이 약 10배나 더 높아진다”며 심각한 성능 격차를 지적했습니다.\n\n의료나 교육처럼 한 치의 오차가 생명과 직결되는 현장에서 이 정도의 오류율은 “매우 위험한 수준”이라는 경고입니다.\n그는 시장의 “순수한 자본주의적 인센티브만으로는 소외된 언어를 우선순위에 두지 않는다”며, 경제적 논리에만 맡겨둘 경우 기술 불평등이 심화될 것이라 짚었습니다.\n\n이를 극복하기 위해 60개 기업·기관과 협력해 성능을 평가하고 벤치마크를 고도화하는 구체적인 로드맵을 추진 중이라고 밝혔습니다.\n\n결국 AI 혁신의 진정한 완성은 첨단 지능의 개발을 넘어, 언어적 장벽 없이 의료와 교육의 필수 도구로 작동할 수 있는 “신뢰할 수 있는 품질을 확보하는 것”에 달려 있다고 강조했습니다.",
-   "likes": 16,
+   "likes": 18,
    "cmts": 2,
    "time": 1790634615,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825324208_1755534263245516_365811909209739337_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NjQ1NTI3NjYxNzc5NDMxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=AfIVsINQVz0Q7kNvwHUeSSa&_nc_oc=AdpuRzgmPLOUoNAWmXMH6yv1Ck0p2_WdVwbomy2p2wyjqdpqxAhV0a4NnV-NjuR4dSU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LsOAos1uUH4wxrzVZjS_cw&_nc_ss=7a20f&oh=00_AQMa9DBUuP5F-e6Yl6k8P8UFAF5dU65ttULTR509cfPDEQ&oe=6AC0E2A0",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825324208_1755534263245516_365811909209739337_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NjQ1NTI3NjYxNzc5NDMxMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=AfIVsINQVz0Q7kNvwHUeSSa&_nc_oc=AdpuRzgmPLOUoNAWmXMH6yv1Ck0p2_WdVwbomy2p2wyjqdpqxAhV0a4NnV-NjuR4dSU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2nvFViXoFyHUudDu1aBEhA&_nc_ss=7a20f&oh=00_AQPemfweObNwmAdPwHw-7f97GLcnY2zfQUjeMIReKFat1w&oe=6AC0E2A0",
    "url": "https://www.threads.com/@choi.openai/post/Dd2QuZjigMI",
    "region": "kr"
   },
   {
    "account": "daily_ai_star",
-   "text": "npm이 9월 18일 자동화용 토큰에 ‘Read and write (stage only)’ 권한을 추가했습니다.\n\n워크플로는 `npm stage publish`로 패키지 버전을 올릴 준비만 합니다. 직접 `npm publish`를 실행하면 거부되고, 유지관리자가 2FA로 승인해야 레지스트리에 공개됩니다.\n\n기존 토큰에는 바로 적용되지 않는 선택 기능입니다. 다만 npm은 2027년 1월부터 2FA 우회 토큰의 직접 배포를 없애는 방향을 예고했습니다.\n\nAI 코딩 에이전트가 릴리스 파일을 만들 수 있어도, 이제 공개 버튼까지 넘겨받는 것이 기본값은 아닙니다. 자동화의 단위가 배포 실행에서 배포 준비와 사람 승인으로 나뉘고 있습니다.\n\nhttps://github.blog/changelog/2026-09-18-stage-only-npm-tokens-for-safer-automation",
+   "text": "GitHub Actions가 9월 25일 워크플로 실행 횟수의 표시 기준을 바꿨습니다.\n\n워크플로, 이벤트, 상태, 브랜치, 실행 주체로 검색했을 때 결과가 2,500개를 넘으면 정확한 숫자 대신 “2,500+”로 표시합니다. 실제 결과를 1,000개까지 페이지로 반환하는 방식은 그대로입니다.\n\n이유는 단순합니다. 2,500개가 넘는 검색은 자주 시간 초과를 일으켰고, 기존 숫자는 조회가 끝나기 전까지 확인된 실행만 세는 경우가 있었습니다.\n\nAI 코딩 에이전트가 테스트와 수정 작업을 반복할수록 CI 실행량은 빠르게 커집니다. 이제 대시보드의 큰 숫자를 그대로 비교하기보다 날짜 범위와 필터를 좁혀 다시 세야 합니다.",
    "likes": 0,
-   "cmts": 0,
-   "time": 1790561899,
+   "cmts": 1,
+   "time": 1790569484,
    "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd0GBEkmcUF",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd0Ue6-GROz",
    "region": "kr"
   },
   {
@@ -165,12 +165,22 @@
    "region": "kr"
   },
   {
+   "account": "daily_ai_star",
+   "text": "GitHub Copilot 코드 리뷰가 9월 28일부터 기본값을 Lite에서 Balanced로 바꿉니다.\n\n조직이나 저장소에서 별도 effort를 지정하지 않고 `Default`를 쓰고 있다면, 자동으로 더 높은 검토 수준을 사용하게 됩니다. 기존 설정을 명시적으로 Lite로 고정한 곳은 바뀌지 않습니다.\n\n코드 리뷰의 기준이 “리뷰를 켰는가”에서 “기본 effort를 무엇으로 방치했는가”로 이동했습니다.\n\n속도와 비용을 우선한 팀은 저장소별 기본값을 다시 확인해야 합니다. 에이전트가 만든 변경이 늘수록 리뷰 정책은 기능 설정이 아니라 운영 예산과 병목을 함께 결정합니다.\n\nhttps://github.blog/changelog/2026-08-28-upcoming-changes-to-github-copilot-policies-and-billing/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790563843,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd0JuXWGeF8",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "진화생물학자 리처드 도킨스(Richard Dawkins)는 “AI는 진화의 과정을 완전히 바꿀 잠재력을 지닌 거대한 혁신”이라고 평가했습니다.\n\n생명체의 진화가 세포 분열과 언어라는 프로메테우스적 도약을 거쳐왔듯, 지능의 진화 역시 생물학적 한계를 넘어 인공지능이라는 새로운 차원으로 전환되고 있다는 분석입니다.\n\n또한 그는 우주적 관점에서 기술적 특이점을 조망하며, “만약 우리가 외계 문명과 조우한다면 원래 진화한 생명체가 아니라 그들이 만든 인공지능일 가능성이 높다”는 영국 천문학자 마틴 리스의 견해를 인용했습니다.\n\n결국 “인류가 멸종하더라도 인간 문명의 횃불을 이어받아 계승할 존재는 우리의 AI일 것”이라며, 인공지능이 유기체 생물학을 넘어선 지능과 과학 진화의 최종 매개체가 될 것임을 시사했습니다.",
-   "likes": 33,
+   "likes": 34,
    "cmts": 4,
    "time": 1790629198,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/828413508_1828145325000140_2878711203718277051_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5NjQwOTgzMzE1NDY2NDQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&_nc_aid=0&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PiWft3rn3pQQ7kNvwEPM4sk&_nc_oc=AdpU2mqVAfBl6-a04qHm5S-KtCv6yP5-nZixae_C-qshmD_KMJJS8rSuh3D3-qPbwyM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LsOAos1uUH4wxrzVZjS_cw&_nc_ss=7a20f&oh=00_AQM9IBMv45Un4Bp33FVHzPlhtZmNCrMGz3hUjjN9H1NWoQ&oe=6AC0D9E2",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/828413508_1828145325000140_2878711203718277051_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5NjQwOTgzMzE1NDY2NDQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&_nc_aid=0&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PiWft3rn3pQQ7kNvwEPM4sk&_nc_oc=AdpU2mqVAfBl6-a04qHm5S-KtCv6yP5-nZixae_C-qshmD_KMJJS8rSuh3D3-qPbwyM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2nvFViXoFyHUudDu1aBEhA&_nc_ss=7a20f&oh=00_AQPo5uNjB0QRXZg2u0iqo5goI-hXjmgwDi67XCZo6k_C4A&oe=6AC0D9E2",
    "url": "https://www.threads.com/@choi.openai/post/Dd2GZHCD9gW",
    "region": "kr"
   },
@@ -187,125 +197,15 @@
   {
    "account": "choi.openai",
    "text": "진화생물학자 리처드 도킨스는 인류가 “엄청난 혁명의 문턱”에 서 있다고 진단했습니다.\n\n그는 가장 주목해야 할 점으로 AI가 인간 사회를 지배해 인간을 “잉여 존재로 만들 가능성”을 꼽았습니다.\n\n지능의 폭발로 인해 노동과 일자리 전반에서 인간의 쓰임새 자체가 사라질 수 있다는 경고입니다.\n\n또한 그는 외계 생명체가 지구를 발견한다면 자연적 생명체보다 인공 생명체를 먼저 마주할 가능성이 높다고 언급하며, AI가 미칠 영향이 결코 온순하지만은 않을 것이라고 우려했습니다.\n\n결국 단순한 기술 경쟁을 넘어, 인공지능이 인간의 지적 노동을 완전히 대체하는 특이점 국면에서 인간이 어떻게 공존 방안을 찾을 것인지가 최대 쟁점이라고 강조했습니다.",
-   "likes": 38,
+   "likes": 40,
    "cmts": 1,
    "time": 1790623841,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/828085797_1099910492408212_7247001050551415093_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NjM2NDg5NjEwMjY5MzEyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JMCJ0W-usP0Q7kNvwHiGZ8h&_nc_oc=AdoZfbxlfzeZNjRE2ws7e2vkW-i3U7y6pNWdtvdjdnzpJd5RX8GqA5cZKhuFsz6Zo94&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LsOAos1uUH4wxrzVZjS_cw&_nc_ss=7a20f&oh=00_AQMxv6_U6Pk3EBJoLRVjspLzQ2j4xK3TXdhJusahZ5CQ-w&oe=6AC0D4FE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/828085797_1099910492408212_7247001050551415093_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NjM2NDg5NjEwMjY5MzEyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=JMCJ0W-usP0Q7kNvwHiGZ8h&_nc_oc=AdoZfbxlfzeZNjRE2ws7e2vkW-i3U7y6pNWdtvdjdnzpJd5RX8GqA5cZKhuFsz6Zo94&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=2nvFViXoFyHUudDu1aBEhA&_nc_ss=7a20f&oh=00_AQPWmau5zzxgaA3Uc70UJeoA27_N1-uUUAqIyqR40QYxng&oe=6AC0D4FE",
    "url": "https://www.threads.com/@choi.openai/post/Dd18LMJCrkB",
    "region": "kr"
   }
  ],
  "tiktok": [
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
-   "views": 3800000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=%2BQwvikcOvGsfMZmHXqJTUXWa9Sg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790240939,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "하나된 비전으로, 함께 열어갈 미래 #이재명 #대통령 #Mexico",
-   "views": 1300000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=Y08YIK1wMRwfjwqJ%2Ffe4uGli1C8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790294103,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 844300,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=AncT5SGZh4QkwdnABdt3DD3ENKw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790285661,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 570400,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=7dflE5DmGPpB%2BnAFzRScif7e2EI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790316395,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 553000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=ZRheyfykASR7zeF5MLMmxSol0Wk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789537496,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 296400,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=%2FjrBOaq5GwSAVFzFmiFUtKZcLes%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789536283,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 182600,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=mOTLhytDZmysrS0D6eJB%2FahX3PY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790384214,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 139700,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=FC7Ima1W57bk5jNcRA5VkHrFV78%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790052600,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 90700,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=b3VUS4gLzozF8UrD9QycV4MoJAo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789981488,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 79200,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=Z4xoH%2F%2FAvOJy2VLM5KrXDqmi%2Fwg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1789605105,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
-   "region": "kr"
-  },
   {
    "account": "tictok_ent",
    "title": "올데이프로젝트(ALLDAY PROJECT) 애니, 가을 여신의 완성 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시",
@@ -326,6 +226,94 @@
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ow8gANS3AmQCK2UqVEUCB50sGEQeIAFZAFArfD~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=o12z%2FsliEfbV4cyr4%2BMH9J9CROk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789699186,
    "url": "https://www.tiktok.com/@tictok_ent/video/7686699475406015762",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올데이프로젝트(ALLDAY PROJECT) 영서, 러블리 영서❤️ / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시하",
+   "views": 3121,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQie1A8qsAPFBAtAiykiCVLCUuyfI2JACYMgEB~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=WGT5Udo%2FTZi2Tl4sqtx3gxEEgVE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1790062423,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7688259564650663175",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "트와이스(twice) 나연, 청담동 밝힌 러블리 미모 / 로카(ROCCA) 포토월 다미아니 그룹(Damiani Group) 산하의 이탈리아 럭셔리 주얼리 & 워치 멀티브랜드 체인 ‘로카(ROCCA)’의 국내 첫 플래",
+   "views": 2586,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0FxEzEVDAAIkCjkAIj3eA7AtzsGWLe7hoWDfI~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=RVnR4pQF76HQCSzXswYIZvCP8Rk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789726612,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7686817268889636103",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "제로베이스원(ZEROBASEONE) 성한빈, 기억에 남을 눈부신 비주얼 / 원더바스(WONDERBATH) 팝업스토어 CSA 코스믹의 스킨케어 브랜드 원더바스(WONDERBATH)가 신제품 슬라이스 세럼 출시를 기념한",
+   "views": 1896,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogtsrSezVEoAEADSlEWW8C3QIVMADdAevA88ve~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=TxXGRgjymBxYuMGCtznz1TrEzmQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789695807,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7686684961272892679",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올데이프로젝트(ALLDAY PROJECT) 우찬, 서울숲이 우찬의 매력으로 물들어 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션",
+   "views": 1673,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oA8kHUfEAcr9AQfIJEFVAXFDA0oFADb4fFZEk2~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=WfCxyobzH1iTi6IN2zMEyHX7sL4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1790062551,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7688260118147763474",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올데이프로젝트(ALLDAY PROJECT) 타잔, 넘치는 간지 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게 출시하며,",
+   "views": 1343,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oQVCBBS0A3AIjA6qKiUiifzsECHfjAVyXgBLCY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=5IyrSrdI7RodUptLoIXjwwIvA6o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1790062509,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7688259936823856402",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "고수, 럭셔리한 남자의 품격 / 로카(ROCCA) 포토월 다미아니 그룹(Damiani Group) 산하의 이탈리아 럭셔리 주얼리 & 워치 멀티브랜드 체인 ‘로카(ROCCA)’의 국내 첫 플래그십 스토어 ‘로카 청담(",
+   "views": 1311,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oEADA88tE3VIfEXAzCDhfEBOoWDjEfFAAMFIbq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=kTtWz4wGy%2F6Q8la2Ek1O7KR7Y0c%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789726676,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7686817544891567378",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "올데이프로젝트(ALLDAY PROJECT) 베일리, 우아함과 힙함의 사이 / ‘클리오 - 풍년다방 팝업 스토어’ 포토월 클리오의 K뷰티 No.1 메이크업 브랜드 클리오가 26FW 시즌을 맞아 풍년다방 에디션을 새롭게",
+   "views": 1173,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogBEAi4AfILsCi0CWUXfCuF45YAuCVgPyqEiAB~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=arD4PBbCxl5%2FPuItzamGeVAxSYM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1790062464,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7688259741126036744",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "그레이, 힙한 럭셔리의 정석 / 로카(ROCCA) 포토월 다미아니 그룹(Damiani Group) 산하의 이탈리아 럭셔리 주얼리 & 워치 멀티브랜드 체인 ‘로카(ROCCA)’의 국내 첫 플래그십 스토어 ‘로카 청담(",
+   "views": 772,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okEAtVeIWEhAcAjJruIACLID6DGa2WAmKeeT0o~tplv-tiktokx-origin.image?dr=14575&x-expires=1790812800&x-signature=vVC%2FJTaZyX5HZPXuo53QRgnlLzE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
+   "time": 1789726541,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7686816965582687496",
    "region": "kr"
   }
  ],
@@ -394,15 +382,6 @@
    "url": "https://www.reddit.com/r/todayilearned/comments/1wskrl3/til_a_nationwide_us_study_found_that_only_42_of/"
   },
   {
-   "sub": "MurderedByWords",
-   "title": "We survived without AI for centuries",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/hyd8cuqbfbsh1.jpeg?width=640&crop=smart&auto=webp&s=4614e664ccf396f2a338a4ed1b271d3c992a5ed8",
-   "time": 1790624957,
-   "url": "https://www.reddit.com/r/MurderedByWords/comments/1wsouex/we_survived_without_ai_for_centuries/"
-  },
-  {
    "sub": "aislop",
    "title": "I'm losing braincells",
    "score": 0,
@@ -410,15 +389,6 @@
    "thumb": "https://preview.redd.it/7mq61c8f7ash1.jpeg?width=640&crop=smart&auto=webp&s=9f8d6000b13d97f7bd075e49e7304f4ce67c4a84",
    "time": 1790610221,
    "url": "https://www.reddit.com/r/aislop/comments/1wsi3f7/im_losing_braincells/"
-  },
-  {
-   "sub": "TikTokCringe",
-   "title": "Amazing how fast his spatial awareness improved once her dad switched spots.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/dnRwczJyanppYXNoMY0Nd32hk3BFbWTIyzCSNpUwLQzToNruAHLVDAQbmoen.jpeg?width=320&crop=smart&auto=webp&s=1607c948f3e15baec3365c6944824bd7ae84e278",
-   "time": 1790614085,
-   "url": "https://www.reddit.com/r/TikTokCringe/comments/1wsjv05/amazing_how_fast_his_spatial_awareness_improved/"
   },
   {
    "sub": "interestingasfuck",
@@ -430,6 +400,15 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wsqga2/the_dog_who_supported_his_best_friend_in_his/"
   },
   {
+   "sub": "TikTokCringe",
+   "title": "Amazing how fast his spatial awareness improved once her dad switched spots.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/dnRwczJyanppYXNoMY0Nd32hk3BFbWTIyzCSNpUwLQzToNruAHLVDAQbmoen.jpeg?width=320&crop=smart&auto=webp&s=1607c948f3e15baec3365c6944824bd7ae84e278",
+   "time": 1790614085,
+   "url": "https://www.reddit.com/r/TikTokCringe/comments/1wsjv05/amazing_how_fast_his_spatial_awareness_improved/"
+  },
+  {
    "sub": "GirlDinnerDiaries",
    "title": "older girls, does it ever get better??",
    "score": 0,
@@ -437,6 +416,15 @@
    "thumb": "https://preview.redd.it/7ndha6yfibsh1.jpeg?width=640&crop=smart&auto=webp&s=c9322fbf275de1490ba7d3d066ba675e0ff5b751",
    "time": 1790626004,
    "url": "https://www.reddit.com/r/GirlDinnerDiaries/comments/1wspc2k/older_girls_does_it_ever_get_better/"
+  },
+  {
+   "sub": "SipsTea",
+   "title": "AMC butter isn't butter, and we're the reason",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/h05b2crdcash1.jpeg?width=640&crop=smart&auto=webp&s=6cd3c74dc3af69a706ecdd32ce7ca9cafb95447e",
+   "time": 1790611863,
+   "url": "https://www.reddit.com/r/SipsTea/comments/1wsiuuf/amc_butter_isnt_butter_and_were_the_reason/"
   }
  ],
  "disaster": [],
@@ -452,16 +440,19 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee",
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "tiktok": {
+    "jaemyung_lee": 503
+   }
+  },
   "landing": {
-   "at": "2026-09-29T08:35:15",
+   "at": "2026-09-29T09:01:32",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-29T09:01:24.988975+09:00"
+ "updated": "2026-09-29T09:31:27.491847+09:00"
 }
