@@ -555,5 +555,90 @@ class RefineFlow(unittest.TestCase):
         self.assertEqual(len(list((d / 'calls').iterdir())), 2)
 
 
+class GrokRateLimit(unittest.TestCase):
+    """260929 실측 — 참조 발사 「거절」의 진짜 사유 = 429 resource-exhausted(동시 발사 한도) → 쉬었다 같은 요청 · 사다리 칸을 막지 않는다."""
+
+    def test_429_retries_same_reference_launch(self):
+        import types
+        from unittest import mock
+        import ys_grok
+        try:
+            import test_ys_hero as th
+        except ImportError:
+            from tests import test_ys_hero as th
+        d = Path(tempfile.mkdtemp())
+        img, vid = d / 'img', d / 'vid'
+        img.mkdir()
+        (d / 'audio').mkdir()
+        (img / 'hero.png').write_bytes(th.HERO_B)
+        (img / 'board.png').write_bytes(th.BOARD_B)
+        (d / 'plan.json').write_text(json.dumps(th.PLAN2))
+        (d / 'audio/timing.json').write_text(json.dumps({'scenes': [{'dur': 7.2, 'sents': []}, {'dur': 4.1, 'sents': []}]}))
+        calls, sleeps = [], []
+
+        class E(RuntimeError):
+            code, where = 429, 'video-start'
+
+        def start_video(prompt, **k):
+            calls.append(bool(k.get('refs')))
+            if len(calls) == 1:
+                raise E('[video-start HTTP 429] {"code":"resource-exhausted","error":"Too many requests for team"}')
+            return f'r{len(calls)}'
+        fake = types.SimpleNamespace(fresh_token=lambda: 'tok', start_video=start_video,
+                                     wait_video=lambda rid, **k: {'url': 'u', 'cost_usd': 1.0}, fetch=lambda url: b'mp4')
+        with mock.patch.dict(sys.modules, {'grok_api': fake}), mock.patch.object(ys_grok, 'progress', lambda *a, **k: None), \
+                mock.patch.object(ys_grok, 'strip_audio', lambda a, b: Path(b).write_bytes(b'x' * 20000) > 0), \
+                mock.patch.object(ys_grok, 'PAR', 1), \
+                mock.patch.object(ys_grok.time, 'sleep', lambda s: sleeps.append(s)), mock.patch.dict(os.environ, {'XAI_REFRESH_TOKEN': 't'}):
+            ys_grok.main(['x', '260929000000-abcdef', str(d / 'plan.json'), str(d / 'audio/timing.json'), str(img), str(vid), '9:16'])
+        v = json.loads((vid / 'vid.json').read_text(encoding='utf-8'))
+        self.assertEqual(v['modes'], {'r2v': 2}, v)                                        # 한도 초과 = 참조를 버리지 않는다
+        self.assertEqual((v['rate_waits'], v['ref_err']), (1, ''))
+        self.assertTrue(calls[0] and calls[1])                                            # 같은 참조 요청 그대로 재발사
+        self.assertIn(15, sleeps)
+
+    def test_429_exhausted_does_not_block_reference_rung(self):
+        v, calls = self._run(fail_first=4)                                                 # 첫 발사 + 재시도 3회 모두 429
+        self.assertEqual(v['rate_waits'], 3, v)
+        self.assertTrue(v['ref_err'].startswith('한도 초과(429)'), v['ref_err'])
+        self.assertIn('1', v['ref_how'], v)                                                 # 다음 장면은 여전히 참조로 발사(칸 막힘 X)
+        self.assertTrue(calls[-1])
+
+    def _run(self, fail_first):
+        import types
+        from unittest import mock
+        import ys_grok
+        try:
+            import test_ys_hero as th
+        except ImportError:
+            from tests import test_ys_hero as th
+        d = Path(tempfile.mkdtemp())
+        img, vid = d / 'img', d / 'vid'
+        img.mkdir()
+        (d / 'audio').mkdir()
+        (img / 'hero.png').write_bytes(th.HERO_B)
+        (img / 'board.png').write_bytes(th.BOARD_B)
+        (d / 'plan.json').write_text(json.dumps(th.PLAN2))
+        (d / 'audio/timing.json').write_text(json.dumps({'scenes': [{'dur': 7.2, 'sents': []}, {'dur': 4.1, 'sents': []}]}))
+        calls = []
+
+        class E(RuntimeError):
+            code, where = 429, 'video-start'
+
+        def start_video(prompt, **k):
+            calls.append(bool(k.get('refs')))
+            if len(calls) <= fail_first:
+                raise E('[video-start HTTP 429] {"code":"resource-exhausted"}')
+            return f'r{len(calls)}'
+        fake = types.SimpleNamespace(fresh_token=lambda: 'tok', start_video=start_video,
+                                     wait_video=lambda rid, **k: {'url': 'u', 'cost_usd': 1.0}, fetch=lambda url: b'mp4')
+        with mock.patch.dict(sys.modules, {'grok_api': fake}), mock.patch.object(ys_grok, 'progress', lambda *a, **k: None), \
+                mock.patch.object(ys_grok, 'strip_audio', lambda a, b: Path(b).write_bytes(b'x' * 20000) > 0), \
+                mock.patch.object(ys_grok, 'PAR', 1), \
+                mock.patch.object(ys_grok.time, 'sleep', lambda s: None), mock.patch.dict(os.environ, {'XAI_REFRESH_TOKEN': 't'}):
+            ys_grok.main(['x', '260929000000-abcdef', str(d / 'plan.json'), str(d / 'audio/timing.json'), str(img), str(vid), '9:16'])
+        return json.loads((vid / 'vid.json').read_text(encoding='utf-8')), calls
+
+
 if __name__ == '__main__':
     unittest.main()

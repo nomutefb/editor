@@ -44,6 +44,7 @@ BOARD_NOTE = ("the director's storyboard for the whole video, panels in reading 
 SHOT_LEAD = re.compile(r'(?i)^(?:an?\s+|the\s+)?(?:extreme\s+|medium\s+|tight\s+|wide\s+|full\s+|low[- ]angle\s+|high[- ]angle\s+|overhead\s+|top[- ]down\s+)*'
                        r'(?:close[- ]?up|shot|view|angle|portrait|framing|still)\s+(?:of\s+)?')
 LIPS = 'Lips closed and still.'   # 소리 = 트랙 제거 + 나레이션 → 입이 움직이면 립싱크처럼 보인다(예전 콘티 레인 sound_clause(False) 짝)
+RATE_WAITS = (15, 30, 60)   # 429 resource-exhausted = 팀 동시 요청 한도(260929 실측 = 3장면 동시 발사에서 참조 발사가 「거절」된 진짜 사유) → 쉬었다 같은 요청
 EMBED_MAX = int(os.environ.get('YS_GROK_EMBED_MAX') or '900000')   # 참조를 본문에 싣는 상한(예전 콘티 레인 실측 = 주소 방식은 xAI 쪽 받기가 끊겨 편이 죽었다)
 
 
@@ -53,6 +54,12 @@ def progress(id_, st, note='', p=None):
         a.append(f'p={p:.3f}')
     with _plock:
         subprocess.run(a, check=False)
+
+
+def rate_limited(e):
+    """그록 한도 초과(일시) — 요청 자체의 문제가 아니라 같은 요청을 잠시 뒤 다시 쏘면 된다(참조 사다리 「막힌 칸」으로 세지 않는다)."""
+    s = str(e).lower()
+    return getattr(e, 'code', None) == 429 or 'http 429' in s or 'resource-exhausted' in s or 'too many requests' in s
 
 
 def seconds_for(dur):
@@ -241,7 +248,7 @@ def main(argv):
     lead = ('참조 모드(' + ' + '.join(x for x, k in (('스토리보드', 'board'), ('캐릭터 보드', 'hero')) if k in refs_raw) + ')') if refs_raw \
         else (f'첫 그림 {first_frames}장' if first_frames else '글→영상')
     progress(id_, 'run', f'그록 {total}장면 발사 · {lead} · 비트 {sum(len(b) for b in beats_of.values())}개', 0.02)
-    state = {'ok': 0, 'fin': 0, 'ref_bad': set(), 'ref_err': ''}
+    state = {'ok': 0, 'fin': 0, 'ref_bad': set(), 'ref_err': '', 'rate': 0}
     costs, fails, t2v, modes, sent, hows = [], [], [], {}, {}, {}
     refs_url = {k: f'{pub}/ys_img/{id_}/{k}.png' for k in refs_raw} if pub else {}   # 바이트가 막히면 주소로(xAI 가 직접 받는다)
 
@@ -289,8 +296,23 @@ def main(argv):
             prompt = prompt_for(sc, mode, hero_en, beats_of.get(i) if mode != 'i2v' else None, i, kinds)
             try:
                 sent[i] = prompt[:900]   # 실제로 나간 문장(판이 끝난 뒤 되짚기 · 예전 콘티 rec["prompt"] 선례)
-                rid = grok_api.start_video(prompt, token=tok, ratio=ratio, image=image, refs=refs, seconds=sec)
-                v = grok_api.wait_video(rid, token=tok, max_sec=max(30, int(left - 120)))
+                for w in (0,) + RATE_WAITS:   # 발사 = 한도 초과만 쉬었다 재시도(그 밖의 거절은 아래 사다리가 판정)
+                    if w:
+                        if t_end - time.time() < 150 + w:
+                            raise last_rate
+                        with _plock:
+                            state['rate'] += 1
+                        time.sleep(w + (i % 3) * 2)   # 동시 발사끼리 다시 부딪치지 않게 장면마다 조금씩 어긋나게
+                    try:
+                        rid = grok_api.start_video(prompt, token=tok, ratio=ratio, image=image, refs=refs, seconds=sec)
+                        break
+                    except Exception as e:  # noqa: BLE001
+                        if not rate_limited(e):
+                            raise
+                        last_rate = e
+                else:
+                    raise last_rate
+                v = grok_api.wait_video(rid, token=tok, max_sec=max(30, int(t_end - time.time() - 120)))   # 한도 초과로 쉰 시간만큼 줄인다
                 costs.append(float(v.get('cost_usd') or 0))   # 청구 = 완료 시점(받기·소리 제거가 깨져도 값은 기록)
                 raw = grok_api.fetch(v['url'])
                 with tempfile.NamedTemporaryFile(suffix='.mp4', delete=False) as f:
@@ -308,6 +330,10 @@ def main(argv):
                 where = getattr(e, 'where', '')
                 if getattr(e, 'dead_auth', False) or getattr(e, 'tier_blocked', False) or where == 'video-timeout':
                     break   # 자격·통로 막힘·서버 지연 = 같은 요청을 다시 쏴도 안 바뀐다
+                if rate_limited(e):   # 재시도까지 다 한 한도 초과 = 요청 탓이 아니다 → 사다리 칸을 「막힘」으로 적지 않고 다음 칸만 시도
+                    with _plock:
+                        state['ref_err'] = state['ref_err'] or f'한도 초과(429) · {last}'
+                    continue
                 if mode == 'r2v':
                     no_ref = where == 'video-moderated'   # 참조 그림째 검열 = 같은 그림 다른 방식도 막힌다 → 바로 첫 그림·글→영상
                     with _plock:
@@ -337,11 +363,13 @@ def main(argv):
     used = state['ok']
     cost = sum(costs)
     info.update({'modes': {m: sum(1 for v in modes.values() if v == m) for m in set(modes.values())}, 'plan_src': gp.get('src', ''),
-                 'ref_how': {str(k): v for k, v in sorted(hows.items())}, 'ref_err': state['ref_err'],
+                 'ref_how': {str(k): v for k, v in sorted(hows.items())}, 'ref_err': state['ref_err'], 'rate_waits': state['rate'],
                  'beats': sum(len(beats_of.get(i) or []) for i in range(total)), 'prompts': {str(k): v for k, v in sorted(sent.items())}})
     t2v_n = len([i for i, m in modes.items() if m == 't2v' and (out / f's{i}.mp4').exists()])
     if state['ref_err']:
         print(f"  참조 사다리 결과 = {info.get('ref_how') or '참조 성공 0'} · 거절 칸 {len(state['ref_bad'])}")
+    if state['rate']:
+        print(f"  그록 한도 초과(429) = 쉬었다 같은 요청 재발사 {state['rate']}회")
     t2v_note = '' if not t2v_n else (f' · 참조가 막힌 {t2v_n}장면은 글→영상' if refs_raw
                                      else ' · 스토리보드를 못 받아 글→영상으로 만들었어' if board_tried
                                      else ' · 맥이 꺼져 있어 첫 그림 없이 글→영상으로 만들었어' if not first_frames
