@@ -177,11 +177,137 @@ class HeroDriver(unittest.TestCase):
 class HeroGrokPrompt(unittest.TestCase):
     def test_t2v_defines_the_protagonist(self):
         s = {'img': 'the protagonist at a desk', 'motion': 'slow push-in', 'hero': True}
-        self.assertTrue(ys_grok.prompt_for(s, False, 'Korean man, grey hoodie').startswith('The protagonist is Korean man'))
-        self.assertNotIn('protagonist is', ys_grok.prompt_for({**s, 'hero': False}, False, 'Korean man'))
-        i2v = ys_grok.prompt_for(s, True, 'Korean man')
+        self.assertTrue(ys_grok.prompt_for(s, 't2v', 'Korean man, grey hoodie').startswith('The protagonist is Korean man'))
+        self.assertNotIn('protagonist is', ys_grok.prompt_for({**s, 'hero': False}, 't2v', 'Korean man'))
+        i2v = ys_grok.prompt_for(s, 'i2v', 'Korean man')
         self.assertNotIn('Korean man', i2v)                                               # 첫 프레임이 얼굴을 쥐었다 = 움직임만
         self.assertIn('first frame', i2v)
+
+    def test_r2v_ids_lock_and_timeline(self):
+        s = {'img': 'the protagonist at a desk at night', 'hero': True}
+        beats = [{'sec': 3, 'motion': 'The protagonist looks up from the desk', 'camera': 'close-up, 85mm portrait lens, shallow depth of field, warm lamp light'},
+                 {'sec': 5, 'motion': 'The protagonist stands and walks to the window', 'camera': 'wide shot, 24mm lens, slow pull back, blue hour light'}]
+        p = ys_grok.prompt_for(s, 'r2v', 'Korean man, grey hoodie', beats, 2, ('hero', 'board'))
+        self.assertIn('<IMAGE_0> shows the protagonist, Korean man, grey hoodie', p)
+        self.assertIn('<IMAGE_1> shows the director', p)
+        self.assertIn('this clip is panel 3', p)
+        self.assertIn('identical to <IMAGE_0>', p)
+        self.assertIn('0-3s: The protagonist looks up', p)
+        self.assertIn('3-8s: The protagonist stands', p)
+        p2 = ys_grok.prompt_for({'img': 'a knotted rope'}, 'r2v', '', beats[:1], 0, ('board',))
+        self.assertIn('<IMAGE_0> shows the director', p2)
+        self.assertNotIn('identical to', p2)                                              # 스토리보드는 잠그지 않는다
+        self.assertNotIn('0-3s', p2)                                                      # 비트 1개 = 눈금 없음
+
+    def test_no_visual_negatives_in_video_prompts(self):
+        s = {'img': 'a rope', 'motion': 'the rope tightens', 'hero': False}
+        for mode, kinds in (('r2v', ('board',)), ('i2v', ()), ('t2v', ())):
+            p = ys_grok.prompt_for(s, mode, '', None, 0, kinds).lower()
+            self.assertNotRegex(p, r'\bno (text|captions?|logos?)\b', mode)
+
+
+class GrokPlan(unittest.TestCase):
+    """그록 연출 감독 산출 검문 — 초 합 = 클립 길이 · 부정문 제거 · 짧은 카메라 교체 · 빠진 장면 = 대본 움직임."""
+    PLAN = {'scenes': [{'img': 'the protagonist at a desk', 'motion': 'The protagonist sighs', 'hero': True},
+                       {'img': 'a knotted rope', 'motion': 'The rope tightens slowly', 'hero': False}]}
+    TIMING = {'scenes': [{'dur': 7.2}, {'dur': 4.1}]}
+
+    def test_director_beats_fit_and_clean(self):
+        import ys_grok_plan as gp
+        raw = json.dumps({'clips': [{'i': 0, 'beats': [
+            {'sec': 5, 'motion': 'The protagonist looks up, no text on screen', 'camera': 'close-up, 85mm portrait lens, shallow depth of field, warm lamp light, slow push-in'},
+            {'sec': 5, 'motion': 'The protagonist stands', 'camera': 'wide'}]}]})
+        doc = gp.build('noise ' + raw + ' trailing', self.PLAN, self.TIMING)
+        c0, c1 = doc['clips']
+        self.assertEqual((c0['src'], c1['src']), ('director', 'fallback'))
+        self.assertEqual(sum(b['sec'] for b in c0['beats']), ys_grok.seconds_for(7.2))   # 10초 요청 → 8초 클립에 맞춤
+        self.assertNotIn('no text', c0['beats'][0]['motion'])
+        self.assertGreaterEqual(len(c0['beats'][1]['camera'].split()), gp.CAM_MIN_WORDS)  # 1낱말 카메라 = 기본 카메라로
+        self.assertEqual(sum(b['sec'] for b in c1['beats']), ys_grok.seconds_for(4.1))
+        self.assertTrue(c1['beats'][0]['motion'].endswith('No people in frame.'))        # 주인공 없는 장면 = 빈 화면 명시
+
+    def test_broken_output_is_all_fallback(self):
+        import ys_grok_plan as gp
+        doc = gp.build('not json at all', self.PLAN, self.TIMING)
+        self.assertEqual(doc['src'], 'fallback')
+        self.assertEqual(len(doc['clips']), 2)
+
+    def test_fit_edges(self):
+        import ys_grok_plan as gp
+        b = gp.fit([{'sec': 1}, {'sec': 1}, {'sec': 1}, {'sec': 1}], 2)
+        self.assertEqual([x['sec'] for x in b], [1, 1])
+        b = gp.fit([{'sec': 9}, {'sec': 1}], 15)
+        self.assertEqual(sum(x['sec'] for x in b), 15)
+        self.assertTrue(all(x['sec'] >= 1 for x in b))
+
+
+class GrokBoard(unittest.TestCase):
+    """그록 = 장면 그림 N장 대신 캐릭터 보드 + 스토리보드 1장(drv 3 맥) → 드라이버가 보드 2장만 그려 게시."""
+
+    def job(self, drv=3):
+        plan, _ = ys_plan.normalize({**RAW, 'hero': HERO}, 45)
+        with mock.patch.dict(os.environ, {'YS_IMG': 'grok'}):
+            return job_for(plan, drv)
+
+    def test_runner_board_job(self):
+        j = self.job()
+        self.assertEqual(j['scenes'], [])
+        self.assertTrue(j['hero'].startswith('Korean man'))
+        self.assertEqual(j['board_orient'], 'landscape')                                  # 세로 영상 = 가로 시트 2줄
+        self.assertIn('Panel 5:', j['board'])
+        self.assertLessEqual(len(j['board']), 1800)
+        self.assertTrue(self.job(drv=2)['scenes'])                                        # 옛 맥 = 종전 장면 그림
+
+    def test_driver_draws_sheet_then_board(self):
+        r, calls, puts = run_driver(self.job())
+        self.assertEqual(r.returncode, 0, r.stderr)
+        self.assertEqual([(c['sheet'], bool(c['img']), c['portrait']) for c in calls], [(True, False, True), (False, True, False)])
+        self.assertTrue(calls[1]['ref_ok'] and calls[1]['ref_named'])
+        self.assertIn('/ys_img/%s/board.png' % ID, puts)
+        self.assertIn('/ys_img/%s/hero.png' % ID, puts)
+        self.assertFalse(re.search(r'/ys_img/%s/s\d\.png' % ID, puts))
+
+
+class GrokRun(unittest.TestCase):
+    """ys_grok.main 전 구간(가짜 그록) — 보드가 있으면 참조 모드 · 주인공 장면만 인물 참조 · 비율 명시 · 비트 시각표."""
+
+    def test_main_uses_boards_and_beats(self):
+        import types
+        d = Path(tempfile.mkdtemp())
+        img, vid = d / 'img', d / 'vid'
+        img.mkdir()
+        png = b'\x89PNG\r\n\x1a\n' + b'\0' * 4000
+        (img / 'board.png').write_bytes(png)
+        (img / 'hero.png').write_bytes(png)
+        plan = {'hero': {'en': 'Korean man, grey hoodie'}, 'scenes': [
+            {'img': 'the protagonist at a desk', 'motion': 'The protagonist sighs', 'hero': True},
+            {'img': 'a knotted rope', 'motion': 'The rope tightens', 'hero': False}]}
+        timing = {'scenes': [{'dur': 7.2, 'sents': []}, {'dur': 4.1, 'sents': []}]}
+        (d / 'plan.json').write_text(json.dumps(plan))
+        (d / 'timing.json').write_text(json.dumps(timing))
+        (d / 'grokplan.json').write_text(json.dumps({'src': 'director', 'clips': [
+            {'i': 0, 'beats': [{'sec': 3, 'motion': 'The protagonist looks up', 'camera': 'close-up'}, {'sec': 5, 'motion': 'The protagonist stands', 'camera': 'wide'}]},
+            {'i': 1, 'beats': [{'sec': 5, 'motion': 'The rope tightens. No people in frame.', 'camera': 'macro'}]}]}))
+        sent = []
+        fake = types.SimpleNamespace(
+            fresh_token=lambda: 'tok',
+            start_video=lambda prompt, **k: sent.append(dict(k, prompt=prompt)) or f'r{len(sent)}',
+            wait_video=lambda rid, **k: {'url': 'u', 'cost_usd': 1.0},
+            fetch=lambda url: b'mp4')
+        with mock.patch.dict(sys.modules, {'grok_api': fake}), mock.patch.object(ys_grok, 'progress', lambda *a, **k: None), \
+                mock.patch.object(ys_grok, 'strip_audio', lambda a, b: Path(b).write_bytes(b'x' * 20000) > 0), \
+                mock.patch.dict(os.environ, {'XAI_REFRESH_TOKEN': 't'}):
+            rc = ys_grok.main(['x', ID, str(d / 'plan.json'), str(d / 'timing.json'), str(img), str(vid), '9:16'])
+        self.assertEqual(rc, 0)
+        by = {('rope' in x['prompt']): x for x in sent}
+        self.assertEqual(len(sent), 2)
+        self.assertEqual(len(by[False]['refs']), 2)                                         # 주인공 장면 = 캐릭터 보드 + 스토리보드
+        self.assertEqual(len(by[True]['refs']), 1)                                          # 은유 장면 = 스토리보드만
+        self.assertTrue(all(x['image'] is None and x['ratio'] == '9:16' for x in sent))     # 참조 모드 = 첫 프레임 없음 · 비율 명시
+        self.assertIn('0-3s: The protagonist looks up', by[False]['prompt'])
+        self.assertEqual(by[False]['seconds'], 8)
+        v = json.loads((vid / 'vid.json').read_text(encoding='utf-8'))
+        self.assertEqual((v['used'], v['modes'], v['plan_src']), (2, {'r2v': 2}, 'director'))
 
 
 class GrokSecretBlocks(unittest.TestCase):

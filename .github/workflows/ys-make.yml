@@ -286,6 +286,21 @@ jobs:
             || { echo "목소리 합성에 실패했어 — 잠시 후 다시 해줘." > /tmp/ys_err.txt; exit 1; }
           python3 .github/scripts/ys_progress.py "$YS_ID" voice done "$(python3 -c "import json;t=json.load(open('/tmp/ys/audio/timing.json'));print(f\"{t['total']:.0f}초 · \"+{'eleven':'고급 음성','edge':'무료 음성','mixed':'일부 무료 음성 대체'}[t['engine']])")"
 
+      - name: 그록 연출 감독 (Opus 5.5 high · 배경)
+        if: ${{ env.YS_IMG == 'grok' }}
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT2: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'EMS1130N' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130N }}
+          CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
+          ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
+        run: |
+          # 운영자 260929 «예전 비디오 제작 방식(클립 안 컷 여러 개)과 절충» — 장면별 비트(초·MOTION·CAMERA)를 감독 콜이 쓴다.
+          #   배경으로 띄운다 = 맥 보드 그림 대기(수 분)와 겹쳐 제작 시간 0 추가 · 끝나면 grokplan.done(그록 스텝이 기다린다 · 실패 = 대본 움직임)
+          unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN
+          nohup bash .github/scripts/ys_grok_plan.sh /tmp/ys "$YS_RATIO" > /tmp/ys/grokplan.log 2>&1 &
+          echo "그록 연출 감독 배경 시작(pid $!)"
+
       - name: 장면 그림 (맥 Codex 레인)
         if: ${{ env.YS_IMG != 'motion' }}   # GPT 이미지·GPT 입체·그록(첫 프레임) = 맥 그림 · 모션 그래픽 = 그림 없음
         timeout-minutes: 28   # 대기 1500초 + 회수 여유
@@ -297,9 +312,9 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         run: python3 .github/scripts/ys_images.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/img
 
-      - name: 장면 영상 (그록 · 장면 1개 = 클립 1개)
+      - name: 장면 영상 (그록 · 장면 1개 = 클립 1개 · 클립 안 비트)
         if: ${{ env.YS_IMG == 'grok' && contains(inputs.opts, '"img":"grok"') }}   # 잠금 줄(nm-grok-key) 식과 같은 조건 = 줄 밖에서 그록을 열지 않는다
-        timeout-minutes: 25
+        timeout-minutes: 30   # 연출 대기 ≤5분 + 그록 예산 20분 + 설치 여유
         continue-on-error: true   # 그록이 늦거나 죽어도 = 렌더가 그림·모션 그래픽으로 채운다(영상은 항상 나온다 · 사유는 vid.json)
         env:
           XAI_REFRESH_TOKEN: ${{ secrets.XAI_REFRESH_TOKEN }}
@@ -312,6 +327,7 @@ jobs:
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_PUBLIC_BASE: ${{ secrets.R2_PUBLIC_BASE }}   # 참조 그림을 줄여도 본문 상한을 넘을 때만 주소로
         run: |
           # 이관 칸(XAI_SECRET_PAT) = 깃허브 토큰 형식이면 되쓰기 열쇠로만 · 그 밖이면 그록 갱신 열쇠로(깃허브 토큰을 그록 서버로 보내지 않는다)
           case "$XAI_MOVED" in
@@ -325,7 +341,10 @@ jobs:
             export XAI_REFRESH_TOKEN="$XAI_MOVED" XAI_SECRET_NAME=XAI_SECRET_PAT   # 회전된 새 열쇠 = 운영자가 쓰는 그 칸에 되쓴다
           fi
           unset XAI_MOVED
-          pip install --quiet pynacl || echo "::warning::pynacl 설치 실패 — 그록 열쇠 되쓰기가 안 되면 다음 그록 발사(콘티 포함)가 자격 오류로 죽을 수 있음"
+          pip install --quiet pynacl pillow || echo "::warning::pynacl·pillow 설치 실패 — 그록 열쇠 되쓰기·참조 축소가 안 될 수 있음"
+          # 연출 감독(배경) 대기 — 최대 YS_GROK_PLAN_WAIT 초(맥 대기 중 대부분 끝나 있다) · 못 끝나면 대본 움직임 비트로 간다
+          W=${YS_GROK_PLAN_WAIT:-300}; while [ ! -f /tmp/ys/grokplan.done ] && [ "$W" -gt 0 ]; do sleep 5; W=$((W-5)); done
+          tail -3 /tmp/ys/grokplan.log 2>/dev/null || true
           python3 .github/scripts/ys_grok.py "$YS_ID" /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys/img /tmp/ys/vid "$YS_RATIO"; rc=$?
           rm -f "$XAI_TOKEN_STORE" 2>/dev/null   # 방금 회전된 살아 있는 열쇠 평문 = 러너에 남기지 않는다
           exit $rc

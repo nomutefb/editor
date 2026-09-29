@@ -32,7 +32,8 @@ def budgets(img='codex', stt='scribe', voice='eleven', ln=60, dur=0):
         'stt': int(90 + 0.06 * dur) if stt == 'scribe' else 40,
         'plan': 180,
         'voice': int(40 + ln) if voice == 'eleven' else int(30 + 0.6 * ln),
-        'img': 125 * (scenes + 1) if img in ('codex', 'depth', 'grok') else 0,   # 맥 Codex 한 장씩 · 260928 실측 세로 7장 849초(≈121초/장) · +1 = 영상 주인공 시트(260929)
+        'img': 420 if img == 'grok' else 125 * (scenes + 1) if img in ('codex', 'depth') else 0,   # 그록 = 캐릭터 보드 + 스토리보드 2장(260929 · 옛 맥이면 장면 수만큼이라 넘칠 수 있다)
+        # 장면 그림 = 맥 Codex 한 장씩 · 260928 실측 세로 7장 849초(≈121초/장) · +1 = 영상 주인공 시트(260929)
         'vid': 90 + 60 * -(-scenes // 3) if img == 'grok' else 0,   # 그록 장면 영상 = 3발 동시 · 한 판 ≈ 1분(실측 전 추정)
         'mgd': 420 if img == 'motion' else 0,   # Opus 5.5 high 모션 디자이너(장면 ≤4개 조각 병렬 · 260928 실측 7장면 1콜 667초 → 조각 ≈ 6~7분) — 맥·그록 대체 때는 그 단계가 스스로 켠다
         'render': int(120 + 1.5 * ln) + {'motion': int(60 + 3 * ln), 'depth': int(60 + 1.5 * ln), 'grok': 60}.get(img, 0),   # 모션 = 장면당 프레임 캡처 · 입체 = 깊이 추정+워핑(≈ 실시간 1.3배) · 그록 = 영상 합성

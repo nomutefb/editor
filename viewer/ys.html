@@ -450,7 +450,7 @@ function buildOpts() {
       + '<div id="elvBox" hidden><div class="vfold" id="elvFold"><button type="button" class="vfh" aria-expanded="false" aria-controls="elvAcc"><span class="pub-l">목소리 선택</span><span class="sum" id="elvSum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
       + '<div class="acc" id="elvAcc" inert><div class="acc-in"><div class="vlist" id="elvList" role="radiogroup" aria-label="ElevenLabs 목소리"></div></div></div></div><div class="status" id="elvMsg"></div></div>'
       + railRow('stt', '받아쓰기', [['subs', '유튜브 자막 우선'], ['scribe', '정밀 받아쓰기', ' title="ElevenLabs Scribe"']]))
-    + accCard('scr', '화면 설정', railRow('img', '장면', [['motion', '모션 그래픽', ' title="장면 내용을 도식(비교·흐름·숫자·목록 등)으로 움직이는 그래픽"'], ['codex', 'GPT 이미지', ' title="맥 Codex(ChatGPT 구독) — 맥이 꺼져 있으면 모션 그래픽으로 대체"'], ['depth', 'GPT 입체', ' title="GPT 그림을 2.5D 입체 시차로 움직인다(가까운 곳이 더 크게 움직임) — 맥이 꺼져 있으면 모션 그래픽으로 대체"'], ['grok', '그록 영상', ' title="장면마다 그록 영상 · 9:16 전면 — 맥이 켜져 있으면 GPT 그림을 첫 장면으로 고정"']])
+    + accCard('scr', '화면 설정', railRow('img', '장면', [['motion', '모션 그래픽', ' title="장면 내용을 도식(비교·흐름·숫자·목록 등)으로 움직이는 그래픽"'], ['codex', 'GPT 이미지', ' title="맥 Codex(ChatGPT 구독) — 맥이 꺼져 있으면 모션 그래픽으로 대체"'], ['depth', 'GPT 입체', ' title="GPT 그림을 2.5D 입체 시차로 움직인다(가까운 곳이 더 크게 움직임) — 맥이 꺼져 있으면 모션 그래픽으로 대체"'], ['grok', '그록 영상', ' title="장면마다 그록 영상 · 9:16 전면 · 클립 안에서 카메라 2~4번 전환 — 맥이 켜져 있으면 GPT 스토리보드·캐릭터 보드를 참조로"']])
       + '<div class="macrow"><a class="ysmac" id="mac" data-st="wait" href="/ys-mac-guide.html" target="_blank" rel="noopener" title="맥 설정 안내 열기"><i class="ysmac-dot" aria-hidden="true"></i><span class="tk-orbit" id="macSpin" hidden aria-hidden="true"></span><span id="macT">맥 확인 중…</span></a></div>'
       + railRow('len', '길이', [['45', '45초', ' data-num="1"'], ['60', '60초', ' data-num="1"'], ['90', '90초', ' data-num="1"']])
       + railRow('ratio', '비율', [['9:16', '9:16', ' data-num="1"'], ['16:9', '16:9', ' data-num="1"']]))
@@ -732,7 +732,7 @@ function paintMac() {
 function paintImgNote() {   // 장면 그림을 골랐는데 맥이 못 그리는 상태 = 막지 않고 한 줄만 알린다(운영자 260928)
   const macDown = MAC.st === 'off' || MAC.st === 'login';
   if ((opts.img === 'codex' || opts.img === 'depth') && macDown) setMsg('#optMsg', MAC.st === 'off' ? '맥이 꺼져 있어서 모션 그래픽으로 만들어져.' : '맥 Codex 로그인이 필요해서 지금은 모션 그래픽으로 만들어져.', 'warn');
-  else if (opts.img === 'grok' && macDown) setMsg('#optMsg', (MAC.st === 'off' ? '맥이 꺼져 있어서' : '맥 Codex 로그인이 필요해서') + ' 첫 장면 그림 없이 그록이 바로 영상을 만들어(장면마다 화풍이 조금 흔들릴 수 있어).', 'warn');
+  else if (opts.img === 'grok' && macDown) setMsg('#optMsg', (MAC.st === 'off' ? '맥이 꺼져 있어서' : '맥 Codex 로그인이 필요해서') + ' 스토리보드 없이 그록이 바로 영상을 만들어(장면마다 화풍이 조금 흔들릴 수 있어).', 'warn');
   else setMsg('#optMsg', '');
 }
 let _macT = null;

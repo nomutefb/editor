@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""유튜브 숏폼(ys) 장면 영상 — 그록(grok-imagine-video) 장면 1개 = 클립 1개(운영자 260928 «화면 구성 3방식 · 그록 = 9:16 전면»).
+"""유튜브 숏폼(ys) 장면 영상 — 그록(grok-imagine-video) 장면 1개 = 클립 1개 · 클립 안 비트 2~4개(운영자 260928 «그록 = 9:16 전면» · 260929 «예전 비디오 제작 방식과 절충»).
 
   ys_grok.py <id> <plan.json> <timing.json> <img_dir> <outdir> <ratio 9:16|16:9>
-  → outdir/s{i}.mp4(소리 트랙 제거) + outdir/vid.json {used, total, note, cost_usd}
+  → outdir/s{i}.mp4(소리 트랙 제거) + outdir/vid.json {used, total, note, cost_usd, modes, plan_src}
 
 설계(260928 조사 · 15초×4 연장 체인 비채택 = 장면 경계와 어긋나고 순차라 느리고 이을수록 화질이 떨어진다):
-  · 장면 경계 = 나레이션 문단 경계 → 장면마다 독립 클립 + 컷이 가장 자연스럽다.
-  · 첫 프레임 = img_dir/s{i}.png(맥 GPT 세로 그림)이 있으면 고정(image) → 장면 사이 화풍이 같은 그림 엔진으로 묶인다.
-    없으면(맥 꺼짐) 글→영상(비율 지정) — 화면에 강하 사유를 남긴다.
+  · 장면 경계 = 나레이션 문단 경계 → 장면마다 독립 클립 + 컷. 클립 **안**은 감독 콜(ys_grok_plan)이 쓴 비트 시각표
+    (`0-3s: MOTION. CAMERA.` = 예전 콘티 레인 grok_sb_video.vid_prompt 문법) — 한 클립 안에서 카메라가 2~4번 바뀐다.
+  · 모드(장면마다) = ① 참조(r2v): 맥 GPT 가 그린 캐릭터 보드(hero.png) + 스토리보드(board.png)를 참조로 — 예전 콘티 레인과 같은
+    「그림 몇 장을 전 클립이 공유」(운영자 260811 «의미 없이 열 몇 장 만드는 건 손해») · 화면 비율을 명시(크롭 0)
+    ② 첫 프레임(i2v): 장면 그림 s{i}.png(옛 맥 드라이버) ③ 글→영상(t2v): 맥이 꺼져 있을 때.
   · 길이 = 장면 나레이션 + 0.5초 올림(1~15초) · 모자라면 렌더가 1.15배 이내 늦춤 + 마지막 프레임 멈춤.
+  · 부정문 0(그록 정본 = 영상 축 비주얼 부정문 금지 · 부정어가 그것을 부른다) · 인물 대명사 0(정체문으로 지목).
   · 3발 동시 · 실패 장면만 1회 재시도(실패 호출 = 청구 0) · 검열·자격 실패 = 재시도 안 함.
   · 자격 = shared/grok_api.fresh_token(회전형 리프레시 · 되쓰기 = 그 모듈 몫) · 워크플로가 nm-grok-key 줄에 세운다(콘티 레인과 같은 줄).
 전 경로 rc 0 — 못 만든 장면은 렌더가 그림·모션 그래픽으로 채운다(영상은 항상 나온다 · 사유는 note 로 화면까지).
@@ -31,8 +34,13 @@ MAX_SEC = 15
 PAR = int(os.environ.get('YS_GROK_PAR', '3'))
 BUDGET = int(os.environ.get('YS_GROK_BUDGET', '1200'))   # 전체 마감(초) = 스텝 시간 벽(25분)보다 넉넉히 작게 — 넘기면 남은 장면은 그림·모션으로
 _plock = threading.Lock()   # 진행 게시 = 한 번에 하나(ys_progress 임시 파일 경합 0)
-STYLE = os.environ.get('YS_VID_STYLE', 'Korean webtoon animation style, clean line art, soft cel shading, muted palette, no text, no captions, no logos')   # 맥 그림(웹툰체)과 같은 결
-I2V = 'Keep the exact art style, character design and colors of the first frame; no text, no captions, no logos'   # 첫 프레임이 있으면 = 화풍 재서술 대신 「첫 프레임 그대로」(평의회 260929)
+STYLE = os.environ.get('YS_VID_STYLE', 'Korean webtoon animation style, clean line art, soft cel shading, muted palette')   # 맥 그림(웹툰체)과 같은 결 · 긍정형만
+I2V = 'Keep the exact art style, character design and colors of the first frame.'   # 첫 프레임이 있으면 = 화풍 재서술 대신 「첫 프레임 그대로」
+# 참조 정체문(예전 콘티 레인 SHEET_NOTE·SHEET_CLAUSE 계보) — 「이건 설계도지 화면이 아니다」를 못 박아 칸·시트가 화면으로 새지 않게
+HERO_NOTE = 'a multi-angle identity reference for that person only; in the video the person appears once, filmed inside the scene'
+BOARD_NOTE = ("the director's storyboard for the whole video, panels in reading order, read only for framing, setting and mood; "
+              "the finished video is one full-bleed camera view")
+EMBED_MAX = int(os.environ.get('YS_GROK_EMBED_MAX') or '900000')   # 참조를 본문에 싣는 상한(예전 콘티 레인 실측 = 주소 방식은 xAI 쪽 받기가 끊겨 편이 죽었다)
 
 
 def progress(id_, st, note='', p=None):
@@ -47,12 +55,62 @@ def seconds_for(dur):
     return max(1, min(MAX_SEC, int(math.ceil(float(dur or 0) + PAD))))
 
 
-def prompt_for(sc, has_image, hero_en=''):
-    motion = (sc.get('motion') or '').strip()
-    if has_image:   # 첫 프레임이 구도·화풍·주인공 얼굴을 이미 쥐었다 = 움직임만(구도 재서술은 그림과 싸운다)
-        return f"{motion or 'Slow push-in; subtle ambient motion.'} {I2V}"
-    who = f"The protagonist is {hero_en}. " if hero_en and sc.get('hero') else ''   # 첫 프레임 없는 글→영상 = 주인공을 글로 정의(없으면 장면마다 다른 사람)
-    return f"{who}{(sc.get('img') or sc.get('head') or '').strip()}. {motion} {STYLE}".strip()
+def timeline(beats):
+    """비트 → `0-3s: MOTION. CAMERA. 3-7s: …` (비트 1개면 시각 없이 — 한 호흡에 눈금을 치면 끊어 그린다)."""
+    multi, t, out = len(beats) > 1, 0, []
+    for b in beats:
+        body = ' '.join(x.rstrip('. ') + '.' for x in (b.get('motion') or '', b.get('camera') or '') if x.strip())
+        if body:
+            out.append(f"{t}-{t + int(b.get('sec') or 0)}s: {body}" if multi else body)
+        t += int(b.get('sec') or 0)
+    return ' '.join(out)
+
+
+def prompt_for(sc, mode, hero_en='', beats=None, i=0, refs=()):
+    """mode = r2v(참조: refs 순서 = 'hero'·'board') · i2v(첫 프레임) · t2v(글→영상). beats = 감독 비트(없으면 대본 motion 1개)."""
+    beats = beats or [{'sec': 0, 'motion': (sc.get('motion') or '').strip() or 'Slow push-in; subtle ambient motion.', 'camera': ''}]
+    tl = timeline(beats)
+    if mode == 'i2v':   # 첫 프레임이 구도·화풍·얼굴을 이미 쥐었다 = 움직임만(구도 재서술은 그림과 싸운다)
+        return f"{tl} {I2V}"
+    scene = ' '.join(str(sc.get('img') or sc.get('head') or '').split())[:220].rstrip('. ')
+    if mode == 'r2v':
+        parts = []
+        for k, kind in enumerate(refs):
+            if kind == 'hero':
+                parts.append(f"<IMAGE_{k}> shows the protagonist, {hero_en.rstrip('. ')}, {HERO_NOTE}.")
+            elif kind == 'board':
+                parts.append(f"<IMAGE_{k}> shows {BOARD_NOTE}; this clip is panel {i + 1}.")
+        if 'hero' in refs:   # 잠금 = 사람 참조만(스토리보드를 잠그면 「칸을 그리지 마라」와 부딪친다)
+            parts.append(f"Keep the protagonist's face, hair and wardrobe identical to <IMAGE_{list(refs).index('hero')}>.")
+        return ' '.join(parts + [f"Scene: {scene}." if scene else '', tl, STYLE + '.']).replace('  ', ' ').strip()
+    who = f"The protagonist is {hero_en.rstrip('. ')}. " if hero_en and sc.get('hero') else ''   # 글→영상 = 주인공을 글로 정의(없으면 장면마다 다른 사람)
+    return f"{who}{scene + '. ' if scene else ''}{tl} {STYLE}.".strip()
+
+
+def embed(path, public=''):
+    """참조 1장 → 본문에 실을 값(작으면 바이트 · 크면 JPEG 로 줄여서 · 줄이기 불가면 공개 주소 · 그것도 없으면 원바이트)."""
+    raw = Path(path).read_bytes()
+    if len(raw) <= EMBED_MAX:
+        return raw
+    try:
+        import io
+        from PIL import Image
+        im = Image.open(io.BytesIO(raw)).convert('RGB')
+        side = 1280
+        while True:
+            if max(im.size) > side:
+                r = side / float(max(im.size))
+                im = im.resize((max(1, int(im.width * r)), max(1, int(im.height * r))), Image.LANCZOS)
+            buf = io.BytesIO()
+            im.save(buf, 'JPEG', quality=90, subsampling=0, optimize=True)   # CONTRACT: check_image_format — q90 단일
+            if buf.tell() <= EMBED_MAX or side <= 640:
+                break
+            side = int(side * .8)
+        if buf.tell() <= EMBED_MAX:
+            return buf.getvalue()
+    except Exception:  # noqa: BLE001  PIL 없음·깨진 그림 = 주소로
+        pass
+    return public or raw
 
 
 def strip_audio(src, dst):
@@ -71,9 +129,11 @@ def main(argv):
     scenes = plan['scenes']
     total = len(scenes)
 
+    info = {}
+
     def done(used, note, cost=0.0):
-        json.dump({'used': used, 'total': total, 'note': note, 'cost_usd': round(cost, 3)},
-                  open(out / 'vid.json', 'w', encoding='utf-8'), ensure_ascii=False)
+        with open(out / 'vid.json', 'w', encoding='utf-8') as f:
+            json.dump({'used': used, 'total': total, 'note': note, 'cost_usd': round(cost, 3), **info}, f, ensure_ascii=False)
         print(f'장면 영상 {used}/{total} · 비용 ${cost:.2f} · {note}')
         return 0
 
@@ -101,18 +161,48 @@ def main(argv):
         progress(id_, 'skip', '그록 인증 서버 장애')
         return done(0, f'그록 인증 서버에 닿지 못해(외부 장애) 그림·모션 그래픽으로 만들었어 — 잠시 후 다시 해줘. ({why})')
 
+    # 연출 비트 = 배경 감독 콜 산출(ys_grok_plan.sh → grokplan.json) · 없으면(콜 실패·미완) 대본 motion 비트 1개
+    import ys_grok_plan
+    gp_path = Path(os.environ.get('YS_GROK_PLAN') or Path(argv[2]).with_name('grokplan.json'))
+    try:
+        with open(gp_path, encoding='utf-8') as f:
+            gp = json.load(f)
+        assert len(gp.get('clips') or []) == total
+    except Exception:  # noqa: BLE001  없음·깨짐 = 대체안
+        gp = ys_grok_plan.build('', plan, timing)
+    beats_of = {c['i']: c['beats'] for c in gp['clips']}
+    # 참조 그림 = 맥 GPT 캐릭터 보드·스토리보드(ys_images 가 내려받음) — 있으면 전 장면 참조 모드
+    hero_en = (plan.get('hero') or {}).get('en', '')
+    pub = (os.environ.get('R2_PUBLIC_BASE') or '').rstrip('/')
+    refs_raw = {}
+    for kind in ('hero', 'board'):
+        p = img_dir / f'{kind}.png'
+        if p.exists() and p.stat().st_size > 2048 and not p.is_symlink():
+            refs_raw[kind] = embed(p, f'{pub}/ys_img/{id_}/{kind}.png' if pub else '')
+    if not hero_en:
+        refs_raw.pop('hero', None)   # 정의문 없는 인물 참조 = 누구를 잠그는지 모른다
     first_frames = sum(1 for i in range(total) if (img_dir / f's{i}.png').exists())
-    progress(id_, 'run', f'그록 {total}장면 발사' + (f' · 첫 그림 {first_frames}장' if first_frames else ' · 글→영상'), 0.02)
+    lead = ('참조 모드(스토리보드' + (' + 캐릭터 보드' if 'hero' in refs_raw else '') + ')') if 'board' in refs_raw \
+        else (f'첫 그림 {first_frames}장' if first_frames else '글→영상')
+    progress(id_, 'run', f'그록 {total}장면 발사 · {lead} · 비트 {sum(len(b) for b in beats_of.values())}개', 0.02)
     state = {'ok': 0, 'fin': 0}
-    costs, fails, t2v = [], [], []
+    costs, fails, t2v, modes = [], [], [], {}
 
     def one(i):
         sc = scenes[i]
         img = img_dir / f's{i}.png'
-        image = img.read_bytes() if img.exists() and img.stat().st_size > 2048 else None
         sec = seconds_for(timing['scenes'][i].get('dur'))
-        if not image:
+        image, refs, kinds = None, None, ()
+        if 'board' in refs_raw:
+            kinds = (('hero',) if sc.get('hero') and 'hero' in refs_raw else ()) + ('board',)   # 주인공 없는 장면 = 인물 참조를 안 싣는다(실으면 사람을 넣는다)
+            refs, mode = [refs_raw[k] for k in kinds], 'r2v'
+        elif img.exists() and img.stat().st_size > 2048:
+            image, mode = img.read_bytes(), 'i2v'
+        else:
+            mode = 't2v'
             t2v.append(i)
+        modes[i] = mode
+        prompt = prompt_for(sc, mode, hero_en, beats_of.get(i), i, kinds)
         last = ''
         for attempt in range(2):
             left = t_end - time.time()
@@ -120,7 +210,7 @@ def main(argv):
                 last = last or '그록 마감 시간 초과'
                 break
             try:
-                rid = grok_api.start_video(prompt_for(sc, bool(image), (plan.get('hero') or {}).get('en', '')), token=tok, ratio=ratio, image=image, seconds=sec)
+                rid = grok_api.start_video(prompt, token=tok, ratio=ratio, image=image, refs=refs, seconds=sec)
                 v = grok_api.wait_video(rid, token=tok, max_sec=max(30, int(left - 120)))
                 costs.append(float(v.get('cost_usd') or 0))   # 청구 = 완료 시점(받기·소리 제거가 깨져도 값은 기록)
                 raw = grok_api.fetch(v['url'])
@@ -155,8 +245,11 @@ def main(argv):
                 fails.append((i, f'{type(e).__name__}: {str(e)[:80]}'))
     used = state['ok']
     cost = sum(costs)
+    info.update({'modes': {m: sum(1 for v in modes.values() if v == m) for m in set(modes.values())}, 'plan_src': gp.get('src', ''),
+                 'beats': sum(len(beats_of.get(i) or []) for i in range(total))})
     t2v_n = len([i for i in t2v if (out / f's{i}.mp4').exists()])
     t2v_note = '' if not t2v_n else (' · 맥이 꺼져 있어 첫 그림 없이 글→영상으로 만들었어' if not first_frames else f' · 첫 그림이 없는 {t2v_n}장면은 글→영상')
+    t2v_note = (f' · {lead}' if 'board' in refs_raw else '') + (' · 연출 비트 = 대본 움직임(감독 콜 없음)' if gp.get('src') != 'director' else '') + t2v_note
     if used == total:
         progress(id_, 'done', f'장면 영상 {used}장면')
         return done(used, f'그록 영상 {used}장면{t2v_note}', cost)
