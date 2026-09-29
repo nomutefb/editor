@@ -54,6 +54,6 @@ button, input, textarea, select { font-family:inherit; letter-spacing:inherit;} 
 .nm-rbs-knob::after { content:''; position:absolute; right:-9px /* raw-ok: 손잡이 반지름 */; top:-9px /* raw-ok: 손잡이 반지름 */; width:18px /* raw-ok: 손잡이 18 = kinetics 원본 */; height:18px /* raw-ok: 손잡이 18 */; border-radius:50%; background:var(--fg); box-shadow:0 1px 4px rgba(0,0,0,.45) /* raw-ok: 떠 있는 손잡이 그림자 */; transition:transform var(--dur-fast) ease;}
 .nm-rbs.drag .nm-rbs-knob::after { transform:scale(var(--gauge-pop,1.15));}
 .nm-rbs.snap .nm-rbs-fill, .nm-rbs.snap .nm-rbs-knob { transition:transform .5s cubic-bezier(.34,1.56,.64,1) /* raw-ok: 스프링 복귀 곡선·.5s = kinetics 원본 동값 */;}
-.nm-rbs:has(> .nm-rbs-in:focus-visible) { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:4px /* raw-ok: 포커스 링 간격 */; border-radius:var(--r-s);}
+.nm-rbs:not([data-ptr]):has(> .nm-rbs-in:focus-visible) { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:4px /* raw-ok: 포커스 링 간격 */; border-radius:var(--r-s);}
 .nm-rbs:has(> .nm-rbs-in:disabled) { opacity:.4; cursor:default;}
 @media (prefers-reduced-motion:reduce) { .nm-rbs.snap .nm-rbs-fill, .nm-rbs.snap .nm-rbs-knob { transition:none;} .nm-rbs.drag .nm-rbs-knob::after { transform:none;} }
