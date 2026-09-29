@@ -312,8 +312,6 @@ class JudgeIntegration(unittest.TestCase):
         self.assertFalse(result[0]["breaking"])
 
 
-if __name__ == "__main__":
-    unittest.main()
 
 
 class NotableDeath(unittest.TestCase):   # 운영자 260929 «사망자수는 불특정 다수일때만이야» — 유명인 개인 사망 = ① 인명 문턱 밖(⑤)
@@ -336,3 +334,50 @@ class NotableDeath(unittest.TestCase):   # 운영자 260929 «사망자수는 �
         self.assertIsNone(G.gate_reason("청하, 3년간 함께했던 박재범 품 떠난다…모어비전 전속계약 종료", "문화"))
         self.assertIsNone(G.major_in("요청하다 거절당해 결별"))
 
+
+class Council260929_3(unittest.TestCase):   # 평의회260929-3 재현 사례 고정(A·B·E·F·G)
+    def test_entertainment_scope(self):
+        self.assertIsNone(G.gate_reason("닛몰캐쉬, 전 여친에 피소…경찰 수사 착수", "사회", 3, 3))   # 연예인 사법 기사 = 분류 사회
+        self.assertIsNone(G.gate_reason("영화감독 ○○ 성추행 피소", "문화", 3, 3))                  # 영화감독 ≠ 체육 감독
+        self.assertIsNone(G.gate_reason("배우 ○○, 배우자 폭행 혐의 입건", "문화", 3, 3))
+        self.assertIsNotNone(G.gate_reason("축구선수 ○○ 성폭행 혐의 피소", "문화", 3, 3))         # 체육 = 개방 대상 아님
+        self.assertIsNotNone(G.gate_reason("투수 ○○ 폭행 혐의 입건", "문화", 3, 3))
+        self.assertIsNone(G.gate_reason("청하, 폭행 혐의로 경찰 입건", "사회", 3, 3))              # 명단 인물(2자 주어 자리) · 분류 사회
+        self.assertIsNone(G.gate_reason("닛몰캐쉬, 데이트폭력 혐의로 경찰 입건", "사회", 3, 3))
+
+    def test_live_strong_yes_cases_pass_gate(self):   # 평의회260929-3 H#1 — 회귀 원장의 〔확산 강〕 YES 사례는 운영 게이트도 통과해야 한다(분류 문화·사회·None)
+        import json, pathlib
+        cs = json.loads((pathlib.Path(__file__).resolve().parents[1] / ".github/scripts/rubric_regress_cases.json").read_text(encoding="utf-8"))["cases"]
+        yes = [c["t"] for c in cs if c["expect"] == "YES" and "〔확산 강" in c["t"]]
+        self.assertGreater(len(yes), 3)
+        for t in yes:
+            for cat in ("문화", "사회", None):
+                self.assertIsNone(G.gate_reason(t, cat, 3, 3), (t, cat))
+
+    def test_investigation_words(self):
+        self.assertIsNone(G.gate_reason("유튜버 ○○, 마약 혐의 재판에 넘겨져", None, 3, 3))         # 재판에 넘겨 = 기소
+        self.assertIsNotNone(G.gate_reason("배우 ○○ 항고소송", "문화", 3, 3))                      # 소송은 재판 단계
+        self.assertIsNone(G.gate_reason("고소영, 블랙핑크 로제에게 선물 받았다", "문화", 3, 0))    # 고소영 ≠ 고소
+
+    def test_notable_context_and_partial_words(self):
+        for t in ["이 대통령, 공장 화재 사망자 애도", "정몽원 HL그룹 회장, 평택공장 사망사고 유족에 사과",
+                  "배우 ○○ 운영 카페 화재로 직원 숨져", "배우 ○○ 부친, 교통사고로 별세", "수영 배우던 초등생 익사",
+                  "전시회장 붕괴 1명 사망", "물류센터 화재 사망사고…관리감독 부실", "가을 산행 중 60대 추락사",
+                  "포항 청하·송라 산불로 주민 1명 숨져"]:
+            self.assertIsNotNone(G.gate_reason(t, "사회"), t)
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 촬영장 화재로 스태프 1명 사망", "문화", 3, 3))
+        self.assertIsNotNone(G.gate_reason("태국 관광버스 추락…사고 사망자 발생", "국제", 3, 3))   # [강]만으로는 유명인 아님
+
+    def test_notable_death_words(self):
+        for t in ["○○ 전 대통령, 교통사고로 서거", "가수 ○○, 교통사고로 작고", "국민MC ○○, 교통사고로 사망",
+                  "배우 ○○ 피살…경찰 수사 착수", "Actor X dies in car crash"]:
+            self.assertIsNone(G.gate_reason(t, "사회"), t)
+        self.assertIsNotNone(G.gate_reason("작고 귀여운 강아지 교통사고 사망", "사회"))
+
+    def test_dead_then_injured_count(self):   # B#8 기존 결함 — 「5명 사망 12명 부상」의 사망 = 5
+        self.assertEqual(G.casualty_counts("스위스 버스 전복 5명 사망 12명 부상")[:2], (5, 12))
+        self.assertIsNotNone(G.gate_reason("스위스 버스 전복 5명 사망 12명 부상", "국제"))
+
+
+if __name__ == "__main__":
+    unittest.main()

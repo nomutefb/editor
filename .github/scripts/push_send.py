@@ -249,13 +249,14 @@ def _ai_same_event(title, recent_titles):
     렉시컬 임계는 템플릿형 다른사건 false-merge 선례로 금지). AI 실패·토큰없음·산문 = None(=다른 사건=발송 진행:
     진짜 별개 긴급 누락[false-merge]보다 중복 1발이 안전 — autopick과 동일 방향)."""
     if not recent_titles:
-        _AI_LAST["ok"] = True              # 비교할 발송분 0 = 중복일 수 없음(판정 완료) — 빈 목록을 실패로 보면 씨앗이 영구 보류(검증 V1)
+        _AI_LAST["ok"] = True              # 비교할 발송분 0 = 중복일 수 없음(판정 완료 · 검증 V1 — 260929 fail-open 뒤에도 「실패」 로그를 안 찍는 자리)
         return None
     _AI_LAST["ok"] = False
     try:
         sys.path.insert(0, str(ROOT / "shared"))
         from claude_py import run_claude
-    except Exception:
+    except Exception as e:  # noqa: BLE001
+        print(f"  ⚠ 푸시 사건중복 AI 불가(모듈: {str(e)[:80]}) — 다른 사건 간주(발송 진행)", file=sys.stderr)
         return None
     listing = "\n".join(f"{i}\t{str(t or '').replace(chr(9), ' ').replace(chr(10), ' ')}" for i, t in enumerate(recent_titles))
     prompt = (
@@ -278,11 +279,13 @@ def _ai_same_event(title, recent_titles):
          "--max-turns", "1"],
         prompt, timeout=120, source="pushdedup")
     if p is None or rc != 0:
-        print(f"  ⚠ 푸시 사건중복 AI 실패(rc={rc}) — 다른 사건 간주(발송 진행·false-merge 회피)", file=sys.stderr)
+        print(f"  ⚠ 푸시 사건중복 AI 실패(rc={rc} · {str(err or '')[:80]!r}) — 다른 사건 간주(발송 진행·false-merge 회피)", file=sys.stderr)
         return None
     out = (p.stdout or "").strip()
     if not re.fullmatch(r"#?\s*\d+", out):   # '번호 단독'만 인정(산문 속 임의 숫자 오인 차단 · autopick 검증 평의회 5·10)
         _AI_LAST["ok"] = out.upper() == "NONE"
+        if not _AI_LAST["ok"]:   # 빈 응답·산문 = 판정 실패(실제 사유 표시 · CLAUDE.md) — 발송 진행
+            print(f"  ⚠ 푸시 사건중복 AI 응답 해석 불가({out[:60]!r}) — 다른 사건 간주(발송 진행)", file=sys.stderr)
         return None
     idx = int(re.search(r"\d+", out).group())
     _AI_LAST["ok"] = True
@@ -517,7 +520,8 @@ def main():
                 continue                                                  #   안 남으면 그 기사를 멤버로 품은 다음 묶음이 멤버 검사를 비껴간다)
             if any(k in sent for k in ks if k.startswith("t:")):
                 continue                   # 같은 헤드라인 = 스킵(종전) · 나머지 키는 안 적는다(해시 충돌 = 별개 사건일 수 있다)
-            lv_hit = any(k in sent for k in ks if k.startswith("lv:"))   # 같은 확산 에피소드 = 같은 사건일 **가능성** → AI 심판 우선(실패 = 발송 · 운영자 260929)
+            _q = {k for m in msgs for k in m["keys"]}   # 이번 회차에 이미 담은 발송분의 키(같은 회차 씨앗·형제 후보도 에피소드 적중으로 본다 · 평의회260929-3 D#2)
+            lv_hit = any(k in sent or k in _q for k in ks if k.startswith("lv:"))   # 같은 확산 에피소드 = 같은 사건일 **가능성** → AI 심판 우선(실패 = 발송 · 운영자 260929)
             if any(str(m) in sent for m in (c.get("cluster_members") or [])):   # 이 묶음의 기사 하나가 이미 긴급으로 나갔다(단독 1보가 먼저 나간 뒤 다매체 묶음이 따로 뜬 경우 · 평의회3 260923) = 같은 사건
                 suppressed_keys.extend(ks)
                 continue
@@ -533,8 +537,11 @@ def main():
             #                                        확산 에피소드 적중(같은 이름의 별개 사건일 수 있다 · 검증 V1) → 이번 런 AI 콜 상한이면 다음 런으로 미룬다.
             # ⚠ 심판이 **실패**(장애·한도·토큰 없음·산문 응답)하면 보류하지 않고 보낸다 = fail-open(운영자 260929 «중복 확인하는 ai가 고장나면
             #   또 보내야지» · 같은 사건 2회 발송 위험보다 긴급 누락이 비싸다 · 일반 후보와 같은 축). 구판 = 실패 시 보류(fail-closed).
-            if must and (ai_calls >= MAX_AI_DEDUP or (lv_hit and not _brk_pool)):
+            if must and ai_calls >= MAX_AI_DEDUP:   # AI 콜 예산 소진 = 고장 아님 → 다음 회차에 심판 받고 보낸다
+                print(f"  ⏸ 다음 회차로(사건중복 심판 예산 소진 · {'씨앗' if c.get('seed') else '확산 에피소드'}): {(c.get('title') or '')[:34]}", file=sys.stderr)
                 continue
+            if lv_hit and not _brk_pool:   # 에피소드 키는 찍혔는데 비교할 발송 목록이 없다(원장 만료·읽기 실패) = 확인 불가 → 발송(fail-open · 운영자 260929 · 평의회 G#6)
+                print(f"  ⚠ 에피소드 적중·비교 목록 없음 → 발송(fail-open): {(c.get('title') or '')[:34]}", file=sys.stderr)
             if _brk_pool and ai_calls < MAX_AI_DEDUP:
                 ai_calls += 1
                 dup = _ai_same_event(c.get("title") or "", [e.get("title", "") for e in _brk_pool])

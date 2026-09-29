@@ -586,6 +586,24 @@ class PushMain(unittest.TestCase):   # push_send.main 실제 실행(웹푸시·A
         self.assertEqual(len(self.round([c], events=ev, ai="fail")[0]), 1)
         self.assertEqual(self.round([c], events=ev, ai="same")[0], [])       # 심판이 같은 사건이라 하면 억제는 그대로
 
+    def test_fail_open_ledger_blocks_next_round(self):   # 평의회260929-3 D#5 — 1회차 AI 실패로 나간 씨앗의 키가 원장에 남아 2회차엔 0발(이관 실후보 포함)
+        a = "2026-09-29T09:46:00+0900"
+        seed = self.brk("https://g/A", "크리에이터 닛몰캐쉬, 폭언·폭행에 비하 논란까지", seed="gn", lv={"k": "닛몰캐쉬", "t": 3, "a": a})
+        ev = [{"title": "北 동해상 탄도미사일 발사", "k": "brk"}]
+        log1, sent1 = self.round([seed], events=ev, ai="fail")
+        self.assertEqual(len(log1), 1)
+        self.assertIn("https://g/A", sent1)
+        self.assertIn("lv:닛몰캐쉬@" + a, sent1)
+        ev2 = ev + [{"title": seed["title"], "k": "brk"}]
+        self.assertEqual(self.round([seed], sent=sorted(sent1), events=ev2, ai="fail")[0], [])        # 같은 씨앗 = 강한 키
+        real = self.brk("https://r/1", "닛몰캐쉬 데이트폭력 폭로 파문", event_key="https://g/A", lv={"k": "닛몰캐쉬", "t": 3, "a": a})
+        self.assertEqual(self.round([real], sent=sorted(sent1), events=ev2, ai="fail")[0], [])        # 이관 실후보 = 씨앗 키 승계
+
+    def test_episode_hit_without_pool_sends(self):   # 평의회260929-3 G#6·D#4 — 에피소드 키는 있는데 비교 목록이 비었다 = 확인 불가 → 발송(fail-open · 로그)
+        a = "2026-09-29T09:46:00+0900"
+        c = self.brk("B", "[속보] 하이브 본사 압수수색", lv={"k": "하이브", "t": 3, "a": a})
+        self.assertEqual(len(self.round([c], sent=["lv:하이브@" + a], events=[], ai="none")[0]), 1)
+
 
 class Budget(unittest.TestCase):
     def test_trim_protects_lv(self):
@@ -598,7 +616,7 @@ class Budget(unittest.TestCase):
 
 
 class Gates(unittest.TestCase):
-    def test_strong_skips_celeb_axis_only(self):
+    def test_strong_opens_celeb_and_investigation(self):
         self.assertIsNotNone(BG.gate_reason("배우 ○○, 열애 인정"))
         self.assertIsNone(BG.gate_reason("배우 ○○, 열애 인정", live=3))
         self.assertIsNone(BG.gate_reason("유튜버 ○○ 전 연인 고소…경찰 수사 착수", live=3))      # [강] 연예 = 수사 단계 개방(운영자 260929 «고소 수사도 열어»)
