@@ -440,7 +440,7 @@ function feedAgeH(a) {
 // 긴급/이슈 분류(상호배타·긴급우선) → 카드 테두리 점등 클래스. 'brk'(IN<4h breaking)·'iss'(4h~24h AND [a.issue 또는 aged breaking])·''(1일↑·신규<4h·비이슈). a.issue = build-viewer issEligible(cross≥10·grade게이트·정형컷 — 수집함 issCross와 규칙 동일·260702).
 // 피드 유효 breaking = 수집함 isBreaking(11242행) 정본 계승 = breaking(또는 제목 속보 폴백) AND 경중 게이트(grade 0·1 컷 · null 미채점=유보 통과).
 // ⚠️ 260617 계약("grade1 경미인데 ⚡이슈 모순 차단")이 수집함에만 적용돼 있었다 — 피드 인덱스에 grade 필드가 없어 raw a.breaking으로 판정했고, 그래서 g1 기사가 피드에서만 4~24h에 ⚡이슈(+<4h 🚨긴급)를 달았다(운영자 260810 "g1급은 이슈 조건에서 배제" · 실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15 = 제목 [속보] 폴백으로 breaking true). build-viewer가 grade를 패스스루하면서 봉합 = 수집함↔피드 동일 규칙 복구.
-const feedBrk = a => (a.breaking || /속보/.test(a.title || '')) && (a.grade == null || a.grade >= 2 || (a.grade >= 1 && (a.lvt || 0) >= 3));   // lvt = 후보 확산 [강] 표식(build-viewer 패스스루 · 있을 때만) = 수집함 isBreaking 과 같은 술어(260929)
+const feedBrk = a => (a.breaking || /속보/.test(a.title || '')) && (a.grade == null || a.grade >= 2 || (a.lvt || 0) >= 3);   // lvt = 후보 확산 [강] 표식(build-viewer 패스스루 · 있을 때만) = 수집함 isBreaking 과 같은 술어(260929)
 function brkIssueKind(a) {
   const brk = feedBrk(a);
   // 긴급/이슈 나이 = IN(수집)나이·발행나이 中 *큰 값* → 둘 다 <4h여야 긴급(운영자 260623). 발행 16h 지난 syndication-지연 건을 방금 수집(IN<4h)했다고 IN만 보고 긴급 뜨던 버그 차단 — 화면 'N시간 전'(발행)과 배지 일치. 발행 무효(1e7)면 IN만(time 빈 매체 폴백 유지 = 옛 동작).

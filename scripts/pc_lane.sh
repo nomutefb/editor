@@ -195,7 +195,7 @@ _noapikey(){ unset ANTHROPIC_API_KEY ANTHROPIC_AUTH_TOKEN 2>/dev/null || true; }
   --min-cross "${SCRAPE_MIN_CROSS:-2}" \
   --top "${SCRAPE_TOP:-20}" || { _land "collect-fail" "knews_scraper rc≠0(피드·네트워크·의존)"; exit 0; }
 "$PY" scraper/to_candidates.py scraper/out/articles.json || { _land "cand-fail" "to_candidates rc≠0"; exit 0; }
-"$PY" scraper/live_seed.py scraper/out/articles.json || echo "⚠ live_seed 실패(비치명)"   # 확산 신호(scrape.yml 「확산 신호 반영」 사본 · 상태 = scraper/obs 착지 동승)
+LIVE_GN_MAX_Q=0 LIVE_STATE_RO=1 "$PY" scraper/live_seed.py scraper/out/articles.json || echo "⚠ live_seed 실패(비치명)"   # 확산 신호(scrape.yml 「확산 신호 반영」 사본 · 상태 = scraper/obs 착지 동승 · 구글 뉴스 0회 = 5분 주기 가정 IP 차단 시 같은 IP 의 구글 급상승·이미지 검색까지 막힘 · 확인 검색 = 러너 몫 · LIVE_STATE_RO=1 = 상태 기록자는 러너 하나 = 통째 덮어쓰기로 확인·장부가 증발하던 것 차단)
 "$PY" scraper/snapshot.py >/dev/null 2>&1 || true
 cp scraper/out/feed_health_obs.json scraper/obs/feed_health.json 2>/dev/null || true
 _push "scrape(pc): 수집함 candidates + 관측 obs 갱신" viewer/candidates.json scraper/obs

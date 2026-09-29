@@ -2,8 +2,10 @@
 운영자 260929 «닛몰캐쉬 같은 기사가 원체 빨리 들어오고 긴급으로 뜰 수 있는지» — 명성 대신 분포 증거(A4/A5)."""
 import gzip
 import json
+import os
 import sys
 import unittest
+from unittest import mock
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -135,7 +137,8 @@ class Tiers(unittest.TestCase):
         self.assertEqual(sum(st["hi"]["닛몰캐쉬"].values()), 1)
 
     def test_ours_confirm_needs_novelty(self):
-        e = {"a": int(ep("2026-09-24 21:46")), "f": {}}
+        a0 = int(ep("2026-09-24 21:46"))
+        e = {"a": a0, "f": {"C": a0, "X": a0}}
         old = [{"first_seen": "2026-09-24T12:00:00+0900", "cross": 2}]
         new = [{"first_seen": "2026-09-24T21:30:00+0900", "cross": 5}]
         self.assertFalse(L.confirm_ours(dict(e), new, e["a"] + 60, old))   # 무장 3h 전보다 이른 보도 = 묵은 사건
@@ -147,7 +150,20 @@ class Tiers(unittest.TestCase):
         a = int(ep("2026-09-29 09:46"))
         e = {"a": a, "cf": a + 2700, "f": {"C": a}}
         self.assertEqual(L.tier(e, a + 3600), 3)
-        self.assertEqual(L.tier(e, a + 2700 + 25 * 3600), 2)
+        late = a + 2700 + 25 * 3600
+        self.assertEqual(L.tier(e, late), 0)                                   # 유지 창 뒤 · 갈래도 꺼짐 = 없음
+        self.assertEqual(L.tier(dict(e, f={"C": late, "X": late}), late), 2)   # 유지 창 뒤 · 지금 두 갈래 동시 = [중]
+
+    def test_arming_needs_live_simultaneity(self):   # 평의회260929-2 #2-2 — 한 갈래만 남으면 [중] 해제(무장도 풀림) · 확인은 무장 6h 안만
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        L.update(st, snap(t, [["닛몰캐쉬 폭로"]] * 4, x=["닛몰캐쉬"]), t)
+        self.assertEqual(L.tier(st["k"]["닛몰캐쉬"], t), 2)
+        L.update(st, snap(t + 7 * 3600, [], x=["닛몰캐쉬"]), t + 7 * 3600)   # 커뮤니티 7h 조용 · X 만
+        e = st["k"]["닛몰캐쉬"]
+        self.assertEqual((L.tier(e, t + 7 * 3600), "a" in e), (1, False))
+        e2 = {"a": int(t), "f": {"C": int(t + 8 * 3600), "X": int(t + 8 * 3600)}}
+        self.assertFalse(L.confirm_ours(e2, [{"first_seen": "2026-09-29T17:30:00+0900", "cross": 5}], t + 8 * 3600))   # 무장 8h 뒤 = 확인 창 밖
 
 
 class GoogleNews(unittest.TestCase):
@@ -203,12 +219,138 @@ class GoogleNews(unittest.TestCase):
         st["k"]["닛몰캐쉬"] = {"d": "닛몰캐쉬", "f": {"C": int(t)}, "m": {}, "a": int(t - 7 * 3600)}
         self.assertEqual(L.gn_poll(st, ["닛몰캐쉬"], t, fetch=lambda q: "<rss></rss>", pause=0), 0)
 
+    # ── 평의회 260929 #6(구글 뉴스 조회 안전) ──
+    def _armed(self, t, names):
+        st = L.new_state()
+        for k in names:
+            st["k"][k] = {"d": k, "f": {"C": int(t), "X": int(t)}, "m": {}, "a": int(t - 600)}
+        return st
+
+    def test_failure_stops_round(self):   # 503·시간 초과 = 이 회차 중단(연타 0 · 캐시 0)
+        t = ep("2026-09-29 10:31")
+        st, calls = self._armed(t, ("가나다라", "마바사아", "자차카타")), []
+        n = L.gn_poll(st, L.gn_candidates(st, t), t, fetch=lambda q: calls.append(q) or "", pause=0, max_q=6)
+        self.assertEqual((n, len(calls), st["gn"]), (1, 1, {}))
+
+    def test_not_novel_is_pinned(self):   # 무장 전 보도 있음 = 이 에피소드 동안 재조회 0(옛 기사가 밀려 「새 사건」으로 뒤집힘 차단)
+        armed = ep("2026-09-29 20:00")
+        st = L.new_state()
+        st["k"]["닛몰캐쉬"] = {"d": "닛몰캐쉬", "f": {"C": int(armed)}, "m": {}, "a": int(armed)}
+        xml = (FIX / "gn_nimol.xml").read_text(encoding="utf-8")
+        self.assertEqual(L.gn_poll(st, ["닛몰캐쉬"], armed + 60, fetch=lambda q: xml, pause=0), 1)
+        self.assertEqual(st["gn"]["닛몰캐쉬"]["nov"], 0)
+        self.assertEqual(L.gn_poll(st, ["닛몰캐쉬"], armed + 3600, fetch=lambda q: "<rss></rss>", pause=0), 0)
+        self.assertNotIn("cf", st["k"]["닛몰캐쉬"])
+
+    def test_rotation_no_starvation(self):   # 상한 초과 = 한 번도 안 물은 이름 → 오래 안 물은 순(7번째 이름 굶주림 0)
+        t = ep("2026-09-29 10:31")
+        names = ["이름%02d" % i for i in range(9)]
+        st, seen = self._armed(t, names), set()
+        for r in range(2):
+            now = t + r * 900
+            L.gn_poll(st, L.gn_candidates(st, now), now, fetch=lambda q: seen.add(q) or "<rss></rss>", pause=0, max_q=6)
+        self.assertEqual(seen, set(names))
+
+    def test_cap_zero_and_kill_switch(self):   # pc·폰 레인(LIVE_GN_MAX_Q=0) · 공용 킬스위치 GNEWS_IMG=0 = 요청 0
+        t = ep("2026-09-29 10:31")
+        st, calls = self._armed(t, ("가나다라",)), []
+        self.assertEqual(L.gn_poll(st, ["가나다라"], t, fetch=lambda q: calls.append(q) or "<rss></rss>", pause=0, max_q=0), 0)
+        with mock.patch.dict(os.environ, {"GNEWS_IMG": "0"}):
+            self.assertEqual(L.gn_poll(st, ["가나다라"], t, fetch=lambda q: calls.append(q) or "<rss></rss>", pause=0), 0)
+            self.assertFalse(L.gn_live())
+        self.assertEqual(calls, [])
+
+    def test_env_int_blank(self):   # repo 변수 미설정 = 빈 문자열 → 기본값(import 크래시 0)
+        with mock.patch.dict(os.environ, {"LIVE_GN_MAX_Q": ""}):
+            self.assertEqual(L._env_int("LIVE_GN_MAX_Q", 6), 6)
+        with mock.patch.dict(os.environ, {"LIVE_GN_MAX_Q": "x"}):
+            self.assertEqual(L._env_int("LIVE_GN_MAX_Q", 6), 6)
+        with mock.patch.dict(os.environ, {"LIVE_GN_MAX_Q": "0"}):
+            self.assertEqual(L._env_int("LIVE_GN_MAX_Q", 6), 0)
+
+    def test_wire_reprint_counts_once(self):   # 통신사 원문 + 제휴 매체 같은 제목 전재 = 1곳(SBS·경향 연합 전재 원칙과 같음)
+        now, a = ep("2026-09-29 10:31"), ep("2026-09-29 09:46")
+        it = lambda t, m, h: {"title": t + " - " + m, "pub": now - 900, "source": "https://" + h, "sname": m, "link": "https://" + h}  # noqa: E731
+        same = [it("닛몰캐쉬, 전 연인 폭로 파문", m, h) for m, h in (("뉴시스", "newsis.com"), ("파이낸셜뉴스", "fnnews.com"), ("국제신문", "kookje.co.kr"))]
+        self.assertEqual(L.gn_count(same, "닛몰캐쉬", now, a)[0], 1)
+        diff = same[:1] + [it("닛몰캐쉬 소속사 입장", "스타뉴스", "star.mt.co.kr"), it("[단독] 닛몰캐쉬 녹취록", "톱스타뉴스", "topstarnews.net")]
+        self.assertEqual(L.gn_count(diff, "닛몰캐쉬", now, a)[0], 3)
+
+
+class SocialFresh(unittest.TestCase):   # 평의회260929-2 #8 — 커뮤니티 레인(파일 시각 없음)이 멈추면 S 갈래를 연장하지 않는다
+    def test_stale_social_stops_extending(self):
+        t = ep("2026-09-29 09:37")
+        soc = [{"title": "닛몰캐쉬 전여친 폭로 정리", "source_count": 4, "posts": 30, "age_h": 1.0}]
+        two = [["닛몰캐쉬 폭로"], ["닛몰캐쉬 근황"]]             # tbs 2곳 = 커뮤니티 레인 뒷받침(단독으로는 갈래 아님)
+        st = L.new_state()
+        L.update(st, dict(snap(t, two), social=soc), t)
+        self.assertEqual(st["k"]["닛몰캐쉬"]["f"]["C"], int(t // 60 * 60))
+        t3 = t + 3 * 3600
+        L.update(st, dict(snap(t3, two), social=soc), t3)        # 소셜 3시간째 같은 내용 = 스캔 정지 → tbs 2곳만 = 갈래 아님
+        self.assertLess(st["k"]["닛몰캐쉬"]["f"]["C"], t3 - 60)
+        L.update(st, dict(snap(t3 + 60, two), social=[dict(soc[0], posts=41)]), t3 + 60)   # 새 스캔 = 다시 신선
+        self.assertGreaterEqual(st["k"]["닛몰캐쉬"]["f"]["C"], t3)
+
+    def test_social_alone_is_not_a_family(self):   # 평의회260929-2 #2-4 — 바이럴 글 하나의 일반명사 = 갈래 아님
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        L.update(st, {"tbs": {}, "sns": {}, "social": [{"title": "시어머니가 며느리에게 보낸 문자", "source_count": 5, "age_h": 1.0}]}, t)
+        self.assertNotIn("며느리", st["k"])
+
+    def test_old_social_post_not_simultaneous(self):
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        L.update(st, {"tbs": {}, "sns": {}, "social": [{"title": "닛몰캐쉬 전여친 폭로 정리", "source_count": 4, "age_h": 9.0}]}, t)
+        self.assertNotIn("닛몰캐쉬", st["k"])
+
+
+class Noise0929(unittest.TestCase):   # 평의회260929-2 #2 — 7일 리플레이 오발 유형(무장 51→24 · 닛몰캐쉬 유지)
+    def test_containment_needs_generic_rest(self):
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        L.update(st, snap(t, [["한가위 연휴 시작"], ["한가위 보름달"], ["한가위 선물"]], x=["가득한 한가위"]), t)
+        self.assertLess(L.tier(st["k"].get("한가위"), t), 2)                    # 「가득한 한가위」 ≠ 한가위 이름
+        st = L.new_state()
+        L.update(st, snap(t, [["닛몰캐쉬 폭로"]] * 3, g=["닛몰캐쉬 데이트폭력"]), t)
+        self.assertEqual(L.tier(st["k"]["닛몰캐쉬"], t), 2)                    # 나머지 = 일반어 → 같은 이름
+        self.assertNotIn("닛몰캐쉬데이트폭력", st["k"])                        # 검색어 키는 이름 에피소드에 흡수(에피소드 1개)
+
+    def test_trend_word_bypasses_verb_tail(self):   # 「전종서」(서 끝) = 제목 토큰 필터에 잘려도 트렌드 낱말이면 이름
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        L.update(st, snap(t, [["전종서 열애설 터짐"], ["전종서 열애 상대"], ["전종서 소속사 입장"]], g=["전종서 열애설"]), t)
+        self.assertEqual(L.tier(st["k"].get("전종서"), t), 2)
+        self.assertNotIn("열애설", st["k"])
+
+    def test_long_josa_counts_community(self):   # 「쯔양처럼·쯔양으로·쯔양까지」 = 쯔양 3곳
+        c = L._Corpus([("a", ["쯔양처럼 먹방"]), ("b", ["쯔양으로 변신"]), ("c", ["쯔양까지 등장"])])
+        self.assertEqual(c.count("쯔양"), 3)
+
+    def test_stale_trend_source_ignored(self):   # X 수집 실패 = 직전 목록 + updated 만 갱신 → health.last_ok 로 거른다
+        t = ep("2026-09-29 09:37")
+        s0 = snap(t, [], x=["닛몰캐쉬"])
+        s0["sns"]["health"] = {"xtrends": {"ok": False, "last_ok": datetime.fromtimestamp(t - 5 * 3600, KST).isoformat()}}
+        obs, _ = L.observe(s0, t)
+        self.assertNotIn("X", obs.get("닛몰캐쉬", {}))
+
+    def test_tail_shows_live_families_only(self):
+        t = ep("2026-09-29 09:37")
+        st = L.new_state()
+        st["k"]["○○"] = {"f": {"C": int(t), "X": int(t - 7 * 3600)}, "m": {"c": 4, "x": 1}, "a": int(t - 3600), "cf": int(t - 60)}
+        lv = L.lv_of(st, "○○", t)
+        self.assertEqual((lv["t"], lv.get("c"), "x" in lv), (3, 4, False))
+
+    def test_bootstrap_counts_only(self):
+        st = L.new_state()
+        n = L.bootstrap_git(st, ep("2026-09-29 09:37"), root="/nonexistent")
+        self.assertEqual((n, st["k"]), (0, {}))
+
 
 class Tail(unittest.TestCase):
     def test_tail_format(self):
         lv = {"k": "닛몰캐쉬", "t": 3, "c": 4, "x": 1, "g": 10000, "n": 2, "gn": 7}
-        self.assertEqual(L.tail(lv), "〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · X 1위 · 구글 급상승 1만 · 나무위키 2위 · 언론 7곳〕")
-        self.assertEqual(L.tail({"k": "○○", "t": 2, "x": 3}), "〔확산 중 «○○»: X 3위〕")
+        self.assertEqual(L.tail(lv), "〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · 엑스 트렌드 1위 · 구글 급상승 검색 1만 · 나무위키 2위 · 언론 7곳〕")
+        self.assertEqual(L.tail({"k": "○○", "t": 2, "x": 3}), "〔확산 중 «○○»: 엑스 트렌드 3위〕")
         self.assertEqual(L.tail({}), "")
 
     def test_lv_of_omits_missing(self):

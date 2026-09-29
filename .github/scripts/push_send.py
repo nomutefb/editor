@@ -6,7 +6,7 @@
 # 정본 설명 = CLAUDE.md §🚨. 푸시 기준(앱푸시긴급) = breaking_judge AND grade≥2(운영자 260818 «내부에서는 자동으로 긴급처리가 되는데 웹앱 푸쉬 알림 [안 온다]» — 🚨배지·자동픽[grade≥2]과 같은 문턱으로 하향 = 내부 긴급처리와 푸시가 같은 사건을 본다 · 구 260622 grade≥3[뷰어 isAlert 동일선상]은 역사 · 실측 260818 = 24h 속보 5건 중 4건이 g=2라 내부 처리만 되고 푸시 0이 «긴급이 안 온다»의 실체) AND cross≥PUSH_MIN AND 최신(<4h).
 # ⚠️ 푸시는 되돌릴 수 없다(발송=회수 불가) → 뷰어 점등(가역)보다 *더* 보수적: grade 미채점(None)은 푸시 안 함
 #    (뷰어는 None도 점등=즉시·가역) · 다매체 검증 cross≥PUSH_MIN_CROSS 필수 · dedup=event_key+제목해시(중복발송 차단).
-# 확산 증거(lv · scraper/live_signal.py · 260929): lv.t≥3([강]) = 경중 1도 발송 · 교차는 lv.gn≥3(바깥 언론 3곳) 또는 [강]으로 대신 충족.
+# 확산 증거(lv · scraper/live_signal.py · 260929): lv.t≥3([강]) = 경중 무관 발송(채점은 돼야 함) · 교차도 [강](바깥 언론 3곳 + 새 사건 확인)으로 대신 충족.
 #    구글뉴스 씨앗 → 실후보 이관 때 event_key 를 승계(scraper/live_seed.supersede)하므로 같은 사건 재발송은 원장 첫 키에서 막힌다.
 import json, os, re, sys, time, base64, hashlib, tempfile, datetime as dt
 from pathlib import Path
@@ -64,6 +64,13 @@ PUSH_SOLO_TAG = os.environ.get("PUSH_SOLO_TAG", "1").strip().lower() not in ("0"
 PUSH_SOLO_EXC = os.environ.get("PUSH_SOLO_EXC", "1").strip().lower() not in ("0", "false", "no", "off")
 
 
+def _lv(c):
+    """확산 증거(lv) — 저장소 킬스위치(scraper/live_signal.off · 정본 = scraper/live_signal.OFF_FILE)가 있으면 없는 것으로(이미 붙은 [강]의 푸시 완화도 끈다)."""
+    if (ROOT / "scraper" / "live_signal.off").exists():
+        return {}
+    return c.get("lv") if isinstance(c.get("lv"), dict) else {}
+
+
 def push_cross_ok(c):
     """다매체 검증 문턱 — cross≥PUSH_MIN_CROSS, 또는 첫 보도 태그 단독 1보(PUSH_SOLO_TAG).
     ⚠ 태그 정본 import 는 **여기서만 지연** — 이 스크립트는 완료 알림(--notify)으로 scraper/ 없는 희소 체크아웃 12레인에서도
@@ -72,9 +79,10 @@ def push_cross_ok(c):
     cr = c.get("cross") or 0
     if cr >= PUSH_MIN_CROSS:
         return True
-    lv = c.get("lv") if isinstance(c.get("lv"), dict) else {}
-    if (lv.get("gn") or 0) >= 3 or (lv.get("t") or 0) >= 3:
-        return True   # 확산 증거(260929 · scraper/live_signal.py) = 우리 피드 밖 언론 3곳↑ 보도 또는 확산 [강] — 다매체 검증을 바깥 매체 수가 대신한다(씨앗·단독 입장분)
+    lv = _lv(c)
+    if (lv.get("t") or 0) >= 3:
+        return True   # 확산 [강](260929 · scraper/live_signal.py) = 우리 피드 밖 언론 3곳↑ ∧ 새 사건 확인 — 다매체 검증을 바깥 매체 수가 대신한다(씨앗·단독 입장분)
+        #   ⚠ lv.gn≥3 만으로는 안 된다 — [중]에서 gn≥3 = novel 미달(묵은 사건 재점화)이라 확인이 거절된 상태(평의회260929-2 #4·#8)
     if not (PUSH_SOLO_TAG and cr >= 1):
         return False
     try:
@@ -169,10 +177,10 @@ def jload(p, d):
 
 def is_breaking(c):
     # 푸시용(가역 아님·앱푸시긴급) = grade가 *채점되어* ≥2여야 함(운영자 260818 하향 — 🚨배지·자동픽과 같은 문턱 · 헤더 주석에 하향 근거 실측 · None=미채점은 여전히 푸시 보류[비가역 보수 철학 불변] · 오발 가드 cross≥PUSH_MIN_CROSS·4h/8h 창도 불변).
-    # 확산 [강](lv.t≥3 · 260929) = 경중 1도 통과 — 경중 채점기는 제목만 봐서 익명 제목(「유명 유튜버…」)에 1을 준다(닛몰캐쉬 실측 g1) · 뷰어 isBreaking 과 같은 술어(미채점 보류만 푸시 쪽 추가).
+    # 확산 [강](lv.t≥3 · 260929) = 경중 무관 통과(채점은 돼야 함) — 경중 채점기는 제목만 봐서 익명·무명 제목에 0·1을 준다(닛몰캐쉬 실측 g1) · 뷰어 isBreaking 과 같은 술어(미채점 보류만 푸시 쪽 추가).
     g = c.get("grade")
-    lv = c.get("lv") if isinstance(c.get("lv"), dict) else {}
-    return bool(c.get("breaking")) and g is not None and ((g or 0) >= 2 or ((g or 0) >= 1 and (lv.get("t") or 0) >= 3))
+    lv = _lv(c)
+    return bool(c.get("breaking")) and g is not None and ((g or 0) >= 2 or (lv.get("t") or 0) >= 3)
 
 def brk_url(c):
     # 긴급 알림 탭 → 루트가 아니라 *해당 건*으로 딥링크(/?brk=키&bl=메이저링크). 뷰어가 탭 *시점*에 '요약 완료?'를
@@ -206,6 +214,16 @@ def dedup_keys(c):
     if t: ks.append("t:" + hashlib.md5(t.encode("utf-8")).hexdigest()[:16])
     g = c.get("group_id")
     if g and str(g) not in ks: ks.append(str(g))
+    u = c.get("url")
+    if u and str(u) not in ks: ks.append(str(u))   # 자기 기사 url(260929) — 씨앗 이관으로 event_key 가 씨앗 키가 된 실후보도 자기 url 이 원장에 남아야
+    #   뒤에 그 기사를 멤버로 품은 다른 대표 묶음이 멤버 검사(아래 cluster_members)에 걸린다(평의회3 260929 재현 = 2발)
+    lv = c.get("lv") if isinstance(c.get("lv"), dict) else {}
+    try:
+        _t = int(lv.get("t") or 0)
+    except (TypeError, ValueError):
+        _t = 0
+    if _t >= 3 and lv.get("k") and lv.get("a"):   # 확산 [강] 이름 에피소드 키 — 레인 경합으로 씨앗·이관 흔적이 덮여도 같은 이름·같은 무장 시각 = 같은 사건
+        ks.append("lv:%s@%s" % (re.sub(r"[^0-9a-z가-힣]", "", str(lv["k"]).lower()), lv["a"]))   # 정규화 = scraper/live_signal.norm_key 와 같은 식
     return ks
 
 
@@ -214,6 +232,7 @@ def _ai_same_event(title, recent_titles):
     아니면 None. 프롬프트·엄격 파싱 = auto_pick_breaking._ai_same 정본 그대로(카드 평의회 260625 검증 판정유형 —
     렉시컬 임계는 템플릿형 다른사건 false-merge 선례로 금지). AI 실패·토큰없음·산문 = None(=다른 사건=발송 진행:
     진짜 별개 긴급 누락[false-merge]보다 중복 1발이 안전 — autopick과 동일 방향)."""
+    _AI_LAST["ok"] = False
     if not recent_titles:
         return None
     try:
@@ -246,9 +265,14 @@ def _ai_same_event(title, recent_titles):
         return None
     out = (p.stdout or "").strip()
     if not re.fullmatch(r"#?\s*\d+", out):   # '번호 단독'만 인정(산문 속 임의 숫자 오인 차단 · autopick 검증 평의회 5·10)
+        _AI_LAST["ok"] = out.upper() == "NONE"
         return None
     idx = int(re.search(r"\d+", out).group())
+    _AI_LAST["ok"] = True
     return idx if 0 <= idx < len(recent_titles) else None
+
+
+_AI_LAST = {"ok": True}   # 마지막 _ai_same_event 가 실제 판정을 냈나(NONE·번호) — 실패·산문·토큰 없음 = False(씨앗 fail-closed 가 읽는다)
 
 def age_h(c):
     # 나이 = first_seen(갓 감지) 우선·published 폴백 — published 우선(구)은 syndication 지연·스탬프 오류로
@@ -469,8 +493,11 @@ def main():
             if pa is None or pa < 0 or pa >= PUSH_PUB_MAX_H:   # 발행 8h+ = 뒷북 차단 · pa<0 = 미래 published(소스 TZ 오기록) = 신뢰 불가 → 보류(평의회1 260722 — age_h 음수가드와 대칭·비가역 오발 차단) · published 없음/파싱실패 = 보류(grade None 보류와 동일 보수 철학 — None 관대면 캡이 통째 꺼짐 · 검4-3 260710). ⚠️ 한계 정직: 이 캡의 입력 = *현재 rep 기사* 발행 나이(rep 점프 시 최신 후속 기사 기준)지 사건 최초 발행 나이가 아님 — 사건나이 프록시·승계 실패 first_seen 리셋 보완은 §7 후속 큐.
                 continue
             ks = dedup_keys(c)
-            if not ks or any(k in sent for k in ks):     # event_key·제목해시·group_id 중 하나라도 보냄 = 스킵(중복 차단)
+            if not ks:
                 continue
+            if any(k in sent for k in ks):     # event_key·제목해시·group_id·url·확산 에피소드 중 하나라도 보냄 = 스킵(중복 차단)
+                suppressed_keys.extend(k for k in ks if k not in sent)   # 나머지 키도 원장에(260929 — 씨앗 키를 승계한 실후보의 자기 url 이
+                continue                                                  #   안 남으면 그 기사를 멤버로 품은 다음 묶음이 멤버 검사를 비껴간다)
             if any(str(m) in sent for m in (c.get("cluster_members") or [])):   # 이 묶음의 기사 하나가 이미 긴급으로 나갔다(단독 1보가 먼저 나간 뒤 다매체 묶음이 따로 뜬 경우 · 평의회3 260923) = 같은 사건
                 suppressed_keys.extend(ks)
                 continue
@@ -479,6 +506,9 @@ def main():
             # 3연발(기사키 상이·group_id 미도장) 클래스가 표적. 억제 키는 원장 도장 = 이후 런 AI 0콜 스킵.
             # ⚠ 비교 대상 = 최근 긴급 발송분 + **이번 런에서 방금 담은 긴급**(평의회3 260923 — 같은 사건 단독 1보 둘이 한 런에 뜨면 둘 다 나가던 구멍 · 이슈 루프 478행과 같은 짝)
             _run_brk = [{"title": m.get("ev_title") or ""} for m in msgs if m.get("kind", "brk") != "iss"]
+            if c.get("seed") and (sent_events or _run_brk) and ai_calls >= MAX_AI_DEDUP:
+                continue   # 구글 뉴스 씨앗 = 사건중복 심판 없이는 안 보낸다(fail-closed · 다음 런 재시도) — 익명 제목으로 먼저 나간 사건을
+                #            실명 구글 기사로 다시 부르는 2발 차단(평의회3 260929 · 씨앗은 우리 피드와 이어 볼 결정적 키가 없다)
             if (sent_events or _run_brk) and ai_calls < MAX_AI_DEDUP:
                 ai_calls += 1
                 # ⚠ 비교 대상은 **긴급 발송분만**(k != "iss") — 이슈 발송분까지 넣으면 이슈로 먼저 알린 사건이
@@ -488,6 +518,9 @@ def main():
                 if dup is not None:
                     print(f"  ⊘ 사건중복 억제(AI): {(c.get('title') or '')[:34]} ≈ {str(_brk_pool[dup].get('title', ''))[:28]}", file=sys.stderr)
                     suppressed_keys.extend(ks)
+                    continue
+                if c.get("seed") and not _AI_LAST["ok"]:
+                    print(f"  ⏸ 씨앗 보류(사건중복 심판 실패 = fail-closed): {(c.get('title') or '')[:34]}", file=sys.stderr)
                     continue
             msgs.append({"keys": ks, "ev_title": c.get("title") or "", "title": "News", "body": ("(긴급) " + disp_title(c))[:120], "url": brk_url(c), "tag": "nomute-breaking-" + hashlib.md5((ks[0] if ks else "").encode("utf-8")).hexdigest()[:10], "kind": "brk", "icon": notif_icon("brk", "sig") or ""})   # 제목="News"(고정·OS 볼드) · 본문="(긴급) 헤드라인"(외신=번역 제목) · url=해당 건 딥링크(요약완료=요약창/미완료=메이저링크 · 운영자 260622)
         # ── ⚡이슈 발송(긴급 루프 뒤 = 긴급이 우선) ────────────────────────────────────────

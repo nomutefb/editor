@@ -34,16 +34,22 @@ def parse_iso(s):
         return None
 
 
+_BRK_ON = None
+
+
 def is_breaking_viewer(c):
-    # 뷰어 isBreaking(점등용) = breaking AND (grade 미채점 or grade≥2 or (grade≥1 ∧ 확산 [강])). 긴급자격 = 이게 True면 <4h일 때 🚨.
-    # 정본 = daily_health._brk_on(손복사 금지) · import 실패 = 종전 술어.
-    try:
-        sys.path.insert(0, str(ROOT / "scraper"))
-        from daily_health import _brk_on
-        return _brk_on(c)
-    except Exception:  # noqa: BLE001
-        g = c.get("grade")
-        return bool(c.get("breaking")) and (g is None or (g or 0) >= 2)
+    # 뷰어 isBreaking(점등용) = breaking AND (grade 미채점 or grade≥2 or 확산 [강]). 긴급자격 = 이게 True면 <4h일 때 🚨.
+    # 정본 = daily_health._brk_on(손복사 금지) · import 1회(호출마다 sys.path 쌓임 0) · import 실패 = 종전 술어.
+    global _BRK_ON
+    if _BRK_ON is None:
+        try:
+            if str(ROOT / "scraper") not in sys.path:
+                sys.path.insert(0, str(ROOT / "scraper"))
+            from daily_health import _brk_on
+            _BRK_ON = _brk_on
+        except Exception:  # noqa: BLE001
+            _BRK_ON = lambda c: bool(c.get("breaking")) and (c.get("grade") is None or (c.get("grade") or 0) >= 2)   # noqa: E731
+    return _BRK_ON(c)
 
 
 def promoted_guess(c):
@@ -100,9 +106,9 @@ def summarize(items, label):
     g3 = [c for c in items if (c.get("grade") or 0) >= 3]
     promo = [c for c in items if promoted_guess(c)]
     brk = [c for c in items if c.get("breaking")]
-    urg = [c for c in items if is_breaking_viewer(c) and (c.get("grade") or 0) >= 2]
+    urg = [c for c in items if is_breaking_viewer(c) and c.get("grade") is not None]   # daily_health urg(_brk_on ∧ 채점됨)와 같은 선 = [강] 경중 1 긴급 포함
     print(f"\n=== {label} — 수집 {n}건 ===")
-    print(f"  grade3: {len(g3)} · ⬆️승격(추정): {len(promo)} · 🚨breaking: {len(brk)} · 긴급자격(breaking&g≥2): {len(urg)}")
+    print(f"  grade3: {len(g3)} · ⬆️승격(추정): {len(promo)} · 🚨breaking: {len(brk)} · 긴급자격(isBreaking&채점됨): {len(urg)}")
     # 소스 확장 cross 인플레 측정(260702 +4매체 · curation §7) — ⚡이슈 자격·grade 분포·cross 버킷·cat별 cross≥8(경제 편중 관측).
     iss = [c for c in items if (c.get("cross") or 0) >= 8]
     gd = Counter(("미채점" if c.get("grade") is None else str(c.get("grade"))) for c in items)

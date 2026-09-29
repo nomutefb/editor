@@ -215,27 +215,26 @@ class JudicialGate(unittest.TestCase):
         self.assertIsNotNone(G.judicial_gate("○○ 구속영장 청구", 3))
 
 
-class LiveTier(unittest.TestCase):   # 확산 [강](lv.t≥3 · 260929 A9) = 연예·사법 축 면제 · 인명 문턱 유지
-    def test_strong_skips_celeb_and_judicial(self):
-        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사"))
-        self.assertIsNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=3))
+class LiveTier(unittest.TestCase):   # 확산 [강](lv.t≥3 · 260929 A9) = 연예 관계·지위 축만 면제 · 인명 문턱·사법 축 유지
+    def test_strong_skips_celeb_only(self):
         self.assertIsNone(G.gate_reason("배우 ○○·가수 ○○ 열애설", "문화", 2, 3))
         self.assertIsNotNone(G.gate_reason("배우 ○○·가수 ○○ 열애설", "문화", 2, 2))   # [중] = 면제 없음
+        self.assertIsNotNone(G.gate_reason("가수 ○○, 신곡 들고 컴백", "문화", 2, 3))     # 콘텐츠 축 = [강]이어도 X
         self.assertTrue(G.gate_reason("유튜버 ○○ 탄 차량 사고로 2명 사망", live=3).startswith("국내"))
+        self.assertIsNone(G.gate_reason("닛몰캐쉬, 데이트폭력·비하발언 폭로 터졌다…전 여친 녹취록 공개", "문화", 1, 3))   # 목표 사례 = 면제 없이도 통과
 
-    def test_strong_judicial_scope_is_entertainment_only(self):   # 통합 검토 260929 — 정치·형사 재판은 [강]이어도 ③ 그대로(운영자 260921)
+    def test_strong_keeps_judicial(self):   # 평의회260929-2 #8 — 사법 축은 [강]·연예인이어도 그대로(운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게»)
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=3))
+        self.assertIsNotNone(G.gate_reason("가수 ○○, 항소심서 징역 3년 선고", "문화", 11, 3))
         self.assertIsNotNone(G.gate_reason("○○ 전 장관, 항소심서 징역 2년 선고", "정치", 12, 3))
         self.assertIsNotNone(G.gate_reason("○○ 의원 뇌물 혐의 구속영장 청구", "사회", 5, 3))
-        self.assertIsNone(G.gate_reason("크리에이터 ○○ 전 연인 고소…경찰 수사", "사회", 1, 3))   # 씨앗(종합지 제목 · cat 사회)도 연예 직업어로 면제
-        self.assertIsNone(G.gate_reason("○○, 전 여친 폭행 혐의 경찰 수사", "문화", 3, 3))
-        self.assertTrue(G.ent_scope("닛몰캐쉬 전 여친 폭로", "문화"))
-        self.assertFalse(G.ent_scope("○○ 전 장관 항소심 선고", "정치"))
+        self.assertIsNone(G.gate_reason("수영장 붕괴로 5명 사망", "사회", 3, 3))       # 「수영장」 ≠ 영장
 
     def test_sweep_keeps_live_backed_verdict(self):
         j = JudgeIntegration()
         result = j.run_judge([
-            {"title": "유튜버 ○○ 전 여친 폭행 고소…경찰 수사", "cat": "사회", "breaking": True, "lv": {"k": "○○", "t": 3}},
-            {"title": "유튜버 ○○ 전 여친 폭행 고소…경찰 수사", "cat": "사회", "breaking": True},
+            {"title": "배우 ○○·가수 ○○ 열애설", "cat": "문화", "breaking": True, "lv": {"k": "○○", "t": 3}},
+            {"title": "배우 ○○·가수 ○○ 열애설", "cat": "문화", "breaking": True},
         ], pending=False)
         self.assertEqual([c["breaking"] for c in result], [True, False])   # 소급 스윕 = 확산 [강] 근거 판정을 뒤집지 않는다
 

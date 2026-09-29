@@ -39,14 +39,18 @@ try {
 
 // 수집함 cross 인덱스(이슈 판정용) — viewer/candidates.json url→cross 맵. 직접공유분(매칭 없음)은 cross 0 → issue false(운영자: 직접은 어쩔 수 없음).
 const CROSS = new Map(), BRK = new Map(), CAT = new Map(), GRADE = new Map(), CTITLE = new Map(), KOTITLE = new Map(), EKEY = new Map(), LVT = new Map();   // BRK = AI 긴급 판정 전파 · CAT = 후보 카테고리(gate_judge AI 분류 → 픽 기사 frontmatter category 빈값 시 승계) · GRADE·CTITLE = 이슈 배지 게이트용(260702 옵션2) · KOTITLE = 외신 번역 제목 폴백(260703) · EKEY = 사건 그룹라벨(event_key) → 피드 기사 스탬프(뷰어 feedMatch event_key 티어 = 제목폴백보다 강한 사건매칭 활성 · 260714)
-const _normEk = u => String(u || '').trim().replace(/\/+$/, '');   // 뷰어 _normU 와 동일(끝슬래시만) — event_key 맵 키 정규화(rep url·cluster_member url 표기흔들림 흡수)
+const _normEk = u => String(u || '').trim().replace(/\/+$/, '');
+const EK2URL = new Map();   // 사건키 → 후보 url — 씨앗(seed:"gn") 링크로 요약된 기사가 씨앗이 실후보로 이관(scraper/live_seed.py supersede · event_key = 씨앗 url 승계)된 뒤에도
+//   긴급·매체 수·경중·확산 값을 이어받게(url 맵만 보면 이관 순간 피드 행이 긴급 아님·매체 0으로 떨어져 수집함과 갈렸다 · 평의회260929-2 #4 재현)   // 뷰어 _normU 와 동일(끝슬래시만) — event_key 맵 키 정규화(rep url·cluster_member url 표기흔들림 흡수)
 try {
   const cj = JSON.parse(readFileSync('viewer/candidates.json', 'utf8'));
   for (const c of (Array.isArray(cj) ? cj : (cj.candidates || []))) if (c.url) {
     CROSS.set(c.url, c.cross || 0);
     const lvt = (c.lv && c.lv.t) || 0;   // 확산 단계(scraper/live_signal.py · 260929)
-    BRK.set(c.url, !!c.breaking && (c.grade == null || c.grade >= 2 || (c.grade >= 1 && lvt >= 3)));   // 긴급 = breaking_judge 확정 AND 경중 grade≥2(미채점 포함) — cross 무관 · 확산 [강]이면 경중 1도(뷰어 isBreaking 과 같은 술어)
-    if (lvt >= 3) LVT.set(c.url, lvt);   // 피드 feedBrk 입력(있는 건만 = 인덱스 바이트 0 증가)
+    const brk = !!c.breaking && (c.grade == null || c.grade >= 2 || lvt >= 3);
+    BRK.set(c.url, brk);   // 긴급 = breaking_judge 확정 AND 경중 grade≥2(미채점 포함) — cross 무관 · 확산 [강]이면 경중 무관(뷰어 isBreaking 과 같은 술어)
+    if (lvt >= 3 && brk) LVT.set(c.url, lvt);   // 피드 feedBrk 입력(긴급 확정분만 = AI NO 인 [강] 후보가 요약 제목 「속보」 폴백으로 피드에만 🚨 뜨던 갈림 차단 · 평의회260929-2 #4)
+    if (c.event_key) { const k = _normEk(c.event_key); EK2URL.set(k, EK2URL.has(k) && EK2URL.get(k) !== c.url ? null : c.url); }   // 사건키 → 후보 url(유일할 때만)
     if (c.cat) CAT.set(c.url, c.cat);   // 후보 cat(gate_judge AI 분류·미술관 흉기난동=사회) → 픽 기사 카테고리 승계용
     GRADE.set(c.url, c.grade == null ? null : c.grade);   // 이슈 배지 grade 게이트(null=미채점 관용)
     CTITLE.set(c.url, c.title || '');   // 이슈 배지 정형·홍보컷은 후보 원제목 기준(요약 제목 아님)
@@ -129,6 +133,7 @@ for (const f of files) {
     const { meta, body } = parseFrontmatter(raw);
     // 외신 한국어 번역 제목(260703) — 1순위 분석 frontmatter title_ko · 2순위 수집함 후보 도장(KOTITLE — LLM 누락·프롬프트 이전 분석분 폴백) → 표시 제목 승격(피드 리스트 영어 원문 노출 차단 · 운영자 "원문으로 표시 안되게")
     const tko = stripLeadEmoji(meta.title_ko || '') || (!/[가-힣]/.test(meta.title || '') ? (KOTITLE.get(meta.url || '') || '') : '');
+    const cu = CROSS.has(meta.url || '') ? (meta.url || '') : (EK2URL.get(_normEk(meta.event_key)) || EK2URL.get(_normEk(meta.url)) || meta.url || '');   // 후보 조회 url(위 EK2URL · 직접 매칭 우선)
     const h1m = (body || '').match(/^#\s+(.+)$/m);   // 본문 첫 H1(AI 헤드) — frontmatter title 유실(이중 --- 등) 시 제목 폴백(파일명 노출 차단 · 260703 실측)
     articles.push({
       file: f,
@@ -147,13 +152,13 @@ for (const f of files) {
       tags_why: meta.tags_why || '',   // 민감 태그 부착 근거 한 줄(요약 frontmatter 패스스루) — 뷰어 민감 칩 title 툴팁 = 오탐·미탐을 운영자가 그 자리서 봄(운영자 260801 오탐 수리). 옛 분석분은 빈값(툴팁 없음 = 종전 동작).
       image_query_en: meta.image_query_en || '',   // 🌍해외사건 영문 검색쿼리(돋보기·검색이미지 영문화) — 분석 frontmatter 패스스루·국내=빈값(운영자 260622)
       image_query: meta.image_query || '',   // 상징 검색 키워드(AI 추출) — 돋보기 초록버튼=키워드 검색(회색=제목·기존)·운영자 260622
-      category: meta.category || CAT.get(meta.url || '') || '',   // frontmatter category 우선 → 없으면 후보 cat(gate_judge AI 분류) 승계 → 둘 다 없으면 뷰어 articleCat 키워드 폴백(미술관 흉기난동=사회 교정·260626)
-      breaking: BRK.has(meta.url || '') ? BRK.get(meta.url || '') : /\[\s*(속보|긴급)\s*\]|긴급\s*속보/.test(meta.title || ''),   // 긴급 = 매칭되면 AI breaking_judge 판정 따름(AI가 NO면 제목 [속보]여도 X) · 미매칭(직접공유)만 제목 표식 폴백.
-      cross: CROSS.get(meta.url || '') || 0,                    // 수집함 매칭 매체 수(직접공유=0)
+      category: meta.category || CAT.get(cu) || '',   // frontmatter category 우선 → 없으면 후보 cat(gate_judge AI 분류) 승계 → 둘 다 없으면 뷰어 articleCat 키워드 폴백(미술관 흉기난동=사회 교정·260626)
+      breaking: BRK.has(cu) ? BRK.get(cu) : /\[\s*(속보|긴급)\s*\]|긴급\s*속보/.test(meta.title || ''),   // 긴급 = 매칭되면 AI breaking_judge 판정 따름(AI가 NO면 제목 [속보]여도 X) · 미매칭(직접공유)만 제목 표식 폴백.
+      cross: CROSS.get(cu) || 0,                    // 수집함 매칭 매체 수(직접공유=0)
       event_key: meta.event_key || EKEY.get(_normEk(meta.url)) || '',   // 사건 그룹라벨 — frontmatter 우선(후속 파이프 배선 시) → 없으면 candidates url/cluster 매칭 스탬프. 뷰어 feedMatch event_key 티어(url 드리프트 요약을 제목폴백 전에 강한 식별로 재연결·260714) · 직접공유·미매칭은 빈 문자열(티어 자동 스킵)
-      ...(LVT.has(meta.url || '') ? { lvt: LVT.get(meta.url || '') } : {}),   // 확산 [강] 표식(260929 · feedBrk 입력) — 있는 기사만 키를 싣는다
-      grade: GRADE.has(meta.url || '') ? GRADE.get(meta.url || '') : null,   // 경중(gate_judge) 패스스루 — 피드 긴급/이슈 배지 grade 게이트용(운영자 260810 "g1급은 이슈 조건에서 배제"). 수집함은 candidates.grade를 직접 쓰는데 피드 인덱스엔 이 필드가 없어 brkIssueKind가 raw breaking으로 판정 = 'grade1 경미인데 ⚡이슈' 모순(260617 계약)이 피드에만 살아 있었다(실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15). 직접공유·미매칭 = null(미채점 관용 = 종전 동작).
-      issue: issEligible(meta.url),                             // index3: 이슈여부 = cross≥10 AND grade(null‖≥2) AND !badgeJunk(260702 옵션2 — 옛 cross≥8 단독은 홍보·시황이 다매체 동시배포만으로 배지 획득·수집확대 인플레로 남발). 직접공유분은 매칭 없어 false.
+      ...(LVT.has(cu) ? { lvt: LVT.get(cu) } : {}),   // 확산 [강] 표식(260929 · feedBrk 입력) — 있는 기사만 키를 싣는다
+      grade: GRADE.has(cu) ? GRADE.get(cu) : null,   // 경중(gate_judge) 패스스루 — 피드 긴급/이슈 배지 grade 게이트용(운영자 260810 "g1급은 이슈 조건에서 배제"). 수집함은 candidates.grade를 직접 쓰는데 피드 인덱스엔 이 필드가 없어 brkIssueKind가 raw breaking으로 판정 = 'grade1 경미인데 ⚡이슈' 모순(260617 계약)이 피드에만 살아 있었다(실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15). 직접공유·미매칭 = null(미채점 관용 = 종전 동작).
+      issue: issEligible(cu),                             // index3: 이슈여부 = cross≥10 AND grade(null‖≥2) AND !badgeJunk(260702 옵션2 — 옛 cross≥8 단독은 홍보·시황이 다매체 동시배포만으로 배지 획득·수집확대 인플레로 남발). 직접공유분은 매칭 없어 false.
       summary: meta.summary || '',
       guidelines_version: meta.guidelines_version || '',
       rev: Number(meta.rev) || 0,   // 수정 회차(서버 정본) — revise.sh가 프론트매터 rev 증가. 뷰어 색·완료감지 기준.

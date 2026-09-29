@@ -31,9 +31,9 @@ const py = code => {
   return JSON.parse(r.stdout);
 };
 
-test('isBreaking = 확산 [강]이면 경중 1도 긴급 · 파이썬 사본 3곳과 같은 판정', () => {
+test('isBreaking = 확산 [강]이면 경중 무관 긴급 · 파이썬 사본 3곳과 같은 판정', () => {
   const js = CASES.map(V.isBreaking);
-  assert.deepEqual(js, [true, false, true, false, true, false, false, true, false, true]);
+  assert.deepEqual(js, [true, false, true, false, true, false, true, true, false, true]);
   assert.deepEqual(js, py('import daily_health as D; print(json.dumps([D._brk_on(x) for x in d]))'));
   assert.deepEqual(js, py('import to_candidates as T; print(json.dumps([T._urgent(x) for x in d]))'));
   const push = py('import importlib.util as u; s = u.spec_from_file_location("ps", ".github/scripts/push_send.py"); m = u.module_from_spec(s); s.loader.exec_module(m); print(json.dumps([m.is_breaking(x) for x in d]))');
@@ -43,8 +43,8 @@ test('isBreaking = 확산 [강]이면 경중 1도 긴급 · 파이썬 사본 3�
 test('피드 feedBrk = lvt 패스스루로 같은 술어', () => {
   assert.equal(V.feedBrk({breaking: true, grade: 1, lvt: 3}), true);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
   assert.equal(V.feedBrk({breaking: true, grade: 1}), false);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
-  assert.equal(V.feedBrk({breaking: true, grade: 0, lvt: 3}), false);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
+  assert.equal(V.feedBrk({breaking: true, grade: 0, lvt: 3}), true);   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
   const bv = readFileSync(new URL('../build-viewer.mjs', import.meta.url), 'utf8');
-  assert.ok(bv.includes('(c.grade >= 1 && lvt >= 3)'), 'build-viewer BRK = 같은 술어');
+  assert.ok(bv.includes('(c.grade == null || c.grade >= 2 || lvt >= 3)'), 'build-viewer BRK = 같은 술어');
   assert.ok(bv.includes('lvt: LVT.get('), 'build-viewer lvt 패스스루');
 });

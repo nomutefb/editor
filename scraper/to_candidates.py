@@ -142,7 +142,7 @@ def is_exc_solo(c):
 
 
 def _urgent(c):
-    """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2 ∨ (경중≥1 ∧ 확산 [강])) ·
+    """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2 ∨ 확산 [강])) ·
     정본 = daily_health._brk_on · 미러 import 실패 = 종전 술어(확산 축만 빠진다 = 보수)."""
     if _brk_on is not None:
         return _brk_on(c)
@@ -533,6 +533,8 @@ def main():
             entry.pop("solo", None)               # 두 번째 매체가 붙음 = 단독 표식 해제(다매체 규칙으로 전환)
         if not c.get("px"):
             entry.pop("px", None)                 # 이번 회차 풀 부착 0 = 지난 px 가 눌어붙지 않게(cross 처럼 매 회차 새 값)
+        entry.pop("seed", None)                   # 피드에 실제로 잡힌 기사 = 씨앗 아님(씨앗 url = 원문 해제 url 이 피드 대표와 같으면 실묶음이 seed 를
+        #                                           물려받아 live_seed 가 실후보 0 으로 보고 한 매체 입장분으로 이관하며 실묶음을 지웠다 · 평의회3 260929 재현)
         carry_lb(prev, c, entry, now)             # lb 캐리·스왑 고정(260913 · 위 carry_lb 정본)
         if is_alias and entry.get("title") != prev.get("title"):   # 별칭 + 제목 바뀜 → AI rubric 비워 재판정 유도(stale 도장 전파 차단)
             entry.pop("grade_rubric", None)                         # 제목 같음 = 판정 입력 동일 → 도장 유지(평의회3-2 · 대표만 바뀐 묶음
@@ -681,7 +683,7 @@ def main():
 
     def cut_band(c):   # 컷 순서 4단(높을수록 늦게 잘림) — 정본 주석 = 위 CUT_VISIBLE
         ft = fresh_tier(c)
-        if ft and (is_solo(c) or _urgent(c)):   # 경중 0·1 긴급은 뷰어 isBreaking 거짓 = 안 보임 → 3단 아님(평의회4-2)
+        if ft and (is_solo(c) or _urgent(c)):   # 경중 0·1 긴급은 뷰어 isBreaking 거짓(확산 [강] = 참 · _urgent 가 그 짝) = 안 보임 → 3단 아님(평의회4-2)
             return 3
         if ft:
             age = _age_h_first(c.get("published"), c.get("first_seen"))

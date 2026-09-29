@@ -92,7 +92,9 @@ python3 scraper/knews_scraper.py \
   --top "${SCRAPE_TOP:-20}" || { _land "collect-fail" "knews_scraper rc≠0(피드·네트워크·의존)"; exit 0; }
 python3 scraper/to_candidates.py scraper/out/articles.json || { _land "cand-fail" "to_candidates rc≠0"; exit 0; }
 # 확산 신호(lv·입장·씨앗 · scrape.yml 「확산 신호 반영」 사본) — 비치명(실패해도 수집을 안 깬다 · 상태 = scraper/obs/live_state.json 이 아래 착지에 동승).
-python3 scraper/live_seed.py scraper/out/articles.json || echo "⚠ live_seed 실패(비치명)"
+#   LIVE_GN_MAX_Q=0 = 가정 IP 는 구글 뉴스 확인 검색·원문 해제 0회(같은 IP 의 구글 급상승·이미지 검색 보호 · 확인 검색 = 러너 몫).
+#   LIVE_STATE_RO=1 = 상태(live_state.json)는 읽기만 — 기록자는 러너 하나(레인끼리 통째로 덮어써 확인·씨앗 장부가 증발하던 것 · 킬스위치 = 파일 scraper/live_signal.off).
+LIVE_GN_MAX_Q=0 LIVE_STATE_RO=1 python3 scraper/live_seed.py scraper/out/articles.json || echo "⚠ live_seed 실패(비치명)"
 # 관측 누적 — 워크플로와 동일하게 비치명(실패해도 수집을 안 깬다).
 python3 scraper/snapshot.py >/dev/null 2>&1 || true
 cp scraper/out/feed_health_obs.json scraper/obs/feed_health.json 2>/dev/null || true

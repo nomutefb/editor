@@ -39,16 +39,32 @@ SNS = ROOT / "viewer" / "sns_trends.json"
 STATE = ROOT / "scraper" / "obs" / "live_state.json"
 KST = timezone(timedelta(hours=9))
 
-ON = os.environ.get("LIVE_SIGNAL", "1").strip().lower() not in ("0", "false", "no", "off")
+OFF_FILE = ROOT / "scraper" / "live_signal.off"   # 저장소 킬스위치 — 파일이 있으면 세 레인(러너·폰·PC) 수집 반영 + 판정 꼬리표·게이트·푸시 완화가 전부 꺼진다
+#   (repo 변수 LIVE_SIGNAL=0 은 러너 env 에만 닿는다 = 폰·PC 레인은 모른다 · 평의회260929-2 #5 · 이 경로 사본 = breaking_judge._lv_t · push_send._lv_on)
+ON = os.environ.get("LIVE_SIGNAL", "1").strip().lower() not in ("0", "false", "no", "off") and not OFF_FILE.exists()
+STATE_RO = os.environ.get("LIVE_STATE_RO", "").strip().lower() in ("1", "true", "yes", "on")   # 폰·PC = 상태 읽기 전용(기록자 = 러너 하나 · 통째 덮어쓰기로 확인·장부가 증발하던 것 차단)
 PAIR_H = 6              # 두 갈래 「동시」 창(h)
 COMM_MIN = 3            # C 갈래 = 같은 tbs 스냅샷 3곳↑ 또는 커뮤니티 레인 source_count≥3
 X_TOP, G_TOP, N_TOP = 15, 10, 10
 SNAP_MAX_MIN = 90       # tbs·트렌드·나무위키 스냅샷이 이보다 오래되면 이번 회차 관측 없음(정체 스냅샷이 신호를 끝없이 연장하는 것 차단)
+SOC_STALE_MIN = 120     # 커뮤니티 레인(social_candidates.json = 파일 시각 없음)이 이만큼 한 글자도 안 바뀌면 멈춘 것으로 본다(30분 주기 · 스케줄 지연 여유)
 CHRONIC_H, CHRONIC_SKIP_H, CHRONIC_RATIO, CHRONIC_MIN_SNAP = 72, 6, 0.15, 12
 NOVEL_H, NOVEL_BACK_H = 3, 24
-GN_MIN, GN_WIN_H, GN_TTL_S = 3, 6, 600
-GN_MAX_Q = int(os.environ.get("LIVE_GN_MAX_Q", "6"))    # 회차당 구글뉴스 검색 상한(예의 · 차단 회피)
+GN_MIN, GN_WIN_H = 3, 6
+GN_TTL_S = 840          # 같은 이름 재조회 최소 간격 = 러너 15분 주기마다 1회(중복 발사·수동 재실행 연타 차단) · 상한 초과분은 오래 안 본 순 순환(gn_candidates)
+
+
+def _env_int(name, d):
+    """빈 값·오타 = 기본값(repo variable 미설정 `${{ vars.X }}` = 빈 문자열 → import 크래시 차단)."""
+    try:
+        return int((os.environ.get(name) or "").strip() or d)
+    except ValueError:
+        return d
+
+
+GN_MAX_Q = _env_int("LIVE_GN_MAX_Q", 6)    # 회차당 구글뉴스 검색 상한(예의 · 차단 회피) · 0 = 이 레인은 구글 뉴스 안 두드림(pc·폰 = 가정 IP)
 GN_PAUSE_S = 1.0
+GN_DEC_TRY = 3          # 씨앗 원문 해제(decode) 시도 상한(회차당 1회 · 실패 = 구글 뉴스 링크 유지 · 다음 회차 재시도)
 IDLE_H = 12             # 모든 갈래가 이만큼 조용하면 에피소드 종료(다음에 다시 뜨면 새 사건)
 STRONG_KEEP_H = 24      # 확인 뒤 [강] 유지 창 — 그 뒤 새 첨부는 [중](이미 붙은 [강]은 엔트리에 동결 = live_seed)
 KEEP_H = 72             # 상태 보관
@@ -74,6 +90,8 @@ _GENERIC = set("""
 실력 새벽 세대 동네 명절 단축 은행 부동산 라면 지하철 여배우 여직원 참교육 제주 ai mz vs
 너무 제일 완전 그리고 그래서 하지만 이제 아직 벌써 이런 저런 그런 이렇게 저렇게 그렇게 어떻게 제발 진심 역시 혹시 과연
 때문 많이 문제 하나 사유 난리난 일침 개인정보 유포 사생활 스토킹 영구정지 게임 만화 아파트 신입사원
+열애설 결혼설 이혼설 결별설 불화설 임신설 사망설 은퇴설 해체설 탈퇴설 교제설 재혼설 지지율 선수 감독님
+쇼트트랙 여자농구 남자농구 농구대표팀 사브르 에페 플뢰레 펜싱 핸드볼 여자핸드볼 남자핸드볼 세팍타크로 e스포츠 격투게임 배구 여자배구 남자배구 탁구 양궁 수영 육상 태권도 유도 레슬링 복싱 체조 골프 테니스 배드민턴 하키 럭비 역도 사격 카누 요트 승마 마라톤 컬링 바둑 볼링 한일전 한중전 결승 준결승 예선 결승전 살인 살해 콘크리트 추석인사 인사 며느리 시어머니 시아버지 사위 장모 장인 시댁 처가 포로 폭발 폭발현장 계주 릴레이
 공식입장 추가 확산 직접 사실 인정 부인 반박 사실무근 법적 대응 자숙 퇴출 폐쇄 삭제 비공개 파혼 재혼 득남 득녀 모친상 부친상 비보 발인
 발매 첫방 예매율 관객수 연속 인터뷰 포토 온라인 성추행 명예훼손 허위사실 악플 루머 가짜뉴스 합성 딥페이크 서울시 인천시 대구시 부산시 경기도
 jpg jpeg gif png mp4 webp ㄷㄷ ㄷㄷㄷ ㅋㅋ ㅋㅋㅋ ㅎㄷㄷ
@@ -93,6 +111,7 @@ STOP = frozenset({w.lower() for w in (set(_KSTOP) | set(_SSTOP) | _GENERIC)})
 
 _JOSA = ("에서는", "에게서", "으로부터", "으로는", "이라는", "라는", "에서", "에게", "으로", "까지", "부터", "마저", "조차", "처럼",
          "보다", "이랑", "하고", "과의", "와의", "이의", "의", "은", "는", "이", "가", "을", "를", "에", "도", "와", "과", "로", "만", "측", "씨")
+_JOSA_LONG = tuple(j for j in _JOSA if len(j) >= 2 and not all(ch in "이가은는을를의와과도만에서부터께랑님씨측" for ch in j))   # 곳수 계산 바탕형 전용(hit = kw_hit 사본은 그대로)
 _JOSA1 = set("이가은는을를의와과도만에서부터께랑님씨측")   # 조사 꼬리 글자 = .github/scripts/trend_watch._JOSA 사본(kw_hit 의미 동일)
 _BAD_END = re.compile(r"(하는|하던|했던|하게|하고|해서|했다|한다|된다|됐다|되는|되던|이는|이던|스러운|같은|없는|있는|많은|좋은|나는|가는|오는|"
                       r"보는|먹는|싶은|받은|당한|입은|터진|터짐|했음|했네|하네|인데|는데|라는|이라|이다|합니다|해요|했어|같음|없음|있음|ㄷㄷ|ㅋㅋ)$")
@@ -158,6 +177,13 @@ def tokens(title):
     return out
 
 
+def _rest_generic(short, long_d):
+    """long_d(표시형) 안에서 short 가 든 낱말을 뺀 나머지가 전부 일반어(불용어·조사형 불용어)인가 — 한 낱말이면 참(조사·붙임형)."""
+    ws = disp(long_d).lower().split()
+    rest = [w for w in ws if not hit(short, w)]
+    return len(rest) < len(ws) and all(norm_key(w) in STOP or _strip_josa(norm_key(w)) in STOP for w in rest)
+
+
 def _contains_ok(k):
     """다른 이름 안에 들어 있음으로 같은 이름이라 볼 자격 = 3자↑ 이름꼴(「시험 보고」의 「보고」·「sl vs nep」의 「vs」 = 우연 일치 차단)."""
     return len(k) >= 3 and _name_ok(k)
@@ -211,6 +237,9 @@ class _Corpus:
                     for n in (1, 2):
                         if len(w) - n >= 2 and all(ch in _JOSA1 for ch in w[-n:]):
                             bases.add(w[:-n])
+                    for j in _JOSA_LONG:      # 「쯔양처럼·쯔양으로·쯔양까지」 = 쯔양(tokens 는 떼는데 곳수 계산만 못 떼던 짝 불일치 · 평의회260929-2 #2-6)
+                        if w.endswith(j) and len(w) - len(j) >= 2:
+                            bases.add(w[:-len(j)])
             self.g.append((gid, text, bases))
 
     def count(self, key):
@@ -310,30 +339,21 @@ def observe(snap, now):
         if n >= 2:
             hi.append(k)
             put(k, k, "C", n)
-    # 조사 한 글자 차이 짝(「닛몰캐쉬」↔「닛몰캐쉬가」 · 「김고」↔「김고은」) = 한 이름 — 낱말 그대로 더 많이 쓰인 쪽만 남긴다
-    for k in sorted(list(obs), key=len, reverse=True):
-        if k not in obs or len(k) < 3 or k[-1] not in _JOSA1:
-            continue
-        s = k[:-1]
-        if s in obs:
-            keep, drop = (k, s) if exact.get(k, 0) > exact.get(s, 0) else (s, k)
-            for f, v in obs[drop].items():
-                put(keep, keep, f, v)
-            obs.pop(drop, None)
-            hi = [x for x in hi if x != drop]
-            if keep not in hi:
-                hi.append(keep)
     # ② 커뮤니티 레인(source_count≥3 항목 제목의 토큰)
-    soc3 = [x for x in soc if isinstance(x, dict) and (x.get("source_count") or 0) >= COMM_MIN]
+    soc3 = [x for x in soc if isinstance(x, dict) and (x.get("source_count") or 0) >= COMM_MIN
+            and (x.get("age_h") is None or x.get("age_h") <= PAIR_H)]   # 스캔 시점 6h 넘은 글 = 「동시」 아님
     for x in soc3:
         for k in tokens(x.get("title")):
             put(k, k, "S", int(x.get("source_count") or 0))
     # ③ 트렌드(표시 상위만 = 화면과 같은 구간)
     trends = []
-    if fresh(t_sns):
+    hl = sns.get("health") if isinstance(sns.get("health"), dict) else {}
+    t_x, t_g = (_ts((hl.get(n) or {}).get("last_ok")) or t_sns for n in ("xtrends", "gtrends"))   # 원천별 마지막 성공(수집 실패 = 직전 목록 유지 + updated 만 갱신 → 옛 트렌드가 신선 취급되던 것 · 평의회260929-2 #2-10)
+    if fresh(t_sns) and fresh(t_g):
         for i, g in enumerate((sns.get("gtrends") or [])[:G_TOP]):
             if isinstance(g, dict) and g.get("query"):
                 trends.append(("G", g["query"], (i + 1, _vol(g))))
+    if fresh(t_sns) and fresh(t_x):
         for i, g in enumerate((sns.get("xtrends") or [])[:X_TOP]):
             if isinstance(g, dict) and g.get("query"):
                 trends.append(("X", g["query"], i + 1))
@@ -345,6 +365,22 @@ def observe(snap, now):
     trends = [(f, q, v) for f, q, v in trends
               if not all(w in STOP or _strip_josa(w) in STOP for w in disp(q).lower().split())]
     tkeys = [(f, norm_key(q), disp(q), v) for f, q, v in trends]
+    twords = set()
+    for f, q, v in trends:         # 여러 낱말 검색어의 낱말 = 이미 사람이 고른 이름 후보 → 제목 토큰의 동사 꼬리 필터 밖(「전종서」·「이다해」·「여의도」 누락 = 형제 일반어가 갈래를 가져가던 연쇄 · #2-7)
+        ws = disp(q).lower().split()
+        if len(ws) < 2:
+            continue
+        for w in ws:
+            w = norm_key(w)
+            if not _key_ok(w) or _strip_josa(w) in STOP or _BAD_END.search(w) or (w.isascii() and len(w) < 3):
+                continue                   # 동사 꼬리(서·도·다…)만 면제 · 형용사형(「좋은」)·두 글자 영문 약어는 그대로 제외
+            twords.add(w)
+            if w in obs:
+                continue
+            n = corp.count(w)
+            if n >= 2:
+                put(w, w, "C", n)
+                hi.append(w)
     for f, k, d, v in tkeys:
         put(k, d, f, v)
         c = corp.count(k)          # 트렌드 이름 자체의 커뮤니티 곳수(여러 낱말 검색어 = 붙인 형 포함)
@@ -356,15 +392,44 @@ def observe(snap, now):
         if s:
             put(k, d, "S", s)
     # ④ 갈래 통합 — 이름이 트렌드 검색어 안에 있거나(「닛몰캐쉬」 ⊂ 「닛몰캐쉬 데이트폭력」) 그 반대면 같은 이름
+    #   ⚠ 검색어의 나머지 낱말이 전부 일반어일 때만(「살림하는 남자들」⊃「남자들」·「가득한 한가위」⊃「한가위」·「이재명 지지율」 = 다른 뜻 · #2-3)
+    absorbed = set()
     for k in list(obs):
         kd = dmap.get(k, k)
         for f, qk, qd, v in tkeys:
-            if qk != k and ((_contains_ok(k) and hit(k, qd)) or (_contains_ok(qk) and hit(qk, kd))):
+            if qk != k and (((_contains_ok(k) or k in twords) and hit(k, qd) and _rest_generic(k, qd))
+                            or (_contains_ok(qk) and hit(qk, kd) and _rest_generic(qk, kd))):
                 put(k, kd, f, v)
+                if len(qd.split()) > 1 and hit(k, qd):
+                    absorbed.add(qk)       # 「왕사남 보고」·「일본 우루과이」 = 이름(왕사남·우루과이) 에피소드 하나로(별도 에피소드 = 구글 뉴스 예산·씨앗 중복 · #2-8)
+    for qk in absorbed:
+        obs.pop(qk, None)
+        hi = [x for x in hi if x != qk]
+    # 조사 한 글자 차이 짝(「닛몰캐쉬」↔「닛몰캐쉬가」 · 「김고」↔「김고은」) = 한 이름 — 낱말 그대로 더 많이 쓰인 쪽만 남긴다
+    #   ⚠ 트렌드·통합 **뒤**에 돈다(앞에서 지운 쪽을 트렌드 키가 되살려 한 사건이 에피소드 2개가 되던 것 · #2-8)
+    for k in sorted(list(obs), key=len, reverse=True):
+        if k not in obs or len(k) < 3 or k[-1] not in _JOSA1:
+            continue
+        s = k[:-1]
+        if s in obs:
+            keep, drop = (k, s) if exact.get(k, 0) > exact.get(s, 0) else (s, k)
+            for f, v in obs[drop].items():
+                put(keep, dmap.get(keep, keep), f, v)
+            obs.pop(drop, None)
+            hi = [x for x in hi if x != drop]
+            if keep not in hi:
+                hi.append(keep)
     for k, e in obs.items():
         e["d"] = dmap.get(k, k)
     return obs, {"t_tbs": t_tbs, "tbs_fresh": fresh(t_tbs), "t_sns": t_sns, "sns_fresh": fresh(t_sns),
-                 "t_nm": t_nm, "hi": sorted(hi)}
+                 "t_nm": t_nm, "hi": sorted(hi), "soc_sig": _soc_sig(soc3)}
+
+
+def _soc_sig(soc3):
+    """커뮤니티 레인 지문 — 파일에 갱신 시각이 없어 내용이 바뀐 때를 상태(st["ss"])에 적어 신선도를 잰다."""
+    import hashlib
+    raw = "\n".join("%s|%s|%s" % (x.get("title"), x.get("source_count"), x.get("posts")) for x in soc3)
+    return hashlib.md5(raw.encode("utf-8")).hexdigest()[:12] if soc3 else ""
 
 
 def new_state():
@@ -393,6 +458,37 @@ def save_state(st, p=None):
 BUCKET_S = 6 * 3600     # 만성어 계수 칸(6시간)
 
 
+def bootstrap_git(st, now, hours=CHRONIC_H, root=None):
+    """콜드 스타트 보강 — git 이력의 tbs_data.json 스냅샷(최근 72h)으로 만성어 계수(tb·hi)만 채운다(에피소드·캐시 0).
+    상태가 비어 배포되면 만성어 필터가 ~15h 꺼져 대통령·정치인 이름이 무장하던 것(평의회260929-2 #2-5). 이력 없음(얕은 클론) = 0건."""
+    import subprocess
+    r = str(root or ROOT)
+    try:
+        shas = subprocess.run(["git", "-C", r, "log", "--since=%d hours ago" % hours, "--format=%H", "--", "viewer/tbs_data.json"],
+                              capture_output=True, text=True, timeout=60).stdout.split()
+    except Exception:  # noqa: BLE001
+        return 0
+    n = 0
+    tmp = new_state()
+    for sha in reversed(shas):
+        try:
+            d = json.loads(subprocess.run(["git", "-C", r, "show", sha + ":viewer/tbs_data.json"], capture_output=True, text=True, timeout=30).stdout)
+        except Exception:  # noqa: BLE001
+            continue
+        t = _ts(d.get("updated"))
+        if not t or t > now:
+            continue
+        update(tmp, {"tbs": d, "sns": {}, "social": []}, t)
+        n += 1
+    for h, c in tmp["tb"].items():
+        st["tb"][h] = max(st["tb"].get(h, 0), c)
+    for k, d in tmp["hi"].items():
+        cur = st["hi"].setdefault(k, {})
+        for h, c in d.items():
+            cur[h] = max(cur.get(h, 0), c)
+    return n
+
+
 def chronic(st, key, now):
     """만성어 = 지난 72h(최근 6h 칸 제외 · 6시간 칸 근사) tbs 스냅샷의 15%↑에서 2곳↑. 표본 12개 미만 = 판정 보류(False)."""
     lo, hi_h = int((now - CHRONIC_H * 3600) // BUCKET_S), int((now - CHRONIC_SKIP_H * 3600) // BUCKET_S)
@@ -416,12 +512,25 @@ def update(st, snap, now):
             for k in meta["hi"]:
                 d = st["hi"].setdefault(k, {})
                 d[h] = d.get(h, 0) + 1
+    ss = st.get("ss") if isinstance(st.get("ss"), dict) else {}
+    if meta["soc_sig"] != ss.get("h"):
+        ss = st["ss"] = {"h": meta["soc_sig"], "t": int(now)}
+    soc_fresh = bool(meta["soc_sig"]) and now - (ss.get("t") or now) <= SOC_STALE_MIN * 60   # 소셜 스캔 정지 = S 갈래 연장 0(평의회260929-2 #8)
     eps = st.setdefault("k", {})
+    for k in list(obs):                    # 회차마다 조사 짝 중 남는 쪽이 달라도(「사촌동생」↔「사촌동생이」) 이미 있는 에피소드 이름으로 잇는다(#2-8)
+        if k in eps:
+            continue
+        alt = [a for a in ([k[:-1]] if len(k) >= 3 and k[-1] in _JOSA1 else []) + [k + j for j in _JOSA1] if a in eps]
+        if alt and alt[0] not in obs:
+            obs[alt[0]] = obs.pop(k)
     for k, e in obs.items():
         fams = {}
-        comm = (e.get("C", 0) >= COMM_MIN and meta["tbs_fresh"]) or e.get("S", 0) >= COMM_MIN
-        if comm and not chronic(st, k, now):
-            fams["C"] = meta["t_tbs"] if (e.get("C", 0) >= COMM_MIN and meta["tbs_fresh"]) else now
+        if not soc_fresh:
+            e.pop("S", None)
+        # 커뮤니티 레인(S) = 글 한 개의 분포라 그 제목의 일반명사까지 갈래를 얻는다 → tbs 2곳 뒷받침이 있을 때만(#2-4 · 며느리·관광객 오발)
+        comm = meta["tbs_fresh"] and (e.get("C", 0) >= COMM_MIN or (e.get("S", 0) >= COMM_MIN and e.get("C", 0) >= 2))
+        if comm and not (chronic(st, k, now) or (len(k) >= 3 and k[-1] in _JOSA1 and chronic(st, k[:-1], now))):   # 조사형(「안세영이」)도 바탕 이름의 만성 판정을 따른다
+            fams["C"] = meta["t_tbs"]
         if "X" in e:
             fams["X"] = meta["t_sns"]
         if "G" in e:
@@ -438,7 +547,7 @@ def update(st, snap, now):
             ep["f"][f] = max(ep["f"].get(f, 0), t)
         mm = ep["m"]
         if "C" in fams:
-            mm["c"] = max(e.get("C", 0), e.get("S", 0)) if meta["tbs_fresh"] else e.get("S", 0)
+            mm["c"] = max(e.get("C", 0), e.get("S", 0))
         if "X" in fams:
             mm["x"] = e["X"]
         if "G" in fams:
@@ -455,6 +564,9 @@ def update(st, snap, now):
         act = active(ep, now)
         if len(act) >= 2 and not ep.get("a"):
             ep["a"] = int(now)
+        elif len(act) < 2 and ep.get("a") and not ep.get("cf"):
+            ep.pop("a", None)              # 동시성이 끊긴 미확인 무장 = 해제([중]이 한 갈래만으로 하루씩 이어지고 늦은 확인이 붙던 것 · 평의회260929-2 #2-2)
+            st.get("gn", {}).pop(k, None)  #   다시 동시에 뜨면 새 무장 시각 = novel 창도 새로(묵은 보도가 있으면 재점화로 막힌다)
     prune(st, now)
     return eps
 
@@ -466,11 +578,25 @@ def active(ep, now):
 def tier(ep, now):
     if not ep:
         return 0
-    if ep.get("a"):
-        if ep.get("cf") and now - ep["cf"] < STRONG_KEEP_H * 3600:
-            return 3
-        return 2
-    return 1 if active(ep, now) else 0
+    if ep.get("cf") and now - ep["cf"] < STRONG_KEEP_H * 3600:
+        return 3
+    act = active(ep, now)
+    if ep.get("a") and len(act) >= 2:
+        return 2                           # [중] = 지금 두 갈래 이상 동시(무장만 남고 한 갈래뿐 = [약])
+    return 1 if act else 0
+
+
+def novel_ours(ep, recs):
+    """우리 기록(후보·사건 원장)으로 본 새 사건 여부 = 무장 24h~3h 전 사이에 처음 본 같은 이름 기록 0(구글 뉴스 novel 과 같은 창)."""
+    a = ep.get("a")
+    if not a:
+        return True
+    for c in recs:
+        ts = [x for x in (_ts(c.get("first_seen")), _ts(c.get("published"))) if x]
+        t = min(ts) if ts else None        # 발행이 더 이르면 발행(늦게 수집된 전날 기사 = first_seen 만 보면 새 사건으로 오인 · #2-1)
+        if t and a - NOVEL_BACK_H * 3600 <= t < a - NOVEL_H * 3600:
+            return False
+    return True
 
 
 def confirm_ours(ep, matches, now, older=()):
@@ -478,11 +604,10 @@ def confirm_ours(ep, matches, now, older=()):
     ⚠ novel 을 신선분만으로 재면 하루 전부터 보도된 사건(포로·법적 대응 같은 일반어)이 매번 「새 사건」이 된다(리플레이 실측). 반환 = 확인 여부."""
     if not ep.get("a") or ep.get("cf") or not matches:
         return bool(ep.get("cf"))
-    a = ep["a"]
-    for c in list(matches) + list(older):
-        t = _ts(c.get("first_seen"))
-        if t and a - NOVEL_BACK_H * 3600 <= t < a - NOVEL_H * 3600:
-            return False
+    if now - ep["a"] > GN_POLL_H * 3600 or len(active(ep, now)) < 2:
+        return False                       # 확인은 무장 6h 안·지금 동시일 때만(구글 뉴스 창과 같은 선 — 무장 11h 뒤 갈래 0개에서 [강]이 붙던 것 · #2-1)
+    if not novel_ours(ep, list(matches) + list(older)):
+        return False
     cr = max((c.get("cross") or 0) for c in matches)
     if cr >= GN_MIN:
         ep["cf"], ep["cs"], ep["o"] = int(now), "o", int(cr)
@@ -504,16 +629,22 @@ def _gn():
         return None
 
 
+def _tkey(t):
+    """전재 판별용 제목 지문 = 글자·숫자만(띄어쓰기·문장부호·[속보] 괄호 차이 무시)."""
+    return re.sub(r"[^0-9a-z가-힣]", "", (t or "").lower())
+
+
 def gn_count(items, key, now, armed):
     """검색 RSS 항목 → (매체 수, novel, 가장 이른 관련 항목). 순수 함수(테스트 = 픽스처).
     관련 = 제목(끝 「 - 매체」 제거)에 이름 적중 · 매체 = sname(없으면 원천 호스트) · 포털 재게재 제외.
-    매체 수 = 지금부터 6h 안에 발행한 서로 다른 매체 · novel = 무장 24h~3h 전 사이 관련 보도 0."""
+    매체 수 = 지금부터 6h 안에 발행한 서로 다른 매체 ∧ 서로 다른 제목(통신사 원문을 제휴 매체가 같은 제목으로 옮긴 전재 = 1곳 ·
+    SBS·경향의 연합 전재를 연합 1곳으로 세는 수집 정본과 같은 원칙) · novel = 무장 24h~3h 전 사이 관련 보도 0."""
     G = _gn()
     if G is not None:
         portal, host, tail = G._PORTAL_HOSTS, G._host, G._SRC_TAIL_RE
     else:
         portal, host, tail = (), (lambda u: ""), re.compile(r"\s+-\s+[^-]{1,40}$")
-    outs, first, novel = set(), None, True
+    outs, tks, first, novel = set(), set(), None, True
     a = armed or now
     for it in items or []:
         p = it.get("pub") or 0
@@ -526,23 +657,36 @@ def gn_count(items, key, now, armed):
         if a - NOVEL_BACK_H * 3600 <= p < a - NOVEL_H * 3600:
             novel = False
         if now - GN_WIN_H * 3600 <= p <= now + 600:
-            outs.add(re.sub(r"\s+", "", (it.get("sname") or h or "")).lower())
+            o = re.sub(r"\s+", "", (it.get("sname") or h or "")).lower()
+            if o:
+                outs.add(o)
+                tks.add(_tkey(t))
             if first is None or p < first["p"]:
                 first = {"p": int(p), "t": t.strip(), "m": (it.get("sname") or h or "").strip(), "l": it.get("link") or ""}
-    outs.discard("")
-    return len(outs), novel, first
+    tks.discard("")
+    return min(len(outs), len(tks)), novel, first
 
 
 GN_POLL_H = 6           # 무장 뒤 이 시간 안에만 확인 검색(그 뒤 미확인 = 언론이 안 받은 소동 = 더 두드리지 않는다)
 
 
+def gn_live(G=None):
+    """이 프로세스가 구글 뉴스를 두드려도 되나 = 모듈 있음 ∧ 킬스위치 GNEWS_IMG 켜짐 ∧ 확정 차단 전."""
+    G = _gn() if G is None else G
+    return G is not None and G.enabled() and not G.STATS.get("hard")
+
+
 def gn_poll(st, keys, now, fetch=None, pause=None, max_q=None):
-    """무장(t2)·미확인 이름만 구글 뉴스 검색(회차당 max_q · 10분 캐시 · 차단 = 즉시 중단 · 실패 = 조용히 다음 회차).
+    """무장(t2)·미확인 이름만 구글 뉴스 검색(회차당 max_q · 14분 캐시 · 실패·차단 = 이 회차 즉시 중단 · 다음 회차 재시도).
+    novel 아님(무장 전 보도 있음)이 한 번 나온 이름 = 이 에피소드 동안 다시 안 묻는다(결과 100건 상한에 옛 기사가 밀려
+    「새 사건」으로 뒤집히는 것 차단 · 구글 뉴스로는 확인 불가가 확정된 이름).
     fetch(query) → RSS xml(없으면 gnews_search._http). 반환 = 이번 회차 실제 요청 수."""
     eps, cache = st.get("k") or {}, st.setdefault("gn", {})
     pause = GN_PAUSE_S if pause is None else pause
     max_q = GN_MAX_Q if max_q is None else max_q
     G = _gn()
+    if max_q <= 0 or (G is not None and not G.enabled()):
+        return 0
     if fetch is None:
         if G is None:
             return 0
@@ -553,7 +697,7 @@ def gn_poll(st, keys, now, fetch=None, pause=None, max_q=None):
         if not ep or not ep.get("a") or ep.get("cf") or now - ep["a"] > GN_POLL_H * 3600:
             continue
         c = cache.get(k) or {}
-        if c.get("at") and now - c["at"] < GN_TTL_S:
+        if c.get("at") and (now - c["at"] < GN_TTL_S or c.get("nov") == 0):
             continue
         if n >= max_q:
             break
@@ -566,14 +710,15 @@ def gn_poll(st, keys, now, fetch=None, pause=None, max_q=None):
         except Exception:  # noqa: BLE001
             items, xml = [], ""
         if not xml:
-            continue                       # 실패는 캐시하지 않는다(다음 회차 재시도)
+            break                          # 실패(503·시간 초과·차단) = 이 회차 중단(연타 금지) · 캐시하지 않는다(다음 회차 재시도)
         cnt, nov, first = gn_count(items, k, now, ep.get("a"))
-        c = {"at": int(now), "n": cnt, "nov": int(bool(nov))}
+        c2 = {"at": int(now), "n": cnt, "nov": int(bool(nov))}
         if first:
-            c["e"] = first
-        if (cache.get(k) or {}).get("ru"):
-            c["ru"] = cache[k]["ru"]
-        cache[k] = c
+            c2["e"] = first
+        for f in ("ru", "rt"):
+            if c.get(f):
+                c2[f] = c[f]               # 원문 해제 결과·시도 횟수 = 재조회로 잃지 않는다
+        cache[k] = c2
         if cnt >= GN_MIN and nov:
             ep["cf"], ep["cs"] = int(now), "g"
         if pause:
@@ -582,10 +727,12 @@ def gn_poll(st, keys, now, fetch=None, pause=None, max_q=None):
 
 
 def gn_candidates(st, now):
-    """구글 뉴스 확인 대기 순서 = 무장·미확인 · 갈래 많은 순 → 커뮤니티 곳수 → 최근 무장."""
-    eps = st.get("k") or {}
+    """구글 뉴스 확인 대기 순서 = 무장·미확인 · 한 번도 안 물은 이름 먼저 → 오래 안 물은 순(상한 초과 시 순환 = 7번째 이름 굶주림 차단)
+    → 갈래 많은 순 → 커뮤니티 곳수 → 최근 무장."""
+    eps, cache = st.get("k") or {}, st.get("gn") or {}
     ks = [k for k, ep in eps.items() if ep.get("a") and not ep.get("cf")]
-    return sorted(ks, key=lambda k: (-len(active(eps[k], now)), -((eps[k].get("m") or {}).get("c") or 0), -eps[k]["a"], k))
+    return sorted(ks, key=lambda k: ((cache.get(k) or {}).get("at") or 0, -len(active(eps[k], now)),
+                                     -((eps[k].get("m") or {}).get("c") or 0), -eps[k]["a"], k))
 
 
 def lv_of(st, key, now):
@@ -600,8 +747,8 @@ def lv_of(st, key, now):
         d["f"] = f
     m = ep.get("m") or {}
     for s in ("c", "x", "g", "n"):
-        if m.get(s):
-            d[s] = m[s]
+        if m.get(s) and s.upper() in f:
+            d[s] = m[s]                    # 지금 살아 있는 갈래 수치만(꺼진 갈래를 「동시」로 계속 보이던 것 · #2-11)
     g = (st.get("gn") or {}).get(key) or {}
     o = max(g.get("n") or 0, ep.get("o") or 0)
     if o:
@@ -642,16 +789,16 @@ def _man(v):
 
 
 def tail(lv):
-    """lv → 〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · X 1위 · 구글 급상승 1만 · 나무위키 2위 · 언론 7곳〕(없는 칸 생략)."""
+    """lv → 〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · 엑스 트렌드 1위 · 구글 급상승 검색 1만 · 나무위키 2위 · 언론 7곳〕(없는 칸 생략)."""
     if not isinstance(lv, dict) or not lv.get("t"):
         return ""
     parts = []
     if lv.get("c"):
         parts.append(f"커뮤니티 {lv['c']}곳 동시")
     if lv.get("x"):
-        parts.append(f"X {lv['x']}위")
+        parts.append(f"엑스 트렌드 {lv['x']}위")
     if lv.get("g"):
-        parts.append(f"구글 급상승 {_man(lv['g'])}")
+        parts.append(f"구글 급상승 검색 {_man(lv['g'])}")
     if lv.get("n"):
         parts.append(f"나무위키 {lv['n']}위")
     if lv.get("gn"):

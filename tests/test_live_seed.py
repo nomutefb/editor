@@ -165,6 +165,43 @@ class Seed(unittest.TestCase):
         seed = next(c for c in out if c.get("seed"))
         self.assertTrue(seed["url"].startswith("https://news.google.com/rss/articles/"))
 
+    def test_decode_retry_rewrites_url_keeps_event_key(self):   # 평의회 #6 — 해제 실패 = 다음 회차 재시도(상한 3) · 성공 시 링크만 원문
+        t = ep("2026-09-29 10:31")
+        st, fetch = strong_state(t)
+        tries = []
+        out, _ = S.run([], [], ARMED, st, t, gn_fetch=fetch, gn_decode=lambda l: tries.append(l) or "")
+        seed = next(c for c in out if c.get("seed"))
+        gl = seed["url"]
+        out2, stat = S.run(out, [], ARMED, st, t + 900, gn_fetch=fetch, gn_decode=lambda l: tries.append(l) or "https://www.ggilbo.com/news/1")
+        s2 = next(c for c in out2 if c.get("seed"))
+        self.assertEqual((stat.get("reurl"), s2["url"], s2["breaking_pick"]["url"]), (1, "https://www.ggilbo.com/news/1", "https://www.ggilbo.com/news/1"))
+        self.assertEqual((s2["event_key"], s2["id"]), (gl, gl))   # 푸시 원장 첫 키·id 불변
+        self.assertEqual(len(tries), 2)
+        out3, _ = S.run(out2, [], ARMED, st, t + 1800, gn_fetch=fetch, gn_decode=lambda l: tries.append(l) or "x")
+        self.assertEqual(len(tries), 2)                            # 성공 뒤 재시도 0
+
+    def test_decode_gives_up_after_cap(self):
+        t = ep("2026-09-29 10:31")
+        st, fetch = strong_state(t)
+        tries = []
+        dec = lambda l: tries.append(l) or ""   # noqa: E731
+        out, _ = S.run([], [], ARMED, st, t, gn_fetch=fetch, gn_decode=dec)
+        for i in range(1, 5):
+            out, _ = S.run(out, [], ARMED, st, t + 900 * i, gn_fetch=fetch, gn_decode=dec)
+        self.assertEqual(len(tries), L.GN_DEC_TRY)
+
+    def test_home_lane_no_google(self):   # pc·폰(LIVE_GN_MAX_Q=0) = 검색·해제 0회(가정 IP 보호)
+        t = ep("2026-09-29 10:31")
+        st, _ = strong_state(t)
+        calls = []
+        old = L.GN_MAX_Q
+        L.GN_MAX_Q = 0
+        try:
+            S.run([], [], ARMED, st, t, gn_fetch=lambda q: calls.append(q) or "")
+        finally:
+            L.GN_MAX_Q = old
+        self.assertEqual(calls, [])
+
     def test_supersede_moves_state_and_blocks_double_push(self):
         t = ep("2026-09-29 10:31")
         st, fetch = strong_state(t)
@@ -211,6 +248,116 @@ class Related(unittest.TestCase):   # 포함 관계 이름 씨앗 중복 차단(
         self.assertFalse(S._related("김건우", {}, "김건", {}))   # 2자 = 우연 포함 차단
 
 
+def _strong(st, k, now, e0, d=None):
+    """구글 뉴스로 확인된 [강] 이름(무장 50분 전 · 확인 1분 전) — 평의회3 재현 도우미."""
+    st["k"][k] = dict({"f": {"C": int(now - 300), "X": int(now - 300)}, "m": {"c": 4, "x": 1}, "a": int(now - 3000),
+                       "cf": int(now - 60), "cs": "g"}, **({"d": d} if d else {}))
+    st["gn"][k] = {"at": int(now - 60), "n": 4, "nov": 1, "e": e0}
+
+
+EMPTY = {"tbs": {}, "sns": {}, "social": []}
+
+
+class DupPush(unittest.TestCase):   # 평의회3 260929 — 같은 사건 2발 경로(씨앗 수명주기 × 푸시 원장)
+    def test_related_names_make_one_seed(self):
+        now = ep("2026-09-29 10:31")
+        st = L.new_state()
+        _strong(st, "닛몰캐쉬", now, {"p": int(now - 5000), "t": "닛몰캐쉬, 채널 삭제", "m": "금강일보", "l": "https://news.google.com/rss/articles/A"})
+        _strong(st, "닛몰캐쉬데이트폭력", now, {"p": int(now - 3000), "t": "닛몰캐쉬 데이트폭력 의혹", "m": "뉴스1",
+                                        "l": "https://news.google.com/rss/articles/B"}, d="닛몰캐쉬 데이트폭력")
+        out, stat = S.run([], [], EMPTY, st, now, net=False, gn_decode=lambda l: l.replace("news.google.com/rss/articles", "o.kr"))
+        self.assertEqual((stat["seed"], sum(1 for c in out if c.get("seed"))), (1, 1))
+        out2, stat2 = S.run(out, [], EMPTY, st, now + 900, net=False, gn_decode=lambda l: "")
+        self.assertEqual(stat2["seed"], 0)
+
+    def test_supersede_keeps_sent_seed_key(self):
+        a = {"url": "A", "event_key": "A", "breaking": True, "seed": "gn"}
+        b = {"url": "B", "event_key": "B", "seed": "gn"}
+        r = {"url": "R", "event_key": "R"}
+        S.supersede(a, r)
+        S.supersede(b, r)                               # 나중 씨앗(NO)이 먼저 나간 씨앗 키를 지우지 않는다
+        self.assertEqual(r["event_key"], "A")
+        r2 = {"url": "R", "event_key": "R"}
+        S.supersede(b, r2)
+        S.supersede(a, r2)                              # 순서 반대 = 긴급으로 나간 씨앗 키가 이긴다
+        self.assertEqual(r2["event_key"], "A")
+
+    def test_readmitted_real_relinks_seed_key(self):
+        now = ep("2026-09-29 10:31")
+        st = L.new_state()
+        st["sup"] = {"https://g/1": {"u": "khan", "at": int(now - 900)}}
+        out, _ = S.run([cand("khan", "무관 제목", now)], [], EMPTY, st, now, net=False)
+        self.assertEqual(out[0]["event_key"], "https://g/1")
+
+    def test_cleaned_seed_not_recreated(self):   # 판정 NO 로 정리된 씨앗 = 재생성·재판정 0(평의회3)
+        now = ep("2026-09-29 10:31")
+        st = L.new_state()
+        _strong(st, "닛몰캐쉬", now, {"p": int(now - 5000), "t": "[단독] 닛몰캐쉬, 채널 삭제", "m": "금강일보", "l": "https://g/A"})
+        out, stat = S.run([], [], EMPTY, st, now, net=False, gn_decode=lambda l: "")
+        self.assertEqual(stat["seed"], 1)
+        next(c for c in out if c.get("seed")).update(breaking=False, breaking_rubric="st", grade=1, grade_rubric="gr")
+        out, _ = S.run(out, [], EMPTY, st, now + 900, net=False, gn_decode=lambda l: "")   # 판정 결과가 장부에 적힌다
+        _, stat2 = S.run([c for c in out if not c.get("seed")], [], EMPTY, st, now + 1800, net=False, gn_decode=lambda l: "")
+        self.assertEqual(stat2["seed"], 0)
+
+    def test_lost_seed_restored_with_verdict(self):   # 레인 덮어쓰기로 빠진 씨앗 = 처음 시각·판정·채점 그대로 복원(평의회260929-2 #5)
+        now = ep("2026-09-29 10:31")
+        st = L.new_state()
+        _strong(st, "닛몰캐쉬", now, {"p": int(now - 5000), "t": "닛몰캐쉬, 채널 삭제", "m": "금강일보", "l": "https://g/A"})
+        out, _ = S.run([], [], EMPTY, st, now, net=False, gn_decode=lambda l: "")
+        sd0 = next(c for c in out if c.get("seed"))
+        sd0.update(breaking=True, breaking_rubric="st", grade=2, grade_rubric="gr")
+        out, _ = S.run(out, [], EMPTY, st, now + 900, net=False, gn_decode=lambda l: "")
+        out2, stat = S.run([c for c in out if not c.get("seed")], [], EMPTY, st, now + 1800, net=False, gn_decode=lambda l: "")
+        r = next(c for c in out2 if c.get("seed"))
+        self.assertEqual(stat["seed"], 1)
+        self.assertEqual((r["first_seen"], r["breaking"], r["breaking_rubric"], r["grade"], r["grade_rubric"]),
+                         (sd0["first_seen"], True, "st", 2, "gr"))
+
+    def test_seed_skips_stale_story_in_our_ledger(self):
+        now = ep("2026-09-29 10:31")
+        st = L.new_state()
+        _strong(st, "닛몰캐쉬", now, {"p": int(now - 5000), "t": "닛몰캐쉬, 채널 삭제", "m": "금강일보", "l": "https://g/A"})
+        old = [{"first_seen": iso(now - 3000 - 10 * 3600), "title": "닛몰캐쉬 전 연인 폭로 파문"}]
+        _, stat = S.run([], [], EMPTY, st, now, net=False, gn_decode=lambda l: "", events=old)
+        self.assertEqual(stat["seed"], 0)
+
+    def test_feed_merge_drops_seed_flag(self):
+        T = S.T
+        now = datetime.now(KST).timestamp()
+        seed = {"id": "U", "url": "U", "title": "닛몰캐쉬 폭로", "cross": 1, "solo": 1, "seed": "gn", "event_key": "U",
+                "published": utc(now - 1800), "first_seen": iso(now - 1800), "cluster_members": [], "arts": 1}
+        rep = {"link": "U", "title": "닛몰캐쉬 폭로", "publisher": "금강일보", "category": "", "published": utc(now - 1800),
+               "is_cluster_rep": True, "cross_score": 3, "burst": 0, "cluster_size": 3, "cluster_members": ["U", "V", "W"],
+               "breaking_pick": {"url": "U", "media": "금강일보", "title": "닛몰캐쉬 폭로"}}
+        o_src, o_dst = T.SRC, T.DST
+        try:
+            with tempfile.TemporaryDirectory() as d:
+                T.SRC, T.DST = Path(d) / "a.json", Path(d) / "c.json"
+                T.SRC.write_text(json.dumps([rep], ensure_ascii=False), encoding="utf-8")
+                T.DST.write_text(json.dumps([seed], ensure_ascii=False), encoding="utf-8")
+                with contextlib.redirect_stdout(io.StringIO()):
+                    T.main()
+                out = {c["url"]: c for c in json.loads(T.DST.read_text(encoding="utf-8"))}
+        finally:
+            T.SRC, T.DST = o_src, o_dst
+        self.assertNotIn("seed", out["U"])
+        self.assertEqual(out["U"]["event_key"], "U")
+
+    def test_dedup_keys_carry_url_and_episode(self):
+        c = {"url": "R", "event_key": "SEED", "title": "t", "lv": {"k": "닛몰 캐쉬", "t": 3, "a": "2026-09-29T09:46:00+0900"}}
+        ks = PS.dedup_keys(c)
+        self.assertEqual(ks[0], "SEED")                 # 첫 키(푸시 tag) 불변
+        self.assertIn("R", ks)
+        self.assertIn("lv:닛몰캐쉬@2026-09-29T09:46:00+0900", ks)
+        self.assertFalse(any(k.startswith("lv:") for k in PS.dedup_keys(dict(c, lv=dict(c["lv"], t=2)))))   # [중] = 에피소드 키 없음
+
+    def test_keep_strong_takes_stronger_numbers(self):
+        old = {"k": "닛몰캐쉬", "t": 3, "f": "CX", "c": 4, "x": 1, "gn": 7, "a": "A0"}
+        new = {"k": "닛몰캐쉬", "t": 2, "f": "G", "c": 2, "x": 5, "g": 20000, "a": "A1"}
+        self.assertEqual(S._keep_strong(old, new), {"k": "닛몰캐쉬", "t": 3, "f": "CXG", "c": 4, "x": 1, "g": 20000, "gn": 7, "a": "A0"})
+
+
 class Budget(unittest.TestCase):
     def test_trim_protects_lv(self):
         cs = [{"url": f"u{i}", "title": "x" * 200} for i in range(10)]
@@ -222,11 +369,10 @@ class Budget(unittest.TestCase):
 
 
 class Gates(unittest.TestCase):
-    def test_strong_skips_celeb_and_judicial_only(self):
+    def test_strong_skips_celeb_axis_only(self):
         self.assertIsNotNone(BG.gate_reason("배우 ○○, 열애 인정"))
         self.assertIsNone(BG.gate_reason("배우 ○○, 열애 인정", live=3))
-        self.assertIsNotNone(BG.gate_reason("유튜버 ○○ 전 연인 고소…경찰 수사 착수"))
-        self.assertIsNone(BG.gate_reason("유튜버 ○○ 전 연인 고소…경찰 수사 착수", live=3))
+        self.assertIsNotNone(BG.gate_reason("유튜버 ○○ 전 연인 고소…경찰 수사 착수", live=3))   # 사법 축 = [강]이어도 그대로(운영자 260921 · 평의회260929-2 #8)
         self.assertIsNotNone(BG.gate_reason("유튜버 ○○ 촬영장 화재로 2명 사망", live=3))   # 인명 문턱은 그대로
         self.assertIsNotNone(BG.gate_reason("배우 ○○, 열애 인정", live=2))                 # [중] = 면제 없음
 
@@ -238,11 +384,11 @@ class Push(unittest.TestCase):
         self.assertTrue(PS.is_breaking(dict(base, lv={"t": 3})))
         self.assertFalse(PS.is_breaking(dict(base, lv={"t": 2})))
         self.assertFalse(PS.is_breaking({"breaking": True, "grade": None, "lv": {"t": 3}}))   # 미채점 보류 불변
-        self.assertFalse(PS.is_breaking({"breaking": True, "grade": 0, "lv": {"t": 3}}))
+        self.assertTrue(PS.is_breaking({"breaking": True, "grade": 0, "lv": {"t": 3}}))    # [강] = 경중 무관(채점만 되면) · 평의회260929-2 #8
 
     def test_cross_by_outside_outlets(self):
         self.assertFalse(PS.push_cross_ok({"cross": 1, "title": "닛몰캐쉬 폭로"}))
-        self.assertTrue(PS.push_cross_ok({"cross": 1, "title": "닛몰캐쉬 폭로", "lv": {"t": 2, "gn": 3}}))
+        self.assertFalse(PS.push_cross_ok({"cross": 1, "title": "닛몰캐쉬 폭로", "lv": {"t": 2, "gn": 3}}))   # [중]+gn≥3 = 새 사건 확인 거절(재점화) · 평의회260929-2
         self.assertTrue(PS.push_cross_ok({"cross": 1, "title": "닛몰캐쉬 폭로", "lv": {"t": 3}}))
 
 
@@ -254,11 +400,22 @@ class Judge(unittest.TestCase):
         c = {"title": "유명 유튜버, 데이트폭력 의혹", "published": "",
              "lv": {"k": "닛몰캐쉬", "t": 3, "c": 4, "x": 1, "gn": 7}}
         rows = self.bj.build_rows([c])
-        self.assertEqual(rows[0][1], "유명 유튜버, 데이트폭력 의혹 〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · X 1위 · 언론 7곳〕 〔발행시각 미상〕")
+        self.assertEqual(rows[0][1], "유명 유튜버, 데이트폭력 의혹 〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · 엑스 트렌드 1위 · 언론 7곳〕 〔발행시각 미상〕")
         plain = {"title": c["title"]}
         self.assertNotEqual(self.bj._stamp(c), self.bj._stamp(plain))               # [강] = 1회 재판정
         self.assertEqual(self.bj._stamp(dict(c, lv={"k": "닛몰캐쉬", "t": 2})), self.bj._stamp(plain))   # [중] = 도장 불변
         self.assertEqual(self.bj._stamp(c), self.bj._stamp(dict(c, lv=dict(c["lv"], c=9, x=3))))      # 수치 변화 = 재판정 0
+
+    def test_no_lv3_stamp_without_tail(self):   # 평의회1 #10 — 꼬리표 모듈 import 실패 = lv3 안 접음(복구 뒤 [강] 꼬리표로 1회 재판정)
+        c = {"title": "유명 유튜버, 데이트폭력 의혹", "lv": {"k": "닛몰캐쉬", "t": 3, "c": 4}}
+        with_tail = self.bj._stamp(c)
+        old = self.bj._live_tail
+        self.bj._live_tail = None
+        try:
+            self.assertEqual(self.bj._stamp(c), self.bj._stamp({"title": c["title"]}))
+        finally:
+            self.bj._live_tail = old
+        self.assertNotEqual(with_tail, self.bj._stamp({"title": c["title"]}))
 
     def test_rubric_ver_is_base_only(self):
         import hashlib
