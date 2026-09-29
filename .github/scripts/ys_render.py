@@ -2,7 +2,7 @@
 """유튜브 숏폼(ys) 렌더 — plan.json + 나레이션 타이밍 → 9:16 mp4 · 포스터 · 인포그래픽 PNG.
 
   ys_render.py <plan.json> <timing.json> <meta.json> <outdir> [--img-dir DIR] [--vid-dir DIR] [--font pretendard|gothic|barun]
-               [--ratio 9:16|16:9] [--subbg on|off] [--subop 0~100] [--cap mid|low|top]
+               [--ratio 9:16|16:9] [--subbg on|off] [--subop 0~100] [--cap 0~100(자막 세로 위치 % · 기본 65)]
 
   산출 = outdir/short.mp4 · outdir/poster.jpg · outdir/infographic.png · outdir/render.json(집계)
   장면 = 화면 층(헤드리스 Chromium) + 문장 자막 오버레이 + 장면 나레이션 → 장면 클립 → 이어붙이기.
@@ -42,7 +42,7 @@ FAMILY = FONTS['pretendard']
 LAND = False        # 16:9 가로(운영자 260928 «기본 9:16 · 16:9 선택»)
 SUB_BG = True       # 자막 배경 점등(기본 켬)
 SUB_OP = 1.0        # 자막 배경 불투명도(기본 100%)
-CAP = 'mid'         # 자막 위치 = mid 가운데(기본 · 운영자 260928 «기본은 화면 중앙») · low 아래 · top 위
+CAP = 65            # 자막 세로 위치 %(자막 덩이 중심 · 화면 위 0 → 아래 100 · 기본 65 = 운영자 260929 «중앙 아래 65% 를 중앙으로»)
 
 
 def esc(s):
@@ -116,12 +116,12 @@ def bg_html(tokens):
 
 
 def caption_html(tokens, text):
-    # 위치 = 가운데(화면 세로 중심에 자막 덩이 중심) · 아래(종전 자리) · 위(출처 줄 아래) — 띠 범위 = ys_motion.cap_band 동값
-    pos = {'low': f"top:{'900' if LAND else '1480'}px", 'top': f'top:{int(H * .12)}px'}.get(CAP, 'top:50%;transform:translateY(-50%)')
+    # 위치 = 자막 덩이 중심이 화면 높이의 CAP% 지점(10~90% 로 묶어 화면 밖으로 안 나간다) — 띠 범위 = ys_motion.cap_band 동값
+    pos = f'top:{int(H * max(10, min(90, CAP)) / 100)}px;transform:translateY(-50%)'
     return f"""<!doctype html><html><head><meta charset=utf-8><style>{base_css(tokens)}
 html,body{{height:{H}px;background:transparent;overflow:hidden}}
 .cap{{position:absolute;left:{'200' if LAND else '70'}px;right:{'200' if LAND else '70'}px;{pos};display:flex;justify-content:center}}
-.cap div{{{f'background:rgba(0,0,0,{SUB_OP:.2f});' if SUB_BG else 'text-shadow:0 2px 6px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.8);'}border-radius:20px;padding:22px 34px;font-size:{'46' if LAND else '50'}px;line-height:1.38;font-weight:700;text-align:center;letter-spacing:-.02em;overflow-wrap:anywhere}}
+.cap div{{{f'background:rgba(0,0,0,{SUB_OP:.2f});' if SUB_BG else ''}{'text-shadow:0 2px 6px rgba(0,0,0,.95),0 0 18px rgba(0,0,0,.8);' if not SUB_BG or SUB_OP < .6 else ''}border-radius:20px;padding:22px 34px;font-size:{'46' if LAND else '50'}px;line-height:1.38;font-weight:700;text-align:center;letter-spacing:-.02em;overflow-wrap:anywhere}}
 </style></head><body><div class=cap><div>{esc(text)}</div></div></body></html>"""
 
 
@@ -220,7 +220,10 @@ def main(argv):
     LAND = flags.get('ratio') == '16:9'
     W, H = (1920, 1080) if LAND else (1080, 1920)
     SUB_BG = flags.get('subbg', 'on') != 'off'
-    CAP = flags.get('cap') if flags.get('cap') in ('mid', 'low', 'top') else 'mid'
+    try:
+        CAP = max(0, min(100, int({'top': 18, 'mid': 65, 'low': 82}.get(flags.get('cap'), flags.get('cap', 65)))))
+    except (TypeError, ValueError):
+        CAP = 65
     try:
         SUB_OP = max(0, min(100, int(flags.get('subop', '100')))) / 100
     except ValueError:
@@ -241,7 +244,7 @@ def main(argv):
     credit = f"원본 · {meta.get('channel', '')} 「{meta.get('title', '')}」"   # 마지막 장면 윗줄(쪽수 자리) 한 줄 = 글자 덩이 밖(넘쳐 잘리던 자리 · 260928 평의회)
     imgs_used = vids_used = mgs_used = deps_used = design_used = 0
     dep_notes = []
-    MW, MH = ys_motion.canvas('16:9' if LAND else '9:16', CAP)   # 모션 무대 = 자막 아래면 그 위 전체 · 가운데·위면 화면 전체(ys_motion 동값)
+    MW, MH = ys_motion.canvas('16:9' if LAND else '9:16')   # 모션 무대 = 화면 전체(자막 띠는 지침으로 비켜 둔다 · ys_motion 동값)
     kinds, mgcap, posters = [], [], []
     font_css = f"@font-face{{font-family:NMP;src:url('file://{FONT}') format('woff2');font-weight:100 900}}"
     from playwright.sync_api import sync_playwright

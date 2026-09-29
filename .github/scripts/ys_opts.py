@@ -16,7 +16,6 @@ ALLOW = {
     'font': ['pretendard', 'gothic', 'barun'],
     'ratio': ['9:16', '16:9'],
     'subbg': ['on', 'off'],
-    'cap': ['mid', 'low', 'top'],   # 자막 위치(운영자 260928 «기본은 화면 중앙»)
 }
 
 
@@ -34,6 +33,11 @@ def clean(raw):
         out['subop'] = str(max(0, min(100, int(o.get('subop', 100)))))
     except (TypeError, ValueError):
         out['subop'] = '100'
+    cap = {'top': 18, 'mid': 65, 'low': 82}.get(o.get('cap'), o.get('cap', 65))   # 옛 3칸 값 승계
+    try:
+        out['cap'] = str(max(0, min(100, int(cap))))   # 자막 세로 위치 %(기본 65 = 운영자 260929 기준 「중앙」)
+    except (TypeError, ValueError):
+        out['cap'] = '65'
     ev = str(o.get('el_voice', ''))
     out['el_voice'] = ev if re.fullmatch(r'[A-Za-z0-9]{16,32}', ev) else ''
     return out

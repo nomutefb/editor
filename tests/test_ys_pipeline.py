@@ -147,23 +147,22 @@ class RenderHelpers(unittest.TestCase):
         self.assertIn('class=credit', ys_render.shade_html(':root{}', '원본 · 채널'))
 
     def test_caption_position(self):
-        """자막 위치 = 가운데(기본) · 아래 · 위 — 렌더 자리 · 모션 무대 · 러너 옵션이 같은 값을 쓴다(운영자 260928 «기본은 화면 중앙»)."""
+        """자막 위치 = 게이지 %(기본 65 = 운영자 260929 기준 「중앙」) — 러너 옵션·렌더 자리·모션 자막 띠가 같은 값을 쓴다."""
         import ys_motion
         import ys_opts
         import ys_render
-        self.assertEqual(ys_opts.clean('{}')['cap'], 'mid')
-        self.assertEqual(ys_opts.clean('{"cap":"top"}')['cap'], 'top')
-        self.assertEqual(ys_opts.clean('{"cap":"x"}')['cap'], 'mid')
-        self.assertEqual(ys_motion.canvas('9:16', 'mid'), (1080, 1920))          # 가운데·위 = 화면 전체 무대
-        self.assertEqual(ys_motion.canvas('9:16', 'low'), (1080, 1440))          # 아래 = 자막 자리 위까지(종전)
-        a, z = ys_motion.cap_band('9:16', 'mid')
-        self.assertTrue(a < 960 < z)
+        self.assertEqual(ys_opts.clean('{}')['cap'], '65')
+        self.assertEqual(ys_opts.clean('{"cap":30}')['cap'], '30')
+        self.assertEqual(ys_opts.clean('{"cap":"low"}')['cap'], '82')                    # 옛 3칸 값 승계
+        self.assertEqual(ys_opts.clean('{"cap":"x"}')['cap'], '65')
+        self.assertEqual(ys_motion.canvas('9:16'), (1080, 1920))                          # 무대 = 화면 전체
+        a, z = ys_motion.cap_band('9:16', 65)
+        self.assertTrue(a < 1920 * .65 < z)
+        self.assertEqual(ys_motion.cap_pct('100'), 90)                                    # 화면 밖으로 안 나가게 10~90
         old = (ys_render.CAP, ys_render.H)
         try:
-            ys_render.CAP, ys_render.H = 'mid', 1920
-            self.assertIn('translateY(-50%)', ys_render.caption_html(':root{}', '자막'))
-            ys_render.CAP = 'low'
-            self.assertIn('top:1480px', ys_render.caption_html(':root{}', '자막'))
+            ys_render.CAP, ys_render.H = 65, 1920
+            self.assertIn('top:1248px;transform:translateY(-50%)', ys_render.caption_html(':root{}', '자막'))
         finally:
             ys_render.CAP, ys_render.H = old
 
@@ -296,7 +295,7 @@ class SceneModes(unittest.TestCase):
         for bad in ('url(', '@import', 'transition', 'onclick', '<script', '<img', 'http://'):
             self.assertNotIn(bad, css + html)
         self.assertIn('href="#ok"', html)                                                                   # 내부 참조는 유지
-        self.assertEqual(ys_motion.canvas('9:16', 'low'), (1080, 1440))                                  # 자막 아래 = 자막 자리 위까지
+        self.assertEqual(ys_motion.canvas('9:16'), (1080, 1920))                                        # 무대 = 화면 전체(자막 띠는 지침으로 비킴)
         self.assertEqual(ys_motion.chunks(range(7)), [[0, 1, 2, 3], [4, 5, 6]])                       # 병렬 조각 = 고르게 · ≤4
         self.assertEqual([len(c) for c in ys_motion.chunks(range(11))], [4, 4, 3])
         self.assertEqual(ys_motion.chunks([]), [])

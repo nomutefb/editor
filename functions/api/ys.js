@@ -26,7 +26,6 @@ export const OPTS = {
   font: ['pretendard', 'gothic', 'barun'],   // 운영자 260928 "프리텐다드·노토산스·나눔바른고딕 · 기본 프리텐다드"
   ratio: ['9:16', '16:9'],            // 세로(기본) / 가로
   subbg: ['on', 'off'],               // 자막 배경 점등(기본 켬)
-  cap: ['mid', 'low', 'top'],         // 자막 위치 = 가운데(기본 · 운영자 260928 «기본은 화면 중앙») / 아래 / 위
 };
 export function cleanOpts(body) {
   const src = (body && typeof body.opts === 'object' && body.opts && !Array.isArray(body.opts)) ? body.opts : (body || {});   // 새 모양 = {opts:{…}} · 옛 모양(최상위) 하위호환
@@ -34,7 +33,10 @@ export function cleanOpts(body) {
   for (const [k, allow] of Object.entries(OPTS)) o[k] = allow.includes(String(src[k] ?? '')) ? String(src[k]) : allow[0];
   if (String(src.img ?? '') === 'none') o.img = 'motion';   // 옛 값(글자 화면) = 모션 그래픽으로 승계(글자만 띄우는 화면 폐지 · 운영자 260928)
   const op = Number.parseInt(src.subop, 10);
-  o.subop = String(Number.isFinite(op) ? Math.min(100, Math.max(0, op)) : 100);   // 자막 배경 불투명도 %(기본 100)
+  o.subop = String(Number.isFinite(op) ? Math.min(100, Math.max(0, op)) : 100);   // 자막 배경 불투명도 %(기본 100 = 검정 불투명)
+  const LEGACY_CAP = { top: 18, mid: 65, low: 82 };   // 옛 3칸 값 승계
+  const cp = Number.parseInt(LEGACY_CAP[src.cap] ?? src.cap, 10);
+  o.cap = String(Number.isFinite(cp) ? Math.min(100, Math.max(0, cp)) : 65);   // 자막 세로 위치 %(화면 위 0 → 아래 100 · 기본 65 = 운영자 260929 «중앙 아래 65% 를 중앙으로»)
   o.el_voice = /^[A-Za-z0-9]{16,32}$/.test(String(src.el_voice || '')) ? String(src.el_voice) : '';   // ElevenLabs 목소리 id(빈 값 = AI 자동)
   return o;
 }

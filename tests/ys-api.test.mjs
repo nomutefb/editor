@@ -11,11 +11,13 @@ test('유튜브 영상 주소만 통과', () => {
 });
 
 test('옵션 = 화이트리스트 밖이면 첫 값(기본)', () => {
-  assert.deepEqual(cleanOpts({ opts: { voice: 'edge', stt: 'subs', img: 'grok', len: '90', font: 'barun', ratio: '16:9', subbg: 'off', subop: '40', cap: 'top', el_voice: 'AbCdEfGhIjKlMnOpQrSt' } }),
-    { voice: 'edge', stt: 'subs', img: 'grok', len: '90', font: 'barun', ratio: '16:9', subbg: 'off', cap: 'top', subop: '40', el_voice: 'AbCdEfGhIjKlMnOpQrSt' });
+  assert.deepEqual(cleanOpts({ opts: { voice: 'edge', stt: 'subs', img: 'grok', len: '90', font: 'barun', ratio: '16:9', subbg: 'off', subop: '40', cap: 40, el_voice: 'AbCdEfGhIjKlMnOpQrSt' } }),
+    { voice: 'edge', stt: 'subs', img: 'grok', len: '90', font: 'barun', ratio: '16:9', subbg: 'off', subop: '40', cap: '40', el_voice: 'AbCdEfGhIjKlMnOpQrSt' });
   // 기본 = 60초·고급·정밀·맥 그림·9:16·자막 배경 켬 100%(운영자 260928) · 옛 최상위 모양 하위호환 · 범위 밖 불투명도는 자름
   assert.deepEqual(cleanOpts({ voice: 'x', img: '../', len: 30, font: 'jua', subop: 250, el_voice: 'bad id' }),
-    { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', cap: 'mid', subop: '100', el_voice: '' });   // 자막 위치 기본 = 가운데
+    { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', subop: '100', cap: '65', el_voice: '' });   // 자막 위치 기본 = 65%(운영자 기준 「중앙」)
+  assert.equal(cleanOpts({ opts: { cap: 'low' } }).cap, '82');   // 옛 3칸 값 승계   // seal-ok: node:assert 기본 단언
+  assert.equal(cleanOpts({ opts: { cap: 250 } }).cap, '100');   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖
   assert.deepEqual(OPTS.font, ['pretendard', 'gothic', 'barun']);
   assert.deepEqual(OPTS.img, ['codex', 'motion', 'depth', 'grok']);   // 장면 화면 4방식(운영자 260928)
   assert.equal(cleanOpts({ opts: { img: 'none' } }).img, 'motion');   // 옛 글자 화면 = 모션 그래픽 승계   // seal-ok: node:assert 기본 단언 — shell-build 테스트는 문자열 비교 전용이라 대상 밖

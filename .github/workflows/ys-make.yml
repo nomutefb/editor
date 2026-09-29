@@ -406,7 +406,7 @@ jobs:
             gothic) fc-list | grep -qi 'Noto Sans CJK' || { echo "노토 산스가 러너에 없어 프리텐다드로 만들었어." >> /tmp/ys_notes.txt; FONT=pretendard; };;
           esac
           echo "YS_FONT_USED=$FONT" >> "$GITHUB_ENV"
-          python3 .github/scripts/ys_render.py /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys_meta.json /tmp/ys/final --font "$FONT" --ratio "$YS_RATIO" --subbg "$YS_SUBBG" --subop "$YS_SUBOP" --cap "${YS_CAP:-mid}" $IMGARG \
+          python3 .github/scripts/ys_render.py /tmp/ys/plan.json /tmp/ys/audio/timing.json /tmp/ys_meta.json /tmp/ys/final --font "$FONT" --ratio "$YS_RATIO" --subbg "$YS_SUBBG" --subop "$YS_SUBOP" --cap "${YS_CAP:-65}" $IMGARG \
             || { echo "영상 합치기에 실패했어 — 다시 해줘." > /tmp/ys_err.txt; exit 1; }
           python3 .github/scripts/ys_progress.py "$YS_ID" render done "$(python3 -c "import json;r=json.load(open('/tmp/ys/final/render.json'));print(f\"{r['dur']:.0f}초 · 장면 {r['scenes']}개\")")"
 
@@ -462,7 +462,7 @@ jobs:
                  'vid_used': ren.get('vid_used', 0), 'depth_used': ren.get('depth_used', 0), 'mg_used': ren.get('mg_used', 0), 'mg_types': ren.get('mg_types', []),
                  'design_used': ren.get('design_used', 0), 'grok_cost_usd': vid.get('cost_usd', 0),
                  'font': os.environ.get('YS_FONT_USED') or os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
-                 'subop': int(os.environ.get('YS_SUBOP') or 100), 'cap': os.environ.get('YS_CAP') or 'mid', 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
+                 'subop': int(os.environ.get('YS_SUBOP') or 100), 'cap': int(os.environ.get('YS_CAP') or 65), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
                  'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',
                  'video': f'{base}/short.mp4', 'poster': f'{base}/poster.jpg', 'infographic': f'{base}/infographic.png', 'report': f'{base}/report.md',
                  'notes': notes}

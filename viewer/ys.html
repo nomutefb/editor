@@ -202,6 +202,19 @@
   .vfold .vfh .sum { color:var(--mut); font-size:var(--fs-xs); margin-left:auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
   .vfold .vfh .chev { width:14px; height:14px; flex:none; fill:none; stroke:var(--mut); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }   /* raw-ok: .scard .chev 동값 */
   .vfold .vfh:active .chev { transform:scale(var(--press-m)); transition:transform .08s ease-out; }   /* raw-ok: 눌림 .08s = kinetics press 원본 동값 */
+  /* 러버밴드 게이지 = kinetics «Rubber-band Slider» 원본 동작(운영자 260929) — 끝을 넘겨 끌면 넘친 거리 ×.32 만 따라가고, 놓으면 .5s 스프링으로 제자리.
+     이동 = transform 만(채움 scaleX · 손잡이 translateX = 레이아웃 전환 0) · 값 = 0~100 정수 · 두 번 누르기 = 기본값 */
+  .rbrow { align-items:center; }
+  .rbrow .pub-l { flex:0 0 60px; }   /* raw-ok: 라벨 열 60 = .scard .prm .geni-railrow .pub-l 동값(게이지 시작 = 레일 시작 세로선) */
+  .rbs { position:relative; flex:1; min-width:0; height:32px; margin:0 var(--sp-1) 0 0; touch-action:none; cursor:pointer; -webkit-tap-highlight-color:transparent; --p:.5; }   /* raw-ok: 누름 높이 32 = 옵션 알약(≈30) 동급 */
+  .rbs-track { position:absolute; left:0; right:0; top:50%; height:6px; margin-top:-3px; border-radius:var(--r-pill); background:rgba(255,255,255,.08); }   /* raw-ok: 트랙 6 = kinetics 원본 비율 · 바탕 알파 = 카드 계열 */
+  .rbs-fill { position:absolute; inset:0; border-radius:inherit; background:var(--accent); transform-origin:left center; transform:scaleX(var(--p)); }
+  .rbs-knob { position:absolute; left:0; right:0; top:50%; height:0; transform:translateX(calc((var(--p) - 1) * 100%)); }
+  .rbs-knob::after { content:''; position:absolute; right:-9px; top:-9px; width:18px; height:18px; border-radius:50%; background:var(--fg); box-shadow:0 1px 4px rgba(0,0,0,.45); transition:transform var(--dur-fast) ease; }   /* raw-ok: 손잡이 18 = kinetics 원본 · 그림자 = 떠 있는 손잡이 */
+  .rbs.drag .rbs-knob::after { transform:scale(var(--gauge-pop)); }
+  .rbs.snap .rbs-fill, .rbs.snap .rbs-knob { transition:transform .5s cubic-bezier(.34,1.56,.64,1); }   /* raw-ok: 스프링 복귀 곡선·.5s = kinetics 원본 동값 */
+  .rbs:focus-visible { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:4px; border-radius:var(--r-s); }
+  .rbs-val { flex:0 0 44px; text-align:right; font-size:var(--fs-xs); font-weight:var(--fw-b); color:var(--mut); font-variant-numeric:tabular-nums; }   /* raw-ok: 값 칸 44 = 「100%」·「중앙」 한 폭 */
   .vlist { display:flex; flex-direction:column; gap:var(--sp-1); max-height:calc(var(--btn) * 5); overflow:auto; margin:0 0 var(--sp-1); overscroll-behavior:contain; }
   .vrow { flex:none; display:flex; align-items:stretch; border-radius:var(--r-m); background:rgba(8,15,11,.34); border:1px solid var(--line); transition:border-color var(--dur), background var(--dur); }   /* raw-ok: vd .vdrow 면 동값 */
   .vrow.on { border-color:rgba(var(--accent-rgb),.5); background:rgba(var(--accent-rgb),.06); }
@@ -399,8 +412,8 @@ function mk(path, d) {
 }
 
 /* ── 옵션(백엔드 계약 = POST /api/ys {url, ask, opts:{voice, stt, img, len, font, el_voice, ratio, subbg, subop, cap}}) ── */
-const DEF = { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', subop: 100, cap: 'mid' };   // 처음 기본값 = 운영자 260928(고급 음성·정밀 받아쓰기·장면 그림 · 백엔드 api/ys.js OPTS 첫 값과 같은 조합) · 저장된 선택(ys_opts)이 있으면 그쪽이 이긴다
-const OKV = { voice: ['edge', 'eleven'], stt: ['subs', 'scribe'], img: ['motion', 'codex', 'depth', 'grok'], len: ['45', '60', '90'], font: ['pretendard', 'gothic', 'barun'], ratio: ['9:16', '16:9'], subbg: ['on', 'off'], cap: ['mid', 'low', 'top'] };
+const DEF = { voice: 'eleven', stt: 'scribe', img: 'codex', len: '60', font: 'pretendard', ratio: '9:16', subbg: 'on', subop: 100, cap: 65 };   // 처음 기본값 = 운영자 260928(고급 음성·정밀 받아쓰기·장면 그림 · 백엔드 api/ys.js OPTS 첫 값과 같은 조합) · 저장된 선택(ys_opts)이 있으면 그쪽이 이긴다
+const OKV = { voice: ['edge', 'eleven'], stt: ['subs', 'scribe'], img: ['motion', 'codex', 'depth', 'grok'], len: ['45', '60', '90'], font: ['pretendard', 'gothic', 'barun'], ratio: ['9:16', '16:9'], subbg: ['on', 'off'] };
 /* 폰트 3종 = viewer/edit.html FONT_PV 해당 항목 정의(ff·gf·lf·fam·lw 동값) · 라벨 = 운영자 지정(260928) · 지연 로드 = edit loadPvFont 동문(고를 때만 = 평상시 외부 요청 0) */
 const FONTS = {
   pretendard: { lbl: '프리텐다드', ff: '"Pretendard Variable","Pretendard",sans-serif' },
@@ -426,7 +439,12 @@ function accCard(id, name, inner) {   // 카테고리 아코디언 = edit .scard
   return '<div class="scard" id="' + id + 'Card" data-acc="' + id + '"><button type="button" class="hd" aria-expanded="false" aria-controls="' + id + 'Acc"><span class="nm">' + esc(name) + '</span><span class="sum" id="' + id + 'Sum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
     + '<div class="acc" id="' + id + 'Acc" inert><div class="acc-in"><div class="prm">' + inner + '</div></div></div></div>';
 }
-const CAPS = [['mid', '가운데'], ['low', '아래'], ['top', '위']];
+/* 게이지 값 표기 · 기본값 — 위치 65% = 「중앙」(운영자 260929 «중앙 아래 65% 를 중앙이라고 할게») · 배경 = 검정 불투명도(기본 100%) */
+const GAUGE = { cap: { def: 65, fmt: v => v === 65 ? '중앙' : v + '%' }, subop: { def: 100, fmt: v => v + '%' } };
+function gaugeRow(k, label) {
+  return '<div class="geni-row rbrow"><span class="pub-l">' + esc(label) + '</span><div class="rbs" data-k="' + k + '" role="slider" tabindex="0" aria-label="' + esc(label) + '" aria-valuemin="0" aria-valuemax="100">'
+    + '<div class="rbs-track"><div class="rbs-fill"></div></div><div class="rbs-knob"></div></div><span class="rbs-val" data-for="' + k + '"></span></div>';
+}
 function buildOpts() {
   $('#opts').innerHTML = accCard('voc', '음성 설정', railRow('voice', '목소리', [['edge', '무료 음성'], ['eleven', '고급 음성', ' title="ElevenLabs"']])
       + '<div id="elvBox" hidden><div class="vfold" id="elvFold"><button type="button" class="vfh" aria-expanded="false" aria-controls="elvAcc"><span class="pub-l">목소리 선택</span><span class="sum" id="elvSum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
@@ -437,7 +455,9 @@ function buildOpts() {
       + railRow('len', '길이', [['45', '45초', ' data-num="1"'], ['60', '60초', ' data-num="1"'], ['90', '90초', ' data-num="1"']])
       + railRow('ratio', '비율', [['9:16', '9:16', ' data-num="1"'], ['16:9', '16:9', ' data-num="1"']]))
     + accCard('sub', '자막 설정', railRow('font', '폰트', OKV.font.map(k => [k, FONTS[k].lbl, ' style="font-family:' + esc(FONTS[k].ff) + '"']))
-      + railRow('cap', '위치', CAPS));   // 자막 위치 = 가운데(기본 · 운영자 260928 «기본은 화면 중앙») · 아래 · 위   // 자막 배경 켬/끔·불투명도 조작칸 = 폐지(운영자 260928 «자막 배경은 사실 의미가 없다») · 러너 기본(배경 켬 100%)은 그대로
+      + gaugeRow('cap', '위치')   // 자막 세로 위치 = 게이지(운영자 260929 · 기본 65% = 「중앙」)
+      + '<div class="vfold" id="subFold"><button type="button" class="vfh" aria-expanded="false" aria-controls="subAcc"><span class="pub-l">세부 설정</span><span class="sum" id="subFoldSum"></span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path/></svg></button>'
+      + '<div class="acc" id="subAcc" inert><div class="acc-in">' + gaugeRow('subop', '배경') + '</div></div></div>');   // 자막 배경 = 검정 불투명도 게이지(기본 100%)   // 자막 배경 켬/끔·불투명도 조작칸 = 폐지(운영자 260928 «자막 배경은 사실 의미가 없다») · 러너 기본(배경 켬 100%)은 그대로
 }
 buildOpts();
 const OKEY = 'ys_opts';   // 기기별 편의(마지막 고른 옵션) — 실패해도 기본값으로 선다
@@ -446,14 +466,17 @@ const VID_RE = /^[A-Za-z0-9]{16,32}$/;   // ElevenLabs 목소리 id(백엔드 ap
 let SAVED_VOICE = '';
 try { const s = JSON.parse(localStorage.getItem(OKEY) || '{}'); if (s.img === 'none') s.img = 'motion'; for (const k in OKV) if (OKV[k].includes(String(s[k]))) opts[k] = String(s[k]); if (VID_RE.test(String(s.el_voice || ''))) SAVED_VOICE = String(s.el_voice);
   } catch (e) {}
-opts.subbg = DEF.subbg; opts.subop = DEF.subop;   // 조작칸 폐지 = 예전에 저장한 끔·불투명도가 몰래 남지 않게 항상 기본값
+opts.subbg = DEF.subbg;   // 배경 켬 고정(끄기 = 불투명도 0%)
+try { const s = JSON.parse(localStorage.getItem(OKEY) || '{}');   // 게이지 값 = 정수 0~100 만 되살린다(옛 3칸 cap 값·이상값 = 기본)
+  for (const k in GAUGE) { const v = Number(s[k]); opts[k] = Number.isInteger(v) && v >= 0 && v <= 100 ? v : GAUGE[k].def; }
+} catch (e) {}
 opts.el_voice = '';   // 기본 = 자동(AI가 영상마다 계정 목소리 중 내용에 맞는 1개를 고른다) · 기억한 목소리는 목록에 실제로 있을 때만 되살린다
 function paintOpts() {
   document.querySelectorAll('#opts .geni-opts').forEach(g => {
     const k = g.dataset.k;
     g.querySelectorAll('.geni-opt').forEach(b => { const on = b.dataset.v === opts[k]; b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); });
   });
-  paintSums();
+  paintSums(); Object.keys(GAUGE).forEach(paintGauge);
   document.querySelectorAll('#opts .geni-rail').forEach(railUpd);
   paintSpec(); paintImgNote(); paintVoices();
 }
@@ -462,7 +485,8 @@ function paintSums() {   // 접힌 줄 오른쪽 = 현재 값 요약(작게)
   $('#vocSum').textContent = vn + ' · ' + (opts.stt === 'scribe' ? '정밀 받아쓰기' : '자막 우선');
   $('#elvSum').textContent = opts.el_voice ? ((VOICES.find(v => v.id === opts.el_voice) || {}).name || '지정') : '자동 · 기본 남성';
   $('#scrSum').textContent = ({ motion: '모션 그래픽', codex: 'GPT 이미지', depth: 'GPT 입체', grok: '그록 영상' }[opts.img] || '') + ' · ' + opts.len + '초 · ' + opts.ratio;
-  $('#subSum').textContent = FONTS[opts.font].lbl + ' · ' + ((CAPS.find(c => c[0] === opts.cap) || CAPS[0])[1]);
+  $('#subSum').textContent = FONTS[opts.font].lbl + ' · ' + GAUGE.cap.fmt(+opts.cap);
+  $('#subFoldSum').textContent = '배경 ' + GAUGE.subop.fmt(+opts.subop);
 }
 /* ── 레일 동작 = sb.html railUpd/railSetup(= index geniRailUpd/geniRailSetup) 그대로 ── */
 const railUpd = rail => {
@@ -564,6 +588,35 @@ $('#opts').addEventListener('click', e => {
   paintOpts();
 });
 function saveOpts() { try { localStorage.setItem(OKEY, JSON.stringify(opts)); } catch (e) {} }
+function paintGauge(k) {
+  const el = document.querySelector('#opts .rbs[data-k="' + k + '"]'); if (!el) return;
+  const v = +opts[k], t = GAUGE[k].fmt(v);
+  if (!el.classList.contains('drag')) el.style.setProperty('--p', String(v / 100));
+  el.setAttribute('aria-valuenow', String(v)); el.setAttribute('aria-valuetext', t);
+  const lab = document.querySelector('#opts .rbs-val[data-for="' + k + '"]'); if (lab) lab.textContent = t;
+}
+function gaugeSet(k, v, snap) {
+  opts[k] = Math.max(0, Math.min(100, Math.round(v)));
+  const el = document.querySelector('#opts .rbs[data-k="' + k + '"]');
+  if (snap && el) { el.classList.add('snap'); clearTimeout(el._sn); el._sn = setTimeout(() => el.classList.remove('snap'), 520); }
+  paintGauge(k); paintSums();
+}
+$('#opts').querySelectorAll('.rbs').forEach(el => {   // kinetics 러버밴드 — 끝 넘김 = 넘친 거리 ×.32 · 놓으면 스프링 복귀
+  const k = el.dataset.k; let on = false;
+  const move = x => { const r = el.getBoundingClientRect(), raw = (x - r.left) / (r.width || 1), c = Math.min(1, Math.max(0, raw));
+    el.style.setProperty('--p', String(c + (raw - c) * .32)); gaugeSet(k, c * 100, false); };
+  el.addEventListener('pointerdown', e => { on = true; try { el.setPointerCapture(e.pointerId); } catch (x) {} el.classList.remove('snap'); el.classList.add('drag'); move(e.clientX); });
+  el.addEventListener('pointermove', e => { if (on) move(e.clientX); });
+  const end = () => { if (!on) return; on = false; el.classList.remove('drag'); gaugeSet(k, opts[k], true); saveOpts(); };
+  el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+  el.addEventListener('keydown', e => { const st = e.shiftKey ? 10 : 1, cur = +opts[k];
+    const nv = { ArrowRight: cur + st, ArrowUp: cur + st, ArrowLeft: cur - st, ArrowDown: cur - st, Home: 0, End: 100 }[e.key];
+    if (nv === undefined) return; e.preventDefault(); gaugeSet(k, nv, true); saveOpts(); });
+  el.addEventListener('dblclick', () => { gaugeSet(k, GAUGE[k].def, true); saveOpts(); });   // 두 번 누르기 = 기본값(위치 65 「중앙」 · 배경 100%)
+});
+{ const f = $('#subFold'), h = f.querySelector('.vfh'), a = f.querySelector('.acc'), cv = mk(h.querySelector('.chev path'), D.chevDown);
+  h.addEventListener('click', () => { const open = !f.classList.contains('open'); f.classList.toggle('open', open); h.setAttribute('aria-expanded', String(open)); cv.to(open ? D.chevUp : D.chevDown);
+    if (open) a.removeAttribute('inert'); else a.setAttribute('inert', ''); }); }   // 자막 세부 설정 = 목소리 선택과 같은 접이(기본 접힘)
 /* 레일 리드백 = 1칩(길이) — 기본값 mut · 바꾼 값만 강조(도크 규격 = 정적 .on 0) · 1칩 = 픽토 묶음[전체 초기화][링크 삭제](운영자 260928)이 들어온 뒤 폰 390에서 생성 버튼이 도크 안에 서는 상한(3칩 = 52px 넘쳐 주소 칸을 덮음 · 실측 260928) · 비율·장면·폰트는 각 설정 카드 요약 줄에 */
 const SPEC_LBL = { voice: { edge: '무료', eleven: '고급' }, img: { motion: '모션', codex: 'GPT', depth: '입체', grok: '그록' } };
 function paintSpec() {
@@ -1163,7 +1216,7 @@ async function fire() {
   if (!v.ok) { shake(); goFlash(false); setMsg('#urlMsg', v.msg, 'err'); return; }   // 입력 문제 = 요청 전에 막는다(포커스 안 줌 = 폰 키보드가 불필요하게 안 올라온다)
   const ask = $('#ask').value.trim().slice(0, 300);
   const o = { voice: opts.voice, stt: opts.stt, img: opts.img, len: opts.len, font: opts.font, el_voice: opts.voice === 'eleven' && VID_RE.test(opts.el_voice || '') ? opts.el_voice : '',
-    ratio: opts.ratio, subbg: opts.subbg, subop: Math.max(0, Math.min(100, Math.round(+opts.subop))), cap: opts.cap };
+    ratio: opts.ratio, subbg: opts.subbg, subop: Math.max(0, Math.min(100, Math.round(+opts.subop))), cap: Math.max(0, Math.min(100, Math.round(+opts.cap))) };
   const body = { url: v.url, ask: ask, opts: o };   // 계약(260928) = {url, ask, opts:{…}} · 백엔드는 옛 최상위 필드도 받는다
   FIRING = true; go.disabled = true;
   setMsg('#urlMsg', '접수 중…');
