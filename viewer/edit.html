@@ -977,7 +977,7 @@ const srow=(lbl,chips)=>'<div class="srow"><span class="plbl">'+lbl+'</span><spa
    켜고 끄는 토글(자막 스타일·강조·군더더기·필러)은 고르기가 아니라 대상 밖 · 카드 머리 값 칩(비율·해상도·컷 강도)은 이미지 스튜디오와 같은 머리 문법이라 그대로 */
 const snapRow=(lbl,key,items,hold)=>{   // items = [[축, 값, 켜짐, 흐림, 글자]…] · hold = 둘째 줄(라벨 자리만 차지 = 윗줄과 칸 폭이 같다)
   const wide=items.length>=4||(items.length>=3&&items.some(a=>String(a[4]).length>=6));   // 폰 = 칸이 좁은 행만 라벨 아래 전체 폭(유튜브 탭 railRow 규칙 동일)
-  return '<div class="srow snaprow"'+(wide?' data-wide':'')+'><span class="plbl'+(hold?' lblhold" aria-hidden="true':'')+'">'+lbl+'</span><span data-nmsnap="'+key+'" aria-label="'+lbl+'">'+items.map(a=>pc(a[0],a[1],a[2],a[3],a[4])).join('')+'</span></div>';
+  return '<div class="srow snaprow"'+(wide?' data-wide':'')+'><span class="plbl'+(hold?' lblhold" aria-hidden="true':'')+'">'+lbl+'</span><span data-nmsnap="'+key+'" aria-label="'+lbl+(hold?' (계속)':'')+'">'+items.map(a=>pc(a[0],a[1],a[2],a[3],a[4])).join('')+'</span></div>';
 };
 const snapLine=(key,lbl,chips)=>'<div class="snapline" data-nmsnap="'+key+'" aria-label="'+lbl+'">'+chips.join('')+'</div>';   // 라벨이 위 줄(plbl-nm)에 따로 있는 행   // 자막 카드 행 = geni-row 정본 문법(운영자 260721 통일 — 라벨 pub-l·값 우측 워드칩·파이프 geni-sep)
 /* ── 색 한 줄(운영자 260729) — 음영 색·글자 색을 동그라미 한 줄로 겸함: 탭 = 음영(shc) · 우클릭/길게누르기 = 글자(fg).

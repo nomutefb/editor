@@ -67,6 +67,5 @@ button, input, textarea, select { font-family:inherit; letter-spacing:inherit;} 
 .nm-snap > button.on, .nm-snap > button[aria-checked="true"] { color:var(--on-accent); font-weight:var(--fw-x); background:none; border:0;}
 .nm-snap > button:active { transform:scale(var(--press-m));}
 .nm-snap > button:disabled { opacity:.32 /* raw-ok: 비활성 흐림 = 편집 .pc.dim 동값 */; cursor:default;}
-.nm-snap > button:focus-visible { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:-2px /* raw-ok: 칸 안쪽 포커스 링 */;}
 @media (hover:hover) { .nm-snap > button:not(.on):not(:disabled):hover { color:var(--fg);} }
 @media (prefers-reduced-motion:reduce) { .nm-snap::before { transition:none;} }

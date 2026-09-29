@@ -5117,28 +5117,44 @@ def check_snap_harness():
     bad = []
 
     def _t(rel):
-        with open(os.path.join(ROOT, rel), encoding='utf-8') as fh:
-            return fh.read()
+        try:
+            with open(os.path.join(ROOT, rel), encoding='utf-8') as fh:
+                return fh.read()
+        except FileNotFoundError:   # 정본 파일이 사라짐 = 스킵이 아니라 위반(평의회 260929 — 지워도 rc 0 이던 구멍)
+            bad.append('%s 없음' % rel)
+            return ''
     try:
         css = _t('viewer/nm-shared.css')
         if '.nm-snap::before' not in css or '.nm-snap > button' not in css:
             bad.append('nm-shared.css 에 .nm-snap 규칙 없음')
-        if 'window.nmSnap' not in _t('viewer/nm-snap.js'):
+        js = _t('viewer/nm-snap.js')
+        if 'window.nmSnap' not in js:
             bad.append('viewer/nm-snap.js 정본 없음')
+        m = re.search(r'const isOn = [^\n]*?(?=\s*//|\n)', js)   # 코드 부분만(줄 끝 사유 주석 제외)   # 선택 원천 = .on 한 가지(aria-checked 를 읽으면 옛 칸이 먼저 잡힌다 · 260929 유튜브 탭 실측 버그)
+        if not m or 'aria-checked' in m.group(0) or "'on'" not in m.group(0):
+            bad.append('viewer/nm-snap.js — 선택 원천(isOn)이 .on 단일이 아님')
+        if not re.search(r"attributeFilter:\s*\[[^\]]*'class'", js):   # .on 만 바꾸는 표면(유튜브)을 관찰자가 따라가는 줄
+            bad.append("viewer/nm-snap.js — 관찰자 attributeFilter 에 'class' 없음")
         for f in SURF:
             src = _t(f)
             if '<script src="nm-snap.js"></script>' not in src:
                 bad.append('%s — nm-snap.js 미로드' % f)
-            if re.search(r'^\s*[^/\n]*\.nm-snap(::before|\s*>\s*button)[^{\n]*\{', src, re.M):
+            if re.search(r'^\s*[^/\n]*(\.nm-snap|\[data-nmsnap[^\]]*\])[^{\n]*(::before|button)[^{\n]*\{', src, re.M):
                 bad.append('%s — .nm-snap 모양 규칙 사본(공용 CSS 에만)' % f)
         ys = _t('viewer/ys.html')
         if 'data-nmsnap="ys-' not in ys or 'class="geni-opts snap"' in ys:
             bad.append('viewer/ys.html — 옵션 행(railRow)이 하네스 밖')
         ed = _t('viewer/edit.html')
+        for fn in ('snapRow', 'snapLine'):   # 도우미가 레일 표지를 실제로 내보내는가(호출 자리만 보면 표지를 빼도 통과한다)
+            m = re.search(r'const %s=.*?(?=\nconst |\nfunction )' % fn, ed, re.S)
+            if not m or 'data-nmsnap=' not in m.group(0):
+                bad.append('viewer/edit.html — %s 가 data-nmsnap 을 내보내지 않음' % fn)
         for ax in ('tone', 'font1', 'font2', 'shtype', 'fit', 'clipmdl'):
             if not re.search(r"snap(Row|Line)\('[^']*','%s'|snapLine\('%s'" % (ax, ax), ed):
                 bad.append('viewer/edit.html — 하나 고르기 행 %s 가 레일 밖' % ax)
-        for pat, what in ((r"srow\('(의역|글자 형태|음영)'", '구 워드칩 행'), (r'class="prow">\'\+\[\[\'crop\'', '구 화면 방식 칩'),
+        if len(re.findall(r"snapLine\('fit'", ed)) < 2:   # 화면 방식 = 두 자리(카드 본문 · 스크린 카드) 모두 레일
+            bad.append('viewer/edit.html — 화면 방식 행 한 자리가 레일 밖')
+        for pat, what in ((r"srow\('(의역|글자 형태|음영)'", '구 워드칩 행'), (r'class="prow">\'\+\[\[\'crop\'', '구 화면 방식 칩'), (r"segs\('fit'", '화면 방식 segs'),
                           (r'class="prow">\'\+Object\.entries\(CLIP_NM\)', '구 감독 칩')):
             if re.search(pat, ed):
                 bad.append('viewer/edit.html — %s 부활' % what)

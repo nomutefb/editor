@@ -25,6 +25,7 @@ import ys_lib  # noqa: E402  연출 도서관(색인 · 원문 꺼내기 · 번�
 from ys_plan import empty_frame  # noqa: E402  빈 화면 판정 단일 원천(피사체 · 사람 없는 상황 · 옛 판 = 주인공 없는 장면)
 
 MAX_BEATS = 4
+FETCH_CAP = 90   # 쓰기 콜 원문 상한(번호 ≈ 440B · 90개 ≈ 40KB) — 넘치면 원문 블록에 생략 표시 + lib.fetch_cut 기록
 CAM_MIN_WORDS = 9          # 예전 콘티 실측 하한(sb_qa CAM_MIN_WORDS 와 같은 값) — 미달 = 경고만(버리지 않는다)
 # 비주얼 부정문 = 그록 정본(prompts/grok-make.md)이 금지 — 부정어가 그 대상을 부른다
 #   부정어 **바로 뒤 명사구만** 지운다(「no longer hides the letters」·「without a word」 같은 멀쩡한 동작은 살린다 · 평의회 260929 재현)
@@ -72,7 +73,9 @@ def fallback(plan, timing, i):
 
 def fit(beats, total):
     """초 합 = 클립 길이 — 비율로 늘리고 줄인 뒤 끝 비트로 나머지를 맞춘다(비트 수 ≤ 초/2 = 비트당 ~2초 이상)."""
-    beats = beats[:max(1, min(MAX_BEATS, total // 2))]
+    n = max(1, min(MAX_BEATS, total // 2))
+    if len(beats) > n:   # 넘치는 비트 = 가운데를 버리고 끝 비트는 남긴다(마지막 장면의 여운 비트가 사라지지 않게 · 평의회 260929)
+        beats = beats[:n - 1] + [beats[-1]] if n >= 2 else beats[:1]
     s = sum(b['sec'] for b in beats)
     if s != total:
         for b in beats:
@@ -165,6 +168,7 @@ def build(raw, plan, timing, pick=None):
     if pick:
         doc['pick_src'] = pick.get('src', 'none')
         doc['lib']['picked'] = (pick.get('lib') or {}).get('cited', 0)
+        doc['lib']['fetch_cut'] = max(0, len([x for x in pick_ids(pick) if x in ys_lib.offered('director')]) - FETCH_CAP)
         doc['pick'] = [{'i': sc['i'], 'role': sc.get('role', ''), 'emotion': sc.get('emotion', ''), 'cd': sc.get('cd', ''),
                         'beats': [{'sec': b['sec'], 'ids': b['ids'], 'why': b.get('why', '')} for b in sc['beats']]}
                        for sc in pick.get('scenes') or []]
@@ -208,7 +212,7 @@ def parse_pick(raw, plan, timing):
         seen.add(i)
         cd = str(sc.get('cd') or '').strip()
         out.append({'i': i, 'role': _why(sc.get('role'), 12), 'emotion': _why(sc.get('emotion'), 16),
-                    'cd': cd if cd in ys_lib.offered('director') else '', 'beats': fit(beats, target(timing, i))})
+                    'cd': cd if cd.startswith('CD-') and cd in ys_lib.offered('director') else '', 'beats': fit(beats, target(timing, i))})
     out.sort(key=lambda x: x['i'])
     return {'src': 'director' if out else 'none', 'scenes': out,
             'lib': {'cited': sum(len(b['ids']) for sc in out for b in sc['beats']), 'made_up': bad}}
@@ -242,7 +246,7 @@ def prompt_block(plan, timing, meta, ratio):
         who = ('나옴' if sc.get('hero') else '없음(주인공 없이)') if hero else '해당 없음'
         room = '빈 화면(사람 없이)' if metaphor(plan, sc) else ('다른 사람' if not sc.get('hero') and sc.get('people') == 'others' else '')
         extra = (f" · 유형: {kname[sc['kind']]}" if sc.get('kind') in kname else '') + (f" · 화면: {room}" if room else '') \
-            + (f" · 대본 번호: {' '.join(sc['ids'])}" if sc.get('ids') else '')
+            + (f" · 대본 번호: {' / '.join(ys_lib.names(sc['ids'], 'scene'))}" if sc.get('ids') else '')   # 번호 + 이름(감독 색인에 없는 서랍이라 뜻을 같이 건넨다)
         out.append(f"- i={i} · 초 {target(timing, i)} · 주인공: {who}{extra} · 문장 박자: {beats or sc.get('vo', '')}\n"
                    f"  그림: {clean(sc.get('img'), 200)} · 움직임 힌트: {clean(sc.get('motion'), 160)}")
     return '\n'.join(out)
@@ -262,8 +266,8 @@ def write_prompt(plan, timing, meta, ratio, pick=None):
             lines.append(f"- i={sc['i']} · 역할 {sc.get('role', '')} · 정서 {sc.get('emotion', '')}" + (f" · 배정표 {sc['cd']}" if sc.get('cd') else ''))
             lines.extend(f"  · {b['sec']}초: {' '.join(b['ids'])} — {b.get('why', '')}" for b in sc['beats'])
         out.append('\n'.join(lines))
-        raw = ys_lib.fetch(pick_ids(pick), 'director', cap=60)
-        out.append(raw + '\n\n' + ys_lib.index('director') if raw else ys_lib.index('director'))   # 색인 = 번호를 바꿀 때만(원문 없는 번호는 이름으로만 안다)
+        raw = ys_lib.fetch(pick_ids(pick), 'director', cap=FETCH_CAP)
+        out.append(raw or ys_lib.index('director'))   # 구상이 있으면 고른 번호 원문만(색인 없음 = 운영자 «그것만 참조해서 용량을 줄인다» · 번호는 구상이 정했다)
     else:
         out.append(ys_lib.index('director'))
     return '\n\n'.join(x for x in out if x)

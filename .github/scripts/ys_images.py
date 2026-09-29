@@ -156,7 +156,8 @@ def main(argv):
         d = clean(sc.get('img') or sc.get('head'), CAP)
         d = d if hero else PROTAG_RE.sub('a person', d)
         return f'empty of people, {d}' if empty_frame(plan, sc) else d
-    scenes = [{'i': i, 'prompt': clean(f"{cut(desc(sc), room)}. {frame}. {STYLE}", CAP), 'hero': bool(hero and sc.get('hero'))}
+    frame_of = lambda sc: frame.replace('face and key action', 'key subject') if empty_frame(plan, sc) else frame   # 빈 화면 = 얼굴 없는 구도 꼬리(「empty of people」과 모순 금지 · 평의회 260929)
+    scenes = [{'i': i, 'prompt': clean(f"{cut(desc(sc), room)}. {frame_of(sc)}. {STYLE}", CAP), 'hero': bool(hero and sc.get('hero'))}
               for i, sc in enumerate(plan['scenes']) if clean(sc.get('img') or sc.get('head'))]
     job = {'kind': 'ysimg', 'id': id_, 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
            'deadline': int(time.time()) + WAIT, 'orient': orient, 'scenes': scenes,

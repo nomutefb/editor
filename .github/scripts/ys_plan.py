@@ -115,7 +115,7 @@ def empty_frame(plan, sc):
         return not sc.get('hero') and sc.get('people') != 'others'
     if k == 'person':
         return False
-    return bool((plan.get('hero') or {}).get('en')) and not sc.get('hero')
+    return bool((plan.get('hero') or {}).get('en')) and not sc.get('hero') and sc.get('people') != 'others'   # 유형 없음 = 옛 규칙(+ 다른 사람 표시는 존중)
 
 
 def normalize(j, target, allowed_voices=()):
@@ -135,9 +135,12 @@ def normalize(j, target, allowed_voices=()):
         hero_f = sc.get('hero') in (True, 'true')
         kind = str(sc.get('kind') or '').strip().lower()
         if kind not in KINDS:
-            kind = 'person' if hero_f else 'subject'   # 유형 없는 산출 = 옛 두 갈래(주인공 장면 · 은유 장면) 그대로
+            kind = ''   # 유형 없는 산출 = 옛 판정(empty_frame 옛 규칙 · 주인공 없는 영상은 사람이 나올 수 있다 · 평의회 260929)
+        calls = bool(PROTAG_RE.search(' '.join(str(sc.get(k) or '') for k in ('img', 'motion'))))   # 그림·움직임이 주인공을 부른다
         if kind == 'subject':
-            hero_f = False   # 피사체 장면 = 사람 없음(주인공 표시가 붙어 오면 모순 → 떼어낸다)
+            kind, hero_f = ('person', True) if calls else ('subject', False)   # 피사체인데 주인공을 그린다 = 사람 쪽이 이긴다(떼면 정의 없는 주인공이 빈 화면 칸에 그려진다) · 표시만 붙었으면 표시를 뗀다
+        elif kind == 'person':
+            hero_f = True   # 인물 장면 = 주인공 중심(ys-make.md) — 주인공 없는 영상이면 아래에서 일괄 해제 · 유형 없음·상황 = 모델 표시 그대로(옛 판 호환)
         people = 'others' if kind != 'subject' and str(sc.get('people') or '').strip().lower() == 'others' else 'none'
         ids, made_up = ys_lib.audit(sc.get('ids'), 'scene')
         scenes.append({
@@ -190,7 +193,8 @@ def normalize(j, target, allowed_voices=()):
         'scenes': scenes,
         'vo_chars': sum(len(re.sub(r'\s', '', s['vo'])) for s in scenes),
         'lib': {'cited': sum(len(s['ids']) for s in scenes), 'made_up': sum(len(s.get('ids_bad') or []) for s in scenes)},
-        'kinds': ' '.join(f"{k[0].upper()}{sum(1 for s in scenes if s['kind'] == k)}" for k in KINDS),
+        'kinds': ' · '.join(f"{n} {c}" for n, c in ((n, sum(1 for s in scenes if s['kind'] == k)) for k, n in
+                                                     (('person', '인물'), ('subject', '피사체'), ('situation', '상황'), ('', '미정'))) if c),
     }
     hero = j.get('hero') if isinstance(j.get('hero'), dict) else {}
     hen = _img(hero.get('en'))[:200]   # 주인공 묘사 = 그림 묘사와 같은 정화(영문 인쇄 문자만)
@@ -198,6 +202,8 @@ def normalize(j, target, allowed_voices=()):
         plan['hero'] = {'en': hen, 'why': _s(hero.get('why'), 60)}
     else:
         for s in scenes:
+            if s['hero'] and s['kind'] == 'situation':
+                s['people'] = 'others'   # 주인공이 작게 나오던 상황 장면 = 이제 「평범한 사람」이 나온다(빈 화면으로 오판하지 않게)
             s['hero'] = False   # 묘사 없음 = 주인공 없는 영상(장면 표시만 남아 시트 없이 그리는 모순 차단)
             for k in ('img', 'motion'):   # 정의 없는 「the protagonist」 = 장면마다 다른 사람·영웅물로 읽힌다 → 평범한 사람으로
                 s[k] = PROTAG_RE.sub('a person', s[k])
@@ -232,27 +238,40 @@ def merge(base_path, refined_path, target, outdir, full_path, tag, allowed_voice
     except OSError as e:
         print(f'다듬기 합치기 실패: {e}', file=sys.stderr)
         return 1
-    if not isinstance(base, dict) or not isinstance(got, dict) or not isinstance(got.get('scenes'), list):
+    if not isinstance(base, dict) or not isinstance(got, dict) or not isinstance(got.get('scenes'), list) or not got['scenes']:   # 빈 장면 = 안 다듬은 것(「다듬음」으로 기록 금지)
         print('다듬기 산출에서 장면 JSON을 찾지 못함', file=sys.stderr)
         return 1
     full = dict(base)
     for k in REFINE_KEYS:
-        if got.get(k):
-            full[k] = got[k]
+        if not got.get(k):
+            continue
+        if k == 'hero' and len(_img((got['hero'] or {}).get('en') if isinstance(got['hero'], dict) else '')[:200]) < 20:
+            continue   # 무효한 주인공(한글·요약·짧음) = 앞 판 주인공 유지(덮으면 전 장면이 「주인공 없음」으로 떨어진다 · 평의회 260929)
+        full[k] = got[k]
     try:
         plan, report = normalize(full, target, allowed_voices)
     except Exception as e:  # noqa: BLE001  형식 이탈 = 앞 판 유지
         print(f'형식 이탈: {e if isinstance(e, ValueError) else type(e).__name__ + ": " + str(e)}', file=sys.stderr)
         return 1
     try:
-        prev = json.load(open(os.path.join(outdir, 'plan.json'), encoding='utf-8'))
+        with open(os.path.join(outdir, 'plan.json'), encoding='utf-8') as f:
+            prev = json.load(f)
     except (OSError, ValueError):
         prev = {}
+    lo, _hi = SCENES_BY_LEN.get(int(target), SCENES_BY_LEN[60])
+    want = target * CPS
+    why = ('주인공이 사라짐' if prev.get('hero') and not plan.get('hero') else
+           f"장면 {len(plan['scenes'])}개(<{lo})" if len(plan['scenes']) < lo else
+           f"나레이션 {plan['vo_chars']}자(목표 ≈{int(want)}자 ±25% 밖 · 앞 판 {prev.get('vo_chars', '?')}자)"
+           if not (want * 0.75 <= plan['vo_chars'] <= want * 1.25 or abs(plan['vo_chars'] - (prev.get('vo_chars') or -9e9)) <= 0.15 * (prev.get('vo_chars') or 0)) else '')
+    if why:   # 다듬기 = 앞 판이 있다 → 초안 게이트보다 엄격하게(줄이거나 부풀린 판으로 덮지 않는다)
+        print(f'형식 이탈: 다듬기 산출 {why}', file=sys.stderr)
+        return 1
     for k in ('voice_id', 'voice_why'):   # 목소리 = 초안 콜이 후보 목록으로 검증한 값 그대로(다듬기 콜엔 후보 목록이 없다)
         if prev.get(k) and not plan.get(k):
             plan[k] = prev[k]
     plan['refine'] = _s(tag, 20)
-    notes = [_s(n, 160) for n in (got.get('notes') or [])[:10] if _s(n, 160)] if isinstance(got.get('notes'), list) else []
+    notes = [re.sub(r'\s+', ' ', _s(n, 160)).lstrip('[ ') for n in (got.get('notes') or [])[:10] if _s(n, 160)] if isinstance(got.get('notes'), list) else []   # 한 줄 · 블록 머리 흉내 제거(2차 프롬프트 재주입)
     plan['refine_notes'] = (prev.get('refine_notes') or []) + [{'pass': _s(tag, 20), 'notes': notes}]
     write_out(outdir, plan, report, full, full_path)
     return 0

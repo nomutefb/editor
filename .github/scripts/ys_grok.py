@@ -176,26 +176,30 @@ def main(argv):
     t_end = time.time() + BUDGET
     done(0, '그록 단계가 시간 안에 끝나지 못해 그림·모션 그래픽으로 채웠어(그록 서버 지연 추정).')   # 선기록 = 스텝이 시간 벽에 잘려도 사유가 남는다(끝나면 덮어쓴다)
 
+    def quit_(n, msg):   # 그록을 못 쏘는 판 = 배경 감독(구상·쓰기 2콜)도 멈춘다(결과를 안 쓰는 Opus 콜 · 평의회 260929)
+        kill_tree('ys_grok_plan.sh')
+        return done(n, msg)
+
     if not os.environ.get('XAI_REFRESH_TOKEN'):
         progress(id_, 'skip', '그록 자격 미등록')
-        return done(0, '그록 자격(XAI_REFRESH_TOKEN)이 등록돼 있지 않아 그림·모션 그래픽으로 채웠어 — 관리자 설정이 필요해.')
+        return quit_(0, '그록 자격(XAI_REFRESH_TOKEN)이 등록돼 있지 않아 그림·모션 그래픽으로 채웠어 — 관리자 설정이 필요해.')
     try:
         import grok_api
     except Exception as e:  # noqa: BLE001  코드·설치 문제
         progress(id_, 'skip', '그록 모듈 로드 실패')
-        return done(0, f'그록 모듈을 불러오지 못해(코드·설치 문제) 그림·모션 그래픽으로 채웠어. ({type(e).__name__})')
+        return quit_(0, f'그록 모듈을 불러오지 못해(코드·설치 문제) 그림·모션 그래픽으로 채웠어. ({type(e).__name__})')
     try:
         tok = grok_api.fresh_token()
     except Exception as e:  # noqa: BLE001  사유 3갈래 = 자격 죽음(사람이 다시 로그인) · 통로 막힘(요금제) · 외부 장애(잠시 후)
         why = str(e)[:100]
         if getattr(e, 'dead_auth', False):
             progress(id_, 'skip', '그록 자격 만료')
-            return done(0, f'그록 로그인이 풀려 그림·모션 그래픽으로 채웠어 — 관리자가 그록 자격을 다시 등록해야 해. ({why})')
+            return quit_(0, f'그록 로그인이 풀려 그림·모션 그래픽으로 채웠어 — 관리자가 그록 자격을 다시 등록해야 해. ({why})')
         if getattr(e, 'tier_blocked', False):
             progress(id_, 'skip', '그록 통로 막힘')
-            return done(0, f'이 계정에 그록 영상 통로가 열려 있지 않아 그림·모션 그래픽으로 채웠어(요금제·권한 확인 필요). ({why})')
+            return quit_(0, f'이 계정에 그록 영상 통로가 열려 있지 않아 그림·모션 그래픽으로 채웠어(요금제·권한 확인 필요). ({why})')
         progress(id_, 'skip', '그록 인증 서버 장애')
-        return done(0, f'그록 인증 서버에 닿지 못해(외부 장애) 그림·모션 그래픽으로 채웠어 — 잠시 후 다시 해줘. ({why})')
+        return quit_(0, f'그록 인증 서버에 닿지 못해(외부 장애) 그림·모션 그래픽으로 채웠어 — 잠시 후 다시 해줘. ({why})')
 
     # 연출 비트 = 배경 감독 콜 산출(ys_grok_plan.sh → grokplan.json) · 없으면(콜 실패·미완) 대본 motion 비트 1개
     #   기다림 = 자격 확인 **뒤**(자격이 죽은 판에서 헛대기 0) · 진행 게시 · 만료되면 감독을 끈다(결과를 안 쓰는 Opus 콜·토큰 노출 0)
