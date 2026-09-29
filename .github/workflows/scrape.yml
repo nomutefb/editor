@@ -106,11 +106,13 @@ jobs:
           VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
           VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
         run: |
-          n=$(python3 .github/scripts/push_send.py --surge-count 2>/dev/null || echo 0)
-          [ "${n:-0}" != "0" ] || { echo "급등 없음"; exit 0; }
-          pip install --quiet pywebpush || { echo "::warning::pywebpush 설치 실패 — 급등 알림 다음 회차 재시도"; exit 0; }
-          python3 .github/scripts/push_send.py --surge | tee /tmp/surge.out || true
-          echo "asks=$(sed -n 's/^ASK_FILE=//p' /tmp/surge.out | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+          set -o pipefail
+          n=$(python3 .github/scripts/push_send.py --surge-count) || n=""
+          case "$n" in ''|*[!0-9]*) echo "::warning::급등 계수 실패(위 로그) — 이번 회차 급등 알림 생략"; exit 0;; esac
+          [ "$n" != "0" ] || { echo "급등 없음"; exit 0; }
+          pip install --quiet pywebpush || echo "::warning::pywebpush 설치 실패 — 급등 알림은 다음 회차 재시도(요약 요청은 진행)"
+          python3 .github/scripts/push_send.py --surge | tee /tmp/surge.out || echo "::warning::급등 알림 스텝 오류(위 로그) — 보낸 건은 기록됨"
+          echo "asks=$(sed -n 's/^ASK_FILE=//p' /tmp/surge.out | sort -u | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
 
       - name: 관측 누적 (obs — 사건 cross/burst 궤적 영구 로그)
         run: |
@@ -118,8 +120,10 @@ jobs:
           cp scraper/out/feed_health_obs.json scraper/obs/feed_health.json 2>/dev/null || true   # 피드 건강 원장 안정본(ts·n·fresh 제외 = 죽은/좀비 구성 변화시만 커밋 · daily_health가 읽음 · 260702)
 
       - name: Commit candidates.json + obs
+        env:
+          ASKS: ${{ steps.surge.outputs.asks }}   # 급등 요약 요청 = 보낸 표시(scraper/obs)와 한 커밋
         run: |
-          if [ -z "$(git status --porcelain viewer/candidates.json scraper/obs)" ]; then
+          if [ -z "$(git status --porcelain viewer/candidates.json scraper/obs ${ASKS})" ]; then
             echo "수집함·관측 변동 없음 — 커밋 생략"; exit 0
           fi
           git config user.name  "github-actions[bot]"
@@ -134,7 +138,7 @@ jobs:
           #   원장 축의 유일 무손실이 이 방식이다(`-X theirs` 는 남의 줄을 지운다 = 샌드박스 실측).
           #   PAGES_COALESCE=0 = 이 축들은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
           git reset -q HEAD -- . 2>/dev/null || true
-          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "scrape: 수집함 candidates + 관측 obs 갱신" viewer/candidates.json scraper/obs
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "scrape: 수집함 candidates + 관측 obs 갱신" viewer/candidates.json scraper/obs ${ASKS}
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # ⚠⚠ 260817 2차 봉합 — 어제 착지 위임 개편(cf627f01 자리)이 판정의 조건 껍데기를 이 스텝만 빠뜨려
@@ -143,16 +147,13 @@ jobs:
           #   같은 커밋의 형제(:215 pending)와 pick.yml 은 조건 보유 = 이 자리만 알몸 판정이었다.
           [ "${pushed:-0}" = 1 ] || { echo "::error::candidates push 실패(재시도 소진) — 수집분이 main 에 안 올라갔다"; exit 1; }
 
-      # 급등 알림의 요약 요청(asks/<id>.json = SNS 카드 「전송」과 같은 형식) 착지 → news-ask 를 그 파일 하나로 발동(스윕 겹침 0).
-      - name: 급등 요약 요청 착지 & 발동
+      # 급등 알림의 요약 요청(asks/<id>.json = SNS 카드 「전송」과 같은 형식 · 위 커밋에 착지) → news-ask 를 그 파일 하나로 발동(스윕 겹침 0).
+      - name: 급등 요약 요청 발동
         if: steps.surge.outputs.asks != ''
         env:
           GH_TOKEN: ${{ github.token }}
           ASKS: ${{ steps.surge.outputs.asks }}
         run: |
-          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "ask: 커뮤니티 급등 자동 요약 요청" ${ASKS}
-          git fetch -q origin main 2>/dev/null || true
-          git merge-base --is-ancestor HEAD origin/main 2>/dev/null || { echo "::warning::요약 요청 착지 실패 — 알림은 나갔고 요약만 빠짐"; exit 0; }
           for f in ${ASKS}; do
             ok=0; for i in 1 2 3; do gh workflow run news-ask.yml -f only="$f" && { ok=1; break; }; sleep $((i * 3)); done
             [ "$ok" = 1 ] || echo "::warning::news-ask 디스패치 실패 — pending-sweep 백스톱이 처리"

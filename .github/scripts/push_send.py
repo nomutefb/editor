@@ -429,30 +429,81 @@ def notif_icon(kind, theme):
 
 # ── 커뮤니티 급등 알림(운영자 260929 «닛몰캐쉬 필수 · 최대한 빠르게 · 커뮤니티 글을 먼저 알림, 그 뒤 요약») ──
 #   급등 = scraper/live_signal(ep.sg · 무장 ∧ 커뮤니티 1곳 이하 → 4곳↑ 60분 안) · 러너 scrape 가 감지 직후 이 모드로 보낸다(판정 대기 0).
-#   보낸 표시(ep.ss)는 확산 상태 파일(기록자 = 러너 하나)에 둔다 = push/ 원장은 긴급 판정 워크플로 단독 소유(git_land 단일 기록자 전제).
-#   요약 = SNS 카드 「전송」과 같은 요약 요청(asks · srcUrl = 그 글 · 화제를 보고 뉴스를 찾아 요약) → news-ask 가 끝나면 「요약 완료」 알림.
-#   같은 이름 에피소드의 뒤 긴급 기사는 아래 main 이 억제(한 번 알린 사건 = 다시 긴급 안 울림 · 운영자 260929).
+#   기록(ep.ss·ep.sa·st.sgx)은 확산 상태 파일(기록자 = 러너 하나)에 둔다 = push/ 원장은 긴급 판정 워크플로 단독 소유(여기선 읽기만).
+#   요약 = SNS 카드 「전송」과 같은 요약 요청(asks · srcUrl = 그 글) — 기사가 잡히면(구글 뉴스·우리 수집함) 바로, 없으면 알림 1시간 뒤.
+#   한 번 알린 사건 = 다시 긴급 안 울림(운영자 260929): 이미 긴급으로 나간 이름은 급등 알림 생략 · 급등 뒤 같은 이름 긴급 기사는 main 이 억제.
 LIVE_STATE = ROOT / "scraper" / "obs" / "live_state.json"
 ASKS = ROOT / "asks"
-SURGE_MAX_S = 3600   # 감지 뒤 이 안에만 보낸다(발송 실패 = 다음 회차 재시도 · 그 뒤는 뒷북)
+SURGE_MAX_S = 3600    # 감지 뒤 이 안에만 보낸다(발송 실패 = 다음 회차 재시도 · 그 뒤는 뒷북)
+SURGE_ASK_S = 3600    # 기사가 안 잡혀도 알림 이만큼 뒤엔 요약 요청(글 본문 요약)
+SURGE_HOLD_S = FAST_MAX_H * 3600   # 같은 이름 = 같은 사건으로 보는 창(그 뒤 48h 는 사건중복 심판 비교 목록)
+_URL_OK = re.compile(r"^https?://\S{1,490}$")   # functions/api/submit.js srcUrl 검증과 같은 선
+
+
+def _nk(s):
+    return re.sub(r"[^0-9a-z가-힣]", "", str(s or "").lower())   # = scraper/live_signal.norm_key
+
+
+def _hit(name, text):
+    """이름 적중 = scraper/live_signal.hit(정본 · 지연 import)."""
+    sp = str(Path(__file__).resolve().parent.parent.parent / "scraper")
+    if sp not in sys.path:
+        sys.path.insert(0, sp)
+    import live_signal
+    return live_signal.hit(name, text)
+
+
+def _age_s(ts, now_ep):
+    try:
+        t = dt.datetime.fromisoformat(str(ts))
+        return now_ep - (t if t.tzinfo else t.replace(tzinfo=KST)).timestamp()
+    except Exception:
+        return 0.0                       # 파싱 실패 = 방금 것으로(보수 = 중복 알림 차단 쪽 · _sent_alive 와 같은 방향)
+
+
+def surge_off():
+    return (ROOT / "scraper" / "live_signal.off").exists() or os.environ.get("LIVE_SURGE", "1").strip() == "0"
 
 
 def surges(st, now):
-    """보낼 급등 = [(이름, 에피소드)] — 킬스위치(scraper/live_signal.off · env LIVE_SURGE=0)면 없음."""
-    if (ROOT / "scraper" / "live_signal.off").exists() or os.environ.get("LIVE_SURGE", "1").strip() == "0":
+    """보낼 급등 = [(이름, 에피소드)] — 킬스위치면 없음."""
+    if surge_off():
         return []
     return [(k, ep) for k, ep in ((st or {}).get("k") or {}).items()
-            if isinstance(ep, dict) and ep.get("sg") and isinstance(ep.get("sp"), dict) and ep["sp"].get("u")
+            if isinstance(ep, dict) and ep.get("sg") and isinstance(ep.get("sp"), dict) and _URL_OK.match(str(ep["sp"].get("u") or ""))
             and not ep.get("ss") and 0 <= now - ep["sg"] <= SURGE_MAX_S]
 
 
-def surged(st):
-    """이미 급등 알림이 나간 에피소드 {정규화 이름: 알린 글 제목} — 뒤 긴급 기사 억제·사건중복 비교용."""
-    out = {}
+def asks_due(st, now, cands):
+    """요약 요청할 급등 = 알림은 나갔고(ss) 요청 전(sa) ∧ (기사 있음 ∨ 알림 1시간 뒤)."""
+    if surge_off():
+        return []
+    out = []
     for k, ep in ((st or {}).get("k") or {}).items():
-        if isinstance(ep, dict) and ep.get("ss") and isinstance(ep.get("sp"), dict):
-            out[re.sub(r"[^0-9a-z가-힣]", "", str(ep.get("d") or k).lower())] = str(ep["sp"].get("t") or "")
+        if not (isinstance(ep, dict) and ep.get("ss") and not ep.get("sa") and isinstance(ep.get("sp"), dict)):
+            continue
+        name = ep.get("d") or k
+        news = (((st.get("gn") or {}).get(k) or {}).get("n") or 0) > 0 or any(_hit(name, c.get("title")) for c in cands if isinstance(c, dict))
+        if news or now - ep["ss"] >= SURGE_ASK_S:
+            out.append((k, ep))
     return out
+
+
+def surged(st, now):
+    """급등 알림 기록 {정규화 이름: (알린 시각, 글 제목)}(st.sgx · 48h) — 뒤 긴급 기사 억제·사건중복 비교용 · 킬스위치면 없음."""
+    if surge_off():
+        return {}
+    return {k: (v[0], str(v[1])) for k, v in ((st or {}).get("sgx") or {}).items()
+            if isinstance(v, list) and len(v) >= 2 and now - v[0] < SENT_TTL_H * 3600}
+
+
+def alerted(name, sent, events, now):
+    """이 이름이 최근(SURGE_HOLD_S) 긴급으로 나갔나 — 확산 에피소드 키(lv:이름@) 또는 긴급 발송 제목에 이름."""
+    k = _nk(name)
+    if any(str(key).startswith("lv:%s@" % k) and _age_s(ts, now) < SURGE_HOLD_S for key, ts in (sent or {}).items()):
+        return True
+    return any(isinstance(e, dict) and e.get("k") != "iss" and _age_s(e.get("ts"), now) < SURGE_HOLD_S and _hit(name, e.get("title"))
+               for e in events or [])
 
 
 def surge_ask(sp):
@@ -464,6 +515,27 @@ def surge_ask(sp):
     ASKS.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(body, ensure_ascii=False), encoding="utf-8")
     return str(path.relative_to(ROOT))
+
+
+def _save_live(st):
+    tmp = LIVE_STATE.with_suffix(".tmp")   # 저장 형식 = scraper/live_signal.save_state 와 같음
+    tmp.write_text(json.dumps(st, ensure_ascii=False, separators=(",", ":"), sort_keys=True), encoding="utf-8")
+    os.replace(tmp, LIVE_STATE)
+
+
+def _push_ctx():
+    """발송 준비 = (구독, pem, subject, webpush, WebPushException) 또는 (None, 사유)."""
+    subs = jload(SUBS, [])
+    priv = os.environ.get("VAPID_PRIVATE_KEY", "").strip()
+    if not isinstance(subs, list) or not subs:
+        return None, "구독자 없음"
+    if not priv:
+        return None, "VAPID_PRIVATE_KEY 없음"
+    try:
+        from pywebpush import webpush, WebPushException
+    except ImportError:
+        return None, "pywebpush 미설치"
+    return (subs, vapid_pem(priv), os.environ.get("VAPID_SUBJECT", "mailto:muteno@pm.me").strip(), webpush, WebPushException), ""
 
 
 def deliver(subs, payload, kind, pem_path, subj, webpush, WebPushException, dead):
@@ -488,31 +560,57 @@ def deliver(subs, payload, kind, pem_path, subj, webpush, WebPushException, dead
     return ok_any
 
 
-def surge_send(subs, priv, subj, webpush, WebPushException):
+def surge_run():
+    """--surge = 급등 알림 발송 → 요약 요청. 기록은 건마다 바로 저장(뒤 단계가 죽어도 같은 알림 재발송 0)."""
     st = jload(LIVE_STATE, {})
     now = time.time()
-    todo = surges(st, now)
-    if not todo:
-        print("급등 없음 — 발송 생략"); return
-    pem_path = vapid_pem(priv)
-    for k, ep in todo:
+    todo, ctx = [], None
+    done = surged(st, now)
+    for k, ep in surges(st, now):
+        if _nk(ep.get("d") or k) in done or alerted(ep.get("d") or k, jload(SENT, {}), jload(SENT_EV, []), now):
+            ep["ss"] = ep["sa"] = int(now)   # 이미 알린 사건(48h 안 급등 · 4h 안 긴급) = 알림·요청 생략(운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야»)
+            _save_live(st)
+            print(f"급등 {k}: 이미 알린 이름 — 알림·요약 요청 생략")
+        else:
+            todo.append((k, ep))
+    if todo:
+        ctx, why = _push_ctx()
+        if ctx is None:
+            print(f"::warning::급등 알림 발송 불가({why}) — 감지 뒤 {SURGE_MAX_S // 60}분까지 다음 회차 재시도: {', '.join(k for k, _ in todo)}")
+    for k, ep in (todo if ctx else []):
+        subs, pem_path, subj, webpush, WPE = ctx
         sp = ep["sp"]
-        m = {"title": "News", "body": ("(긴급) " + str(sp.get("t") or k))[:110] + " · 커뮤니티 %s곳" % (sp.get("c") or ""),
+        m = {"title": "News", "body": ("(긴급) " + str(sp.get("t") or k))[:110] + (" · 커뮤니티 %s곳" % sp["c"] if sp.get("c") else ""),
              "url": sp["u"], "tag": "nomute-breaking-" + hashlib.md5(sp["u"].encode("utf-8")).hexdigest()[:10], "kind": "brk",
              "icon": notif_icon("brk", "sig") or ""}   # 본문 탭 = 그 커뮤니티 글(남의 주소 = SW 가 그대로 연다)
-        if deliver(subs, payload_of(m), "brk", pem_path, subj, webpush, WebPushException, set()):   # 죽은 구독 정리 = 구독 원장 소유자(판정 워크플로) 몫
+        if deliver(subs, payload_of(m), "brk", pem_path, subj, webpush, WPE, set()):   # 죽은 구독 정리 = 구독 원장 소유자(판정 워크플로) 몫
             ep["ss"] = int(now)
-            print(f"급등 발송: {k} · {sp.get('t', '')[:40]}")
-            print("ASK_FILE=" + surge_ask(sp))
-    tmp = LIVE_STATE.with_suffix(".tmp")   # 저장 형식 = scraper/live_signal.save_state 와 같음
-    tmp.write_text(json.dumps(st, ensure_ascii=False, separators=(",", ":"), sort_keys=True), encoding="utf-8")
-    os.replace(tmp, LIVE_STATE)
+            st.setdefault("sgx", {})[_nk(ep.get("d") or k)] = [int(now), str(sp.get("t") or "")]
+            _save_live(st)
+            print(f"급등 발송: {k} · {str(sp.get('t') or '')[:40]}")
+        else:
+            print(f"::warning::급등 알림 전 구독 발송 실패: {k} — 감지 뒤 {SURGE_MAX_S // 60}분까지 다음 회차 재시도")
+    seen = set()
+    for k, ep in asks_due(st, now, jload(CAND, [])):
+        u = ep["sp"].get("u")
+        if _URL_OK.match(str(u or "")) and u not in seen:
+            try:
+                print("ASK_FILE=" + surge_ask(ep["sp"]))
+            except Exception as e:  # noqa: BLE001
+                print(f"::warning::급등 요약 요청 파일 쓰기 실패({k}): {e} — 다음 회차 재시도")
+                continue
+            seen.add(u)
+        ep["sa"] = int(now)
+        _save_live(st)
 
 
 def main():
     test = "--test" in sys.argv
-    if "--surge-count" in sys.argv:   # 러너 게이트(발송 라이브러리·비밀값 불요)
-        print(len(surges(jload(LIVE_STATE, {}), time.time()))); return
+    if "--surge-count" in sys.argv:   # 러너 게이트(발송 라이브러리·비밀값 불요) = 보낼 알림 + 낼 요약 요청
+        _st, _now = jload(LIVE_STATE, {}), time.time()
+        print(len(surges(_st, _now)) + len(asks_due(_st, _now, jload(CAND, [])))); return
+    if "--surge" in sys.argv:
+        surge_run(); return
     suppressed_keys, sent_events = [], []   # 사건 dedup 상태 — 테스트·--notify 경로에서도 참조되므로 선초기화
     notify = None
     notify_url = "/"
@@ -563,8 +661,6 @@ def main():
     except ImportError:
         print("pywebpush 미설치 — 생략"); return
 
-    if "--surge" in sys.argv:
-        surge_send(subs, priv, subj, webpush, WebPushException); return
     if test:
         msgs = [{"keys": [f"test-{int(time.time())}"], "title": "🔔 노뮤트 테스트",
                  "body": "웹푸시 연결 정상! 긴급 속보가 이렇게 와.", "url": "/", "tag": "nomute-breaking",
@@ -587,7 +683,8 @@ def main():
         sent_events = [e for e in _ev_raw if isinstance(e, dict) and _sent_alive((e or {}).get("ts"), _now_ep2)] if isinstance(_ev_raw, list) else []
         ai_calls = 0
         msgs = []
-        sg_done = {} if (ROOT / "scraper" / "live_signal.off").exists() else surged(jload(LIVE_STATE, {}))
+        _now_sg = time.time()
+        sg_done = surged(jload(LIVE_STATE, {}), _now_sg)
         for c in cands:
             if not is_breaking(c):
                 continue
@@ -602,8 +699,10 @@ def main():
             ks = dedup_keys(c)
             if not ks:
                 continue
-            _lvk = re.sub(r"[^0-9a-z가-힣]", "", str((c.get("lv") or {}).get("k") or "").lower()) if isinstance(c.get("lv"), dict) else ""
-            if _lvk and _lvk in sg_done:   # 같은 이름 에피소드가 커뮤니티 급등으로 이미 울렸다 = 같은 사건(운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야»)
+            _lvk = _nk((c.get("lv") or {}).get("k")) if isinstance(c.get("lv"), dict) else ""
+            _sgm = next((v for n, v in sg_done.items() if _now_sg - v[0] < SURGE_HOLD_S and (n == _lvk or _hit(n, c.get("title")))), None)
+            if _sgm:   # 같은 이름이 커뮤니티 급등으로 방금 울렸다 = 같은 사건(운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야») · 창 밖 = 아래 사건중복 심판
+                print(f"  ⊘ 급등 알림과 같은 이름 억제: {(c.get('title') or '')[:34]} ≈ {_sgm[1][:28]}", file=sys.stderr)
                 suppressed_keys.extend(k for k in ks if not _weak(k))
                 continue
             if any(k in sent for k in ks if not _weak(k)):   # 강한 키(event_key·group_id·승계 씨앗 키·url) = 같은 사건 확정 = 스킵
@@ -623,7 +722,7 @@ def main():
             _run_brk = [{"title": m.get("ev_title") or ""} for m in msgs if m.get("kind", "brk") != "iss"]
             # ⚠ 비교 대상은 **긴급 발송분만**(k != "iss") — 이슈 발송분까지 넣으면 이슈로 먼저 알린 사건이
             #   나중에 속보로 승격됐을 때 "이미 다룬 사건"으로 억제돼 **진짜 긴급을 놓친다**(비싼 방향의 오류).
-            _brk_pool = [e for e in sent_events if e.get("k") != "iss"] + _run_brk + [{"title": t} for t in sg_done.values() if t]   # + 급등 알림 글 제목(이름이 달라도 같은 사건이면 억제)   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
+            _brk_pool = [e for e in sent_events if e.get("k") != "iss"] + _run_brk + [{"title": t} for _, t in sg_done.values() if t]   # + 급등 알림 글 제목(이름이 달라도 같은 사건이면 억제)   # 심판 대상 목록 = 로그 짝 목록(같은 인덱스 — 260917 실측: 억제는 맞는데 로그가 무관한 이슈 제목을 짝으로 찍던 인덱스 어긋남)
             must = lv_hit or bool(c.get("seed"))   # 심판을 먼저 받아야 하는 것 = 구글 뉴스 씨앗(우리 피드와 이어 볼 결정적 키가 없다 · 평의회3) ·
             #                                        확산 에피소드 적중(같은 이름의 별개 사건일 수 있다 · 검증 V1) → 이번 런 AI 콜 상한이면 다음 런으로 미룬다.
             # ⚠ 심판이 **실패**(장애·한도·토큰 없음·산문 응답)하면 보류하지 않고 보낸다 = fail-open(운영자 260929 «중복 확인하는 ai가 고장나면

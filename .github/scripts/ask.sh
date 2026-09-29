@@ -78,7 +78,7 @@ ASK_FAIL_RUN="${RUNNER_TEMP:-/tmp}/ask_fail_run"; : > "$ASK_FAIL_RUN"
 #   → 런들이 concurrency 그룹 없이 병렬로 떠도 각자 자기 몫만 집어 중복 소비·이중 과금이 없다.
 #   목록 파일이 작업트리(ref:main 최신)에 없으면 = 이미 다른 경로가 처리(삭제/격리)한 것 → 스킵.
 #   (구 런 re-run 도 같은 원리로 전건 스킵 = 안전 no-op.)
-# ASK_ONLY 비면 = workflow_dispatch(수동 구출·pending-sweep 백스톱): 잔류 전건 스윕(종전 동작).
+# ASK_ONLY 비면 = workflow_dispatch(수동 구출·pending-sweep 백스톱): 잔류 전건 스윕(종전 동작) · dispatch only 입력 = 그 파일 하나(급등 요약 요청).
 #   스윕이 인플라이트 파일과 겹치는 극단 코너에서도 산출 파일명이 결정적(스탬프+base유래 id)이라
 #   자기-덮어쓰기로 수렴(피드 중복 0 · 토큰만 소모) — 스윕 쪽은 45분 나이 임계가 1차로 배제.
 shopt -s nullglob

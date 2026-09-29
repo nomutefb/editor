@@ -38,7 +38,7 @@ class ExclusiveBreakingPushTest(unittest.TestCase):
             spec.loader.exec_module(m)
             with tempfile.TemporaryDirectory() as d:
                 d = Path(d)
-                m.SUBS, m.SENT, m.CAND, m.SENT_EV = d / "subs.json", d / "sent.json", d / "cands.json", d / "ev.json"
+                m.SUBS, m.SENT, m.CAND, m.SENT_EV, m.LIVE_STATE = d / "subs.json", d / "sent.json", d / "cands.json", d / "ev.json", d / "live_state.json"   # 확산 상태 = 빈 것(저장소 실물 비의존)
                 m.SUBS.write_text(json.dumps([{"endpoint": "https://push.example/1", "keys": {}}]))
                 m.CAND.write_text(json.dumps(cands, ensure_ascii=False))
                 m.vapid_pem = lambda k: "/dev/null"

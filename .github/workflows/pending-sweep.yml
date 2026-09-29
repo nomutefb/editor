@@ -118,8 +118,8 @@ jobs:
           #   남아 보인다(최대 ~40-60분) → 매 10분 cron 이 같은 고아로 중복 발사하던 것을 '최근 55분 내 생성된
           #   news-ask dispatch 런 존재 시 스킵'으로 차단. status 아닌 createdAt 창 = card_plan 꼬리(165분 활성)
           #   호스티지 사각 회피 · push 런은 안 셈(고아는 dispatch 만 구출하므로 정상 트래픽이 구출을 안 막음).
-          recent=$(gh run list --workflow=news-ask.yml --event=workflow_dispatch --limit 10 --json createdAt \
-                   -q '[.[] | select((now - (.createdAt | fromdateiso8601)) < 3300)] | length' 2>/dev/null || echo 0)
+          recent=$(gh run list --workflow=news-ask.yml --event=workflow_dispatch --limit 10 --json createdAt,displayTitle \
+                   -q '[.[] | select((now - (.createdAt | fromdateiso8601)) < 3300) | select(.displayTitle | startswith("급등 요약") | not)] | length' 2>/dev/null || echo 0)   # 급등 요약(only = 파일 하나) 런은 구출이 아니다
           if [ "${recent:-0}" -gt 0 ]; then
             echo "최근 55분 내 news-ask 구출 디스패치 ${recent}건 — 이번 사이클 스킵(폭풍 가드)"; exit 0
           fi

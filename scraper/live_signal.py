@@ -449,8 +449,13 @@ def observe(snap, now):
                 hi.append(keep)
     for k, e in obs.items():
         e["d"] = dmap.get(k, k)
+    wn = {}
+    for _, _, b in corp.g:
+        for w in b:
+            wn[w] = wn.get(w, 0) + 1
     return obs, {"t_tbs": t_tbs, "tbs_fresh": fresh(t_tbs), "t_sns": t_sns, "sns_fresh": fresh(t_sns),
-                 "t_nm": t_nm, "hi": sorted(hi), "soc_sig": _soc_sig(soc3)}
+                 "t_nm": t_nm, "hi": sorted(hi), "soc_sig": _soc_sig(soc3),
+                 "w2": sorted(w for w, n in wn.items() if n >= 2)}   # 2곳↑ 낱말·바탕형 전부(이름 자격 필터 전) = 급등 「1곳 이하였나」 원료(트렌드로만 잡히는 이름도 · 평의회 A#1)
 
 
 def _soc_sig(soc3):
@@ -463,7 +468,7 @@ def _soc_sig(soc3):
 def new_state():
     # tb = {6시간 칸(epoch//21600): 그 칸 tbs 스냅샷 수} · tl = 최근 스냅샷 id(분 · 재독 중복 차단) · hi = {이름: {칸: 2곳↑였던 스냅샷 수}}
     # (분 단위 목록이면 72h 에 220KB · 시 단위 136KB · 6시간 칸 ≈47KB = 리플레이 실측 · 만성 판정은 칸 단위 근사로 충분)
-    return {"v": 1, "tb": {}, "tl": [], "hi": {}, "k": {}, "gn": {}, "sd": {}, "c2": {}}   # c2 = {이름: 최근 60분 2곳↑였던 스냅샷(분)} = 급등 판정 원료
+    return {"v": 1, "tb": {}, "tl": [], "hi": {}, "k": {}, "gn": {}, "sd": {}, "c2": {}, "sgx": {}}   # c2 = {이름: 최근 2곳↑였던 스냅샷(분)} = 급등 판정 원료 · sgx = {이름: [알린 시각, 글 제목]}(push_send --surge 기록)
 
 
 def load_state(p=None):
@@ -534,12 +539,11 @@ def update(st, snap, now):
     if meta["t_tbs"]:
         m, h = int(meta["t_tbs"] // 60), str(int(meta["t_tbs"] // BUCKET_S))
         tl = st.setdefault("tl", [])
+        prior = [x for x in tl if m - SURGE_WIN_MIN <= x < m] or [x for x in tl if m - 2 * SURGE_WIN_MIN <= x < m][-1:]   # 60분 안 회차 · 없으면(수집 공백) 120분 안 직전 회차 하나 · 재독 회차도(뒤늦은 무장 · 평의회 A#2)
         if m not in tl:                    # 같은 스냅샷(updated) 재독 = 이중 계수 0
-            prior = [x for x in tl if m - SURGE_WIN_MIN <= x < m] or tl[-1:]   # 60분 안 회차가 없으면(수집 공백) 직전 회차 하나
-            c2s = st.setdefault("c2s", m)
-            prior = [x for x in prior if x >= c2s]   # c2 기록 전 회차 = 비교 원료 없음(배포 첫 회차의 몰림 발사 차단)
+            st.setdefault("c2s", m)
             c2 = {k: [x for x in v if x >= min(prior + [m])] for k, v in (st.get("c2") or {}).items()}   # 비교할 회차까지만 보관(상태 작게)
-            for k in meta["hi"]:
+            for k in set(meta["hi"]) | set(meta["w2"]):
                 c2.setdefault(k, []).append(m)
             st["c2"] = {k: v for k, v in c2.items() if v}
             st["tl"] = (tl + [m])[-24:]
@@ -608,6 +612,7 @@ def update(st, snap, now):
             ep.pop("a", None)              # 동시성이 끊긴 미확인 무장 = 해제([중]이 한 갈래만으로 하루씩 이어지고 늦은 확인이 붙던 것 · 평의회260929-2 #2-2)
             if ((st.get("gn") or {}).get(k) or {}).get("nov") != 0:
                 st.get("gn", {}).pop(k, None)   # 다시 동시에 뜨면 새 무장 시각 = novel 창도 새로 · 「새 사건 아님」 고정은 에피소드 만료까지 유지(V2)
+    prior = [x for x in prior if x >= st.get("c2s", float("inf"))]   # c2 기록 전 회차 = 비교 원료 없음(배포 첫 회차의 몰림 발사 차단)
     if prior and not STATE_RO:             # 급등 = 에피소드당 1회(기록자 = 러너 하나)
         c2 = st.get("c2") or {}
         for k in cnow:
@@ -615,7 +620,8 @@ def update(st, snap, now):
             if not ep or ep.get("sg") or obs[k].get("C", 0) < SURGE_C or tier(ep, now) < 2:
                 continue
             forms = [k] + ([k[:-1]] if len(k) >= 3 and k[-1] in _JOSA_LINK else []) + [k + j for j in _JOSA_LINK]
-            if any(not any(x in c2.get(f, ()) for f in forms) for x in prior):
+            was = lambda x: any(x in c2.get(f, ()) for f in forms) or (len(k) >= 4 and any(x in v for w, v in c2.items() if k in w))   # noqa: E731 — 4자↑ = 붙여 쓴 말(「닛몰캐쉬전여친」)도 곳수(_Corpus)처럼
+            if any(not was(x) for x in prior):
                 post = _surge_post(k, snap.get("tbs") if isinstance(snap.get("tbs"), dict) else {})
                 if post:
                     ep["sg"], ep["sp"] = int(now), post
@@ -624,12 +630,14 @@ def update(st, snap, now):
 
 
 def _surge_post(key, tbs):
-    """급등 이름이 든 커뮤니티 글 중 댓글 가장 많은 것 = 알림·요약 요청의 원문 {u, t, m, c(곳수)}."""
+    """급등 이름이 든 커뮤니티 글 중 댓글 가장 많은 것 = 알림·요약 요청의 원문 {u, t, m, c(곳수)} · 적중 = 곳수와 같은 셈(_Corpus)."""
+    forms = [key] + ([key[:-1]] if len(key) >= 3 and key[-1] in _JOSA_LINK else [])   # 조사형으로 이어진 에피소드 이름(「김고은이」)도 바탕형으로
     best, n = None, 0
     for cm in tbs.get("communities") or []:
         hit_any = False
         for p in (cm.get("posts") or []) if isinstance(cm, dict) else []:
-            if not isinstance(p, dict) or not str(p.get("url") or "").startswith("http") or not hit(key, p.get("title")):
+            if not isinstance(p, dict) or not re.match(r"https?://\S{1,490}$", str(p.get("url") or "")) \
+                    or not any(_Corpus([(0, [str(p.get("title") or "")])]).count(f) for f in forms):
                 continue
             hit_any = True
             v = p.get("comment") if isinstance(p.get("comment"), int) else 0
@@ -847,6 +855,7 @@ def prune(st, now):
     st["gn"] = {k: v for k, v in (st.get("gn") or {}).items() if k in eps}
     st["sd"] = {k: v for k, v in (st.get("sd") or {}).items()
                 if k in eps or (isinstance(v, dict) and now - (v.get("at") or 0) < KEEP_H * 3600)}
+    st["sgx"] = {k: v for k, v in (st.get("sgx") or {}).items() if isinstance(v, list) and v and now - v[0] < KEEP_H * 3600}
 
 
 # ── 판정 꼬리표(breaking_judge 가 읽는 한국어 표기) ─────────────────────────────────────

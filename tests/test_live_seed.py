@@ -606,8 +606,10 @@ class PushMain(unittest.TestCase):   # push_send.main 실제 실행(웹푸시·A
         self.assertEqual(len(self.round([c], sent=["lv:하이브@" + a], events=[], ai="none")[0]), 1)
 
 
-    def test_surged_name_blocks_later_urgent(self):   # 운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야» — 급등 알림 뒤 같은 이름 기사 = 0발
-        st = {"k": {"닛몰캐쉬": {"sg": 1, "ss": 1, "sp": {"u": "https://fm/1", "t": "유튜버 닛몰캐쉬 폭로 나온듯"}}}}
+    def test_surged_name_blocks_later_urgent(self):   # 운영자 260929 «한번 긴급뜬건 다음에 긴급으로 안떠야» — 급등 알림 뒤 같은 이름 기사 = 0발(4h 창)
+        import time as _t
+        now = int(_t.time())
+        st = {"sgx": {"닛몰캐쉬": [now - 600, "유튜버 닛몰캐쉬 폭로 나온듯"]}}
         c = self.brk("https://r/1", "크리에이터 닛몰캐쉬, 폭언·폭행에 비하 논란까지", lv={"k": "닛몰캐쉬", "t": 3, "a": "2026-09-29T09:46:00+0900"})
         log, sent = self.round([c], state=st)
         self.assertEqual(log, [])
@@ -615,6 +617,16 @@ class PushMain(unittest.TestCase):   # push_send.main 실제 실행(웹푸시·A
         other = self.brk("https://r/2", "BTS 댄서 출신 유튜버 사생활 논란")     # 이름이 달라도 같은 사건 = 급등 글 제목과 사건중복 심판
         self.assertEqual(self.round([other], state=st, ai="same")[0], [])
         self.assertEqual(len(self.round([other], state={}, ai="same")[0]), 1)   # 급등 없음 = 비교 목록 0 = 종전대로 발송
+        sib = self.brk("https://r/3", "닛몰캐쉬 측 법적 대응 입장")          # 확산 꼬리표 없는 형제 기사도 제목에 이름 = 같은 사건(평의회 D#3)
+        self.assertEqual(self.round([sib], state=st, ai="none")[0], [])
+        old = {"sgx": {"닛몰캐쉬": [now - 5 * 3600, "유튜버 닛몰캐쉬 폭로 나온듯"]}}   # 4h 창 밖 = 같은 이름이라도 심판이 가른다(별개 사건 가능)
+        self.assertEqual(len(self.round([c], state=old, ai="none")[0]), 1)
+        self.assertEqual(self.round([c], state=old, ai="same")[0], [])
+        os.environ["LIVE_SURGE"] = "0"                                       # 끄기 = 억제도 함께 꺼진다
+        try:
+            self.assertEqual(len(self.round([c], state=st, ai="none")[0]), 1)
+        finally:
+            os.environ.pop("LIVE_SURGE", None)
 
 
 def surge_snap(t, comms, x=()):
@@ -666,6 +678,42 @@ class Surge(unittest.TestCase):   # 급등 = 무장 ∧ 커뮤니티 1곳 이하
         finally:
             L.STATE_RO = old
 
+    def test_filtered_name_already_spread_no(self):   # 이름 거르개가 버리는 말(「뿌요뿌요」 = 동사 꼬리 요)이 이미 5곳에 퍼져 있었다 = 급등 아님(평의회 A#1)
+        st = L.new_state()
+        t0, t1 = ep("2026-09-24 20:06"), ep("2026-09-24 20:41")
+        five = [[("오늘자 뿌요뿌요 한일전", 3)] for _ in range(5)]
+        L.update(st, surge_snap(t0, five), t0 + 60)
+        L.update(st, surge_snap(t1, five + [[("뿌요뿌요 하이라이트", 9)]] * 2, ("뿌요뿌요",)), t1 + 60)
+        self.assertFalse((st["k"].get("뿌요뿌요") or {}).get("sg"))
+
+    def test_late_arming_same_snapshot(self):   # 1→4 스냅샷 다음 회차(같은 스냅샷 재독)에 트렌드가 붙어도 판정한다(평의회 A#2)
+        st = L.new_state()
+        t0, t1 = ep("2026-09-29 09:05"), ep("2026-09-29 09:37")
+        L.update(st, surge_snap(t0, [[("유튜버 닛몰캐쉬 폭로 나온듯", 3)]]), t0 + 60)
+        s1 = surge_snap(t1, FOUR)
+        L.update(st, s1, t1 + 60)
+        self.assertFalse((st["k"].get("닛몰캐쉬") or {}).get("sg"))       # 커뮤니티 한 갈래 = 무장 전
+        later = t1 + 17 * 60
+        s2 = dict(s1, sns={"updated": datetime.fromtimestamp(later, KST).isoformat(), "xtrends": [{"query": "닛몰캐쉬"}]})
+        L.update(st, s2, later)
+        self.assertTrue(st["k"]["닛몰캐쉬"].get("sg"))
+
+    def test_post_match_like_count(self):   # 글 고르기 = 곳수와 같은 셈(「쯔양처럼·쯔양으로·쯔양까지」 · 평의회 A#4)
+        st = L.new_state()
+        t0, t1 = ep("2026-09-21 17:05"), ep("2026-09-21 17:37")
+        L.update(st, surge_snap(t0, []), t0 + 60)
+        four = [[("쯔양처럼 먹방", 5)], [("쯔양으로 난리", 50)], [("쯔양까지 수익 중단", 9)], [("쯔양 근황", 1)]]
+        L.update(st, surge_snap(t1, four, ("쯔양",)), t1 + 60)
+        sp = (st["k"].get("쯔양") or {}).get("sp") or {}
+        self.assertEqual((sp.get("c"), sp.get("u")), (4, "https://c1/0"))
+
+    def test_collection_gap_no_stale_baseline(self):   # 수집 공백 120분 넘음 = 비교할 회차 없음(평의회 B · 착지 실패 반복 발송 상한)
+        st = L.new_state()
+        t0, t1 = ep("2026-09-29 06:00"), ep("2026-09-29 09:37")
+        L.update(st, surge_snap(t0, [[("닛몰캐쉬 근황", 1)]]), t0 + 60)
+        L.update(st, surge_snap(t1, FOUR, ("닛몰캐쉬",)), t1 + 60)
+        self.assertFalse((st["k"].get("닛몰캐쉬") or {}).get("sg"))
+
     def test_no_burst_on_first_deploy(self):   # 급등 기록(c2)이 없던 옛 상태 = 첫 회차엔 비교 원료가 없다 → 판정 안 함
         st = L.new_state()
         t0 = ep("2026-09-29 09:05")
@@ -685,46 +733,119 @@ class Surge(unittest.TestCase):   # 급등 = 무장 ∧ 커뮤니티 1곳 이하
         self.assertEqual(st["k"]["닛몰캐쉬"]["sg"], sg)
 
 
-class SurgePush(unittest.TestCase):
+class SurgePush(unittest.TestCase):   # push_send --surge = 알림 → 요약 요청 · 기록은 건마다 저장 · 긴급이 먼저 나간 이름은 생략
+    def run_surge(self, st, cands=(), events=(), sent=None, subs=True, ask_fail=False):
+        import types
+        from datetime import datetime as _dt
+        log = []
+        pw = types.ModuleType("pywebpush")
+
+        class WPE(Exception):
+            pass
+        pw.webpush, pw.WebPushException = (lambda subscription_info, data, **kw: log.append(json.loads(data))), WPE
+        now_iso = _dt.now(KST).isoformat(timespec="seconds")
+        with tempfile.TemporaryDirectory() as d:
+            D = Path(d)
+            (D / "state.json").write_text(json.dumps(st, ensure_ascii=False), encoding="utf-8")
+            (D / "subs.json").write_text(json.dumps([{"endpoint": "https://push/x"}] if subs else []), encoding="utf-8")
+            (D / "sent.json").write_text(json.dumps(sent or {}), encoding="utf-8")
+            (D / "ev.json").write_text(json.dumps([dict(e, ts=now_iso) for e in events], ensure_ascii=False), encoding="utf-8")
+            (D / "cand.json").write_text(json.dumps(list(cands), ensure_ascii=False), encoding="utf-8")
+            if ask_fail:
+                (D / "asks").write_text("not a dir", encoding="utf-8")
+            keep = {n: getattr(PS, n) for n in ("LIVE_STATE", "ASKS", "ROOT", "SUBS", "SENT", "SENT_EV", "CAND", "vapid_pem", "notif_icon")}
+            PS.LIVE_STATE, PS.ASKS, PS.ROOT, PS.SUBS, PS.SENT, PS.SENT_EV, PS.CAND = (D / "state.json", D / "asks", D, D / "subs.json",
+                                                                                     D / "sent.json", D / "ev.json", D / "cand.json")
+            PS.vapid_pem, PS.notif_icon = (lambda raw: "/dev/null"), (lambda k, t: "")
+            old_mod, old_env = sys.modules.get("pywebpush"), os.environ.get("VAPID_PRIVATE_KEY")
+            sys.modules["pywebpush"], os.environ["VAPID_PRIVATE_KEY"] = pw, "x"
+            out = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(out):
+                    PS.surge_run()
+            finally:
+                for n, v in keep.items():
+                    setattr(PS, n, v)
+                if old_mod is None:
+                    sys.modules.pop("pywebpush", None)
+                else:
+                    sys.modules["pywebpush"] = old_mod
+                if old_env is None:
+                    os.environ.pop("VAPID_PRIVATE_KEY", None)
+                else:
+                    os.environ["VAPID_PRIVATE_KEY"] = old_env
+            asks = [json.loads((D / ln[len("ASK_FILE="):]).read_text(encoding="utf-8"))
+                    for ln in out.getvalue().splitlines() if ln.startswith("ASK_FILE=")]
+            return log, json.loads((D / "state.json").read_text(encoding="utf-8")), asks, out.getvalue()
+
+    def fresh(self, **ep):
+        import time as _t
+        e = {"sg": int(_t.time()) - 60, "sp": {"u": "https://fm/1", "t": "유튜버 닛몰캐쉬 폭로 나온듯", "m": "에펨", "c": 4}}
+        e.update(ep)
+        return {"k": {"닛몰캐쉬": e}}
+
     def test_surges_window_and_switch(self):
         now = 10_000
         st = {"k": {"a": {"sg": now - 100, "sp": {"u": "https://x/1"}}, "b": {"sg": now - 100, "ss": now - 50, "sp": {"u": "https://x/2"}},
-                    "c": {"sg": now - PS.SURGE_MAX_S - 1, "sp": {"u": "https://x/3"}}, "d": {"sg": now - 100}}}
-        self.assertEqual([k for k, _ in PS.surges(st, now)], ["a"])         # 보낸 것·1시간 지난 것·원문 없는 것 = 제외
+                    "c": {"sg": now - PS.SURGE_MAX_S - 1, "sp": {"u": "https://x/3"}}, "d": {"sg": now - 100},
+                    "e": {"sg": now - 100, "sp": {"u": "javascript:alert(1)"}}}}
+        self.assertEqual([k for k, _ in PS.surges(st, now)], ["a"])         # 보낸 것·1시간 지난 것·원문 없는 것·주소 아닌 것 = 제외
         os.environ["LIVE_SURGE"] = "0"
         try:
             self.assertEqual(PS.surges(st, now), [])
         finally:
             os.environ.pop("LIVE_SURGE", None)
 
-    def test_send_marks_and_requests_summary(self):
-        import time as _t
-        log = []
+    def test_push_first_then_ask_when_news(self):
+        log, st, asks, _ = self.run_surge(self.fresh())
+        self.assertEqual(len(log), 1)
+        self.assertTrue(log[0]["body"].startswith("(긴급) 유튜버 닛몰캐쉬 폭로 나온듯"))
+        self.assertEqual(log[0]["url"], "https://fm/1")                      # 본문 탭 = 그 커뮤니티 글
+        ep_ = st["k"]["닛몰캐쉬"]
+        self.assertTrue(ep_.get("ss") and "닛몰캐쉬" in st["sgx"])
+        self.assertEqual(asks, [])                                          # 기사 없음 = 요약 요청 대기
+        news = [cand("https://r/1", "크리에이터 닛몰캐쉬, 폭언·폭행에 비하 논란까지", ep("2026-09-29 10:16"))]
+        log2, st2, asks2, _ = self.run_surge(st, cands=news)
+        self.assertEqual(log2, [])                                          # 알림은 한 번
+        self.assertEqual(len(asks2), 1)
+        self.assertEqual((asks2[0]["srcUrl"], asks2[0]["link"], asks2[0]["preset"]["noai"]), ("https://fm/1", "", 1))   # SNS 카드 「전송」과 같은 요청
+        self.assertTrue(st2["k"]["닛몰캐쉬"].get("sa"))
+        self.assertEqual(self.run_surge(st2, cands=news)[2], [])            # 요청도 한 번
 
-        class WPE(Exception):
-            pass
-        with tempfile.TemporaryDirectory() as d:
-            D = Path(d)
-            st = {"k": {"닛몰캐쉬": {"sg": int(_t.time()) - 60, "sp": {"u": "https://fm/1", "t": "유튜버 닛몰캐쉬 폭로 나온듯", "m": "에펨", "c": 4}}}}
-            (D / "state.json").write_text(json.dumps(st, ensure_ascii=False), encoding="utf-8")
-            keep = {n: getattr(PS, n) for n in ("LIVE_STATE", "ASKS", "ROOT", "vapid_pem", "notif_icon")}
-            PS.LIVE_STATE, PS.ASKS, PS.ROOT, PS.vapid_pem, PS.notif_icon = D / "state.json", D / "asks", D, (lambda raw: "/dev/null"), (lambda k, t: "")
-            out = io.StringIO()
-            try:
-                with contextlib.redirect_stdout(out):
-                    PS.surge_send([{"endpoint": "https://push/x"}], "x", "mailto:x",
-                                  lambda subscription_info, data, **kw: log.append(json.loads(data)), WPE)
-            finally:
-                for n, v in keep.items():
-                    setattr(PS, n, v)
-            self.assertEqual(len(log), 1)
-            self.assertTrue(log[0]["body"].startswith("(긴급) 유튜버 닛몰캐쉬 폭로 나온듯"))
-            self.assertEqual(log[0]["url"], "https://fm/1")                      # 본문 탭 = 그 커뮤니티 글
-            self.assertTrue(json.loads((D / "state.json").read_text(encoding="utf-8"))["k"]["닛몰캐쉬"].get("ss"))
-            ask = [ln[len("ASK_FILE="):] for ln in out.getvalue().splitlines() if ln.startswith("ASK_FILE=")]
-            self.assertEqual(len(ask), 1)
-            body = json.loads((D / ask[0]).read_text(encoding="utf-8"))
-            self.assertEqual((body["srcUrl"], body["link"], body["preset"]["noai"]), ("https://fm/1", "", 1))   # SNS 카드 「전송」과 같은 요청
+    def test_ask_after_hour_without_news(self):
+        import time as _t
+        st = self.fresh(ss=int(_t.time()) - PS.SURGE_ASK_S - 1)
+        self.assertEqual(len(self.run_surge(st)[2]), 1)
+
+    def test_already_urgent_name_skips(self):   # 뉴스 긴급이 먼저 나간 뒤 급등 = 다시 안 울림(평의회 B·C·H)
+        log, st, asks, _ = self.run_surge(self.fresh(), events=[{"title": "크리에이터 닛몰캐쉬, 폭언·폭행에 비하 논란까지", "k": "brk"}])
+        self.assertEqual((log, asks), ([], []))
+        self.assertTrue(st["k"]["닛몰캐쉬"].get("ss") and st["k"]["닛몰캐쉬"].get("sa"))
+        self.assertEqual(len(self.run_surge(self.fresh(), events=[{"title": "닛몰캐쉬 관련 이슈", "k": "iss"}])[0]), 1)   # 이슈 알림은 긴급 아님
+
+    def test_same_name_resurge_skips(self):   # 에피소드가 끝난 뒤 같은 이름이 48h 안에 다시 급등 = 다시 안 울림(평의회 D#2)
+        import time as _t
+        st = self.fresh()
+        st["sgx"] = {"닛몰캐쉬": [int(_t.time()) - 13 * 3600, "유튜버 닛몰캐쉬 폭로 나온듯"]}
+        log, st2, asks, _ = self.run_surge(st)
+        self.assertEqual((log, asks), ([], []))
+        self.assertTrue(st2["k"]["닛몰캐쉬"].get("ss"))
+
+    def test_no_subscribers_retries(self):
+        log, st, _, out = self.run_surge(self.fresh(), subs=False)
+        self.assertEqual(log, [])
+        self.assertFalse(st["k"]["닛몰캐쉬"].get("ss"))                       # 다음 회차 재시도
+        self.assertIn("::warning::", out)
+
+    def test_ask_failure_keeps_sent_mark(self):   # 요약 요청이 죽어도 보낸 표시는 남는다 = 같은 알림 재발송 0(평의회 C·H)
+        import time as _t
+        log, st, asks, out = self.run_surge(self.fresh(ss=int(_t.time()) - PS.SURGE_ASK_S - 1, sg=int(_t.time()) - 4000), ask_fail=True)
+        self.assertEqual(asks, [])
+        self.assertIn("::warning::", out)
+        self.assertFalse(st["k"]["닛몰캐쉬"].get("sa"))                       # 다음 회차 재시도
+        log, st, asks, out = self.run_surge(self.fresh(), ask_fail=True)
+        self.assertEqual(len(log), 1)
+        self.assertTrue(st["k"]["닛몰캐쉬"].get("ss"))
 
 
 class Budget(unittest.TestCase):
