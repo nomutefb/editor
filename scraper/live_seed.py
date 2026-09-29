@@ -15,7 +15,8 @@
 #  ④ 씨앗(seed:"gn") — t3 가 구글 뉴스로 확인됐는데 우리 피드에 그 이름 기사가 아직 없으면 구글 뉴스의 가장 이른 기사로 후보를 만든다
 #     (제목 = 그 이름이 들어간 가장 이른 헤드라인 · 매체 = 그 매체 · url = 원문 해제 성공 시 원문, 실패 시 구글 뉴스 링크).
 # 바이트 예산 = to_candidates.MAX_BYTES(초과분 = 꼬리부터 · lv·씨앗 엔트리는 보호) · lv 는 있는 엔트리에만(키 자체 없음 = 예산).
-# 실패 = 경고만(수집을 못 깬다 · 워크플로가 `|| echo` 로 감싼다) · 롤백 = env LIVE_SIGNAL=0(이 스텝 전체 무동작).
+# 실패 = 경고만(수집을 못 깬다 · 워크플로가 `|| echo` 로 감싼다) · 롤백 = 파일 scraper/live_signal.off(세 레인 + 판정·푸시 · 화면은 다음 수집 회차에 lv 제거) ·
+#   repo 변수 LIVE_SIGNAL=0 = 러너만(폰·PC 는 모른다) · 70h 넘게 끈 뒤 켤 땐 먼저 --bootstrap-git(만성어 계수 복구).
 import json
 import os
 import sys
@@ -29,6 +30,7 @@ import to_candidates as T   # noqa: E402  입장 엔트리 모양·카테고리�
 ROOT = Path(__file__).resolve().parent.parent
 CAND = ROOT / "viewer" / "candidates.json"
 EVENTS = ROOT / "scraper" / "obs" / "events.jsonl"   # 사건 첫 등장 원장(snapshot.py · 14일) = 수집함에서 잘려 나간 옛 보도의 기억
+RO_STALE_H = 3          # 읽기 전용 레인: 러너 상태(tbs 스냅샷 기록)가 이보다 낡으면 생략(러너 정지 · 검증 V4)
 LV_MATCH_H = 12        # 첨부 대상 = 발행(없으면 수집) 12h 안 후보(묵은 기사에 꼬리표 금지 · ⏱ 12h 게이트와 같은 선)
 TRENDS = set("XGN")
 
@@ -300,6 +302,20 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
         cands = [c for c in cands if id(c) not in drop]
         M = {k: [(lv, c) for lv, c in ms if id(c) not in drop] for k, ms in M.items()}
         M = {k: ms for k, ms in M.items() if ms}
+    if not L.STATE_RO:                   # 러너 = 다른 레인이 한 이관도 장부에 역기록(씨앗 키를 승계한 실후보 → 그 씨앗 url · 폰 이관이 러너 sup 에 안 남던 것 · 검증 V4)
+        sdk = {}
+        for v in (st.get("sd") or {}).values():
+            if isinstance(v, dict):
+                for x in (v.get("u"), v.get("ek")):
+                    if x:
+                        sdk[x] = v.get("u")
+        for c in cands:
+            if c.get("seed"):
+                continue
+            for x in [c.get("event_key")] + [y for y in (c.get("sk") or []) if isinstance(c.get("sk"), list)]:
+                su = sdk.get(x)
+                if su and su != c.get("url") and su not in sup:
+                    sup[su] = {"u": c.get("url"), "at": int(now)}
     st["sup"] = {u: v for u, v in sup.items() if isinstance(v, dict) and now - (v.get("at") or 0) < L.KEEP_H * 3600}
     # 이관 장부 역참조 — 씨앗을 넘겨받은 실후보가 한 회차 빠졌다가(단독 좌석·상한 컷·옛 사본 착지) 같은 기사로 다시 들어오면
     #   event_key 가 자기 url 로 새로 박혀 씨앗과의 연결이 끊긴다(평의회3 260929 재현 = 2발) → 장부의 씨앗 키를 다시 잇는다
@@ -426,14 +442,17 @@ def fit_budget(cands, max_bytes):
 
 
 def main():
-    if "--bootstrap-git" in sys.argv:    # 콜드 스타트 보강(배포 때 1회 · 만성어 계수만 · L.bootstrap_git)
+    if "--bootstrap-git" in sys.argv:    # 콜드 스타트 보강(배포 때 1회 · 만성어 계수만 · L.bootstrap_git · merge_main prep 뒤 착지 직전에)
+        if L.STATE_RO:
+            print("::warning::--bootstrap-git: 읽기 전용 레인(LIVE_STATE_RO=1) = 상태를 안 쓴다(기록자 = 러너 하나)")
+            return 0
         st = L.load_state()
         n = L.bootstrap_git(st, time.time())
         L.save_state(st)
         print(f"만성어 계수 보강: tbs 스냅샷 {n}개(최근 {L.CHRONIC_H}h git 이력)")
         return 0
     if not L.ON:
-        print("확산 신호 OFF(LIVE_SIGNAL=0) — 생략")
+        print("확산 신호 OFF(LIVE_SIGNAL=0 또는 scraper/live_signal.off) — 생략")
         return 0
     src = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "scraper" / "out" / "articles.json"
     raw = CAND.read_text(encoding="utf-8") if CAND.exists() else "[]"
@@ -445,6 +464,12 @@ def main():
     arts = T.load_json(src, [])
     st = L.load_state()
     now = time.time()
+    if L.STATE_RO:
+        last = max(st.get("tl") or [0]) * 60
+        if now - last > RO_STALE_H * 3600:
+            print(f"::warning::live_seed: 러너 상태가 {int((now - last) // 3600)}h 째 안 바뀜 — 읽기 전용 레인은 첨부·입장·씨앗 생략"
+                  "(러너 정지 = 만성어 계수·확인이 멈춘 상태 · 계속하려면 이 레인을 LIVE_STATE_RO=0 으로 기록자 승격)")
+            return 0
     cands, S = run(cands, arts if isinstance(arts, list) else [], L.load_snapshots(), st, now, events=load_events(now))
     blob, cut = fit_budget(cands, max(T.MAX_BYTES, len(raw.encode("utf-8"))))   # 이 스텝이 늘린 만큼만 되돌린다(입력이 이미 넘었으면 = 다음 수집 회차 to_candidates 몫)
     if blob != raw:

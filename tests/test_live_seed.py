@@ -298,6 +298,32 @@ class DupPush(unittest.TestCase):   # 평의회3 260929 — 같은 사건 2발 �
         anon = cand("tvr", "유명 유튜버, 전 연인 폭로에 채널 삭제", t, cross=5)
         self.assertEqual(S._pick([(2, dict(solo, solo=1)), (1, anon)], {"u": "s"})["url"], "tvr")   # 익명 다매체 대표(멤버 실명) > 자기 제목 적중 [단독]
 
+    def test_runner_backfills_supersede_ledger(self):   # V4 — 폰이 한 이관(씨앗 키 승계)을 러너가 sup 에 역기록
+        now = ep("2026-09-29 10:46")
+        st = L.new_state()
+        st["sd"]["닛몰캐쉬"] = {"u": "https://g/1", "at": int(now - 900), "ek": "https://g/1"}
+        S.run([cand("khan", "무관 제목", now, event_key="https://g/1")], [], EMPTY, st, now, net=False)
+        self.assertEqual(st["sup"]["https://g/1"]["u"], "khan")
+
+    def test_ro_lane_skips_on_stale_runner_state(self):   # V4 — 러너 정지(상태 3h↑ 낡음) = 읽기 전용 레인은 수집함을 안 건드린다
+        import time as _t
+        with tempfile.TemporaryDirectory() as d:
+            stp, cp = Path(d) / "live_state.json", Path(d) / "candidates.json"
+            st = L.new_state()
+            st["tl"] = [int((_t.time() - 5 * 3600) // 60)]
+            L.save_state(st, stp)
+            cp.write_text("[]", encoding="utf-8")
+            old = (L.STATE, S.CAND, L.STATE_RO, L.ON, sys.argv)
+            L.STATE, S.CAND, L.STATE_RO, L.ON, sys.argv = stp, cp, True, True, ["live_seed.py", str(Path(d) / "none.json")]
+            buf = io.StringIO()
+            try:
+                with contextlib.redirect_stdout(buf):
+                    self.assertEqual(S.main(), 0)
+            finally:
+                L.STATE, S.CAND, L.STATE_RO, L.ON, sys.argv = old
+            self.assertIn("생략", buf.getvalue())
+            self.assertEqual(cp.read_text(encoding="utf-8"), "[]")
+
     def test_supersede_keeps_sent_seed_key(self):
         a = {"url": "A", "event_key": "A", "breaking": True, "seed": "gn"}
         b = {"url": "B", "event_key": "B", "seed": "gn"}

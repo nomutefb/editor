@@ -25,7 +25,8 @@
 #   세어 같은 스냅샷 재독 중복 0) · 무장 시각 · 구글뉴스 확인 캐시(10분) · 씨앗(seed) 장부.
 # 순수 함수 원칙 = 네트워크는 gn_poll(명시 확인 함수) 하나뿐 · 나머지는 입력 dict → 출력 dict(테스트 = 픽스처만).
 # 소비 = scraper/live_seed.py(후보 첨부·입장·씨앗) → .github/scripts/breaking_judge.py(꼬리표·도장) · brk_gates · push_send.
-# 롤백 = env LIVE_SIGNAL=0(첨부·입장·씨앗 전부 멈춤 · 이미 붙은 lv 는 그대로 = 도장 폭풍 0).
+# 롤백 = 파일 scraper/live_signal.off(세 레인 수집 반영 + 판정 꼬리표·게이트·푸시 완화 · to_candidates 가 붙은 lv 도 제거) ·
+#   env LIVE_SIGNAL=0 = 이 프로세스만(러너 repo 변수 = 러너만 · 폰·PC 레인은 모른다).
 import json
 import os
 import re
@@ -41,7 +42,7 @@ STATE = ROOT / "scraper" / "obs" / "live_state.json"
 KST = timezone(timedelta(hours=9))
 
 OFF_FILE = ROOT / "scraper" / "live_signal.off"   # 저장소 킬스위치 — 파일이 있으면 세 레인(러너·폰·PC) 수집 반영 + 판정 꼬리표·게이트·푸시 완화가 전부 꺼진다
-#   (repo 변수 LIVE_SIGNAL=0 은 러너 env 에만 닿는다 = 폰·PC 레인은 모른다 · 평의회260929-2 #5 · 이 경로 사본 = breaking_judge._lv_t · push_send._lv_on)
+#   (repo 변수 LIVE_SIGNAL=0 은 러너 env 에만 닿는다 = 폰·PC 레인은 모른다 · 평의회260929-2 #5 · 이 경로 사본 = breaking_judge._LIVE_OFF · push_send._lv · to_candidates._LIVE_OFF)
 ON = os.environ.get("LIVE_SIGNAL", "1").strip().lower() not in ("0", "false", "no", "off") and not OFF_FILE.exists()
 STATE_RO = os.environ.get("LIVE_STATE_RO", "").strip().lower() in ("1", "true", "yes", "on")   # 폰·PC = 상태 읽기 전용(기록자 = 러너 하나 · 통째 덮어쓰기로 확인·장부가 증발하던 것 차단)
 PAIR_H = 6              # 두 갈래 「동시」 창(h)
@@ -462,7 +463,7 @@ BUCKET_S = 6 * 3600     # 만성어 계수 칸(6시간)
 
 def bootstrap_git(st, now, hours=CHRONIC_H, root=None):
     """콜드 스타트 보강 — git 이력의 tbs_data.json 스냅샷(최근 72h)으로 만성어 계수(tb·hi)만 채운다(에피소드·캐시 0).
-    상태가 비어 배포되면 만성어 필터가 ~15h 꺼져 대통령·정치인 이름이 무장하던 것(평의회260929-2 #2-5). 이력 없음(얕은 클론) = 0건."""
+    상태가 비어 배포되면 만성어 필터가 ~15h 꺼져 대통령·정치인 이름이 무장하던 것(평의회260929-2 #2-5). 얕은 클론 = 1건 이하(효과 없음)."""
     import subprocess
     r = str(root or ROOT)
     try:
