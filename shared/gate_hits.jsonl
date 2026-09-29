@@ -280,7 +280,6 @@
 {"gate": "check_qledger_unique", "rc": 1, "ts": "2026-08-18T12:57:37+00:00"}
 {"gate": "check_qledger_unique", "rc": 1, "ts": "2026-08-18T13:05:29+00:00"}
 {"gate": "check_qledger_unique", "rc": 1, "ts": "2026-08-18T13:05:11+00:00"}
-{"gate": "check_qledger_unique", "rc": 1, "ts": "2026-08-18T13:05:29+00:00"}
 {"gate": "check_qledger_unique", "rc": 1, "ts": "2026-08-18T13:11:40+00:00"}
 {"gate": "check_qledger_unique", "rc": 1, "ts": "2026-08-18T13:12:09+00:00"}
 {"gate": "check_gate_docs", "rc": 1, "ts": "2026-08-18T13:46:08+00:00"}
@@ -382,3 +381,4 @@
 {"gate": "check_affordance_inherit", "rc": 1, "ts": "2026-09-29T04:02:53+00:00"}
 {"gate": "check_dangling_var", "rc": 1, "ts": "2026-09-29T04:02:55+00:00"}
 {"gate": "check_prompt_literal_quoting", "rc": 1, "ts": "2026-09-29T04:39:05+00:00"}
+{"gate": "check_seal_completeness", "rc": 1, "ts": "2026-09-29T04:29:13+00:00"}
