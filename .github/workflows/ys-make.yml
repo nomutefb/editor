@@ -44,7 +44,7 @@ permissions:
 jobs:
   ys:
     runs-on: ubuntu-latest
-    timeout-minutes: 110   # 자막 ~3 + claude ~5 + 음성 ~3 + 그림 대기 ≤25 + 그록 ≤25(연출 대기 ≤5 포함) + 렌더 ~10 + 환경 ~8 + STT 폴백 백스톱(화면 시간 초과 120분보다 짧게)
+    timeout-minutes: 110   # 자막 ~3 + claude 초안·다듬기 2단 ~15 + 음성 ~3 + 그림 대기 ≤25 + 그록 ≤25(연출 대기 ≤5 포함) + 렌더 ~10 + 환경 ~8 + STT 폴백 백스톱(화면 시간 초과 120분보다 짧게)
     env:
       YS_ID: ${{ inputs.id }}   # R2 키는 잡 전체가 아니라 쓰는 스텝에만 준다(설치 스크립트·npm postinstall 노출 0 · 레포 관례)
     steps:
@@ -230,8 +230,8 @@ jobs:
             --content-type 'application/json; charset=utf-8' --cache-control no-store --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" --only-show-errors \
             || echo "::warning::목소리 목록 게시 실패(제작은 계속)"
 
-      - name: 인사이트 정리 (claude 1콜)
-        timeout-minutes: 25
+      - name: 인사이트 정리 (claude 1콜) + 대본 다듬기 (Opus high 2단)
+        timeout-minutes: 55   # 초안 ≤15 + 1차 ≤15 + 2차 ≤15(콜마다 claude_meter 900초 벽) + 여유
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets[format('CLAUDE_CODE_OAUTH_TOKEN_{0}', inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N')] }}
           CLAUDE_CODE_OAUTH_TOKEN_ALT: ${{ (inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N') == 'MUTENO' && secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130G || secrets.CLAUDE_CODE_OAUTH_TOKEN_MUTENO }}
@@ -239,6 +239,7 @@ jobs:
           CLAUDE_CODE_OAUTH_TOKEN_ALT3: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN_EMS1130M }}
           ACTIVE_ACCOUNT: ${{ inputs.account || vars.ACTIVE_ACCOUNT || 'EMS1130N' }}
           YS_ASK: ${{ inputs.ask }}
+          YS_REFINE: ${{ vars.YS_REFINE || '2' }}   # 대본 다듬기 단계 수(운영자 260929 «오퍼스가 1차 · 다른 오퍼스가 교차 확인하며 2차») · 0 = 끔(A/B 레버)
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
           R2_BUCKET: ${{ secrets.R2_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -250,7 +251,9 @@ jobs:
           if ! bash .github/scripts/ys_make.sh /tmp/ys; then
             cp /tmp/ys/error.log /tmp/ys_err.txt 2>/dev/null || true; exit 1
           fi
-          python3 .github/scripts/ys_progress.py "$YS_ID" plan done "$(python3 -c "import json;p=json.load(open('/tmp/ys/plan.json'));print(f\"장면 {len(p['scenes'])}개 · 용어 교정 {len(p['fixes'])}건\")")"
+          # 다듬기 = 품질 축(실패 단계는 앞 판 유지 · 스크립트가 항상 0) — 초안이 이미 형식 게이트를 통과했다
+          bash .github/scripts/ys_refine.sh /tmp/ys || echo "::warning::대본 다듬기 실행기 이상 — 초안으로 계속"
+          python3 .github/scripts/ys_progress.py "$YS_ID" plan done "$(python3 -c "import json;p=json.load(open('/tmp/ys/plan.json'));r={'p1':'1차','p2':'2차'}.get(p.get('refine',''),'');print(f\"장면 {len(p['scenes'])}개 · 용어 교정 {len(p['fixes'])}건\"+(f' · {r}까지 다듬음' if r else ''))")"
 
       - name: Playwright 브라우저 캐시
         uses: actions/cache@v4
@@ -472,6 +475,12 @@ jobs:
           except Exception:
               pass
           vid_short = vid.get('note') and (vid.get('used', 0) < vid.get('total', 0) or '글→영상' in str(vid.get('note')))
+          ref, gp = {}, {}
+          for path, dst in (('/tmp/ys/refine.json', ref), ('/tmp/ys/grokplan.json', gp)):   # 대본 다듬기 단계별 결과 · 감독 구상·연출 번호 감사(판 뒤 되짚기)
+              try:
+                  dst.update(json.load(open(path, encoding='utf-8')))
+              except Exception:
+                  pass
           grok = os.environ.get('YS_IMG') == 'grok'   # 그록 = 맥 그림은 첫 프레임 재료일 뿐 → 결과 문구는 vid.json 이 말한다
           notes = (extra + list(tim.get('notes') or []) + ([img['note']] if img_short and not grok else []) + ([vid['note']] if (vid_short or (grok and vid.get('used', 0) == 0)) and vid.get('note') else [])
                    + list(ren.get('notes') or []))
@@ -485,6 +494,8 @@ jobs:
                  'vid_used': ren.get('vid_used', 0), 'depth_used': ren.get('depth_used', 0), 'mg_used': ren.get('mg_used', 0), 'mg_types': ren.get('mg_types', []),
                  'design_used': ren.get('design_used', 0), 'grok_cost_usd': vid.get('cost_usd', 0),
                  **({'grok_modes': vid.get('modes', {}), 'grok_plan_src': vid.get('plan_src', ''), 'grok_beats': vid.get('beats', 0)} if vid.get('modes') else {}),   # 어느 모드·연출로 쐈나(판이 끝난 뒤 A/B 되짚기)
+                 **({'grok_pick': gp.get('pick_src', ''), 'grok_lib': gp.get('lib', {})} if gp.get('pick_src') else {}),   # 감독 구상(도서관 번호 고르기) 성패 · 쓴 번호·지어낸 번호 수
+                 'refine': plan.get('refine', ''), 'refine_log': ref, 'kinds': plan.get('kinds', ''), 'lib': plan.get('lib', {}),   # 대본 다듬기 도달 단계 · 장면 유형 분포 · 대본 연출 번호
                  'font': os.environ.get('YS_FONT_USED') or os.environ.get('YS_FONT'), 'ratio': os.environ.get('YS_RATIO'), 'subbg': os.environ.get('YS_SUBBG'),
                  'subop': int(os.environ.get('YS_SUBOP') or 100), 'cap': int(os.environ.get('YS_CAP') or 65), 'tr_src': tr.get('src', ''), 'fixes': plan.get('fixes', []), 'verify': plan.get('verify', []),
                  'voice_name': tim.get('voice_name', ''), 'voice_why': plan.get('voice_why', '') if tim.get('voice_id') and tim.get('voice_id') == plan.get('voice_id') else '',

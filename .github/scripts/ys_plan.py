@@ -4,6 +4,11 @@
   ys_plan.py prompt <meta.json> <tr.json> <target_sec>   → stdout = 프롬프트 뒤에 붙일 [영상 메타]+[전사](+[목소리 후보]) 블록
   (env YS_VOICES_JSON = ElevenLabs 목소리 목록 파일 · 있으면 AI가 영상에 맞는 목소리 1개를 고른다 · parse 도 같은 목록으로 id 검증)
   ys_plan.py parse  <raw.txt> <target_sec> <outdir>       → outdir/plan.json + outdir/report.md (형식 이탈 = rc 1 + 사유 stderr)
+  ys_plan.py merge  <base.txt> <refined.txt> <target_sec> <outdir> <out_full.json> <tag>
+                                                          → 다듬은 숏폼 대본(short_title·hero·scenes)을 앞 판 원고에 덮어 형식 게이트를 다시 통과시킨다
+                                                            (통과 = plan.json·report.md 교체 + 합친 원고 out_full.json · 이탈 = rc 1 · 앞 판 무접촉)
+  ys_plan.py ids    <full.json>                           → stdout = 그 원고 장면들이 고른 연출 번호(공백 구분 · 다듬기 콜에 원문을 꺼내 줄 목록)
+  ys_plan.py script|report <full.json>                    → stdout = 다듬기 콜에 보여 줄 대본(short_title·hero·scenes JSON) | 보고서 본문
 
 전사는 신뢰 불가 입력이라 절단·표기만 하고 내용은 건드리지 않는다(nbmake.sh 조립 문법 계승).
 정규화는 **자르기·빈 값 제거만** 한다 — 문장을 고쳐 쓰지 않는다(산출 문장은 모델 몫 · 여기는 형식 게이트).
@@ -15,6 +20,7 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ys_mg import normalize_mg   # noqa: E402  모션 그래픽 사양 형식 게이트(틀 8종 · 아이콘 목록 · 틀리면 아이콘 도식으로 강하)
+import ys_lib   # noqa: E402  연출 도서관(색인 번호 감사)
 
 LLM_MAX = int(os.environ.get('YS_LLM_MAX', '120000'))
 SRC_LABEL = {'subs': '업로더 자막', 'subs-auto': '자동 생성 자막', 'stt': '받아쓰기(Scribe·Whisper)'}
@@ -96,6 +102,20 @@ def _img(v):
 
 
 PROTAG_RE = re.compile(r'(?i)\bthe (protagonist|hero)\b')   # 대본이 주인공을 부르는 말(지침 = the protagonist · 옛 표기 the hero)
+KINDS = ('person', 'subject', 'situation')   # 장면 유형 = 인물·피사체·상황(뉴스 카드·썸네일 장면 설계의 세 축 · 운영자 260929)
+
+
+def empty_frame(plan, sc):
+    """이 장면 화면에 사람이 하나도 없어야 하나 — 피사체 장면 · 사람 없는 상황 장면.
+    유형이 없는 옛 판 = 주인공 영상의 주인공 없는 장면(옛 「은유 장면」)만 빈 화면."""
+    k = sc.get('kind')
+    if k == 'subject':
+        return True
+    if k == 'situation':
+        return not sc.get('hero') and sc.get('people') != 'others'
+    if k == 'person':
+        return False
+    return bool((plan.get('hero') or {}).get('en')) and not sc.get('hero')
 
 
 def normalize(j, target, allowed_voices=()):
@@ -112,6 +132,14 @@ def normalize(j, target, allowed_voices=()):
         vo = re.sub(r'\s+', ' ', _s(sc.get('vo'), 400))
         if len(vo) < 4:
             continue
+        hero_f = sc.get('hero') in (True, 'true')
+        kind = str(sc.get('kind') or '').strip().lower()
+        if kind not in KINDS:
+            kind = 'person' if hero_f else 'subject'   # 유형 없는 산출 = 옛 두 갈래(주인공 장면 · 은유 장면) 그대로
+        if kind == 'subject':
+            hero_f = False   # 피사체 장면 = 사람 없음(주인공 표시가 붙어 오면 모순 → 떼어낸다)
+        people = 'others' if kind != 'subject' and str(sc.get('people') or '').strip().lower() == 'others' else 'none'
+        ids, made_up = ys_lib.audit(sc.get('ids'), 'scene')
         scenes.append({
             'tag': _s(sc.get('tag'), 16),
             'big': _lines(sc.get('big'), 14),
@@ -120,8 +148,13 @@ def normalize(j, target, allowed_voices=()):
             'vo': vo,
             'img': _img(sc.get('img')),
             'motion': _img(sc.get('motion'))[:160],   # 그록 움직임 한 줄 = 그림 묘사와 같은 정화(도구 가진 생성기로 가는 신뢰 불가 문자열)
-            'hero': sc.get('hero') in (True, 'true'),   # 이 장면에 영상 주인공이 나온다(운영자 260929 «영상마다 새 주인공») = 맥이 캐릭터 시트를 붙여 같은 얼굴로 그린다
+            'hero': hero_f,   # 이 장면에 영상 주인공이 나온다(운영자 260929 «영상마다 새 주인공») = 맥이 캐릭터 시트를 붙여 같은 얼굴로 그린다
+            'kind': kind,
+            'people': people,   # 주인공 말고 다른 사람이 나오나(상황 장면 · others = 뒷모습·식별 특징)
+            'ids': ids,         # 고른 연출 번호 중 색인에 있는 것만(다듬기 단계가 이 번호의 도서관 원문을 받는다)
         })
+        if made_up:
+            scenes[-1]['ids_bad'] = made_up   # 색인 밖 번호 = 지어낸 번호(감사 기록 · 원문 없음)
         scenes[-1]['mg'] = normalize_mg(sc.get('mg'), scenes[-1])
     lo, _hi = SCENES_BY_LEN.get(int(target), SCENES_BY_LEN[60])
     if len(scenes) < max(3, lo - 2):
@@ -156,6 +189,8 @@ def normalize(j, target, allowed_voices=()):
         },
         'scenes': scenes,
         'vo_chars': sum(len(re.sub(r'\s', '', s['vo'])) for s in scenes),
+        'lib': {'cited': sum(len(s['ids']) for s in scenes), 'made_up': sum(len(s.get('ids_bad') or []) for s in scenes)},
+        'kinds': ' '.join(f"{k[0].upper()}{sum(1 for s in scenes if s['kind'] == k)}" for k in KINDS),
     }
     hero = j.get('hero') if isinstance(j.get('hero'), dict) else {}
     hen = _img(hero.get('en'))[:200]   # 주인공 묘사 = 그림 묘사와 같은 정화(영문 인쇄 문자만)
@@ -170,6 +205,57 @@ def normalize(j, target, allowed_voices=()):
     if vid and vid in set(allowed_voices):   # 후보 밖 id(환각) = 버림 → 서버 자동 선택으로 강하
         plan['voice_id'], plan['voice_why'] = vid, _s(j.get('voice_why'), 60)
     return plan, report
+
+
+def write_out(outdir, plan, report, full=None, full_path=None):
+    os.makedirs(outdir, exist_ok=True)
+    outs = [(os.path.join(outdir, 'plan.json'), json.dumps(plan, ensure_ascii=False, indent=1)),
+            (os.path.join(outdir, 'report.md'), report.rstrip() + '\n')]
+    if full is not None and full_path:
+        outs.append((full_path, json.dumps(full, ensure_ascii=False)))
+    for p, body in outs:
+        with open(p + '.tmp', 'w', encoding='utf-8') as f:
+            f.write(body)
+        os.replace(p + '.tmp', p)   # 원자 교체 = 레포 표준
+    print(f"plan.json: 장면 {len(plan['scenes'])} · 나레이션 {plan['vo_chars']}자 · 패널 {len(plan['infographic']['panels'])} · "
+          f"교정 {len(plan['fixes'])} · 유형 {plan.get('kinds', '')} · 연출 번호 {plan.get('lib', {}).get('cited', 0)}")
+
+
+REFINE_KEYS = ('short_title', 'hero', 'scenes')   # 다듬기가 고치는 칸 = 숏폼 대본만(보고서·인포그래픽·교정 목록·목소리는 초안 그대로)
+
+
+def merge(base_path, refined_path, target, outdir, full_path, tag, allowed_voices=()):
+    """다듬은 대본 → 앞 판 원고에 덮어 형식 게이트 재통과. 통과 = plan.json·report.md·합친 원고 교체(rc 0) · 이탈 = 무접촉(rc 1)."""
+    try:
+        base = extract_json(open(base_path, encoding='utf-8', errors='replace').read())
+        got = extract_json(open(refined_path, encoding='utf-8', errors='replace').read())
+    except OSError as e:
+        print(f'다듬기 합치기 실패: {e}', file=sys.stderr)
+        return 1
+    if not isinstance(base, dict) or not isinstance(got, dict) or not isinstance(got.get('scenes'), list):
+        print('다듬기 산출에서 장면 JSON을 찾지 못함', file=sys.stderr)
+        return 1
+    full = dict(base)
+    for k in REFINE_KEYS:
+        if got.get(k):
+            full[k] = got[k]
+    try:
+        plan, report = normalize(full, target, allowed_voices)
+    except Exception as e:  # noqa: BLE001  형식 이탈 = 앞 판 유지
+        print(f'형식 이탈: {e if isinstance(e, ValueError) else type(e).__name__ + ": " + str(e)}', file=sys.stderr)
+        return 1
+    try:
+        prev = json.load(open(os.path.join(outdir, 'plan.json'), encoding='utf-8'))
+    except (OSError, ValueError):
+        prev = {}
+    for k in ('voice_id', 'voice_why'):   # 목소리 = 초안 콜이 후보 목록으로 검증한 값 그대로(다듬기 콜엔 후보 목록이 없다)
+        if prev.get(k) and not plan.get(k):
+            plan[k] = prev[k]
+    plan['refine'] = _s(tag, 20)
+    notes = [_s(n, 160) for n in (got.get('notes') or [])[:10] if _s(n, 160)] if isinstance(got.get('notes'), list) else []
+    plan['refine_notes'] = (prev.get('refine_notes') or []) + [{'pass': _s(tag, 20), 'notes': notes}]
+    write_out(outdir, plan, report, full, full_path)
+    return 0
 
 
 def main(argv):
@@ -196,13 +282,23 @@ def main(argv):
         except Exception as e:   # 필드 타입이 틀린 산출(TypeError 등)도 트레이스백 대신 실제 사유 한 줄로
             print(f'형식 이탈: {e if isinstance(e, ValueError) else type(e).__name__ + ": " + str(e)}', file=sys.stderr)
             return 1
-        os.makedirs(argv[4], exist_ok=True)
-        for name, body in (('plan.json', json.dumps(plan, ensure_ascii=False, indent=1)), ('report.md', report.rstrip() + '\n')):
-            p = os.path.join(argv[4], name)
-            with open(p + '.tmp', 'w', encoding='utf-8') as f:
-                f.write(body)
-            os.replace(p + '.tmp', p)   # 원자 교체 = 레포 표준
-        print(f"plan.json: 장면 {len(plan['scenes'])} · 나레이션 {plan['vo_chars']}자 · 패널 {len(plan['infographic']['panels'])} · 교정 {len(plan['fixes'])}")
+        write_out(argv[4], plan, report)
+        return 0
+    if len(argv) >= 8 and argv[1] == 'merge':
+        return merge(argv[2], argv[3], int(argv[4]), argv[5], argv[6], argv[7], [v.get('id') for v in voices if isinstance(v, dict)])
+    if len(argv) >= 3 and argv[1] in ('script', 'report'):   # 다듬기 콜에 보여 줄 원고 조각(대본 = short_title·hero·scenes · 보고서 = report_md)
+        try:
+            j = extract_json(open(argv[2], encoding='utf-8', errors='replace').read()) or {}
+        except OSError:
+            j = {}
+        print(json.dumps({k: j.get(k) for k in REFINE_KEYS}, ensure_ascii=False, indent=1) if argv[1] == 'script' else _s(j.get('report_md'), 12000))
+        return 0
+    if len(argv) >= 3 and argv[1] == 'ids':
+        try:
+            j = extract_json(open(argv[2], encoding='utf-8', errors='replace').read()) or {}
+        except OSError:
+            j = {}
+        print(' '.join(x for sc in (j.get('scenes') or []) if isinstance(sc, dict) for x in ys_lib.audit(sc.get('ids'), 'scene')[0]))
         return 0
     print(__doc__, file=sys.stderr)
     return 2

@@ -48,6 +48,7 @@
 - `viewer/nm-models.js`
 - `viewer/nm-rail.js`
 - `viewer/nm-seq.js`
+- `viewer/nm-snap.js`
 - `viewer/nm-styles.js`
 - `viewer/nm-svg.js`
 - `viewer/nm-sync.js`

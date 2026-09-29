@@ -5107,6 +5107,52 @@ def check_gauge_harness():
     return 0
 
 
+def check_snap_harness():
+    """Snap Rail 하네스 SSOT 게이트(운영자 260929 «선택 요소를 snap rail 로 통일» → «편집탭 통일»).
+    정본 = viewer/nm-snap.js([data-nmsnap] 자동 장착 · 선택 원천 .on · 라디오 문법·←→ · 다시 그려도 알약이 지난 칸에서 이어진다) + viewer/nm-shared.css「.nm-snap」.
+    규칙 = 유튜브(ys)·편집(edit) 두 표면 nm-snap.js 로드 · ys 옵션 행(railRow) = data-nmsnap · 편집 하나 고르기 행(의역·글자 형태·음영·화면 방식·클리퍼 감독)
+    = snapRow/snapLine(구 워드칩 srow·prow 로 되돌아가면 차단) · 알약·칸 모양 규칙 = 공용 CSS 에만(표면 사본 = 차단).
+    이 게이트가 막는 사고 = 한 탭만 옛 선택 칩으로 조용히 갈라지는 것 · 한 탭이 알약 모양을 따로 고쳐 두 벌이 되는 것."""
+    SURF = ('viewer/ys.html', 'viewer/edit.html')
+    bad = []
+
+    def _t(rel):
+        with open(os.path.join(ROOT, rel), encoding='utf-8') as fh:
+            return fh.read()
+    try:
+        css = _t('viewer/nm-shared.css')
+        if '.nm-snap::before' not in css or '.nm-snap > button' not in css:
+            bad.append('nm-shared.css 에 .nm-snap 규칙 없음')
+        if 'window.nmSnap' not in _t('viewer/nm-snap.js'):
+            bad.append('viewer/nm-snap.js 정본 없음')
+        for f in SURF:
+            src = _t(f)
+            if '<script src="nm-snap.js"></script>' not in src:
+                bad.append('%s — nm-snap.js 미로드' % f)
+            if re.search(r'^\s*[^/\n]*\.nm-snap(::before|\s*>\s*button)[^{\n]*\{', src, re.M):
+                bad.append('%s — .nm-snap 모양 규칙 사본(공용 CSS 에만)' % f)
+        ys = _t('viewer/ys.html')
+        if 'data-nmsnap="ys-' not in ys or 'class="geni-opts snap"' in ys:
+            bad.append('viewer/ys.html — 옵션 행(railRow)이 하네스 밖')
+        ed = _t('viewer/edit.html')
+        for ax in ('tone', 'font1', 'font2', 'shtype', 'fit', 'clipmdl'):
+            if not re.search(r"snap(Row|Line)\('[^']*','%s'|snapLine\('%s'" % (ax, ax), ed):
+                bad.append('viewer/edit.html — 하나 고르기 행 %s 가 레일 밖' % ax)
+        for pat, what in ((r"srow\('(의역|글자 형태|음영)'", '구 워드칩 행'), (r'class="prow">\'\+\[\[\'crop\'', '구 화면 방식 칩'),
+                          (r'class="prow">\'\+Object\.entries\(CLIP_NM\)', '구 감독 칩')):
+            if re.search(pat, ed):
+                bad.append('viewer/edit.html — %s 부활' % what)
+    except Exception as e:  # noqa: BLE001
+        print('⚠️ check_snap_harness 스킵:', e); return 0
+    if bad:
+        print('❌ Snap Rail 하네스 게이트 — 유튜브·편집 탭 하나 고르기 = nm-snap.js 한 벌(운영자 260929 «편집탭 통일»):')
+        for x in bad[:8]:
+            print('   ·', x)
+        return 1
+    print('✅ Snap Rail 하네스 게이트 — 유튜브 옵션 행 + 편집 하나 고르기 6행 전건 nm-snap.js 장착 · 모양 = nm-shared.css 단일(표면 사본 0).')
+    return 0
+
+
 def check_loader_ssot():
     """로딩 표기 SSOT 게이트(운영자 260723 Q461 — "전역 앱 세션에서 정해진 로딩만 쓰도록").
     정본 = viewer/nm-loader.js window.nmLoader(type,label[,opts]) · **그래픽 1종(통통 튀는 도트3 · 운영자 260731 단일화)**·라벨 4개(Now loading/Thinking/Solving/Prompting = data-orb 의미 라벨).
@@ -11109,6 +11155,11 @@ def main():
             rc = 1
     except Exception as e:
         print('⚠️ check_gauge_harness 스킵:', e)
+    try:
+        if check_snap_harness() != 0:   # Snap Rail 하네스 SSOT(운영자 260929 «편집탭 통일» — ys·edit 하나 고르기 = nm-snap.js 한 벌)
+            rc = 1
+    except Exception as e:
+        print('⚠️ check_snap_harness 스킵:', e)
     try:
         if check_model_ids() != 0:   # 모델 ID 드리프트(하드 — 승격 시 '한 곳 빠뜨림' 봉쇄 · 정본 shared/models.json · 승격기 = apply_models.py · 운영자 260725 한 수)
             rc = 1

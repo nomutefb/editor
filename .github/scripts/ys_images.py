@@ -18,6 +18,9 @@ import tempfile
 import time
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from ys_plan import empty_frame  # noqa: E402  빈 화면 판정 단일 원천(피사체 · 사람 없는 상황 장면)
+
 WAIT = int(os.environ.get('YS_IMG_WAIT', '1500'))   # 260928 실측 = 세로 7장 849초
 PICK = int(os.environ.get('YS_IMG_PICK', '150'))   # 이 안에 맥이 잡을 안 집으면(다른 잡에 잠김) 회수하고 바로 강하 = 900초 헛대기 0
 STALE = 180
@@ -104,7 +107,8 @@ def board_prompt(plan, hero, orient):
     room = max(60, (1750 - len(head) - len(who) - len(tail)) // max(1, n) - 12)
     def desc(sc):
         d = clean(sc.get('img') or sc.get('head'), 400)
-        return d if hero else PROTAG_RE.sub('a person', d)
+        d = d if hero else PROTAG_RE.sub('a person', d)
+        return f'empty of people, {d}' if empty_frame(plan, sc) else d   # 빈 화면 칸 = 칸 머리에 명시(보드 전체의 주인공 문장이 칸마다 사람을 넣는다)
     panels = ' '.join(f'Panel {k + 1}: {cut(desc(sc), room).rstrip(". ")}.' for k, sc in enumerate(plan['scenes']))
     return {'board': clean(f'{head}. {who}{panels} {tail}', 1800), 'board_orient': sheet}
 
@@ -150,7 +154,8 @@ def main(argv):
     hero = clean((plan.get('hero') or {}).get('en'))[:220] if drv >= 2 else ''
     def desc(sc):
         d = clean(sc.get('img') or sc.get('head'), CAP)
-        return d if hero else PROTAG_RE.sub('a person', d)
+        d = d if hero else PROTAG_RE.sub('a person', d)
+        return f'empty of people, {d}' if empty_frame(plan, sc) else d
     scenes = [{'i': i, 'prompt': clean(f"{cut(desc(sc), room)}. {frame}. {STYLE}", CAP), 'hero': bool(hero and sc.get('hero'))}
               for i, sc in enumerate(plan['scenes']) if clean(sc.get('img') or sc.get('head'))]
     job = {'kind': 'ysimg', 'id': id_, 'ts': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),

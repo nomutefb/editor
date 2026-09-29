@@ -84,6 +84,7 @@
 | `check_label_fill` | 콘텐츠 라벨색(cat-*·bias-*) 솔리드 배경 필 금지 게이트(운영자 260721 Q345 · 평의회 Q329 채택 ④ = 감사 R5 절제축). |
 | `check_loader_ssot` | 로딩 표기 SSOT 게이트(운영자 260723 Q461 — "전역 앱 세션에서 정해진 로딩만 쓰도록"). |
 | `check_gauge_harness` | 러버밴드 게이지 하네스 SSOT 게이트(운영자 260929 «게이지 조정 = 편집 메뉴에도 · 하네스 통일»). |
+| `check_snap_harness` | Snap Rail 하네스 SSOT 게이트(운영자 260929 «선택 요소를 snap rail 로 통일» → «편집탭 통일»). |
 | `check_model_ids` | 모델 ID·표시명 드리프트 하드게이트(운영자 260725 한 수 · 정본 = `shared/models.json`). 경계 가드(버전 연장·인원 접미사)는 `shared/apply_models.py`와 공용 · 대행(`follow`) 값 일치 · `keyed` 자리 문자 대조 · 티어 `sites`는 `<티어>_MODEL` 변수만(운영자 260923). |
 | `check_ssot_coverage` | 정본 커버리지 역방향 게이트(운영자 260725 한 수 · `check_gate_docs`의 반대 방향). |
 | `check_drive_move_bundle` | 운영자 PC 배포 번들(더블클릭 .bat) ↔ ps1 정본 드리프트 차단(운영자 260801 · CLAUDE.md [9-1 납품]). |

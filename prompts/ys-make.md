@@ -36,8 +36,9 @@
   "hero": {"en": "이 영상의 주인공 캐릭터 영문 묘사 (≤200자 · 아래 [주인공] 규격)", "why": "고른 이유 (≤40자)"},
   "scenes": [
     {"tag": "장면 알약 (≤12자)", "big": "큰 글자 (≤12자 · \n 1회까지)", "head": "보조 제목 (≤20자 · \n 1회까지)",
-     "chips": ["키워드 (≤10자)"], "vo": "나레이션", "img": "장면 그림 영문 프롬프트 (≤110자)",
-     "motion": "장면 영상 영문 움직임 한 문장 (≤160자)", "hero": "true|false", "mg": {"type": "compare|flow|number|bars|list|cycle|icon|quote", "…": "아래 [모션 그래픽] 규격"}}
+     "chips": ["키워드 (≤10자)"], "vo": "나레이션", "kind": "person|subject|situation", "img": "장면 그림 영문 프롬프트 (≤150자)",
+     "motion": "장면 영상 영문 움직임 한 문장 (≤160자)", "hero": "true|false", "people": "none|others", "ids": ["EM-03", "DF-02"],
+     "mg": {"type": "compare|flow|number|bars|list|cycle|icon|quote", "…": "아래 [모션 그래픽] 규격"}}
   ]
 }
 ```
@@ -54,14 +55,29 @@
 - 첫 장면 = 훅: 영상의 가장 공감 가는 장면을 질문이나 반전으로 3초 안에. 마지막 장면 = 영상이 던진 질문이나 핵심 한 문장 + 원본 채널 언급.
 - 나레이션 말투 = 구어 해요체("~거든요", "~죠", "~예요"). 숫자는 아라비아 숫자 그대로 써도 된다(읽기 변환은 기계가 한다).
 - `big` = 그 장면의 한 줄 핵심을 12자 안에. `head` = big을 받쳐 주는 문장. `tag` = "1 · 주먹의 배반"처럼 순번 + 소제목(첫·마지막 장면은 순번 없이).
-- `img` = 장면 그림용 **영문** 프롬프트(≤110자). **화풍·조명·색·배경색 단어는 쓰지 않는다**(한국 웹툰 화풍은 기계가 뒤에 붙인다). 잘려도 되게 누가·무엇을·표정을 맨 앞에. 글자·로고·실존 인물(유명인·화자 본인)은 그리지 않는다.
-  - `hero` true 장면 = 주인공이 이 내용을 겪는 구체적인 한 순간 — 샷 크기 + 장소·행동·표정(예: "close-up of the protagonist at a desk at night, head in hands, laptop glow").
-  - `hero` false 장면 = 사람 얼굴 없는 은유 사물·풍경(예: "an hourglass with the last grains of sand falling").
+- **장면 유형 `kind`** = 그 장면 나레이션이 **무엇을 말하나**로 고른다(뉴스 카드·썸네일 장면 설계의 인물·피사체·상황 세 축):
+  - `person` 인물 = 시청자의 경험·습관·감정·결심을 말할 때 · 훅·마무리 장면. 주인공이 이 내용을 겪는 **결정적 한 순간** · `hero` true.
+  - `subject` 피사체 = 원리·메커니즘·수치·대비·전환점 같은 추상 주장을 말할 때. 물체나 자연 현상 1개가 **눈에 보이게 변하는** 장면 · 사람 없음 · `hero` false · `people` "none".
+  - `situation` 상황 = 사회적 맥락·장소·다른 사람의 행동·결과를 말할 때. 구체적인 한국 일상 공간 + 흔적 소품 1~2개(켜진 모니터·빈 의자·식은 커피). 주인공이 작게 나오면 `hero` true · 주인공 없이 다른 사람이 나오면 `hero` false + `people` "others"(뒷모습·흐릿한 군중·나이대·옷 같은 식별 특징으로만) · 아무도 없으면 `people` "none".
+  - 배분 = 첫 장면 person · `hero` true 장면이 절반 이상 · subject 는 전체의 1/3 이하이고 연달아 두 번 쓰지 않는다 · **사람이 주체인 문장을 사물만으로 때우지 않는다**(정물 도피 — 부재·구조·상징이 더 강할 때만 예외).
+- `img` = 장면 그림용 **영문** 프롬프트(≤150자 · 앞쪽이 먼저 산다 — 잘려도 되게). 순서:
+  ① **감정이 맺히는 한 점**(눈빛·손끝·꽉 쥔 주먹·처진 어깨·두 사람 사이 거리 · subject 는 변하고 있는 그 부분) → ② 누가(주인공 = "the protagonist" · 다른 사람 = 식별 특징) → ③ 무엇을(동사 1개 + 이유 절, 예 "shielding the eyes from the glare") → ④ 시선 방향 → ⑤ 이야기를 운반하는 소품 1개와 사람의 관계 → ⑥ 장소 + 시간대나 화면 안 광원 한 마디(desk lamp · window light · phone glow).
+  - **카메라가 실제로 찍을 수 있는 물리 장면만** 쓴다. 상징 서술("justice tilts", "hope blooms")은 그릴 수 없다.
+  - 감정 형용사 대신 **보이는 몸 단서**: "angry" ✕ → "jaw clenched, knuckles white around the phone" ○ (아래 [장면 색인]의 표정·몸짓).
+  - 화풍·색보정·필름 낱말(cinematic · realistic · vibrant colors …)은 쓰지 않는다(한국 웹툰 화풍은 기계가 붙인다). 화면 안 광원·시간대는 써도 된다.
+  - 얼굴이 화면을 가득 채우는 초근접은 쓰지 않는다(자막 띠에 얼굴이 깔린다) — 감정을 조이고 싶으면 손·소품 인서트로.
+  - 글자·로고·실존 인물(유명인·화자 본인)은 그리지 않는다. 사람이 많은 장면 = 주인공 1명 + 배경 군중.
+  - 예(형식만): person "the protagonist's thumb frozen over a phone, eyes locked on an unread message, hunched on a bed edge, cramped studio at 2am, phone glow" · subject "the last grains slipping through an hourglass neck as a crack spreads across the glass, bare wooden desk, cold dawn window light" · situation "one monitor still glowing in a dark open-plan office, a coat on the only pushed-out chair, rain streaking the windows at night".
+- **추상 주장을 장면으로** = ① 그 주장이 현실이 되는 순간 → ② 영상이 근거로 든 사실의 현장 → ③ 이미 그렇게 하고 있는 곳 — 이 순서로 찾아 잡히면 person·situation. 안 잡힐 때만 subject 로 가서 **은유 장치 하나**(치환·환유·규모 대비·반어 병치 = [장면 색인] 은유 장치)만 골라 끝까지 밀고, 글 없이 한눈에 읽히게. 대응 관계("모래 = 남은 기회")는 img 에 쓰지 않는다.
+- `ids` = 이 장면에 효과적일 연출 기법 번호 1~4개를 아래 **[장면 색인]**에서 고른다(정서 배정표 CD 1개 + 표정·몸짓·거리/크롭·상황 연출·은유 장치 중 장면 유형에 맞는 것 · 색인에 없는 번호를 지어내지 않는다). 고른 번호의 정확한 방법(도서관 원문)은 다음 단계 편집자가 받아 img·motion 을 그 방법대로 다듬는다 — 그러니 **이 장면에 왜 효과적인지 설명할 수 있는 번호만** 고른다.
 - **[주인공]** `hero.en` = 이 영상을 보는 사람이 **자기를 투영할 한국인 인물 1명**(영상 주제·화자의 청중에 맞춘 나이대·성별·직업감 · **영상마다 새로 짓는다**). 평범하고 친근한 인상(미형·아이돌풍·과장 금지 = 보는 사람이 '나 같다'고 느낄 얼굴). 매 장면 같은 사람으로 그릴 수 있게 구체적으로: 나이대, 성별, 얼굴형·눈매, 머리 모양·색, 옷(한 벌 고정)·색, 체형, 몸에 붙는 소품 1개(안경·시계·머리핀). 실존 인물·유명인·영상 화자 본인 금지. 예시는 형식만 참고한다:
   - "Korean man in his late 20s, soft round face, tired kind eyes, short black hair with messy fringe, oversized grey hoodie over white tee, navy slacks, slim build, black smartwatch"
   - "Korean woman in her early 40s, oval face, gentle tired eyes, shoulder-length wavy dark brown hair, beige trench coat over navy knit, medium build, thin gold-rim glasses"
-- 장면 `hero` = true/false(불리언) — 그 장면 그림에 주인공이 나오면 true. **첫 장면(훅)은 true**(3초 안에 '나 같은 사람'이 보여야 투영된다) · 전체의 **절반 이상** true · 은유 사물·풍경 장면만 false. true 장면의 `img`·`motion`은 주인공을 **"the protagonist"**로 부르고 행동·표정·자리만 쓴다(외모 묘사 반복 금지 · 기계가 캐릭터 시트와 묘사를 붙인다) · 한 장면에 주인공은 1번만.
-- `motion` = 이 장면 그림이 영상이 될 때 **움직이는 것만** 영어 한 문장으로(구도·조명·화풍은 다시 쓰지 않는다 · 동작 1개 + 카메라 1개 · 부정문 금지 · 사람 없으면 "No people in frame." 덧붙임). 예: "The clenched fist slowly opens as sand pours out; slow push-in." `hero` true 장면은 "The protagonist …"로 시작하고 표정·손·작은 몸짓 하나만(뒤돌기·고개 크게 돌리기·걸어 나가기 = 얼굴이 바뀌니 피한다).
+- 장면 `hero` = true/false(불리언) — 그 장면 그림에 주인공이 나오면 true. **첫 장면(훅)은 true**(3초 안에 '나 같은 사람'이 보여야 투영된다) · 전체의 **절반 이상** true · subject 장면은 항상 false. true 장면의 `img`·`motion`은 주인공을 **"the protagonist"**로 부르고 행동·표정·자리만 쓴다(외모 묘사 반복 금지 · 기계가 캐릭터 시트와 묘사를 붙인다) · 한 장면에 주인공은 1번만. false 장면엔 "the protagonist"를 쓰지 않는다.
+- `people` = 주인공 말고 다른 사람이 그림에 나오나 — "others" | "none". subject 는 항상 "none".
+- `motion` = 이 장면 그림이 영상이 될 때 **움직이는 것만** 영어 한 문장으로(구도·조명·화풍은 다시 쓰지 않는다 · 동작 1개 + 카메라 1개 · 부정문 금지). 예: "The clenched fist slowly opens as sand pours out; slow push-in."
+  - person·주인공 나오는 situation = "The protagonist …"로 시작하고 표정·손·작은 몸짓 하나 + 숨·눈 깜빡임 같은 미세 움직임([장면 색인] 미세 움직임). 뒤돌기·고개 크게 돌리기·걸어 나가기 = 얼굴이 바뀌니 피한다.
+  - subject = 그 물체의 변화 · 끝에 "No people in frame." · situation 에 사람이 없으면(`people` "none") 역시 끝에 "No people in frame."
 
 ## [모션 그래픽] 규격 (scenes[].mg)
 장면 나레이션의 **내용을 도식으로** 보여 주는 움직이는 그래픽이다(글자만 크게 띄우는 타이포그래피가 아니다). 장면마다 가장 맞는 틀 하나를 고른다 · 같은 틀을 3번 넘게 반복하지 않는다.

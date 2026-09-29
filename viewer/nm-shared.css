@@ -57,3 +57,16 @@ button, input, textarea, select { font-family:inherit; letter-spacing:inherit;} 
 .nm-rbs:not([data-ptr]):has(> .nm-rbs-in:focus-visible) { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:4px /* raw-ok: 포커스 링 간격 */; border-radius:var(--r-s);}
 .nm-rbs:has(> .nm-rbs-in:disabled) { opacity:.4; cursor:default;}
 @media (prefers-reduced-motion:reduce) { .nm-rbs.snap .nm-rbs-fill, .nm-rbs.snap .nm-rbs-knob { transition:none;} .nm-rbs.drag .nm-rbs-knob::after { transform:none;} }
+/* ── Snap Rail(선택 칸) = nm-snap.js 단일 정본(운영자 260929 «선택 요소를 snap rail 로 통일» → «편집탭 통일») — kinetics «Snap Rail»:
+   트랙 안 같은 폭 칸 + 선택 알약(강조색)이 .45s 스프링으로 미끄러진다 · 칸 수 --n · 선택 칸 --i · 선택 없음 = .none(알약 숨김)
+   모양만 여기 — 칸 폭·최대 폭·행 배치(라벨 열·폰 쌓기)는 표면 몫 · 칸 = 표면의 버튼 그대로(.geni-opt·.pc) */
+.nm-snap { position:relative; display:flex; flex-wrap:nowrap; gap:0; min-width:0; padding:4px /* raw-ok: 안쪽 4 = kinetics 원본 */; border:1px solid var(--line); border-radius:var(--r-pill); background:rgba(255,255,255,.03) /* raw-ok: 바탕 알파 = 구 레일 틀 동값 */;}
+.nm-snap::before { content:''; position:absolute; top:4px; bottom:4px; left:4px /* raw-ok: 트랙 안쪽 여백 */; width:calc((100% - 8px) / var(--n,1)) /* raw-ok: 8 = 안쪽 여백 양쪽 */; border-radius:var(--r-pill); background:var(--accent); pointer-events:none; transform:translateX(calc(var(--i,0) * 100%)); transition:transform .45s cubic-bezier(.34,1.56,.64,1) /* raw-ok: .45s 스프링 = kinetics Snap Rail 원본 동값 */;}
+.nm-snap.none::before { opacity:0;}
+.nm-snap > button { position:relative; z-index:1; flex:1 1 0; min-width:0; height:auto; margin:0; padding:var(--sp-1) 6px /* raw-ok: 좌우 6 = 4칸 행이 폰에서 한 줄에 들도록 */; border:0; border-radius:var(--r-pill); background:none; color:var(--mut); font-family:inherit; font-size:var(--fs-label); font-weight:var(--fw-b); line-height:1.3 /* raw-ok: 알약 높이 ≈ --btn-sm */; text-align:center; justify-content:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; -webkit-tap-highlight-color:transparent; transition:color var(--dur), transform .3s cubic-bezier(.34,1.56,.64,1) /* raw-ok: 눌림 스프링 */;}
+.nm-snap > button.on, .nm-snap > button[aria-checked="true"] { color:var(--on-accent); font-weight:var(--fw-x); background:none; border:0;}
+.nm-snap > button:active { transform:scale(var(--press-m));}
+.nm-snap > button:disabled { opacity:.32 /* raw-ok: 비활성 흐림 = 편집 .pc.dim 동값 */; cursor:default;}
+.nm-snap > button:focus-visible { outline:2px solid rgba(var(--accent-rgb),.6); outline-offset:-2px /* raw-ok: 칸 안쪽 포커스 링 */;}
+@media (hover:hover) { .nm-snap > button:not(.on):not(:disabled):hover { color:var(--fg);} }
+@media (prefers-reduced-motion:reduce) { .nm-snap::before { transition:none;} }

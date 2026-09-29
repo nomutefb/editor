@@ -27,6 +27,11 @@ prompt="$(cat prompts/ys-make.md)"
 
 ${tone}
 (위 문장 규칙은 report_md·장면 vo·인포그래픽 문안 산문에 적용 — 인용·고유 표기·img 영문 프롬프트는 제외)"
+# 연출 도서관 색인(번호·이름·언제 효과적인지만) — 장면마다 쓸 기법 번호를 고르게 한다 · 원문은 다듬기 단계가 고른 번호만 받는다(ys_lib.py)
+lib_idx="$(python3 .github/scripts/ys_lib.py index scene 2>/dev/null)" || lib_idx=""
+[ -n "${lib_idx//[[:space:]]/}" ] && prompt="$prompt
+
+${lib_idx}"
 [ -n "${YS_ASK:-}" ] && prompt="$prompt
 
 [지시] (운영자 관점·초점 — 절대 규칙이 항상 우선)

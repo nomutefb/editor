@@ -204,7 +204,7 @@ def main(argv):
     done_mark = gp_path.with_name('grokplan.done')
     if not done_mark.exists() and gp_path.with_name('grokplan.bg').exists():   # 감독 스텝이 배경으로 띄웠다는 표지
         progress(id_, 'run', '연출 감독 기다리는 중', 0.01)
-        w_end = time.time() + int(os.environ.get('YS_GROK_PLAN_WAIT') or '300')
+        w_end = time.time() + int(os.environ.get('YS_GROK_PLAN_WAIT') or '480')   # 감독 2콜(구상 → 쓰기 · 260929) = 1콜 시절 300초보다 넉넉히 · 마감(BUDGET)이 기다림을 포함한다
         while not done_mark.exists() and time.time() < w_end:
             time.sleep(5)
         if not done_mark.exists():
