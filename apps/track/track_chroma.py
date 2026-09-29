@@ -111,13 +111,41 @@ SCREEN_HSV = {           # OpenCV HSV(H 0~180) — 채도·명도 하한 = 회�
     "green": ((35, 85), 90, 60),
     "blue": ((95, 130), 90, 60),
 }
+# 파랑 추가 조건(평의회 260929 실측 = 실물 57개 중 하늘·밤하늘·물 4개가 파랑으로 오판 → 키가 사람 옷·머리를 90% 넘게 뺐다):
+#   진짜 블루스크린은 좌·우를 **둘 다** 거의 채우고(피사체를 둘러쌈) 밝기가 고르다 · 하늘은 옆 띠 아래가 땅이라 좌·우 0.28~0.83 · 밝기 편차 21~65.
+SCREEN_BLUE_LR_MIN = 0.8
+SCREEN_BLUE_VSTD_MAX = 20.0
+# 키 강도(similarity) = 스크린 색이 회색·피부색에서 떨어진 만큼만(평의회 실측 = 고정 0.15 는 가장자리가 15%만 어두워도 흰 셔츠·검은 옷까지 뺐다).
+#   거리 = ffmpeg chromakey 식(키 = 풀레인지 UV · 화소 = 제한 범위 UV · √2·255 정규화) · 여유 0.07 = 경계 혼합(blend 0.05) + 압축 잡음
+SCREEN_SKIN = ((234, 192, 170), (198, 134, 103), (120, 80, 60), (255, 220, 200), (160, 110, 80))
+SCREEN_SIM_MAX = 0.15
+SCREEN_SIM_MIN = 0.06    # 이 아래 = 스크린 색이 회색·피부와 너무 가까워 안전하게 뺄 수 없다 = 스크린 아님(AI 단독)
+SCREEN_SIM_MARGIN = 0.07
+
+
+def _chroma_dist(key, pix):
+    """ffmpeg chromakey 거리(0~1) — key·pix = (R,G,B)."""
+    def uv(r, g, b):
+        return (-0.16874 * r - 0.33126 * g + 0.5 * b, 0.5 * r - 0.41869 * g - 0.08131 * b)
+    ku, kv = uv(*key)
+    pu, pv = uv(*pix)
+    return math.hypot(ku - pu * 224 / 255, kv - pv * 224 / 255) / (255 * math.sqrt(2))
+
+
+def screen_similarity(color):
+    """스크린 색 → 안전한 키 강도. 회색·피부에서 너무 가까우면 None(= 스크린으로 쓰지 않는다)."""
+    rgb = tuple(int(color[i:i + 2], 16) for i in (1, 3, 5))
+    d = min([_chroma_dist(rgb, (128, 128, 128))] + [_chroma_dist(rgb, sk) for sk in SCREEN_SKIN])
+    sim = min(SCREEN_SIM_MAX, d - SCREEN_SIM_MARGIN)
+    return round(sim, 3) if sim >= SCREEN_SIM_MIN else None
 
 
 def detect_screen(src, samples=6):
     """배경 빼기 자동 판별(운영자 260929 «키잉·크로마키 하나로 · AI+크로마 섞기») — 그린/블루 스크린으로 찍은 영상인가.
     몇 장면의 좌·우·위 가장자리 띠를 HSV로 재서 스크린 색 비율이 SCREEN_MIN_FRAC 이상이면
-    {"kind": "green"|"blue", "color": "#RRGGBB"(실제 스크린 색 중앙값), "frac": 비율} · 아니면 None.
+    {"kind": "green"|"blue", "color": "#RRGGBB"(실제 스크린 색 중앙값), "frac": 비율, "sim": 안전 키 강도} · 아니면 None.
     실제 색을 쓰는 이유 = 조명 탓에 스크린이 #00FF00 에서 벗어나 있어도 키 기준이 스크린 그 자체가 된다(관용 여유 확보).
+    파랑 = 좌·우 둘러싸기 + 밝기 균일 추가 조건(하늘 오판 차단) · 키 강도 = 회색·피부까지 거리 비례(흐린 스크린 옷 소실 차단).
     전면 fail-soft = 못 읽으면 None(= 스크린 아님으로 취급 → AI 경로)."""
     try:
         import cv2
@@ -129,7 +157,8 @@ def detect_screen(src, samples=6):
         n = int(cap.get(cv2.CAP_PROP_FRAME_COUNT) or 0)
         idx = [int(n * (k + 0.5) / samples) for k in range(samples)] if n > samples else [0]
         tot = {"green": 0, "blue": 0}
-        pix, keep = 0, {"green": [], "blue": []}
+        side = {"green": {"L": [0, 0], "R": [0, 0], "T": [0, 0]}, "blue": {"L": [0, 0], "R": [0, 0], "T": [0, 0]}}
+        pix, keep, vals = 0, {"green": [], "blue": []}, {"green": [], "blue": []}
         for i in idx:
             cap.set(cv2.CAP_PROP_POS_FRAMES, i)
             ok, fr = cap.read()
@@ -137,14 +166,19 @@ def detect_screen(src, samples=6):
                 continue
             h, w = fr.shape[:2]
             bw, bh = max(2, int(w * SCREEN_BAND)), max(2, int(h * SCREEN_BAND))
-            band = np.concatenate([fr[:, :bw].reshape(-1, 3), fr[:, w - bw:].reshape(-1, 3), fr[:bh, bw:w - bw].reshape(-1, 3)])
-            hsv = cv2.cvtColor(band.reshape(-1, 1, 3), cv2.COLOR_BGR2HSV).reshape(-1, 3)
-            pix += len(hsv)
-            for kind, ((h0, h1), smin, vmin) in SCREEN_HSV.items():
-                m = (hsv[:, 0] >= h0) & (hsv[:, 0] <= h1) & (hsv[:, 1] >= smin) & (hsv[:, 2] >= vmin)
-                tot[kind] += int(m.sum())
-                if m.any():
-                    keep[kind].append(band[m][:: max(1, int(m.sum()) // 4000)])   # 색 표본(프레임당 ~4천 화소)
+            for name, band in (("L", fr[:, :bw].reshape(-1, 3)), ("R", fr[:, w - bw:].reshape(-1, 3)), ("T", fr[:bh, bw:w - bw].reshape(-1, 3))):
+                hsv = cv2.cvtColor(band.reshape(-1, 1, 3), cv2.COLOR_BGR2HSV).reshape(-1, 3)
+                pix += len(hsv)
+                for kind, ((h0, h1), smin, vmin) in SCREEN_HSV.items():
+                    m = (hsv[:, 0] >= h0) & (hsv[:, 0] <= h1) & (hsv[:, 1] >= smin) & (hsv[:, 2] >= vmin)
+                    c = int(m.sum())
+                    tot[kind] += c
+                    side[kind][name][0] += c
+                    side[kind][name][1] += len(m)
+                    if c:
+                        step = max(1, c // 1500)
+                        keep[kind].append(band[m][::step])   # 색 표본(띠당 ~1500 화소)
+                        vals[kind].append(hsv[m][::step, 2])
     except Exception:
         return None
     finally:
@@ -155,8 +189,17 @@ def detect_screen(src, samples=6):
     frac = tot[kind] / float(pix)
     if frac < SCREEN_MIN_FRAC or not keep[kind]:
         return None
+    if kind == "blue":
+        lr = [side[kind][b][0] / float(max(1, side[kind][b][1])) for b in ("L", "R")]
+        vstd = float(np.concatenate(vals[kind]).std())
+        if min(lr) < SCREEN_BLUE_LR_MIN or vstd > SCREEN_BLUE_VSTD_MAX:
+            return None
     b, g, r = (int(v) for v in np.median(np.concatenate(keep[kind]), axis=0))
-    return {"kind": kind, "color": "#%02X%02X%02X" % (r, g, b), "frac": round(frac, 3)}
+    color = "#%02X%02X%02X" % (r, g, b)
+    sim = screen_similarity(color)
+    if sim is None:
+        return None
+    return {"kind": kind, "color": color, "frac": round(frac, 3), "sim": sim}
 
 
 def build_filter(o, kind):
@@ -210,7 +253,7 @@ def run(src, opts, out_dir):
     if eff > MAX_SEC + 1:
         die(f"크로마키는 {MAX_SEC}초까지야(지금 구간 {int(eff)}초) — 구간을 잘라줘.")
 
-    kind = _kind(o["color"])
+    kind = (opts or {}).get("kind") if (opts or {}).get("kind") in ("green", "blue") else _kind(o["color"])   # 판별분 종류 우선(배경 빼기 · 흐린 하늘색이 other 로 재판정돼 despill 없는 colorkey 로 가던 불일치 차단)
     vf = build_filter(o, kind)
     os.makedirs(out_dir, exist_ok=True)
     out_mov = os.path.join(out_dir, "chroma.mov")

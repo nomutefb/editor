@@ -362,7 +362,7 @@ def main():
     # 배경 빼기 = 스크린 판별 먼저(운영자 260929 «5번») — 그린/블루 스크린이면 AI+크로마 섞기, 아니면 AI 단독.
     scr = detect_screen(src) if endpoint == "bgrm" else None
     if scr:
-        log("스크린 판별: %s %s(가장자리 %.0f%%)" % (scr["kind"], scr["color"], scr["frac"] * 100))
+        log("스크린 판별: %s %s(가장자리 %.0f%% · 키 강도 %.3f)" % (scr["kind"], scr["color"], scr["frac"] * 100, scr.get("sim", 0.15)))
     dur = probe_dur(src) if endpoint == "bgrm" else 0.0
     if endpoint == "bgrm" and not scr and dur > KEY_MAX_SEC + 1:   # 스크린 아닌 긴 영상 = 분석(4~5분) 전에 정직 거절(평의회)
         why = bgrm_route(None, 1, dur)[1]
@@ -462,7 +462,7 @@ def main():
 
     def chroma_payload():
         return {"mode": "chroma", "opts": {
-            "color": scr["color"], "similarity": scr.get("sim", 0.15), "blend": 0.05, "despill": 0.5, "choke": 0,
+            "color": scr["color"], "kind": scr["kind"], "similarity": scr.get("sim", 0.15), "blend": 0.05, "despill": 0.5, "choke": 0,
             "feather": max(1, int(round(fe_ai / 4.0))), "edge": "high"}}
 
     if endpoint:
