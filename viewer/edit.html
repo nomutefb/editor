@@ -1280,12 +1280,15 @@ function accSum(id){   // 접힌 줄 오른쪽 = 지금 값 요약(유튜브 탭
   if(id==='scr') return (ON.screen?P.ar+' · '+(CYL.fit[P.fit]||P.fit):'비율 원본')+' · 해상도 '+(ON.res?(CYL.res[P.res]||P.res):'원본');   // 라벨 = CYL 정본(칩 표기와 한 벌)
   return '';
 }
+function accShell(id,name,sum,body){   // 접이 카드 한 장(헤더 버튼 + 펼침 몸통) — 설정 스택·추가 옵션 공용 · 펼침 = ACC_OPEN
+  const o=!!ACC_OPEN[id];
+  return '<div class="scard'+(o?' open':'')+'" data-acc="'+id+'"><button type="button" class="hd acch" aria-expanded="'+o+'" aria-controls="acc_'+id+'"><span class="nm">'+name+'</span><span class="sum">'+esc(sum)+'</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="'+(o?CHEV_UP:CHEV_DN)+'"/></svg></button>'
+    +'<div class="acc" id="acc_'+id+'"'+(o?'':' inert')+'><div class="acc-in"><div class="prm">'+body+'</div></div></div></div>';
+}
 function accCard(g){   // g = [키, 이름, 카드 축] · 자막 = 「자막」 켜고 끄기 카드(헤더만) + 세부 카드를 한 스택에(카드 안 카드 3겹 방지 = 폭 유지)
-  const id=g[0], o=!!ACC_OPEN[id];
   const body=g[2][0]==='sub'?(ON.sub?prm('sub',cardHtml('sub',false,true)):'<div class="optcards">'+cardHtml('sub',false,true)+'</div>')
     :'<div class="optcards">'+secCards(g[2])+'</div>';
-  return '<div class="scard'+(o?' open':'')+'" data-acc="'+id+'"><button type="button" class="hd acch" aria-expanded="'+o+'" aria-controls="acc_'+id+'"><span class="nm">'+g[1]+'</span><span class="sum">'+esc(accSum(id))+'</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="'+(o?CHEV_UP:CHEV_DN)+'"/></svg></button>'
-    +'<div class="acc" id="acc_'+id+'"'+(o?'':' inert')+'><div class="acc-in"><div class="prm">'+body+'</div></div></div></div>';
+  return accShell(g[0],g[1],accSum(g[0]),body);
 }
 /* v 모핑 = morphicons(MIT · viewer/vendor/morphicons · 유튜브 탭과 같은 모듈) — 동적 import(인라인 정적 import 는 check_viewer_js 구문 오류) · 로드 전·실패 = d 즉시 교체 · reduced-motion = 즉시 */
 let _accMorph=null;
@@ -1295,7 +1298,7 @@ function chevTo(path,d){ const from=path.getAttribute('d'); if(from===d) return;
   path.setAttribute('d',d); }
 function accSet(id,o){   // 여닫기 = 그 자리 토글(다시 그리지 않음 = 스프링이 돈다) · 상태 = ACC_OPEN(다음 render 도 그대로)
   ACC_OPEN[id]=o;
-  const c=document.querySelector('#stack [data-acc="'+id+'"]'); if(!c||c.classList.contains('open')===o) return;
+  const c=document.querySelector('[data-acc="'+id+'"]'); if(!c||c.classList.contains('open')===o) return;   // 설정 스택(#stack)·추가 옵션(#xtrsec) 공용
   const h=c.querySelector(':scope > .acch'), a=c.querySelector(':scope > .acc');
   c.classList.toggle('open',o); if(h) h.setAttribute('aria-expanded',String(o));
   if(a){ if(o) a.removeAttribute('inert'); else a.setAttribute('inert',''); }
@@ -1312,7 +1315,7 @@ function accDodge(){
   const dock=document.getElementById('topDock'); if(!dock) return;
   const db=dock.getBoundingClientRect().bottom, sy=window.scrollY||0;
   const rails=[...document.querySelectorAll('.pvsec .trail')].map(e=>e.getBoundingClientRect()).filter(r=>r.height&&r.bottom>db);   // 레일 좌표 = 도크가 top 0 에 붙어 있어 스크롤과 무관
-  document.querySelectorAll('#stack [data-acc] > .acch').forEach(h=>{
+  document.querySelectorAll('[data-acc] > .acch').forEach(h=>{
     const r=h.getBoundingClientRect(), t=r.top+sy, b=r.bottom+sy;   // 헤더 = 제자리(스크롤 0) 좌표
     let pad=0; rails.forEach(q=>{ if(t<q.bottom&&b>q.top&&r.right>q.left) pad=Math.max(pad,Math.ceil(r.right-q.left+8)); });   // raw-ok: 8 = 레일과 v 사이 숨 간격(.scard .hd gap 9 급)
     const v=pad?pad+'px':''; if(h.style.paddingRight!==v) h.style.paddingRight=v;   // 같은 값 = 안 쓴다(관찰자 되먹임 0 · 헤더 높이 불변 = 한 줄 nowrap)
@@ -1879,15 +1882,19 @@ function renderXtr(){   // 가로 3분할 + 라벨|OFF·ON 순환값 문법(운�
       +'</div><button type="button" class="pc xgadd" id="xgAdd">+ 이름 추가</button>'
   }
   if(XTR.trans) det+='<div class="plbl"'+(det?'':' style="margin-top:0"')+'>번역</div><div class="xnote" style="margin-top:0">외국어 이미지에 한국어 번역을 덮어 씌워 — 켜면 가림(모자이크) 계열은 자동으로 꺼져.</div>';   // 번역 카드 상세(운영자 260720) · 렌더 엔진 = 별도 배선
+  const on=[['mosaic','모자이크'],['keying','키잉'],['pinset','트래킹'],['chroma','크로마키']].filter(a=>XTR[a[0]]).map(a=>a[1]);   // 접힌 줄 요약 = 켠 것 이름(없으면 끔)
   el.innerHTML=
     '<div class="sech"><span class="nm">추가 옵션</span></div>'   // 개명(운영자 260728 Q11 '· 추가 옵션')
-    +'<div class="stack">'
-    +'<div class="cyrow">'+tg('mosaic','모자이크')+tg('keying','키잉','피사체만 남김')+'</div>'   // 행 재편(운영자 260728 Q11 "모자이크|키잉 / 트래킹|크로마키" — 둘째 행 '모자이크' 중복 표기는 크로마키 오타로 해석 = ⚠해석)
-    +'<div class="cyrow">'+tg('pinset','트래킹','핀셋 이름표')+tg('chroma','크로마키','특정 색 빼기')+'</div>'
-    /* 실루엣 = 숨김(운영자 260728 Q12 "일단 숨김 — 내가 어떻게 할지 알려줌" · XTR.silh 상태·세부 카드·트래킹 핸드오프 전부 보존 · 복원 = tg('silh','실루엣','픽셀 실루엣 추종 모자이크·가면') 1줄) · 번역(trans) 카드 = 삭제(운영자 260728 Q06 "아래에 있는 번역은 삭제" — 하이라이트 자막 번역 토글이 대체 · XTR.trans 배타 코드 보존) */
-    +(det?'<div class="scard"><div class="prm">'+det+'</div></div>':'')
-    +'</div>'
-    +(any?'<div class="xnote">켠 옵션은 <strong>생성</strong>에 함께 적용됩니다. 인물을 자동으로 찾아 처리합니다.</div>':'')   // 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면 트래킹해서 모자이크까지 자동으로" — 구판은 이 카드가 발사 옵션이 아니어서 켜도 생성에 안 실렸고, [트래킹] 버튼으로 넘어가 재첨부·재분석·수동선택을 다시 해야 했다(= "목업만 뜨고 진행 불가"의 실체). 부품 = 기존 .xnote 계승(신규 창작 0)
+    /* (260929) 네 토글 = 「인물·배경 설정」 접이 한 장(운영자 «그것도 묶음으로 넣어줘» · 설정 스택 접이 accShell 공용 · 기본 접힘 · 펼침 = ACC_OPEN.xtr = 다시 그려도 유지)
+       ⚠ 운영자 «크로마키랑 키잉은 잘 안될걸? 안되면 삭제» → 실측 260929(편집 워크플로 · 6초 실영상) = 둘 다 정상:
+         크로마키 = 그린 스크린 배경 투명 73% · 인물 불투명 · 초록 번짐 0 / 키잉 = 과자 상자 벽 앞 인물 = 벽 제거·곱슬머리까지 유지 → 삭제 안 함 */
+    +accShell('xtr','인물·배경 설정',on.length?on.join(' · '):'끔','<div class="optcards">'
+      +'<div class="cyrow">'+tg('mosaic','모자이크')+tg('keying','키잉','피사체만 남김')+'</div>'   // 행 재편(운영자 260728 Q11 "모자이크|키잉 / 트래킹|크로마키" — 둘째 행 '모자이크' 중복 표기는 크로마키 오타로 해석 = ⚠해석)
+      +'<div class="cyrow">'+tg('pinset','트래킹','핀셋 이름표')+tg('chroma','크로마키','특정 색 빼기')+'</div>'
+      /* 실루엣 = 숨김(운영자 260728 Q12 "일단 숨김 — 내가 어떻게 할지 알려줌" · XTR.silh 상태·세부 카드·트래킹 핸드오프 전부 보존 · 복원 = tg('silh','실루엣','픽셀 실루엣 추종 모자이크·가면') 1줄) · 번역(trans) 카드 = 삭제(운영자 260728 Q06 "아래에 있는 번역은 삭제" — 하이라이트 자막 번역 토글이 대체 · XTR.trans 배타 코드 보존) */
+      +(det?'<div class="scard"><div class="prm">'+det+'</div></div>':'')
+      +'</div>'
+      +(any?'<div class="xnote">켠 옵션은 <strong>생성</strong>에 함께 적용됩니다. 인물을 자동으로 찾아 처리합니다.</div>':''))   // 운영자 260808 "모자이크 누르고 옵션 선택한 다음에 생성 누르면 트래킹해서 모자이크까지 자동으로" — 구판은 이 카드가 발사 옵션이 아니어서 켜도 생성에 안 실렸고, [트래킹] 버튼으로 넘어가 재첨부·재분석·수동선택을 다시 해야 했다(= "목업만 뜨고 진행 불가"의 실체). 부품 = 기존 .xnote 계승(신규 창작 0)
     /* [트래킹] 진입 버튼 = **도먼트**(운영자 260808 2차 "저 버튼누르면 이상한곳으로 이동이되고") — 자동 처리가 기본이 된 뒤 이 버튼은 혼란만 준다:
        ⓐ 눌러도 편집에 첨부한 영상이 안 넘어가(옵션값만 핸드오프) track.html에서 **재첨부 → 재분석 → 수동선택**을 처음부터 다시 해야 한다
        ⓑ 라벨이 위 토글 '트래킹'(핀셋 이름표)과 **같은 단어**라 무엇을 여는 버튼인지 읽히지 않는다.

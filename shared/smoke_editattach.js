@@ -103,6 +103,9 @@ const J = o => { try { return JSON.stringify(o); } catch (_) { return String(o);
     await pg.route('**/manifest.json*', rt => rt.fulfill({ status: 200, contentType: 'application/json', body: '{}' }));
 
     await pg.goto('http://127.0.0.1:' + port + '/edit.html', { waitUntil: 'load', timeout: 30000 });
+    // (260929) 추가 옵션 = 「인물·배경 설정」 접이 안(기본 접힘) → 사람처럼 한 번 펼친다 · 이후 다시 그려도(renderXtr) 펼침 유지 = 아래 실클릭들이 증명
+    await pg.waitForSelector('#xtrsec [data-acc="xtr"] > .acch', { timeout: 15000 });
+    await pg.click('#xtrsec [data-acc="xtr"] > .acch');
     await pg.waitForSelector('#xtrsec [data-xo="pinset"]', { timeout: 15000 });
     await pg.evaluate(() => { try { localStorage.clear(); } catch (_) {} });
 
