@@ -131,10 +131,11 @@ def _related(k, ep, k2, ep2):
 
 
 def _pick(ms, ep):
-    """이름 하나에 맞는 후보들 중 첨부 대상 = (자기 제목 적중, 지난번 첨부 유지, 실후보 우선, cross, 최신 발행)."""
+    """이름 하나에 맞는 후보들 중 첨부 대상 = (자기 제목 적중, 본류(cross≥3), 지난번 첨부 유지, 실후보 우선, cross, 최신 발행).
+    ⚠ 본류가 유지 가점보다 앞 — 한 매체 단독(웹드라마 기사 등)이 [강]을 계속 쥐고 다매체 본류가 못 받던 것(평의회260929-2 #7 재현 = 11:31)."""
     u0 = (ep or {}).get("u")
-    return max(ms, key=lambda lc: (lc[0], lc[1].get("url") == u0, not lc[1].get("seed"), lc[1].get("cross") or 0,
-                                   str(lc[1].get("published") or "")))[1]
+    return max(ms, key=lambda lc: (lc[0], (lc[1].get("cross") or 0) >= 3, lc[1].get("url") == u0, not lc[1].get("seed"),
+                                   lc[1].get("cross") or 0, str(lc[1].get("published") or "")))[1]
 
 
 _SEED_KEEP = ("breaking", "breaking_rubric", "grade", "grade_rubric")   # 씨앗 장부(st["sd"])에 적어 두는 판정·채점 결과
@@ -242,13 +243,15 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
             M[k] = ms
     real = lambda k: [(lv, c) for lv, c in M.get(k, []) if not c.get("seed")]   # noqa: E731
     # 우리 수집함 확인(무장·미확인만) — novel 판정은 나이 무관 전 후보 + 사건 원장 대조(묵은 사건 재점화 차단)
+    if net:                              # 구글 뉴스 먼저 — 그 novel 판정이 아래 수집함 확인의 거부권(같은 회차에 쓴다)
+        S["gnq"] = L.gn_poll(st, L.gn_candidates(st, now), now, fetch=gn_fetch)
     for k in keys:
         ep = eps.get(k)
         if ep and ep.get("a") and not ep.get("cf") and real(k):
+            if ((st.get("gn") or {}).get(k) or {}).get("nov") == 0:
+                continue                 # 구글 뉴스가 「무장 전 보도 있음」 = 묵은 사건 재점화 — 다매체 묶음만 남는 우리 기록으로는 못 보는 선행 보도(평의회260929-2 #7 = 'o' 7건 중 6건)
             older = [c for c in cands if not _fresh(c, now) and mx.level(k, c)] + [e for e in events if L.hit(k, e["title"])]
             L.confirm_ours(ep, [c for _, c in real(k)], now, older)
-    if net:
-        S["gnq"] = L.gn_poll(st, L.gn_candidates(st, now), now, fetch=gn_fetch)
     # ① 입장 — t2↑ 인데 맞는 실후보가 없고 이번 회차 한 매체 대표가 있으면 단독 1보 규칙으로 들인다(씨앗이 있어도 = 아래 ②가 이관)
     urls = {c.get("url") for c in cands}
     covered = set()
@@ -361,8 +364,8 @@ def run(cands, arts, snap, st, now, gn_fetch=None, gn_decode=None, net=True, eve
         e = _seed_entry(k, ep, g, now)
         if not e or e["url"] in urls or e["url"] in covered:
             continue                     # 같은 기사가 이미 수집함에 있다(제목에 이름이 없던 것) = 씨앗 불필요
-        if ((st.get("sup") or {}).get(e["url"]) or {}).get("u") in urls - {None, ""}:
-            continue                     # 이미 실후보로 이관된 씨앗 = 그 실후보가 살아 있는 동안 다시 만들지 않는다(깜빡임 차단)
+        if e["url"] in (st.get("sup") or {}):
+            continue                     # 이미 실후보로 이관된 씨앗 = 다시 만들지 않는다(실후보가 단독 좌석에서 잠시 빠져도 · 깜빡임·재판정 차단 · #7 재현 11:01)
         sd = (st.get("sd") or {}).get(k) or {}
         if sd.get("u") == e["url"]:
             if sd.get("breaking_rubric") and not sd.get("breaking"):

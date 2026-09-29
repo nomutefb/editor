@@ -18,7 +18,8 @@
 #        novel = 무장(armed) 3시간 전보다 이른 보도가 24시간 안에 없어야(묵은 사건의 재점화 = 속보 아님).
 #   ⚠ 한 갈래만으로는 절대 t2 이상이 안 된다(커뮤니티 단일 신호 정밀도 = 단일 원천 잡음 90%↑ · 백테스트 실측).
 #   ⚠ 만성어(지난 72h tbs 스냅샷의 15%↑에서 2곳↑에 뜬 말 · 최근 6h 제외)는 C 갈래로 안 센다(늘 떠 있는 말 = 사건 아님).
-# 실측(9/22~9/29 백테스트 · scratch leadlag) = 고확신(t3) ≈0.4건/일 · 닛몰캐쉬 armed 09:37 → t3 10:21~10:31(구글뉴스).
+# 실측(9/22~9/29 스크랩 1,039회 리플레이 · 평의회260929-2 반영 후) = 무장(t2) ≈3건/일 · 우리 수집함 확인 [강] 7일 1건(닛몰캐쉬) ·
+#   닛몰캐쉬 무장 09:46 → 구글 뉴스 [강] 10:31(색인 지연 ≤9분 가정 · 20분이면 10:45 = 낙관 하한).
 #
 # 상태 = scraper/obs/live_state.json(작게 · 72h 넘은 것 정리) — 갈래별 최초·최근 관측 · 만성어 계수(tbs 스냅샷을 `updated`로
 #   세어 같은 스냅샷 재독 중복 0) · 무장 시각 · 구글뉴스 확인 캐시(10분) · 씨앗(seed) 장부.
@@ -64,6 +65,7 @@ def _env_int(name, d):
 
 GN_MAX_Q = _env_int("LIVE_GN_MAX_Q", 6)    # 회차당 구글뉴스 검색 상한(예의 · 차단 회피) · 0 = 이 레인은 구글 뉴스 안 두드림(pc·폰 = 가정 IP)
 GN_PAUSE_S = 1.0
+GN_CAP_N = 90           # 구글 뉴스 검색 RSS 상한(100건) 근처 = 창 앞이 잘렸을 수 있다(novel 판정 보류선)
 GN_DEC_TRY = 3          # 씨앗 원문 해제(decode) 시도 상한(회차당 1회 · 실패 = 구글 뉴스 링크 유지 · 다음 회차 재시도)
 IDLE_H = 12             # 모든 갈래가 이만큼 조용하면 에피소드 종료(다음에 다시 뜨면 새 사건)
 STRONG_KEEP_H = 24      # 확인 뒤 [강] 유지 창 — 그 뒤 새 첨부는 [중](이미 붙은 [강]은 엔트리에 동결 = live_seed)
@@ -664,6 +666,9 @@ def gn_count(items, key, now, armed):
             if first is None or p < first["p"]:
                 first = {"p": int(p), "t": t.strip(), "m": (it.get("sname") or h or "").strip(), "l": it.get("link") or ""}
     tks.discard("")
+    ps = [it.get("pub") for it in (items or []) if it.get("pub")]
+    if novel and len(items or []) >= GN_CAP_N and ps and min(ps) > a - NOVEL_BACK_H * 3600:
+        novel = None                     # 응답이 상한(100건)에 차서 novel 창(무장 24h 전~) 앞이 잘렸다 = 판정 불가(옛 보도가 밀려나 「새 사건」으로 뒤집히는 것 · #7-5)
     return min(len(outs), len(tks)), novel, first
 
 
@@ -712,14 +717,14 @@ def gn_poll(st, keys, now, fetch=None, pause=None, max_q=None):
         if not xml:
             break                          # 실패(503·시간 초과·차단) = 이 회차 중단(연타 금지) · 캐시하지 않는다(다음 회차 재시도)
         cnt, nov, first = gn_count(items, k, now, ep.get("a"))
-        c2 = {"at": int(now), "n": cnt, "nov": int(bool(nov))}
+        c2 = {"at": int(now), "n": cnt, "nov": -1 if nov is None else int(bool(nov))}   # -1 = 판정 보류(재조회는 계속 · 고정은 0 만)
         if first:
             c2["e"] = first
         for f in ("ru", "rt"):
             if c.get(f):
                 c2[f] = c[f]               # 원문 해제 결과·시도 횟수 = 재조회로 잃지 않는다
         cache[k] = c2
-        if cnt >= GN_MIN and nov:
+        if cnt >= GN_MIN and nov is True:
             ep["cf"], ep["cs"] = int(now), "g"
         if pause:
             time.sleep(pause)

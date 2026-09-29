@@ -270,6 +270,32 @@ class DupPush(unittest.TestCase):   # 평의회3 260929 — 같은 사건 2발 �
         out2, stat2 = S.run(out, [], EMPTY, st, now + 900, net=False, gn_decode=lambda l: "")
         self.assertEqual(stat2["seed"], 0)
 
+    def test_ours_confirm_vetoed_by_google_not_novel(self):   # #7-2 — 구글 뉴스가 「무장 전 보도 있음」이면 우리 cross≥3 로도 [강] 안 됨
+        t = ep("2026-09-29 09:46")
+        st = armed_state()
+        st["gn"]["닛몰캐쉬"] = {"at": int(t - 60), "n": 5, "nov": 0}
+        S.run([cand("u1", "닛몰캐쉬 폭로 확산", t, cross=5)], [], ARMED, st, t, net=False)
+        self.assertNotIn("cf", st["k"]["닛몰캐쉬"])
+        st2 = armed_state()
+        S.run([cand("u1", "닛몰캐쉬 폭로 확산", t, cross=5)], [], ARMED, st2, t, net=False)
+        self.assertEqual(st2["k"]["닛몰캐쉬"].get("cs"), "o")
+
+    def test_superseded_seed_not_recreated_when_real_drops(self):   # #7-8 — 실후보가 단독 좌석에서 잠시 빠져도 씨앗 재생성 0
+        now = ep("2026-09-29 10:31")
+        st = L.new_state()
+        _strong(st, "닛몰캐쉬", now, {"p": int(now - 5000), "t": "닛몰캐쉬, 채널 삭제", "m": "금강일보", "l": "https://g/A"})
+        out, _ = S.run([], [], EMPTY, st, now, net=False, gn_decode=lambda l: "")
+        out2, stat = S.run(out + [cand("khan", "닛몰캐쉬 폭로 확산", now + 900, cross=1)], [], EMPTY, st, now + 900, net=False, gn_decode=lambda l: "")
+        self.assertEqual(stat["sup"], 1)
+        _, stat3 = S.run([c for c in out2 if c["url"] != "khan"], [], EMPTY, st, now + 1800, net=False, gn_decode=lambda l: "")
+        self.assertEqual(stat3["seed"], 0)
+
+    def test_pick_prefers_mainstream_over_sticky_solo(self):   # #7-9 — 지난번 첨부 유지 가점보다 본류(cross≥3) 우선
+        t = ep("2026-09-29 11:31")
+        solo, main = cand("s", "닛몰캐쉬 웹드라마 공개 재검토", t, cross=1), cand("m", "닛몰캐쉬 폭로 파문", t, cross=5)
+        self.assertEqual(S._pick([(2, solo), (2, main)], {"u": "s"})["url"], "m")
+        self.assertEqual(S._pick([(2, solo), (2, cand("m2", "닛몰캐쉬 근황", t, cross=2))], {"u": "s"})["url"], "s")
+
     def test_supersede_keeps_sent_seed_key(self):
         a = {"url": "A", "event_key": "A", "breaking": True, "seed": "gn"}
         b = {"url": "B", "event_key": "B", "seed": "gn"}

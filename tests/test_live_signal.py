@@ -268,6 +268,20 @@ class GoogleNews(unittest.TestCase):
         with mock.patch.dict(os.environ, {"LIVE_GN_MAX_Q": "0"}):
             self.assertEqual(L._env_int("LIVE_GN_MAX_Q", 6), 0)
 
+    def test_capped_response_novelty_undetermined(self):   # #7-5 — 100건 상한에 차 창 앞이 잘리면 novel 판정 보류(확정·고정 둘 다 안 함)
+        now, a = ep("2026-09-29 20:00"), ep("2026-09-29 19:00")
+        items = [{"title": "닛몰캐쉬 후속 %d - 매체%d" % (i, i), "pub": now - 600 - i * 60, "source": "https://m%d.kr" % i,
+                  "sname": "매체%d" % i, "link": "https://m%d.kr/a" % i} for i in range(95)]
+        n, nov, _ = L.gn_count(items, "닛몰캐쉬", now, a)
+        self.assertGreaterEqual(n, 3)
+        self.assertIsNone(nov)
+        st = L.new_state()
+        st["k"]["닛몰캐쉬"] = {"d": "닛몰캐쉬", "f": {"C": int(now), "X": int(now)}, "m": {}, "a": int(a)}
+        import unittest.mock as um
+        with um.patch.object(L, "gn_count", return_value=(5, None, None)):
+            L.gn_poll(st, ["닛몰캐쉬"], now, fetch=lambda q: "<rss></rss>", pause=0)
+        self.assertEqual((st["gn"]["닛몰캐쉬"]["nov"], "cf" in st["k"]["닛몰캐쉬"]), (-1, False))
+
     def test_wire_reprint_counts_once(self):   # 통신사 원문 + 제휴 매체 같은 제목 전재 = 1곳(SBS·경향 연합 전재 원칙과 같음)
         now, a = ep("2026-09-29 10:31"), ep("2026-09-29 09:46")
         it = lambda t, m, h: {"title": t + " - " + m, "pub": now - 900, "source": "https://" + h, "sname": m, "link": "https://" + h}  # noqa: E731
