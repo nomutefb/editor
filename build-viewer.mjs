@@ -38,13 +38,15 @@ try {
 } catch { /* queue 없음 */ }
 
 // 수집함 cross 인덱스(이슈 판정용) — viewer/candidates.json url→cross 맵. 직접공유분(매칭 없음)은 cross 0 → issue false(운영자: 직접은 어쩔 수 없음).
-const CROSS = new Map(), BRK = new Map(), CAT = new Map(), GRADE = new Map(), CTITLE = new Map(), KOTITLE = new Map(), EKEY = new Map();   // BRK = AI 긴급 판정 전파 · CAT = 후보 카테고리(gate_judge AI 분류 → 픽 기사 frontmatter category 빈값 시 승계) · GRADE·CTITLE = 이슈 배지 게이트용(260702 옵션2) · KOTITLE = 외신 번역 제목 폴백(260703) · EKEY = 사건 그룹라벨(event_key) → 피드 기사 스탬프(뷰어 feedMatch event_key 티어 = 제목폴백보다 강한 사건매칭 활성 · 260714)
+const CROSS = new Map(), BRK = new Map(), CAT = new Map(), GRADE = new Map(), CTITLE = new Map(), KOTITLE = new Map(), EKEY = new Map(), LVT = new Map();   // BRK = AI 긴급 판정 전파 · CAT = 후보 카테고리(gate_judge AI 분류 → 픽 기사 frontmatter category 빈값 시 승계) · GRADE·CTITLE = 이슈 배지 게이트용(260702 옵션2) · KOTITLE = 외신 번역 제목 폴백(260703) · EKEY = 사건 그룹라벨(event_key) → 피드 기사 스탬프(뷰어 feedMatch event_key 티어 = 제목폴백보다 강한 사건매칭 활성 · 260714)
 const _normEk = u => String(u || '').trim().replace(/\/+$/, '');   // 뷰어 _normU 와 동일(끝슬래시만) — event_key 맵 키 정규화(rep url·cluster_member url 표기흔들림 흡수)
 try {
   const cj = JSON.parse(readFileSync('viewer/candidates.json', 'utf8'));
   for (const c of (Array.isArray(cj) ? cj : (cj.candidates || []))) if (c.url) {
     CROSS.set(c.url, c.cross || 0);
-    BRK.set(c.url, !!c.breaking && (c.grade == null || c.grade >= 2));   // 긴급 = breaking_judge 확정 AND 경중 grade≥2(미채점 포함) — cross 무관
+    const lvt = (c.lv && c.lv.t) || 0;   // 확산 단계(scraper/live_signal.py · 260929)
+    BRK.set(c.url, !!c.breaking && (c.grade == null || c.grade >= 2 || (c.grade >= 1 && lvt >= 3)));   // 긴급 = breaking_judge 확정 AND 경중 grade≥2(미채점 포함) — cross 무관 · 확산 [강]이면 경중 1도(뷰어 isBreaking 과 같은 술어)
+    if (lvt >= 3) LVT.set(c.url, lvt);   // 피드 feedBrk 입력(있는 건만 = 인덱스 바이트 0 증가)
     if (c.cat) CAT.set(c.url, c.cat);   // 후보 cat(gate_judge AI 분류·미술관 흉기난동=사회) → 픽 기사 카테고리 승계용
     GRADE.set(c.url, c.grade == null ? null : c.grade);   // 이슈 배지 grade 게이트(null=미채점 관용)
     CTITLE.set(c.url, c.title || '');   // 이슈 배지 정형·홍보컷은 후보 원제목 기준(요약 제목 아님)
@@ -149,6 +151,7 @@ for (const f of files) {
       breaking: BRK.has(meta.url || '') ? BRK.get(meta.url || '') : /\[\s*(속보|긴급)\s*\]|긴급\s*속보/.test(meta.title || ''),   // 긴급 = 매칭되면 AI breaking_judge 판정 따름(AI가 NO면 제목 [속보]여도 X) · 미매칭(직접공유)만 제목 표식 폴백.
       cross: CROSS.get(meta.url || '') || 0,                    // 수집함 매칭 매체 수(직접공유=0)
       event_key: meta.event_key || EKEY.get(_normEk(meta.url)) || '',   // 사건 그룹라벨 — frontmatter 우선(후속 파이프 배선 시) → 없으면 candidates url/cluster 매칭 스탬프. 뷰어 feedMatch event_key 티어(url 드리프트 요약을 제목폴백 전에 강한 식별로 재연결·260714) · 직접공유·미매칭은 빈 문자열(티어 자동 스킵)
+      ...(LVT.has(meta.url || '') ? { lvt: LVT.get(meta.url || '') } : {}),   // 확산 [강] 표식(260929 · feedBrk 입력) — 있는 기사만 키를 싣는다
       grade: GRADE.has(meta.url || '') ? GRADE.get(meta.url || '') : null,   // 경중(gate_judge) 패스스루 — 피드 긴급/이슈 배지 grade 게이트용(운영자 260810 "g1급은 이슈 조건에서 배제"). 수집함은 candidates.grade를 직접 쓰는데 피드 인덱스엔 이 필드가 없어 brkIssueKind가 raw breaking으로 판정 = 'grade1 경미인데 ⚡이슈' 모순(260617 계약)이 피드에만 살아 있었다(실측 = [속보] 카카오게임즈 2분기 영업손실 g1·cr15). 직접공유·미매칭 = null(미채점 관용 = 종전 동작).
       issue: issEligible(meta.url),                             // index3: 이슈여부 = cross≥10 AND grade(null‖≥2) AND !badgeJunk(260702 옵션2 — 옛 cross≥8 단독은 홍보·시황이 다매체 동시배포만으로 배지 획득·수집확대 인플레로 남발). 직접공유분은 매칭 없어 false.
       summary: meta.summary || '',

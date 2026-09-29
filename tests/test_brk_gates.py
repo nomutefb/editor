@@ -208,6 +208,37 @@ class JudicialGate(unittest.TestCase):
         self.assertIsNotNone(G.judicial_gate(t, 3))
         self.assertIsNotNone(G.judicial_gate(t, 12))   # 구판 「매체 몰림 = 통과」 폐지(260921)
 
+    def test_filming_set_is_not_warrant(self):   # 「촬영장」 ⊃ 「영장」 오인(260929) — 사고는 인명 문턱으로, 사법 축 아님
+        self.assertIsNone(G.judicial_gate("드라마 촬영장 화재…배우들 긴급 대피", 3))
+        self.assertIsNone(G.gate_reason("드라마 촬영장 화재로 5명 사망"))
+        self.assertTrue(G.gate_reason("드라마 촬영장 화재로 2명 사망").startswith("국내"))
+        self.assertIsNotNone(G.judicial_gate("○○ 구속영장 청구", 3))
+
+
+class LiveTier(unittest.TestCase):   # 확산 [강](lv.t≥3 · 260929 A9) = 연예·사법 축 면제 · 인명 문턱 유지
+    def test_strong_skips_celeb_and_judicial(self):
+        self.assertIsNotNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사"))
+        self.assertIsNone(G.gate_reason("유튜버 ○○ 전 여친 폭행 고소…경찰 수사", live=3))
+        self.assertIsNone(G.gate_reason("배우 ○○·가수 ○○ 열애설", "문화", 2, 3))
+        self.assertIsNotNone(G.gate_reason("배우 ○○·가수 ○○ 열애설", "문화", 2, 2))   # [중] = 면제 없음
+        self.assertTrue(G.gate_reason("유튜버 ○○ 탄 차량 사고로 2명 사망", live=3).startswith("국내"))
+
+    def test_strong_judicial_scope_is_entertainment_only(self):   # 통합 검토 260929 — 정치·형사 재판은 [강]이어도 ③ 그대로(운영자 260921)
+        self.assertIsNotNone(G.gate_reason("○○ 전 장관, 항소심서 징역 2년 선고", "정치", 12, 3))
+        self.assertIsNotNone(G.gate_reason("○○ 의원 뇌물 혐의 구속영장 청구", "사회", 5, 3))
+        self.assertIsNone(G.gate_reason("크리에이터 ○○ 전 연인 고소…경찰 수사", "사회", 1, 3))   # 씨앗(종합지 제목 · cat 사회)도 연예 직업어로 면제
+        self.assertIsNone(G.gate_reason("○○, 전 여친 폭행 혐의 경찰 수사", "문화", 3, 3))
+        self.assertTrue(G.ent_scope("닛몰캐쉬 전 여친 폭로", "문화"))
+        self.assertFalse(G.ent_scope("○○ 전 장관 항소심 선고", "정치"))
+
+    def test_sweep_keeps_live_backed_verdict(self):
+        j = JudgeIntegration()
+        result = j.run_judge([
+            {"title": "유튜버 ○○ 전 여친 폭행 고소…경찰 수사", "cat": "사회", "breaking": True, "lv": {"k": "○○", "t": 3}},
+            {"title": "유튜버 ○○ 전 여친 폭행 고소…경찰 수사", "cat": "사회", "breaking": True},
+        ], pending=False)
+        self.assertEqual([c["breaking"] for c in result], [True, False])   # 소급 스윕 = 확산 [강] 근거 판정을 뒤집지 않는다
+
 
 class Switch(unittest.TestCase):
     def test_gate_reason_order_and_killswitch(self):

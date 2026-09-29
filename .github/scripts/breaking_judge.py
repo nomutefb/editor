@@ -25,6 +25,11 @@ sys.path.insert(0, str(ROOT / "shared"))
 from claude_py import run_claude   # 쿼터 한도 시 대체 계정 자동 전환(account failover · SSOT)  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from brk_gates import gate_reason   # 결정적 후처리 게이트 3축(인명 문턱·연예·사법 · 운영자 260917 · 정본 = brk_gates.py)  # noqa: E402
+sys.path.append(str(ROOT / "scraper"))   # 뒤에 붙인다 = .github/scripts·shared 모듈 이름이 먼저(가림 0)
+try:
+    from live_signal import tail as _live_tail   # 〔확산 강|중|약 «이름»: …〕 꼬리표 표기 정본(260929 · scraper/live_signal.py)  # noqa: E402
+except Exception:  # noqa: BLE001 — 표기 모듈 부재 = 꼬리표 없이 종전 판정(도장은 lv 단계만 접으므로 --count 계상은 그대로)
+    _live_tail = None
 CAND = ROOT / "viewer" / "candidates.json"
 MODEL = os.environ.get("BREAKING_MODEL", "claude-opus-5-5")
 EFFORT = os.environ.get("BREAKING_EFFORT", "").strip()   # 이진 속보 판정엔 추론 불필요 = effort 미사용 기본(불필요 thinking 토큰·쿼터 차단 + sonnet effort 비호환 원천차단). 필요시 env로 부여(하위호환). 260630 평의회 — breaking은 sonnet-5 운영.
@@ -292,6 +297,29 @@ _RUBRIC_BASE = """너는 한국 뉴스 데스크의 속보 판정자다. 아래 
 
 규칙: 각 사건을 정확히 한 줄씩, "<번호>\\t<YES|NO>" 형식으로만 출력한다(설명·머리말 금지).
 """
+# 📡 〔확산〕 규칙(운영자 260929 «닛몰캐쉬 같은 기사가 원체 빨리 들어오고 긴급으로 뜰 수 있는지» · 명성 대신 분포 증거 A4/A5/A7/A9) —
+#   ⚠ 도장(RUBRIC_VER)은 _RUBRIC_BASE 만 해시한다(명단 선례) = 이 블록을 붙여도 최근 48h 후보 전건 재판정 0.
+#     이 규칙이 바꾸는 판정은 〔확산〕 꼬리표가 붙은 행뿐이고, 그 행은 lv 단계가 도장에 접혀(_stamp) 꼬리표가 생기거나 [강]이 되는 순간 1회 재판정된다.
+#   ⚠ 회귀 스탬프(regress_ver)는 RUBRIC 전문 해시라 이 블록 변경 = 회귀 재실행 필수(.github/workflows/breaking-regress.yml).
+_LIVE_RULE = """
+📡 **〔확산〕 꼬리표 = 기사 밖 사람들의 반응 증거 (운영자 260929 — 명성 대신 분포로 판정):**
+일부 제목 끝에 〔확산 강|중|약 «이름»: …〕이 붙는다. 기사가 아니라 **사람들이 지금 그 이름을 실제로 쓰고 찾는 흔적**을 기계가 잰 값이다
+(커뮤니티 여러 곳 동시 게시 · X 실시간 트렌드 · 구글 급상승 검색 · 나무위키 검색 순위 · 그 이름으로 보도한 언론 수).
+**«이름»이 그 사건의 주인공이다** — 제목이 «유명 유튜버»·«인기 배우 A씨»처럼 익명이어도 꼬리표의 «이름»이 그 사람이다.
+- **확산 [강]** = 서로 독립인 반응 2갈래 이상이 동시에 떴고 언론 3곳 이상이 그 이름으로 보도한 상태 = **그 이름은 지금 전국이 안다.**
+  → «메이저급 판별» ④(그에 준하는 전국적 인지도)를 **충족한 것으로 본다**(분포가 명성을 대신 증명한다 · 명단·수상 이력·직업 불문).
+  → 그래서 «메이저급 연예인 혼인·사건 예외»가 그대로 열린다: 열애·결혼·결별·이혼(설 포함)과 **폭로·폭력·범죄 연루·사생활 논란·활동 중단**은 **O**.
+  → **연예·문화 인물**(연예인·방송인·유튜버·스트리머·인플루언서 등)의 사건에 [강]이 붙으면 🔪 피해자 수 문턱(1명 = X)과 🔎 수사·사법 절차 X 규칙을 **적용하지 않는다**(전국이 반응하는 그 순간이 급발 사건이다).
+  ⚠️ 정치인·공직자·기업인·일반 형사 사건의 수사·재판·선고는 [강]이어도 🔎 그대로 X다(운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게»).
+- ⚠️ **확산은 사건을 만들지 않는다** — [강]이어도 컴백·신작·화보·근황·홍보·예능·수상·경기 결과 같은 **콘텐츠·홍보 소식은 종전대로 X**. 무슨 일이 터졌는지는 제목으로 판정한다.
+- ⚠️ **숫자 문턱은 면제하지 않는다** — ⚖ 국내외 인명 문턱·🌏 지진 규모·🌐 해외 군사·🌡 기상·📈 증시·⏱ 발행 12시간 게이트는 [강]이어도 그대로다(반응이 크다고 사망 2명 사고가 O가 되지 않는다).
+- **확산 [중]·[약]** = 참고 정보일 뿐 판정 규칙을 바꾸지 않는다(메이저급 판별·모든 게이트 종전대로).
+  예) "닛몰캐쉬, 데이트폭력·비하발언 폭로 터졌다…전 여친 녹취록 공개" 〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · X 1위 · 언론 7곳〕 → O
+  예) "유명 유튜버, 전 연인 데이트폭력 의혹…소속사 «사실 확인 중»" 〔확산 강 «닛몰캐쉬»: …〕 → O(익명 제목의 주인공 = 꼬리표의 이름)
+  예) 같은 제목에 꼬리표가 없거나 [중]·[약]이면 → 종전 규칙대로(메이저급 확인이 안 되면 X)
+  예) "유튜버 ○○, 신곡 발표하며 컴백" 〔확산 강 …〕 → X(콘텐츠) · "배우 ○○·○○ 열애설" 〔확산 강 …〕 → O · "○○ 촬영 현장 화재로 2명 사망" 〔확산 강 …〕 → X(🔥·⚖ 국내 문턱)
+  예) "○○ 전 장관, 항소심서 징역 2년 선고" 〔확산 강 …〕 → X(🔎 · 정치·공직 재판은 확산과 무관)
+"""
 ROSTER = ROOT / "apps" / "news" / "major_award_winners.json"   # 메이저급 연예인 참조 명단(운영자 260817 · 수상 이력 + 대중 인지도 2갈래)
 
 
@@ -320,7 +348,7 @@ def _roster_block():
     return "\n".join(lines) + "\n"
 
 
-RUBRIC = _RUBRIC_BASE + _roster_block()
+RUBRIC = _RUBRIC_BASE + _LIVE_RULE + _roster_block()
 # ⚠ 도장은 **명단 블록을 뺀 규칙 본문만** 해시한다(운영자 260818 «이미 지나간건 냅두고 이제 나오는것만»).
 #   사유 2축 = ⓐ **명단은 러너에 없었다** — breaking-judge·scrape 워크플로 sparse-checkout 목록에 `apps` 가 없어
 #     `_roster_block()` 이 늘 빈 문자열이었고(실측 = 러너 도장 723e825eb55d = 이 base 단독 해시와 정확히 일치),
@@ -382,7 +410,28 @@ def _stamp(c):
     lb = _lb_of(c)
     if lb:
         parts.append(lb["t"])   # lb 축(260913): 최신 국면 멤버 제목도 도장에 접는다 = 멤버가 바뀌면 재판정 · lb 없는 엔트리는 종전 해시 그대로(폭풍 0)
+    if _lv_t(c) >= 3:
+        parts.append("lv3")     # 확산 [강] 축(260929): [강]이 붙는 순간 1회 재판정(꼬리표 수치는 안 접는다 = 매 회차 재판정 0) · [중]·[약]은 규칙 불변이라 안 접는다
     return hashlib.sha256("\n".join(parts).encode("utf-8")).hexdigest()[:12]
+
+
+def _lv_t(c):
+    """엔트리의 확산 단계(lv.t · 없음 = 0) — 도장·꼬리표·게이트 공용 입력(정본 = scraper/live_signal.py)."""
+    lv = c.get("lv")
+    try:
+        return int(lv.get("t") or 0) if isinstance(lv, dict) else 0
+    except (TypeError, ValueError):
+        return 0
+
+
+def _lv_tail(c):
+    """판정 행 꼬리표 — 〔확산 강 «닛몰캐쉬»: 커뮤니티 4곳 동시 · X 1위 · …〕(lv 없음·표기 모듈 부재 = 빈 문자열)."""
+    if not _live_tail or not _lv_t(c):
+        return ""
+    try:
+        return _live_tail(c.get("lv"))
+    except Exception:  # noqa: BLE001
+        return ""
 
 
 # ── 최신 국면 멤버(lb) 2행 판정 — 260913 평의회 8인 수렴(정본 선택 = scraper/lb_member.py · 캐리 = to_candidates.carry_lb) ──
@@ -410,10 +459,12 @@ def build_rows(pending):
     """판정 행 = [(row_id:int, text, entry_idx, kind)] — 대표 행 + (lb 있으면) lb 행. 발행 나이 라벨은 각자 발행시각(⏱ 게이트 입력)."""
     rows = []
     for i, c in enumerate(pending):
-        rows.append((len(rows), f"{c.get('title', '')} {_pub_age_label(c)}", i, "rep"))
+        tl = _lv_tail(c)
+        tl = f" {tl}" if tl else ""   # 확산 꼬리표(260929 · 📡 규칙 입력) = 제목 뒤 · 발행 라벨 앞(회귀 케이스와 같은 순서)
+        rows.append((len(rows), f"{c.get('title', '')}{tl} {_pub_age_label(c)}", i, "rep"))
         lb = _lb_of(c)
         if lb:
-            rows.append((len(rows), f"{lb['t']} {_pub_age_label({'published': lb.get('p') or ''})}", i, "lb"))
+            rows.append((len(rows), f"{lb['t']}{tl} {_pub_age_label({'published': lb.get('p') or ''})}", i, "lb"))
     return rows
 
 
@@ -574,7 +625,7 @@ def main():
             swept += 1
         elif c.get("breaking"):
             # 결정적 게이트 소급(EXCLUDE 스윕과 같은 층 · 운영자 260917) — 루브릭 해시 밖이라 기확정분에도 즉시 먹는다.
-            _g = gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"))
+            _g = gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"), _lv_t(c))   # 확산 [강] = 연예·사법 축 면제(소급 스윕도 같은 입력 = 확산 근거 판정을 뒤집지 않는다)
             if _g:
                 c["breaking"] = False
                 gated += 1
@@ -625,14 +676,14 @@ def main():
         if is_excluded(c.get("title", "")):
             rv = False                     # 운영자 제외 키워드(김건희 등) → AI가 YES여도 긴급 강제 차단
         elif rv:
-            _g = gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"))   # 결정적 게이트(인명 문턱·연예·사법 · 260917)
+            _g = gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"), _lv_t(c))   # 결정적 게이트(인명 문턱·연예·사법 · 260917 · 확산 [강] = 연예·사법 면제 260929)
             if _g:
                 print(f"  ⊘ 게이트 X: {(c.get('title') or '')[:40]} — {_g}")
                 rv = False
         lb = _lb_of(c)
         rep_title = c.get("title") or ""   # 스왑 전 대표 제목(기록용)
         v, swapped, flipped = apply_lb(c, rv, lv, LB_LIVE)
-        if swapped and (is_excluded(c.get("title", "")) or gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"))):
+        if swapped and (is_excluded(c.get("title", "")) or gate_reason(c.get("title", ""), c.get("cat"), c.get("cross"), _lv_t(c))):
             v = False   # 스왑된 새 제목도 같은 하드가드·게이트
         if i in lb_row:
             shadow.append({"ts": datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%dT%H:%M:%S%z"),

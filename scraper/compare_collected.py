@@ -35,9 +35,15 @@ def parse_iso(s):
 
 
 def is_breaking_viewer(c):
-    # 뷰어 isBreaking(점등용) = breaking AND (grade 미채점 or grade≥2). 긴급자격 = 이게 True면 <4h일 때 🚨.
-    g = c.get("grade")
-    return bool(c.get("breaking")) and (g is None or (g or 0) >= 2)
+    # 뷰어 isBreaking(점등용) = breaking AND (grade 미채점 or grade≥2 or (grade≥1 ∧ 확산 [강])). 긴급자격 = 이게 True면 <4h일 때 🚨.
+    # 정본 = daily_health._brk_on(손복사 금지) · import 실패 = 종전 술어.
+    try:
+        sys.path.insert(0, str(ROOT / "scraper"))
+        from daily_health import _brk_on
+        return _brk_on(c)
+    except Exception:  # noqa: BLE001
+        g = c.get("grade")
+        return bool(c.get("breaking")) and (g is None or (g or 0) >= 2)
 
 
 def promoted_guess(c):

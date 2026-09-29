@@ -15,10 +15,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 제외(SSOT · 운영자 260701)
 from brk_tag import BREAKING_TAG, has_exclusive_tag  # 속보 제목 태그(SSOT · push_send 공용 · 뷰어는 solo 표식만 읽음 · 260923)
 try:   # 누적 칼럼 진입 술어·화면 병합의 단일 파이썬 미러(손복사 금지 = followEnters 패리티 게이트 대상) — CAP 컷 순서용(260923 · 아래 CUT_VISIBLE)
-    from daily_health import _cum_enter, screen_merge, _eff_cross
+    from daily_health import _cum_enter, screen_merge, _eff_cross, _brk_on
 except Exception:  # noqa: BLE001  미러를 못 읽으면 컷 순서만 종전 2군으로 폴백(수집·쓰기는 그대로 = 수집 중단 없음)
     _cum_enter = screen_merge = None
     _eff_cross = lambda c: c.get("cross") or 0   # noqa: E731  폴백 = 기존 cross(실효 cross 정본 = daily_health._eff_cross)
+    _brk_on = None
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "scraper" / "out" / "articles.json"
@@ -141,7 +142,10 @@ def is_exc_solo(c):
 
 
 def _urgent(c):
-    """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2))."""
+    """화면·푸시가 긴급으로 다루는 것 = 뷰어 isBreaking 과 같은 술어(breaking ∧ (미채점 ∨ 경중≥2 ∨ (경중≥1 ∧ 확산 [강])) ·
+    정본 = daily_health._brk_on · 미러 import 실패 = 종전 술어(확산 축만 빠진다 = 보수)."""
+    if _brk_on is not None:
+        return _brk_on(c)
     g = c.get("grade")
     return bool(c.get("breaking")) and (g is None or g >= 2)
 
@@ -366,6 +370,39 @@ def load_json(p, default):
         return default
 
 
+def build_entry(a, sec_by_url, solo=False):
+    """클러스터 대표 기사(articles.json 한 줄) → 수집함 엔트리 본체(이력 필드 제외 · main 과 live_seed 입장이 같은 모양을 쓴다)."""
+    url = a.get("link") or ""
+    bp = a.get("breaking_pick") or {}   # 메이저 픽(PICK_PRIORITY 조선>…>연합) — 다수 보도 시 제일 메이저를 대표 표시(미디어오늘 등 군소 대신). url/dedup 은 최초보도 유지.
+    has_breaking_tag = bool(BREAKING_TAG.search((a.get("title") or "") + " " + (bp.get("title") or "")))   # 제목 [속보]/[상보]/긴급 = 속보 확률↑(언론고시 기자는 낚시 안 씀) → breaking 후보로 AI 내용검증
+    burst = a.get("burst") or 0
+    cross = a.get("cross_score") or 0
+    size = a.get("cluster_size") or 0
+    mega = size > MEGA_MEMBERS or cross > MEGA_CROSS   # over-merge 의심(대표 신뢰 불가)
+    e = {
+        "id": url, "url": url,
+        "title": bp.get("title") or a.get("title") or "",
+        "media": bp.get("media") or a.get("publisher") or "",
+        "cat": cat_of(a.get("category"), bp.get("title") or a.get("title") or "", bp.get("media") or a.get("publisher") or "",
+                      cluster_sec(a, sec_by_url)),
+        "cross": cross,
+        "published": a.get("published") or "",
+        "burst": burst,
+        "arts": size,   # 클러스터 기사 수(cluster_size) — 증가 = 새 기사가 또 붙음(같은 매체 1곳이여도) = 연속보도 신호(report_count 산출용)
+        # 속보 1차 후보(velocity·태그) — 2차 내용판정(Claude breaking_judge)이 breaking 을 확정한다. 다수 동시(burst≥N) OR [속보] 태그 = 후보 → AI 검증.
+        "breaking_candidate": bool((burst >= BREAKING_BURST or has_breaking_tag) and not mega),
+        "breaking_pick": a.get("breaking_pick") or None,
+        "cluster_members": a.get("cluster_members") or [],   # 별칭승계 입력(rep url 점프 추적)
+    }
+    if solo:
+        e["solo"] = 1
+    if isinstance(a.get("px"), int) and a["px"] > 0:
+        e["px"] = a["px"]   # 연예 전문지 부착 풀 매체 수(knews_scraper POOL_TAG) — 뷰어 누적 진입·랭킹의 실효 cross 입력 · 0 이면 키 없음(바이트 예산)
+    if LB_ON and isinstance(a.get("lb"), dict) and a["lb"].get("t"):
+        e["lb"] = a["lb"]   # 최신 국면 멤버(lb_member.pick_lb) — 있는 클러스터만 키를 박는다(없으면 키 자체 없음 = 예산)
+    return e
+
+
 def main():
     arts = load_json(SRC, [])
     sec_by_url = {a.get("link"): cat_ko(a.get("category")) for a in arts if isinstance(a, dict)}
@@ -424,31 +461,7 @@ def main():
                 exc_live[url] = sa
             solo_in += 1
             solo_urls.add(url)
-        burst = a.get("burst") or 0
-        cross = a.get("cross_score") or 0
-        size = a.get("cluster_size") or 0
-        mega = size > MEGA_MEMBERS or cross > MEGA_CROSS   # over-merge 의심(대표 신뢰 불가)
-        fresh[url] = {
-            "id": url, "url": url,
-            "title": bp.get("title") or a.get("title") or "",
-            "media": bp.get("media") or a.get("publisher") or "",
-            "cat": cat_of(a.get("category"), bp.get("title") or a.get("title") or "", bp.get("media") or a.get("publisher") or "",
-                          cluster_sec(a, sec_by_url)),
-            "cross": cross,
-            "published": a.get("published") or "",
-            "burst": burst,
-            "arts": size,   # 클러스터 기사 수(cluster_size) — 증가 = 새 기사가 또 붙음(같은 매체 1곳이여도) = 연속보도 신호(report_count 산출용)
-            # 속보 1차 후보(velocity·태그) — 2차 내용판정(Claude breaking_judge)이 breaking 을 확정한다. 다수 동시(burst≥N) OR [속보] 태그 = 후보 → AI 검증.
-            "breaking_candidate": bool((burst >= BREAKING_BURST or has_breaking_tag) and not mega),
-            "breaking_pick": a.get("breaking_pick") or None,
-            "cluster_members": a.get("cluster_members") or [],   # 별칭승계 입력(rep url 점프 추적)
-        }
-        if url in solo_urls:
-            fresh[url]["solo"] = 1
-        if isinstance(a.get("px"), int) and a["px"] > 0:
-            fresh[url]["px"] = a["px"]   # 연예 전문지 부착 풀 매체 수(knews_scraper POOL_TAG) — 뷰어 누적 진입·랭킹의 실효 cross 입력 · 0 이면 키 없음(바이트 예산)
-        if LB_ON and isinstance(a.get("lb"), dict) and a["lb"].get("t"):
-            fresh[url]["lb"] = a["lb"]   # 최신 국면 멤버(lb_member.pick_lb) — 있는 클러스터만 키를 박는다(없으면 키 자체 없음 = 예산)
+        fresh[url] = build_entry(a, sec_by_url, solo=url in solo_urls)
 
     # ── 별칭 승계 준비 — 멤버 보유·non-mega 기존 후보만 별칭 풀(결정적 정렬). 1:1(claimed)·보수 임계. ──
     def _members(e):

@@ -91,6 +91,8 @@ python3 scraper/knews_scraper.py \
   --min-cross "${SCRAPE_MIN_CROSS:-2}" \
   --top "${SCRAPE_TOP:-20}" || { _land "collect-fail" "knews_scraper rc≠0(피드·네트워크·의존)"; exit 0; }
 python3 scraper/to_candidates.py scraper/out/articles.json || { _land "cand-fail" "to_candidates rc≠0"; exit 0; }
+# 확산 신호(lv·입장·씨앗 · scrape.yml 「확산 신호 반영」 사본) — 비치명(실패해도 수집을 안 깬다 · 상태 = scraper/obs/live_state.json 이 아래 착지에 동승).
+python3 scraper/live_seed.py scraper/out/articles.json || echo "⚠ live_seed 실패(비치명)"
 # 관측 누적 — 워크플로와 동일하게 비치명(실패해도 수집을 안 깬다).
 python3 scraper/snapshot.py >/dev/null 2>&1 || true
 cp scraper/out/feed_health_obs.json scraper/obs/feed_health.json 2>/dev/null || true

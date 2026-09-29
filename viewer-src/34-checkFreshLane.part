@@ -650,6 +650,7 @@ function mergeDecorate(anchor, memCands) {
     px: Math.max(anchor.px || 0, ...memCands.map(m => m.px || 0)),   // 연예 부착 풀 매체 수 = 형제 중 최댓값(합산 = 같은 전문지를 형제마다 중복 셈 · 평의회260929 #7 · effCross 입력 · 파이썬 짝 = daily_health.screen_merge)
     breaking: anchor.breaking || memCands.some(m => m.breaking),
     grade: grades.length ? Math.max(...grades) : anchor.grade,
+    lv: [anchor, ...memCands].map(m => m.lv).filter(v => v && typeof v === 'object').sort((x, y) => (y.t || 0) - (x.t || 0))[0] || anchor.lv,   // 확산 증거 = 가장 센 단계 승계(isBreaking 입력 · 파이썬 짝 = daily_health.screen_merge)
     report_count: Math.max(anchor.report_count || 0, ...memCands.map(m => m.report_count || 0)),
     burst: Math.max(anchor.burst || 0, ...memCands.map(m => m.burst || 0)),
     cluster_members: cm,

@@ -6,6 +6,8 @@
 # 정본 설명 = CLAUDE.md §🚨. 푸시 기준(앱푸시긴급) = breaking_judge AND grade≥2(운영자 260818 «내부에서는 자동으로 긴급처리가 되는데 웹앱 푸쉬 알림 [안 온다]» — 🚨배지·자동픽[grade≥2]과 같은 문턱으로 하향 = 내부 긴급처리와 푸시가 같은 사건을 본다 · 구 260622 grade≥3[뷰어 isAlert 동일선상]은 역사 · 실측 260818 = 24h 속보 5건 중 4건이 g=2라 내부 처리만 되고 푸시 0이 «긴급이 안 온다»의 실체) AND cross≥PUSH_MIN AND 최신(<4h).
 # ⚠️ 푸시는 되돌릴 수 없다(발송=회수 불가) → 뷰어 점등(가역)보다 *더* 보수적: grade 미채점(None)은 푸시 안 함
 #    (뷰어는 None도 점등=즉시·가역) · 다매체 검증 cross≥PUSH_MIN_CROSS 필수 · dedup=event_key+제목해시(중복발송 차단).
+# 확산 증거(lv · scraper/live_signal.py · 260929): lv.t≥3([강]) = 경중 1도 발송 · 교차는 lv.gn≥3(바깥 언론 3곳) 또는 [강]으로 대신 충족.
+#    구글뉴스 씨앗 → 실후보 이관 때 event_key 를 승계(scraper/live_seed.supersede)하므로 같은 사건 재발송은 원장 첫 키에서 막힌다.
 import json, os, re, sys, time, base64, hashlib, tempfile, datetime as dt
 from pathlib import Path
 from urllib.parse import quote
@@ -70,6 +72,9 @@ def push_cross_ok(c):
     cr = c.get("cross") or 0
     if cr >= PUSH_MIN_CROSS:
         return True
+    lv = c.get("lv") if isinstance(c.get("lv"), dict) else {}
+    if (lv.get("gn") or 0) >= 3 or (lv.get("t") or 0) >= 3:
+        return True   # 확산 증거(260929 · scraper/live_signal.py) = 우리 피드 밖 언론 3곳↑ 보도 또는 확산 [강] — 다매체 검증을 바깥 매체 수가 대신한다(씨앗·단독 입장분)
     if not (PUSH_SOLO_TAG and cr >= 1):
         return False
     try:
@@ -164,8 +169,10 @@ def jload(p, d):
 
 def is_breaking(c):
     # 푸시용(가역 아님·앱푸시긴급) = grade가 *채점되어* ≥2여야 함(운영자 260818 하향 — 🚨배지·자동픽과 같은 문턱 · 헤더 주석에 하향 근거 실측 · None=미채점은 여전히 푸시 보류[비가역 보수 철학 불변] · 오발 가드 cross≥PUSH_MIN_CROSS·4h/8h 창도 불변).
+    # 확산 [강](lv.t≥3 · 260929) = 경중 1도 통과 — 경중 채점기는 제목만 봐서 익명 제목(「유명 유튜버…」)에 1을 준다(닛몰캐쉬 실측 g1) · 뷰어 isBreaking 과 같은 술어(미채점 보류만 푸시 쪽 추가).
     g = c.get("grade")
-    return bool(c.get("breaking")) and g is not None and (g or 0) >= 2
+    lv = c.get("lv") if isinstance(c.get("lv"), dict) else {}
+    return bool(c.get("breaking")) and g is not None and ((g or 0) >= 2 or ((g or 0) >= 1 and (lv.get("t") or 0) >= 3))
 
 def brk_url(c):
     # 긴급 알림 탭 → 루트가 아니라 *해당 건*으로 딥링크(/?brk=키&bl=메이저링크). 뷰어가 탭 *시점*에 '요약 완료?'를

@@ -94,8 +94,7 @@ def _cum_enter(x):
     ⚠️ 소비처 = 이 파일 계기판 + scraper/to_candidates.py CAP 컷 순서 2단(260923 · screen_merge 와 함께 import) —
        술어를 바꾸면 수집함 보관 순서도 같이 움직인다. 이 모듈에 무거운 import 를 들이면 수집이 종전 컷 순서로 폴백한다.
     ⚠️ cross 두 축 = 실효 cross(_eff_cross · 연예 부착 풀 px 반영 · 260929) — viewer effCross 와 같은 식."""
-    g = x.get("grade")
-    brk = bool(x.get("breaking")) and (g is None or (g or 0) >= 2)
+    brk = _brk_on(x)
     rc = x.get("report_count") or 0
     cr = _eff_cross(x)
     fol = cr >= 4 and rc >= 6
@@ -103,6 +102,16 @@ def _cum_enter(x):
 
 
 POOL_W = 0.5   # = viewer POOL_W 사본(패리티 = check_refs check_follow_enters_parity)
+
+
+def _brk_on(x):
+    """뷰어 isBreaking 파이썬 사본 = breaking ∧ (미채점 ∨ 경중≥2 ∨ (경중≥1 ∧ 확산 [강] lv.t≥3)).
+    확산 [강](scraper/live_signal.py) = 판정기가 제목만 보고 준 경중 1(익명 제목 「유명 유튜버」류)을 분포 증거가 대신 올린다(260929 A4/A5).
+    동작 패리티 = tests/live-signal.test.mjs(뷰어 원문 추출 실행 ↔ 이 함수 · to_candidates._urgent)."""
+    g = x.get("grade")
+    lv = x.get("lv")
+    lt = (lv.get("t") or 0) if isinstance(lv, dict) else 0
+    return bool(x.get("breaking")) and (g is None or (g or 0) >= 2 or ((g or 0) >= 1 and lt >= 3))
 
 
 def _eff_cross(x):
@@ -145,6 +154,8 @@ def screen_merge(cands):
                     "px": max([anchor.get("px") or 0] + [m.get("px") or 0 for m in mem]),   # 부착 풀 매체 수 = 형제 최댓값(viewer mergeDecorate 짝 · 합산 = 중복 셈)
                     "breaking": bool(anchor.get("breaking")) or any(m.get("breaking") for m in mem),
                     "grade": max(grades) if grades else anchor.get("grade"),
+                    "lv": max((x.get("lv") for x in [anchor] + mem if isinstance(x.get("lv"), dict)),
+                              key=lambda v: v.get("t") or 0, default=anchor.get("lv")),   # 확산 증거 = 가장 센 단계 승계(viewer mergeDecorate 짝)
                     "report_count": max([anchor.get("report_count") or 0]
                                         + [(m.get("report_count") or 0) for m in mem]),
                     "_mergeCount": len(mem)}
@@ -427,7 +438,7 @@ def main():
     promo = [x for x in c if (x.get("grade") or 0) >= 3 and x.get("breaking_candidate")
              and (x.get("burst") or 0) < 3 and "[속보]" not in (x.get("title") or "")
              and "[긴급]" not in (x.get("title") or "")]
-    urg = [x for x in brk if (x.get("grade") or 0) >= 2 and (age_h(x.get("first_seen"), now) or 99) < 4]
+    urg = [x for x in brk if _brk_on(x) and x.get("grade") is not None and (age_h(x.get("first_seen"), now) or 99) < 4]
     print("\n② 알고리즘 신호")
     print(f"  · grade 분포 {{0:{gd.get(0,0)} 1:{gd.get(1,0)} 2:{gd.get(2,0)} 3:{gd.get(3,0)} 미채점:{gd.get(None,0)}}}")
     print(f"  · breaking 확정 {len(brk)}(24h내 {len(brk24)}) · breaking_candidate {bc} · ⬆️저burst승격 {len(promo)}")
@@ -520,9 +531,7 @@ def main():
         def _ba(x):   # 발행 우선 나이(timeAcc 축·scTs 요지)
             v = age_h(x.get("published"), now)
             return v if v is not None else age_h(x.get("first_seen"), now)
-        def _brk_ok(x):
-            g = x.get("grade")
-            return bool(x.get("breaking")) and (g is None or g >= 2)
+        _brk_ok = _brk_on   # 뷰어 isBreaking 사본 하나만(손복사 금지 · 위 _brk_on)
         def _scr(x):   # 누적 scScore 근사(신곡선 부스트 포함)
             cr = x.get("cross") or 0   # 누적 랭킹 = 기존 cross(viewer crossConvex 짝 · px 는 진입에만 = 연예 가중 0)
             rk = _iss_age(x) or 99
