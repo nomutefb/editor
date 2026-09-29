@@ -5200,19 +5200,23 @@ def check_alpha_player():
             bad.append('%s 없음' % rel)
             return ''
     try:
-        js = _t('viewer/nm-alpha.js')
-        for k, why in (('window.nmAlpha', '정본 전역'), ('texImage2D', 'WebGL 합성'), ('unmount(orig)', '실패 = 원래 video 복원'),
-                       ("attributeFilter: ['hidden']", '원래 video 숨김 = 재생기 자동 해제'), ('isConnected', '창 교체 = 소리 정리')):
+        js = _js_code_only(_t('viewer/nm-alpha.js'))
+        if not re.search(r'window\.nmAlpha\s*=\s*\{[^}]*\bmount\b[^}]*\bunmount\b', js):   # 정의부(부분 문자열만 보면 가드 줄 `if (window.nmAlpha)` 로 통과 — 돌연변이 실측)
+            bad.append('viewer/nm-alpha.js — 정본 전역(window.nmAlpha = {mount, unmount}) 없음')
+        for k, why in (('texImage2D', 'WebGL 합성'), ('orig.style.display = st.disp', '실패 = 원래 video 복원'),
+                       ("attributeFilter: ['hidden']", '원래 video 숨김 = 재생기 자동 해제'), ('isConnected', '창 교체 = 소리 정리'),
+                       ('orig._nma === st', '재장착 = 옛 재생기 늦은 이벤트 격리'), ('WEBGL_lose_context', '문맥 반납')):
             if k not in js:
                 bad.append('viewer/nm-alpha.js — %s(%s) 없음' % (why, k))
         css = _t('viewer/nm-shared.css')
         if '.nm-alpha .monplay' not in css or '.nm-alpha .monseek' not in css:
             bad.append('nm-shared.css 에 .nm-alpha 모양 규칙 없음')
-        ed = _t('viewer/edit.html')
+        ed_raw = _t('viewer/edit.html')
+        ed = _js_code_only(ed_raw)   # 주석 걷은 판 — 장착 줄 앞 `//` 한 번으로 통과하던 구멍(평의회 돌연변이 실측)
         if '<script src="nm-alpha.js"></script>' not in ed:
             bad.append('viewer/edit.html — nm-alpha.js 미로드')
         for fn in ('showResult', 'lyBurnShow'):   # 두 창 = 각 함수 **본문 안** 장착(개수만 세면 한 곳을 꺼도 통과 — 돌연변이 실측 260929)
-            m = re.search(r'\nfunction %s\(.*?\n\}' % fn, ed, re.S)
+            m = re.search(r'\n(?:async\s+)?function %s\(.*?\n\}' % fn, ed, re.S)
             body = m.group(0) if m else ''
             if not re.search(r'if\s*\(\s*window\.nmAlpha[^\n]*nmAlpha\.mount\(', body):
                 bad.append('viewer/edit.html — %s 에 재생기 장착 없음(두 창 = #vwrap · #lyBurn)' % fn)
@@ -5220,17 +5224,22 @@ def check_alpha_player():
             bad.append('viewer/edit.html — 자막 창 비알파 결과에 재생기 해제 없음')
         if len(re.findall(r'/\^ly_out\\/[^\n]{0,60}?\.test\(String\([dj]\.preview_stacked', ed)) < 2:
             bad.append('viewer/edit.html — 같은 출처(ly_out/) 술어 없이 장착(다른 출처 = WebGL 보안 오염)')
-        if re.search(r'^\s*[^/\n]*\.nm-alpha[^{\n]*\.(monplay|monseek)[^{\n]*\{', ed, re.M):
+        css_ed = ' '.join(re.findall(r'<style[^>]*>(.*?)</style>', ed_raw, re.S))   # 사본 판정 = 스타일 구간만(JS 셀렉터 문자열 오탐 차단)
+        if re.search(r'\.nm-alpha[^{\n]*\.(monplay|monseek)[^{\n]*\{', _strip_css_comments(css_ed)):
             bad.append('viewer/edit.html — .nm-alpha 모양 규칙 사본(공용 CSS 에만)')
         et = _py_code_only(_t('.github/scripts/edit_track.py'))
-        if 'def make_stacked' not in et or 'vstack' not in et or 'alphaextract' not in et:
-            bad.append('edit_track.py — 스택 미리보기(make_stacked · 위 색 아래 알파) 없음')
+        if 'def make_stacked' not in et or 'vstack' not in et or 'alphaextract' not in et or 'out_range=tv' not in et:
+            bad.append('edit_track.py — 스택 미리보기(make_stacked · 위 색 아래 알파 · 알파 제한 범위 변환) 없음')
+        if not re.search(r'stacked = make_stacked\(', et):   # 정의만 있고 호출이 끊기면 테스트도 게이트도 못 본다(돌연변이 실측)
+            bad.append('edit_track.py — make_stacked 호출 없음(스택 미리보기가 안 만들어진다)')
         m = re.search(r'sk = f"(ly_out/[^"]+)"', et)
-        if not m or 'preview_stacked.mp4' not in m.group(1):
+        if not m or 'preview_stacked.mp4' not in m.group(1) or re.search(r'\n\s*sk = (?!f"ly_out/|"")', et) or 'vj["preview_stacked"] = f"{sk}' not in et:
             bad.append('edit_track.py — preview_stacked 가 같은 출처 상대 경로(ly_out/…)로 기록되지 않음')
-        rl = _t('functions/_r2live.js')
-        if 'status: 206' not in rl or 'content-range' not in rl or 'range: request.headers' not in rl:
+        rl = _js_code_only(_t('functions/_r2live.js'))
+        if 'status: 206' not in rl or 'content-range' not in rl or not re.search(r'range:\s*rr\b', rl) or 'function parseRange' not in rl:
             bad.append('functions/_r2live.js — 구간 요청 206 없음(아이폰 사파리 재생 거부)')
+        if "r2live('ly_out'" not in _js_code_only(_t('functions/ly_out/[[path]].js')):   # 같은 출처 라우트 = 재생기가 받는 길
+            bad.append('functions/ly_out/[[path]].js — r2live(ly_out) 라우트 없음(재생기 주소가 R2 에 안 닿는다)')
     except Exception as e:  # noqa: BLE001
         print('⚠️ check_alpha_player 스킵:', e); return 0
     if bad:
@@ -5517,6 +5526,16 @@ def check_ssot_coverage():
 _FORM_FONT_SURFACES = ('viewer/index.html', 'viewer/thumb.html', 'viewer/tr.html')   # 이미지 스튜디오 3표면(신규 편입 = 이 튜플에 1줄)
 _FORM_FONT_RE = re.compile(r'button\s*,\s*input\s*,\s*textarea\s*,\s*select\s*\{[^}]*font-family\s*:\s*inherit[^}]*letter-spacing\s*:\s*inherit', re.S)
 _FONT_SHORTHAND_RE = re.compile(r'(?<![-a-zA-Z])font\s*:\s*([^;{}]*\binherit\b[^;{}]*);')   # 값 안에 inherit 등장 → 아래에서 '단독 inherit(합법)'만 통과
+
+
+def _js_code_only(t):
+    """JS·HTML 원문 → 주석 걷은 판 — `<!-- -->` · 한 줄 `/* */` · 줄머리에서 여는 여러 줄 `/* */` · `//` 줄 끝(프로토콜 `https://` 는 피한다).
+    문자열 게이트가 주석 한 줄로 우회되던 구멍 차단(평의회 260929 = 장착 줄 앞에 `//` 만 붙여도 rc=0).
+    ⚠ `_strip_css_comments` 를 통째로 쓰지 않는 이유 = HTML 속성 `accept="video/*"` 의 `/*` 가 다음 `*/` 까지 수백 줄을 삼킨다(실측 = 스크립트 태그 소실)."""
+    t = re.sub(r'<!--.*?-->', ' ', t, flags=re.S)
+    t = re.sub(r'(?m)^[ \t]*/\*.*?\*/', ' ', t, flags=re.S)
+    t = re.sub(r'/\*[^\n]*?\*/', ' ', t)
+    return re.sub(r'(?<![:/\\])//[^\n]*', ' ', t)
 
 
 def _strip_css_comments(t):
@@ -8419,8 +8438,8 @@ def check_edit_track_chain():
         ('⑧ 실패 사유 화면 도달', 'd.xtr_note' in vwc and 'j.xtr_note' in vwc),   # 두 창을 함께 본다 = 자막을 같이 켜면 완성본이 `#vwrap`이 아니라 `#lyBurn`으로 라우팅되므로(edit.html 3128행) 한쪽만 고치면 그 조합에서 사유가 도로 사라진다 = 「같은 병의 형제를 놓치는」 반쪽 봉합 차단.   # ⚠ 260816 실사고 = 러너가 6곳에서 쓰는 xtr_note 를 **뷰어가 한 곳에서도 안 읽고 있었다**(실측 = viewer/ 전수 grep 코드 0건 · 실물 데이터엔 「keying 처리에 실패해서 그 단계는 빠졌어」가 박혀 있다) → 가림·키잉·크로마키가 통째로 빠져도 화면엔 「완료」만 떠서 운영자 눈이 유일한 검출기였다. ①~⑦은 전부 「옵션이 러너까지 **도달하는가**」(체인 생존) 축이라 「그 결과가 **실패했을 때 그걸 말하는가**」는 축 자체가 없었다.
         ('⑨ 알파 표시 계승', all(k in vwc for k in ('.vstage.alpha', '.lyburn-stage.alpha', "classList.toggle('alpha'", "classList.remove('alpha')"))
             and vwc.count("classList.toggle('alpha'") >= 2 and vwc.count("classList.remove('alpha')") >= 2),   # 두 창 × (규칙·토글·해제) = ⑧과 같은 사유로 형제를 함께 강제한다(개수 하한 = 한쪽 창의 배선만 남기고 다른 쪽을 지우는 반쪽 회귀 차단).   # ⚠ 260816 실사고 = 키잉은 실제로 동작하는데(실측 알파 평균 69/255 = 배경 73% 제거) `.vstage`·`.vstage video` 가 순흑이라 **배경이 빠진 자리를 검정이 그대로 메워** 원본과 구분이 불가능했다. 정본은 이미 `viewer/track.html`(178~179·905·837행)에 있었고 **편집 탭만 계승을 안 했다** = 이 레포 최빈 축 「형제는 가진 걸 자기만 안 가졌다」. 3부품 = CSS 규칙 · 완료 시 토글 · 대기 진입 해제(마지막이 빠지면 다음 비알파 제작에 지난 회차 체커보드가 남는다).
-        ('⑩ 무동작 검문 + 자리', _edit_track_probe_ok(et)),
-        ('⑪ 배경 빼기 통합', _bgrm_chain_ok(vw, ae, et, wf)),   # (260929 운영자 «키잉·크로마키 하나로») 화면 bgrm 송신 → api 옛 keying·chroma 이관 → 러너 옛 설정 수용 → 워크플로 헤비 스택 조건. ⚠ 마지막이 빠지면 torch·SAM2 가 안 깔려 배경 빼기가 매번 「처리에 실패」로 끝난다(260809 키잉 무동작 실사고와 같은 축)   # ⚠ 「돌긴 돌았는데 아무것도 안 뺐다」를 말하게 하는 층 + **그 층이 놓인 자리**. 크로마키는 그린스크린 영상에서만 원리적으로 동작하는데 일반 실사에 걸면 뺀 화소 0인 채로 **성공**한다(러너 초록·산출 정상·화면에 영상도 뜬다 — 원본과 똑같은 영상이) → 아무 층도 안 울리고 운영자 눈이 유일한 검출기였다. 자리를 같이 보는 이유 = 판정이 `vj.pop("xtr_note", …)` **앞**에 놓이면 쓰자마자 지워져 화면에 영영 안 뜬다 = 코드는 다 있는데 무증상인 최악 형태.
+        ('⑩ 무동작 검문 + 자리', _edit_track_probe_ok(et)),   # ⚠ 「돌긴 돌았는데 아무것도 안 뺐다」를 말하게 하는 층 + **그 층이 놓인 자리**. 크로마키는 그린스크린 영상에서만 원리적으로 동작하는데 일반 실사에 걸면 뺀 화소 0인 채로 **성공**한다(러너 초록·산출 정상·화면에 영상도 뜬다 — 원본과 똑같은 영상이) → 아무 층도 안 울리고 운영자 눈이 유일한 검출기였다. 자리를 같이 보는 이유 = 판정이 `vj.pop("xtr_note", …)` **앞**에 놓이면 쓰자마자 지워져 화면에 영영 안 뜬다 = 코드는 다 있는데 무증상인 최악 형태.
+        ('⑪ 배경 빼기 통합', _bgrm_chain_ok(_js_code_only(vw), _js_code_only(ae), et, wf)),   # (260929 운영자 «키잉·크로마키 하나로») 화면 bgrm 송신 → api 옛 keying·chroma 이관 → 러너 옛 설정 수용 → 워크플로 헤비 스택 조건. ⚠ 마지막이 빠지면 torch·SAM2 가 안 깔려 배경 빼기가 매번 「처리에 실패」로 끝난다(260809 키잉 무동작 실사고와 같은 축)
     ]
     for name, ok in checks:
         if not ok:
@@ -8432,7 +8451,8 @@ def check_edit_track_chain():
 
 
 def _bgrm_chain_ok(vw, ae, et, wf):
-    """⑪ 보조 — 배경 빼기(bgrm) 한 축이 네 층에 살아 있는가(운영자 260929 «키잉·크로마키 하나로 · 5번»)."""
+    """⑪ 보조 — 배경 빼기(bgrm) 한 축이 네 층에 살아 있는가(운영자 260929 «키잉·크로마키 하나로 · 5번»).
+    vw·ae = 주석 걷은 판(콜러) · 워크플로 = 스텝별로 본다(개수만 세면 한 스텝에서 빼고 딴 데 넣어도 통과 — 평의회 돌연변이 실측)."""
     if not ('bgrm:!!XTR.bgrm' in vw and "tg('bgrm'" in vw):   # 화면 토글 + 발사 페이로드
         return False
     if "'bgrm'" not in ae or 'x.keying === true || x.chroma === true' not in ae:   # api = bgrm 화이트리스트 + 옛 두 축 이관
@@ -8440,7 +8460,16 @@ def _bgrm_chain_ok(vw, ae, et, wf):
     code = _py_code_only(et)
     if 'def bgrm_route' not in code or 'x.get("keying")' not in code or 'x.get("chroma")' not in code:   # 러너 = 길 고르기 + 옛 설정 수용
         return False
-    return wf.count("contains(inputs.opts, '\"bgrm\":true')") >= 4   # 헤비 스택 조건 4곳(캐시 키 2 · 환경 · 키잉 스택)
+    heavy = "contains(inputs.opts, '\"bgrm\":true')"
+    need = (('키잉 스택', 'if:'), ('트래킹 환경', 'TRACK_HEAVY:'), ('트래킹 python deps 캐시', 'key:'), ('트래킹 모델 캐시', 'key:'))
+    for name, field in need:   # 헤비 스택(torch+SAM2) 설치·캐시가 배경 빼기에서 켜지는가 — 스텝마다
+        m = re.search(r'- name: ' + re.escape(name) + r'[^\n]*\n(.*?)(?=\n      - name: |\Z)', wf, re.S)
+        if not m:
+            return False
+        ln = [x for x in m.group(1).split('\n') if x.strip().startswith(field)]
+        if not ln or heavy not in ln[0]:
+            return False
+    return True
 
 
 def _edit_track_probe_ok(et):

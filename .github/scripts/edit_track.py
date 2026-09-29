@@ -150,6 +150,25 @@ def detect_screen(src):
         return None
 
 
+def probe_dur(src):
+    """영상 길이(초) — 분석 전에 90초 캡을 가르려고(스크린 아닌 긴 영상이 분석 4~5분을 헛돌고 나서야 거절되던 것 차단 · 평의회). 실패 = 0."""
+    try:
+        r = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", src],
+                           capture_output=True, text=True, timeout=60)
+        return max(0.0, float((r.stdout or "0").strip() or 0))
+    except Exception:
+        return 0.0
+
+
+def render_err(tid):
+    """track_render 가 실패하며 남긴 실제 사유(viewer/track_out/<id>/video.json error) — 없으면 ""(사유 없는 「실패」만 뜨던 것 차단)."""
+    try:
+        d = json.load(open(os.path.join("viewer", "track_out", tid, "video.json"), encoding="utf-8"))
+        return str(d.get("error") or "").strip()[:120]
+    except Exception:
+        return ""
+
+
 def bgrm_route(scr, n_subj, dur):
     """배경 빼기 길 고르기(순수 함수 · tests/test_bgrm.py) → (엔진 "keying"|"chroma"|None, 사유 문구|None).
     · 스크린 + 사람 O + 90초 이하 = keying(섞기 · 사유 없음)
@@ -157,23 +176,27 @@ def bgrm_route(scr, n_subj, dur):
     · 스크린 X + 90초 초과 = None(정직 사유) · 스크린 X + 사람 X = None(정직 사유) · 스크린 X + 사람 O = keying(AI 단독)"""
     long_ = dur > KEY_MAX_SEC + 1
     if scr and (not n_subj or long_):
-        return "chroma", ("%d초가 넘어서 색으로만 뺐어(사람 윤곽 보정 없음 · %d초 이하로 자르면 더 깔끔해)." % (KEY_MAX_SEC, KEY_MAX_SEC) if long_
-                          else "사람을 못 찾아서 색으로만 뺐어 — 스탠드·조명이 남았으면 화면 밖으로 잘라줘.")
+        return "chroma", ("%d초가 넘어서 배경 색으로만 뺐어(사람 윤곽 정리 없음) — %d초 이하로 자르면 더 깔끔해." % (KEY_MAX_SEC, KEY_MAX_SEC) if long_
+                          else "사람을 못 찾아서 배경 색으로만 뺐어 — 스탠드·조명 같은 게 남았으면 화면 크기(크롭)로 잘라내줘.")
     if long_:
-        return None, "배경 빼기는 %d초까지야(초록 배경 영상은 더 길어도 돼) — 잘라서 다시 해줘." % KEY_MAX_SEC
+        return None, "배경 빼기는 %d초까지야(초록·파랑 배경 영상은 더 길어도 돼) — 구간을 잘라서 다시 해줘." % KEY_MAX_SEC
     if n_subj:
         return "keying", None
-    return None, "영상에서 사람을 못 찾아서 배경을 못 뺐어 — 트래킹 탭에서 수동으로 해줘."
+    return None, "영상에서 사람을 못 찾아서 배경을 못 뺐어 — 사람이 크게 나온 구간으로 잘라서 다시 해줘."
 
 
 def make_stacked(master, out):
     """알파 마스터(MOV) → 스택 알파 H.264(위 = 색 · 아래 = 알파를 밝기로) — 운영자 260929 «윈도우·아이폰 둘 다 진짜 투명».
-    ⚠ 왜 따로 만드나 = 알파 webm(VP9)은 아이폰 사파리가 알파를 못 읽어 **검은 배경**으로 나오고, HEVC 알파는
+    ⚠ 왜 따로 만드나 = 알파 webm(VP9)은 아이폰 사파리가 알파를 못 읽어 투명이 안 되고(원래 배경이 그대로 남거나 아예 재생이 안 됨 ·
+      실기 미확인), HEVC 알파는
       맥 VideoToolbox에서만 인코딩된다. H.264는 모든 브라우저가 읽으니 알파를 **그림으로** 실어 보내고
       화면(viewer/nm-alpha.js)이 WebGL로 두 장을 합쳐 진짜 투명을 그린다. 실패 = None(webm 프리뷰가 그대로 폴백)."""
     sc = (f"scale='if(gt(iw,ih),min({STACK_LONG},iw),-2)':'if(gt(iw,ih),-2,min({STACK_LONG},ih))',"
           "crop=trunc(iw/2)*2:trunc(ih/2)*2")
-    fc = f"[0:v]{sc},format=yuva444p,split[c][a];[c]format=yuv420p[cc];[a]alphaextract,format=yuv420p[aa];[cc][aa]vstack=inputs=2[v]"
+    # 알파 = 밝기 **제한 범위(16~235)로 변환**해 싣는다 — 범위 표기 없는 H.264 를 브라우저는 제한 범위로 읽는다(0~255 그대로 실으면
+    #   16 아래·235 위가 잘려 머리카락·「부드럽게」 반투명이 딱딱해진다 · 평의회 260929 실측 반투명 오차 10.9 → 5.8/255).
+    fc = (f"[0:v]{sc},format=yuva444p,split[c][a];[c]format=yuv420p[cc];"
+          "[a]alphaextract,scale=in_range=pc:out_range=tv,format=yuv420p[aa];[cc][aa]vstack=inputs=2[v]")
     try:
         r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", master, "-filter_complex", fc, "-map", "[v]", "-map", "0:a?",
                             "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
@@ -254,13 +277,39 @@ def _alpha_note(path, mode):
     log("알파 평균 %.2f/255 (%s)" % (m, mode))
     if m >= ALPHA_NOOP_MIN:
         if mode == "chroma":
-            return "배경 색을 거의 못 찾아서 뺀 것 없이 그대로야 — 트래킹 탭에서 수동으로 해줘."
-        return "영상에서 사람을 못 가려내서 배경이 그대로 남았어 — 트래킹 탭에서 수동으로 해줘."
+            return "배경 색을 거의 못 찾아서 뺀 것 없이 그대로야 — 초록·파랑 배경 영상이 맞는지 확인해줘."
+        return "영상에서 사람을 못 가려내서 배경이 그대로 남았어 — 사람이 크게 나온 구간으로 잘라서 다시 해줘."
     if m <= ALPHA_GONE_MAX:
         if mode == "chroma":
             return "배경 색이 화면 거의 전부라 통째로 지워졌어 — 사람이 크게 나온 구간으로 잘라서 다시 해줘."
-        return "사람을 못 붙잡아서 화면이 통째로 비었어 — 트래킹 탭에서 수동으로 해줘."
+        return "사람을 못 붙잡아서 화면이 통째로 비었어 — 사람이 크게 나온 구간으로 잘라서 다시 해줘."
     return None
+
+
+def finish_vj(vj_p, vj, vid_id, phase, pre_merge=False):
+    """쪽지 저장 = post 모든 출구 공통(평의회 260929). ① 기다림 표식(xtr_wait · ly_burn 이 단다) 걷기
+    ② pre_merge = 앞 단계(모자이크·핀셋)가 구운 축·얼굴을 합친다(뒤 단계가 빠져도 앞 단계 기록이 남게 — 구판은 사라졌다)
+    ③ 보관함 미러 = 화면 폴이 이 쪽지를 받는다(안 올리면 합성 단계 중간 쪽지만 보고 영영 기다리거나 투명 아닌 결과에 멈춘다).
+    pre 단계 = 저장만(뒤따르는 컴포즈가 쪽지를 새로 쓴다)."""
+    if phase == "post":
+        vj.pop("xtr_wait", None)
+        if pre_merge:
+            try:
+                pre_done = json.load(open("/tmp/edit_track_done.json", encoding="utf-8"))
+            except Exception:
+                pre_done = []
+            if pre_done and not vj.get("xtr"):
+                vj["xtr"] = pre_done
+            f = _pre_faces()
+            if f:
+                vj["faces"] = f
+    try:
+        os.makedirs(os.path.dirname(vj_p), exist_ok=True)
+        json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
+    except Exception as e:
+        log("쪽지 저장 실패: " + str(e)[:80])
+    if phase == "post":
+        _mirror_vj(vid_id, vj)
 
 
 def main():
@@ -280,16 +329,18 @@ def main():
         log("xtr 없음 — 스킵")
         return 0
     on, x = nx
-    if not os.path.isfile(src):
-        log("입력 영상 없음 — 스킵: " + src)
-        return 0
-
     outdir = os.path.join("viewer", "ly_out", vid_id)
     vj_p = os.path.join(outdir, "video.json")
     try:
         vj = json.load(open(vj_p, encoding="utf-8"))
     except Exception:
         vj = {}
+    if not os.path.isfile(src):
+        log("입력 영상 없음 — 스킵: " + src)
+        if phase == "post" and (on["bgrm"] or on["silh"]):
+            vj["xtr_note"] = "처리할 영상을 못 찾아서 그 단계는 빠졌어 — 다시 생성해줘."
+            finish_vj(vj_p, vj, vid_id, phase, pre_merge=True)
+        return 0
     # ⚠ 컴포즈 error가 있어도 **진행한다** — 편집 축 없이 가림만 켜고 생성하면(운영자 주 시나리오) ly_burn은 합성할 게 없어
     #   "자막 타이밍 데이터 없음"을 error로 쓰고 끝난다(실측 260808). 그건 이 잡의 실패가 아니라 **컴포즈할 게 없었다**는 뜻이고,
     #   호출자가 유효한 입력 영상을 쥐어준 이상 가림 산출물이 곧 이 잡의 결과다. 성공하면 그 error를 걷어낸다(아래 vj.pop).
@@ -302,18 +353,8 @@ def main():
     endpoint = ("bgrm" if on["bgrm"] else "maskfx" if on["silh"] else "") if phase == "post" else ""
     if not order and not endpoint:
         if phase == "post":   # 알파 축이 없어도 pre가 구운 게 있으면 최종 기록에 남긴다(컴포즈가 video.json을 새로 쓰므로 여기서만 가능)
-            try:
-                pre_done = json.load(open("/tmp/edit_track_done.json", encoding="utf-8"))
-            except Exception:
-                pre_done = []
-            faces = _pre_faces()
-            if pre_done or faces:
-                if pre_done:
-                    vj["xtr"] = pre_done
-                if faces:
-                    vj["faces"] = faces
-                json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
-                log("pre 적용분 기록: %s · 얼굴 %d" % (",".join(pre_done), len(faces)))
+            finish_vj(vj_p, vj, vid_id, phase, pre_merge=True)
+            log("pre 적용분 기록: %s · 얼굴 %d" % (",".join(vj.get("xtr") or []), len(vj.get("faces") or [])))
         log("이 단계(%s)에서 적용할 축 없음 — 스킵" % phase)
         return 0
     log("[%s] 적용 축: %s" % (phase, ",".join(order + ([endpoint] if endpoint else []))))
@@ -322,15 +363,25 @@ def main():
     scr = detect_screen(src) if endpoint == "bgrm" else None
     if scr:
         log("스크린 판별: %s %s(가장자리 %.0f%%)" % (scr["kind"], scr["color"], scr["frac"] * 100))
+    dur = probe_dur(src) if endpoint == "bgrm" else 0.0
+    if endpoint == "bgrm" and not scr and dur > KEY_MAX_SEC + 1:   # 스크린 아닌 긴 영상 = 분석(4~5분) 전에 정직 거절(평의회)
+        why = bgrm_route(None, 1, dur)[1]
+        log("bgrm 스킵 — " + why)
+        vj["xtr_note"] = why
+        finish_vj(vj_p, vj, vid_id, phase, pre_merge=True)
+        return 0
     need_analyze = bool(order) or endpoint in ("bgrm", "maskfx")
     doc = analyze(tid, src) if need_analyze else stub_tracks(tid, src)
+    ana_failed = doc is None
     if doc is None and scr:   # 인물 분석이 죽어도 스크린 영상이면 크로마 단독으로 뺄 수 있다(색만 쓰는 경로 = 분석 불요)
         log("분석 실패 — 스크린 영상이라 크로마 단독으로 계속")
         doc = stub_tracks(tid, src)
     if doc is None:
         log("분석 실패 — 편집본 그대로 둔다")
-        vj["xtr_note"] = "인물 분석에 실패해서 가림을 못 넣었어 — 트래킹 탭에서 수동으로 해줘."
-        json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
+        vj["xtr_note"] = ("사람 분석이 안 돼서 배경을 못 뺐어 — 잠시 뒤 다시 생성해줘." if endpoint == "bgrm"
+                          else "사람 분석이 안 돼서 실루엣을 못 넣었어 — 잠시 뒤 다시 생성해줘." if endpoint == "maskfx"
+                          else "인물 분석에 실패해서 가림을 못 넣었어 — 잠시 뒤 다시 생성해줘.")
+        finish_vj(vj_p, vj, vid_id, phase, pre_merge=True)
         return 0
 
     pids = [p["pid"] for p in (doc.get("people") or []) if isinstance(p.get("pid"), int)][:MAX_TARGETS]
@@ -406,24 +457,29 @@ def main():
         cur, done = keep, done + [mode]
 
     bnote = None   # 배경 빼기 경로 설명(크로마 단독으로 간 이유 등) — 성공 회차에도 화면에 남긴다(아래 pop 뒤에 다시 쓴다)
-    stacked, method = None, None   # method = 배경 빼기가 실제로 간 길(keying = AI(+섞기) · chroma = 색 단독)
+    stacked, method, mixinfo = None, None, {}   # method = 배경 빼기가 실제로 간 길(keying = AI(+섞기) · chroma = 색 단독)
+    fe_ai = int(_num(x.get("bgfe", x.get("kfe")), 0, 40, 0))   # 부드럽게(px) — AI 경로 = 그대로 · 색 경로 = 1/4 (gblur 시그마 0~10 · 최소 1 = 종전 크로마 기본)
+
+    def chroma_payload():
+        return {"mode": "chroma", "opts": {
+            "color": scr["color"], "similarity": scr.get("sim", 0.15), "blend": 0.05, "despill": 0.5, "choke": 0,
+            "feather": max(1, int(round(fe_ai / 4.0))), "edge": "high"}}
+
     if endpoint:
         set_src(tid, doc, cur)
         mode, payload = endpoint, None
         if endpoint == "bgrm":
-            route, why = bgrm_route(scr, len(sids), _num((doc.get("meta") or {}).get("dur"), 0, 1e9, 0))
+            route, why = bgrm_route(scr, len(sids), dur or _num((doc.get("meta") or {}).get("dur"), 0, 1e9, 0))
             if route == "chroma":
                 # 스크린 영상인데 AI가 사람을 못 잡았거나 AI 캡(90초)을 넘었다 = 색 단독(판별한 실제 스크린 색 · 사람 영역 보정 없음)
-                mode, bnote = "chroma", why
-                payload = {"mode": "chroma", "opts": {
-                    "color": scr["color"], "similarity": 0.15, "blend": 0.05, "despill": 0.5, "choke": 0,
-                    "feather": int(_num(x.get("bgfe", x.get("kfe")), 0, 10, 1)), "edge": "high"}}
+                mode, payload = "chroma", chroma_payload()
+                bnote = ("사람 분석이 안 돼서 배경 색으로만 뺐어 — 스탠드·조명 같은 게 남았으면 화면 크기(크롭)로 잘라내줘."
+                         if ana_failed else why)
             elif route == "keying":
                 mode = "keying"
-                payload = {"mode": "keying", "keep": sids, "keepP": [], "extra": [],
-                           "opts": {"feather": int(_num(x.get("bgfe", x.get("kfe")), 0, 40, 0))}}
+                payload = {"mode": "keying", "keep": sids, "keepP": [], "extra": [], "opts": {"feather": fe_ai}}
                 if scr:
-                    payload["screen"] = {"color": scr["color"], "kind": scr["kind"]}   # track_keying 섞기 켜기
+                    payload["screen"] = {"color": scr["color"], "kind": scr["kind"], "sim": scr.get("sim", 0.15)}   # track_keying 섞기 켜기
             else:
                 log("bgrm 스킵 — " + why)
                 vj["xtr_note"] = why
@@ -437,20 +493,39 @@ def main():
             log(endpoint + " 스킵 — 대상 피사체 0개")
             vj["xtr_note"] = "영상에서 피사체를 못 찾아서 그 단계는 빠졌어."
         if payload:
+            if mode == "keying":
+                try:
+                    os.remove("/tmp/key_mix.json")
+                except OSError:
+                    pass
             got, gotp = render(tid, payload, mode)
+            if not got and endpoint == "bgrm" and mode == "keying" and scr:
+                # 스크린 영상인데 AI 가 거절·실패(예산 초과·모델 설치 실패 등) = 색 단독으로 한 번 더(구 크로마키로는 되던 영상이 결과 없이 끝나던 것 차단 · 평의회)
+                why = render_err(tid)
+                log("AI 배경 빼기 실패(%s) — 배경 색 단독으로 재시도" % (why or "사유 없음"))
+                mode = "chroma"
+                got, gotp = render(tid, chroma_payload(), mode)
+                if got:
+                    bnote = "AI 처리가 안 돼서" + ("(" + why + ")" if why else "") + " 배경 색으로만 뺐어."
             if got:
                 cur, prev, done, method = got, gotp, done + [endpoint], mode
                 if endpoint == "bgrm":
+                    if mode == "keying":
+                        try:
+                            mixinfo = json.load(open("/tmp/key_mix.json", encoding="utf-8")) or {}
+                        except Exception:
+                            mixinfo = {}
                     stacked = make_stacked(got, "/tmp/edit_track_stacked.mp4")   # (경로, 폭, 높이) | None
             else:
-                log(endpoint + " 렌더 실패 — 직전 산출로 계속")
-                vj["xtr_note"] = ("배경 빼기 처리에 실패해서 그 단계는 빠졌어." if endpoint == "bgrm"
+                why = render_err(tid)
+                log(endpoint + " 렌더 실패 — 직전 산출로 계속" + (" · " + why if why else ""))
+                vj["xtr_note"] = (("배경 빼기에 실패했어" + (" — " + why if why else " — 다시 생성해줘.")) if endpoint == "bgrm"
                                   else f"{endpoint} 처리에 실패해서 그 단계는 빠졌어.")
                 bnote = None
 
     if not done:
         if phase == "post":
-            json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
+            finish_vj(vj_p, vj, vid_id, phase, pre_merge=True)
         return 0
 
     if phase == "pre":
@@ -495,25 +570,21 @@ def main():
         if not pv and os.path.getsize(prev) <= GIT_FALLBACK_MAX:
             shutil.copyfile(prev, os.path.join(outdir, "preview.webm"))
             pv = f"ly_out/{vid_id}/preview.webm"
-    sk = ""   # 스택 알파 미리보기(윈도우·아이폰 공통 진짜 투명) — 키는 **같은 출처 상대 경로**로 기록한다:
-    #   R2 공개 도메인은 CORS 헤더가 없어 WebGL이 그 영상을 텍스처로 못 읽는다(보안 오염) → 화면은 /ly_out/ 함수
-    #   (functions/_r2live.js = 같은 출처 R2 서빙)로 받는다. git 폴백도 같은 경로라 기록 값이 하나로 끝난다.
-    if stacked:
-        ok_ = False
-        try:
-            ok_ = bool(_upload(stacked[0], f"ly_out/{vid_id}/preview_stacked.mp4", "video/mp4"))
-        except Exception:
-            ok_ = False
-        if not ok_ and os.path.getsize(stacked[0]) <= GIT_FALLBACK_MAX:
-            shutil.copyfile(stacked[0], os.path.join(outdir, "preview_stacked.mp4"))
-            ok_ = True
-        if ok_:
-            sk = f"ly_out/{vid_id}/preview_stacked.mp4"
     if not url and not pv:
         log("업로드 실패 + git 폴백 초과 — 편집본 그대로 둔다")
-        vj["xtr_note"] = "가림은 됐는데 결과를 못 올렸어 — 다시 생성해줘."
-        json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
+        vj["xtr_note"] = "처리는 됐는데 결과를 못 올렸어 — 다시 생성해줘."
+        finish_vj(vj_p, vj, vid_id, phase, pre_merge=True)
         return 0
+    sk = ""   # 스택 알파 미리보기(윈도우·아이폰 공통 진짜 투명) — 키는 **같은 출처 상대 경로**로 기록한다:
+    #   R2 공개 도메인은 CORS 헤더가 없어 WebGL이 그 영상을 텍스처로 못 읽는다(보안 오염) → 화면은 /ly_out/ 함수
+    #   (functions/_r2live.js = 같은 출처 R2 서빙 · 구간 요청 206)로 받는다.
+    #   ⚠ R2 에 올라갔을 때만 기록 — git 폴백(정적 자산)은 구간 요청을 무시해 아이폰이 재생을 못 한다(평의회 실측 = Pages 정적 200 전량) → 기록 안 하면 화면은 webm 그대로.
+    if stacked:
+        try:
+            if _upload(stacked[0], f"ly_out/{vid_id}/preview_stacked.mp4", "video/mp4"):
+                sk = f"ly_out/{vid_id}/preview_stacked.mp4"
+        except Exception as e:
+            log("스택 미리보기 업로드 실패(무해 — webm 그대로): " + str(e)[:80])
 
     # ⚠ 화면 재생 = **webm 프리뷰 우선**(260809 실사고) — 알파 마스터는 ProRes 4444 MOV라 **브라우저가 재생을 못 한다**.
     #   러너 로그는 「크로마키 완료 · 마스터 71MB」로 성공인데 화면엔 아무것도 안 나와 운영자에겐 "작동 안 함"으로 보였다.
@@ -535,7 +606,8 @@ def main():
         if stacked[1] > 1 and stacked[2] > 1:
             vj["stacked_w"], vj["stacked_h"] = stacked[1], stacked[2]
     if endpoint == "bgrm" and method:
-        vj["bgrm"] = {"method": ("mix" if (method == "keying" and scr) else "ai" if method == "keying" else "color"),
+        mixed = method == "keying" and scr and int(mixinfo.get("frames") or 0) > 0   # 섞기가 실제로 돌았나(파이프 실패·안전장치 되돌림 = AI)
+        vj["bgrm"] = {"method": ("mix" if mixed else "ai" if method == "keying" else "color"),
                       "screen": (scr or {}).get("kind"), "color": (scr or {}).get("color")}
     if not url:
         vj["note"] = "master-lost"   # 뷰어가 정직 표시(다운로드용 알파 마스터 없음 · 화면 재생은 프리뷰) — track_keying·track_chroma 동일 문자열
@@ -561,8 +633,7 @@ def main():
         vj["faces"] = _f
     vj.pop("error", None)   # 산출이 실제로 나왔으니 컴포즈 단계의 "합성할 게 없었다" 기록은 걷는다(남기면 뷰어가 실패로 표시 = 결과가 있는데 못 보는 사고)
     vj.pop("skip", None)
-    json.dump(vj, open(vj_p, "w", encoding="utf-8"), ensure_ascii=False)
-    _mirror_vj(vid_id, vj)
+    finish_vj(vj_p, vj, vid_id, phase)   # 기다림 표식 걷기 + 저장 + 보관함 미러
     log("완료 — " + ",".join(done) + " · " + str(os.path.getsize(cur) // 1048576) + "MB")
     return 0
 
@@ -651,9 +722,27 @@ def _upload(path, key, ctype):
     return trr._r2_upload_file(path, key, ctype)
 
 
+def _crash_note(e):
+    """예외로 죽은 post = 기다림 표식을 걷고 사유를 남긴다(안 걷으면 화면이 시간 초과까지 기다린다 · 평의회)."""
+    try:
+        if len(sys.argv) > 3 and sys.argv[3] == "post" and len(sys.argv) > 1:
+            vid_id = sys.argv[1]
+            vj_p = os.path.join("viewer", "ly_out", vid_id, "video.json")
+            try:
+                vj = json.load(open(vj_p, encoding="utf-8"))
+            except Exception:
+                vj = {}
+            if vj.get("xtr_wait"):
+                vj["xtr_note"] = "처리 중 오류가 나서 그 단계는 빠졌어 — 다시 생성해줘."
+                finish_vj(vj_p, vj, vid_id, "post", pre_merge=True)
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
     try:
         sys.exit(main())
     except Exception as e:   # 전면 fail-soft — 자동 가림이 편집 잡을 죽이면 안 된다(ly_burn·track_render 동일 계약)
         print("::warning::자동 트래킹 실패(편집본은 정상): " + repr(e), flush=True)
+        _crash_note(e)
         sys.exit(0)

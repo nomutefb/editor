@@ -14,7 +14,8 @@
   if (window.nmAlpha) return;
   const VS = 'attribute vec2 p;varying vec2 t;void main(){t=vec2((p.x+1.)*.5,(1.-p.y)*.5);gl_Position=vec4(p,0.,1.);}';
   // 색 = 위 절반 · 알파 = 아래 절반 밝기(G) · h = 반 텍셀(경계 번짐 차단) · 알파 양끝 2% = 압축 잡음 정리(바닥 잔상·몸 안 얼룩)
-  const FS = 'precision mediump float;uniform sampler2D s;uniform float h;varying vec2 t;'
+  // 정밀도 = 가능하면 highp(1920줄 텍스처에서 mediump 반정밀은 알파 행이 ±0.7텍셀 흔들릴 수 있다 · 평의회 계산)
+  const FS = '#ifdef GL_FRAGMENT_PRECISION_HIGH\nprecision highp float;\n#else\nprecision mediump float;\n#endif\nuniform sampler2D s;uniform float h;varying vec2 t;'
     + 'void main(){vec3 c=texture2D(s,vec2(t.x,min(t.y*.5,.5-h))).rgb;float a=texture2D(s,vec2(t.x,max(.5+t.y*.5,.5+h))).g;'
     + 'a=clamp((a-.02)/.96,0.,1.);gl_FragColor=vec4(c*a,a);}';
   const PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';   // vd·ys·index .monplay 정본 글리프
@@ -40,15 +41,20 @@
     return { g, uh: g.getUniformLocation(pr, 'h') };
   }
 
-  function unmount(orig) {
-    const st = orig && orig._nma;
-    if (!st) return;
-    orig._nma = null;
+  // 재생기 하나 = st 하나. 걷을 땐 **그 st 만** 죽인다 — 같은 video 에 다시 붙인 뒤 옛 재생기의 늦은 이벤트(load() 가 큐에 넣는
+  //   timeupdate · 밀려난 WebGL 문맥의 contextlost)가 새 재생기를 걷던 사고 차단(평의회 260929 실측 = 작업 내역에서 자막+배경 빼기 작업을 연달아 열면 두 번째가 webm 으로 떨어졌다).
+  function destroy(st) {
+    if (!st || st.dead) return;
+    st.dead = true;
+    const orig = st.orig;
+    if (orig._nma === st) { orig._nma = null; orig.style.display = st.disp; }
     try { st.mo.disconnect(); st.mo2.disconnect(); } catch (e) {}
     try { st.v.pause(); st.v.removeAttribute('src'); st.v.load(); } catch (e) {}   // 떼어낸 뒤에도 소리가 이어지는 것 차단
+    try { const x = st.g.getExtension('WEBGL_lose_context'); if (x) x.loseContext(); } catch (e) {}   // 문맥 반납(브라우저 동시 문맥 상한 ≈16 · 쌓이면 가장 오래된 것부터 강제 유실)
     if (st.box.parentNode) st.box.parentNode.removeChild(st.box);
-    orig.style.display = st.disp;
   }
+
+  function unmount(orig) { if (orig && orig._nma) destroy(orig._nma); }
 
   function mount(orig, src, o) {
     if (!orig || !src || !orig.parentNode) return false;
@@ -63,19 +69,20 @@
     const box = document.createElement('div');
     box.className = 'nm-alpha';
     box.innerHTML = '<button type="button" class="monplay" aria-label="재생 — 탭=재생/일시정지">' + PLAY + '</button>'
-      + '<div class="monseek" role="slider" tabindex="0" aria-label="진행 위치 — 탭·드래그=이동" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>';
+      + '<div class="monseek" role="slider" tabindex="0" aria-label="진행 위치 — 탭·드래그=이동 · 스페이스=재생/일시정지" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i></div>';
     box.insertBefore(cv, box.firstChild);
     const v = document.createElement('video');
     v.setAttribute('playsinline', ''); v.playsInline = true; v.preload = 'auto';
     v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1;
     box.appendChild(v);
     const pb = box.querySelector('.monplay'), sk = box.querySelector('.monseek'), fill = sk.querySelector('i');
-    const st = { src, box, v, disp: orig.style.display, mo: null, mo2: null, dead: false };
+    const st = { src, orig, box, v, g, disp: orig.style.display, mo: null, mo2: null, dead: false, looping: false, priming: false };
+    const alive = () => !st.dead && orig._nma === st;
 
-    const fail = () => { if (st.dead) return; st.dead = true; unmount(orig); };
+    const fail = () => destroy(st);
     const draw = () => {
-      if (st.dead || v.readyState < 2) return;
-      if (!box.isConnected) { unmount(orig); return; }   // 창이 통째로 갈아엎였다(다음 제작) = 소리까지 정리
+      if (!alive() || v.readyState < 2) return;
+      if (!box.isConnected) { destroy(st); return; }   // 창이 통째로 갈아엎였다(다음 제작) = 소리까지 정리
       const vw = v.videoWidth | 0, vh = (v.videoHeight / 2) | 0;
       if (vw < 2 || vh < 2) return;
       if (cv.width !== vw || cv.height !== vh) { cv.width = vw; cv.height = vh; }
@@ -87,27 +94,32 @@
         g.drawArrays(g.TRIANGLE_STRIP, 0, 4);
       } catch (e) { fail(); }
     };
-    const loop = () => {
-      if (st.dead) return;
+    const loop = () => {   // 루프는 한 줄기만(재생·멈춤 반복마다 줄기가 늘어 업로드가 배로 불던 것 차단 · 평의회 실측 22→100회/초)
+      if (!alive() || v.paused || v.ended) { st.looping = false; draw(); return; }
       draw();
-      if (v.paused || v.ended) return;
       if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(loop); else requestAnimationFrame(loop);
     };
     cv.addEventListener('webglcontextlost', e => { e.preventDefault(); fail(); });
     v.addEventListener('error', fail);
     v.addEventListener('loadeddata', draw);
-    v.addEventListener('seeked', draw);
-    v.addEventListener('play', () => { pb.hidden = true; loop(); });
-    v.addEventListener('pause', () => { pb.hidden = false; draw(); });
-    v.addEventListener('ended', () => { pb.hidden = false; });
+    v.addEventListener('seeked', () => { draw(); if (v.paused && v.requestVideoFrameCallback) v.requestVideoFrameCallback(() => draw()); });   // 멈춘 채 이동 = 새 프레임이 늦게 오는 엔진 대비 한 번 더
+    v.addEventListener('play', () => { if (!alive()) return; pb.hidden = true; if (!st.looping) { st.looping = true; loop(); } });
+    v.addEventListener('pause', () => { if (!alive()) return; pb.hidden = false; draw(); });
+    v.addEventListener('ended', () => { if (alive()) pb.hidden = false; });
     v.addEventListener('timeupdate', () => {
-      if (!box.isConnected) { unmount(orig); return; }   // 떼어진 채 재생 중(프레임 콜백은 화면 밖 영상엔 안 온다) = 소리 정리
+      if (!alive()) return;
+      if (!box.isConnected) { destroy(st); return; }   // 떼어진 채 재생 중(프레임 콜백은 화면 밖 영상엔 안 온다) = 소리 정리
       if (!v.duration) return;
       const p = v.currentTime / v.duration * 100;
       fill.style.width = p + '%'; sk.setAttribute('aria-valuenow', String(Math.round(p)));
     });
-    const toggle = () => { if (v.paused || v.ended) { v.muted = false; const p = v.play(); if (p && p.catch) p.catch(() => {}); } else v.pause(); };
+    const toggle = () => {
+      if (!alive()) return;
+      if (st.priming) { st.priming = false; v.muted = false; if (v.paused) { const p = v.play(); if (p && p.catch) p.catch(() => {}); } return; }   // 첫 장면 채우는 중 탭 = 그대로 소리 켜고 재생(탭이 멈춤으로 먹히던 것 차단)
+      if (v.paused || v.ended) { v.muted = false; const p = v.play(); if (p && p.catch) p.catch(() => {}); } else v.pause();
+    };
     cv.addEventListener('click', toggle);
+    pb.addEventListener('click', toggle);   // 키보드(Enter·Space) = 버튼 click — 마우스는 pointer-events:none 이라 캔버스가 받는다
     const seek = p => { if (v.duration) { v.currentTime = Math.min(1, Math.max(0, p)) * v.duration; } };
     sk.onpointerdown = ev => {
       ev.stopPropagation();
@@ -117,15 +129,16 @@
       sk.onpointermove = at; sk.onpointerup = () => { sk.onpointermove = null; sk.onpointerup = null; };
     };
     sk.onkeydown = ev => {
+      if (ev.key === ' ' || ev.key === 'k') { ev.preventDefault(); toggle(); return; }   // 재생 중엔 ▶ 가 숨어 포커스를 못 받는다 = 진행선에서 재생/멈춤
       if (!v.duration) return;
       if (ev.key === 'ArrowRight') { ev.preventDefault(); seek(v.currentTime / v.duration + .05); }
       else if (ev.key === 'ArrowLeft') { ev.preventDefault(); seek(v.currentTime / v.duration - .05); }
     };
     // 원래 video 에 hidden 이 서면(대기 진입·스킵·에러 표시) 재생기도 같이 걷는다 = 표면 코드가 재생기를 몰라도 형제 상태가 갈리지 않는다
-    st.mo = new MutationObserver(() => { if (orig.hidden) unmount(orig); });
+    st.mo = new MutationObserver(() => { if (alive() && orig.hidden) destroy(st); });
     st.mo.observe(orig, { attributes: true, attributeFilter: ['hidden'] });
     // 창을 통째로 갈아엎으면(다음 제작 대기·새 결과) 재생기도 떨어져 나간다 = 그 순간 소리까지 정리
-    st.mo2 = new MutationObserver(() => { if (!box.isConnected) unmount(orig); });
+    st.mo2 = new MutationObserver(() => { if (alive() && !box.isConnected) destroy(st); });
     st.mo2.observe(orig.parentNode, { childList: true });
 
     orig._nma = st;
@@ -135,8 +148,11 @@
     v.src = src;
     // 첫 장면 채우기 = 소리 끈 한 박자 재생 후 멈춤(아이폰은 재생 전엔 프레임을 안 준다 · 막히면 ▶만 남는다 = 누르면 된다)
     v.muted = true;
+    st.priming = true;
     const pr = v.play();
-    if (pr && pr.then) pr.then(() => { if (!st.dead && v.muted) { v.pause(); try { v.currentTime = 0; } catch (e) {} v.muted = false; } }).catch(() => { v.muted = false; });
+    if (pr && pr.then) pr.then(() => { if (alive() && st.priming) { st.priming = false; v.pause(); try { v.currentTime = 0; } catch (e) {} v.muted = false; } })
+      .catch(() => { st.priming = false; v.muted = false; });
+    else { st.priming = false; v.muted = false; }
     return true;
   }
 

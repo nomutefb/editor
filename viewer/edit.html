@@ -536,6 +536,7 @@
   /* 완성 영상(#lyBurn) — ly.html 정본 verbatim 계승(.lypv 크롬 동일) · B-2 이식 때 CSS만 누락돼 video가 원본 해상도 그대로 패널을 뚫던 회귀 봉합(260712) = 비율·해상도 무관 폭 100%+높이 캡 영역 안 표시 */
   .lyburn { margin:16px 0 0; }
   .lyburn[hidden] { display:none; }
+  .lyburn .nm-alpha { border-radius:var(--r-m); overflow:hidden; }   /* 진행선이 둥근 모서리 밖으로 삐져나오지 않게(#vwrap 은 .vstage 가 잘라 준다) */
   .lyburn video, .lyburn .nm-alpha > canvas { display:block; width:100%; max-height:min(320px, 40dvh); background:var(--bg); border:1px solid var(--line); border-radius:var(--r-m); }   /* 캔버스 = 스택 알파 재생기(nm-alpha.js) 콤마 편승 */
   .lyburn video[hidden] { display:none; }
   .lyburn-row { display:flex; align-items:center; gap:10px; margin-top:8px; }
@@ -556,7 +557,7 @@
   .spchip.skip { cursor:default; opacity:.55; }   /* 칩 경계를 넘는 교정(띄어쓰기 등) = 표시만·적용 불가(어절 타임스탬프 보존 우선) — 조용한 유실 금지 */
   /* 섹션 위계 들여쓰기 마감 — ly.html 260712 정본("위치 이런 것들 들여쓰기, 그 내용도") 계승 누락분 이식: 소머리(.fl) = 좌측 기둥 유지 · 하위 내용 = 한 단 인셋 --sp-2(블릿 '• ' 폭 근사 = 소머리 텍스트 선 정렬) · 소스/완성영상/작업내역 공통(PREVIEW #pvSlot 미리보기 = ly .lyoptpv 중앙 비대상 동일) */
   .srcrow, .lyburn-row, #lyJobList { margin-left:var(--sp-2); }
-  #lyBurn video, #lyBurn .nm-alpha { width:calc(100% - var(--sp-2)); margin-left:var(--sp-2); }   /* width:100% 블록 = margin만 주면 우측 넘침 → 폭 동보정(ly 원문 동일 · id 특이도로 .lyburn video 원규칙을 이김) */
+  #lyBurn .lyburn-stage > video, #lyBurn .nm-alpha { width:calc(100% - var(--sp-2)); margin-left:var(--sp-2); }   /* width:100% 블록 = margin만 주면 우측 넘침 → 폭 동보정(ly 원문 동일 · id 특이도로 .lyburn video 원규칙을 이김) */
   .lyburn-stage.alpha video, .lyburn-stage.alpha .nm-alpha > canvas { background:repeating-conic-gradient(var(--line) 0% 25%, var(--pan) 0% 50%) 0 0/22px 22px; }   /* ⚠ (260816) 자막 동반 알파 산출의 투명 체커보드 — 값·패턴·크기는 위 `.vstage.alpha`(= track.html 178행) **그대로**, 거처만 video 자신으로 옮겼다. 사유 = 이 창의 video는 바로 윗줄이 좌측 `--sp-2` 만큼 들여쓰므로 컨테이너에 깔면 왼쪽에 영상 밖 체커보드 띠가 남는다(형제 `.vstage`는 video가 폭 100%라 컨테이너가 정확히 맞는다). 계승 사유 = 자막과 크로마키·키잉을 같이 켜면 완성본이 `#vwrap`이 아니라 이 창으로 라우팅되는데(3128행), 여기만 안 고치면 같은 사고가 그 조합에서 그대로 산다 = 「같은 병의 형제를 놓치는」 이 레포 최빈 반쪽 봉합. */
   .lyburn-note { color:var(--mut); font-size:var(--fs-sm); min-width:0; }
   /* 상세 툴바 — 전체선택(.dl-cbox)+아이콘 버튼(.sbtn 규격 30px) */
@@ -807,8 +808,8 @@
 <script src="nm-sync.js"></script><!-- 동기화 생명선 SSOT(운영자 260803 4차 "전 스튜디오 상속") — 복귀 시 자동 재동기(nmRefresh)·로그인 만료 자가치유·새 배포 자동 탑재 -->
 <script src="nm-loader.js"></script><!-- 로딩 표기 SSOT(orb Thinking/Solving/Prompting + shimmer · 운영자 260723 Q460) — window.nmLoader(type,label,opts) -->
 <script src="nm-gauge.js"></script><!-- 러버밴드 게이지 하네스 SSOT(운영자 260929 «게이지 조정 = 편집 메뉴에도 · 하네스 통일») — input[type=range][data-nmg] 자동 장착 · 스크럽 바(재생 위치)는 대상 밖 -->
-<script src="nm-snap.js"></script>
-<script src="nm-alpha.js"></script><!-- 스택 알파 재생기 SSOT(운영자 260929 «B 진짜 투명 재생기») — 배경 빼기 결과 = 윈도우·아이폰 공통 진짜 투명(WebGL) · 실패 = 원래 webm video 그대로 --><!-- Snap Rail 하네스 SSOT(운영자 260929 «편집탭 통일» — 유튜브 탭과 공용) — [data-nmsnap] 자동 장착 · 하나 고르기 행(의역·글자 형태·음영·화면 방식·클리퍼 감독) -->
+<script src="nm-snap.js"></script><!-- Snap Rail 하네스 SSOT(운영자 260929 «편집탭 통일» — 유튜브 탭과 공용) — [data-nmsnap] 자동 장착 · 하나 고르기 행(의역·글자 형태·음영·화면 방식·클리퍼 감독) -->
+<script src="nm-alpha.js"></script><!-- 스택 알파 재생기 SSOT(운영자 260929 «B 진짜 투명 재생기») — 배경 빼기 결과 = 윈도우·아이폰 공통 진짜 투명(WebGL) · 실패 = 원래 webm video 그대로 -->
 
 <script src="upload.js"></script><!-- R2 직업로드 공용(nmUpArm/nmUpload · conv와 공유 — 미가용 = 30MB base64 폴백) -->
 <script>
@@ -1837,7 +1838,7 @@ function jobCfgApply(id){   // 그 작업의 설정을 화면에 되씌운다(�
     if(c.on&&typeof c.on==='object') Object.keys(ON).forEach(k=>{ if(k in c.on) ON[k]=!!c.on[k]; });
     if(c.p&&typeof c.p==='object') Object.keys(P).forEach(k=>{ if(k in c.p) P[k]=c.p[k]; });
     if(c.xtr&&typeof c.xtr==='object'){ Object.keys(XTR).forEach(k=>{ if(k in c.xtr) XTR[k]=c.xtr[k]; });
-      if(c.xtr.keying||c.xtr.chroma) XTR.bgrm=true;   // (260929) 통합 전 저장분 = 키잉·크로마키 → 배경 빼기
+      if(!('bgrm' in c.xtr)) XTR.bgrm=!!(c.xtr.keying||c.xtr.chroma);   // (260929) 통합 전 저장분 = 키잉·크로마키 → 배경 빼기(둘 다 꺼진 옛 칸이면 끔 — 지금 화면 값이 새어 들어가 옛 작업에 없던 배경 빼기가 붙던 것 차단 · 평의회)
       if(!('bgfe' in c.xtr)&&typeof c.xtr.kfe==='number') XTR.bgfe=c.xtr.kfe; }
     render(); renderXtr(); setEta();
   }catch(e){ return false; }
@@ -2477,7 +2478,7 @@ function pollEdit(id, t0, minTs, wlbl, kind, focus){
         if(tx&&tx.trim()&&!isHtml){
           let d=null; try{ d=JSON.parse(tx); }catch(e){}
           if(d&&Array.isArray(d.faces)) xtrFaces(xtrJobKey(id)||XTR_SRC, d.faces.slice(0,32));   // 2트랙 ② 준비 — 생성이 찾은 얼굴을 **그 작업의 영상 칸**에 넣는다(운영자 260809 · 260810 칸 분리) · ⚠ 구판은 화면 전역에 바로 꽂아, 뒤에서 돌던 앞 작업이 끝나는 순간 지금 보고 있는 다른 영상의 목록을 통째로 덮었다
-          if(d&&(kind==='clip'? Array.isArray(d.clips) : kind==='cutscan'? Array.isArray(d.rm) : (d.url||d.error||d.skip))){
+          if(d&&(kind==='clip'? Array.isArray(d.clips) : kind==='cutscan'? Array.isArray(d.rm) : (d.url||d.error||d.skip)&&!d.xtr_wait)){
             const ts=Date.parse(d.ts||'');
             if(!isNaN(ts)&&ts>=minTs){
               const _m=mine(); stop(); pendClear(id);
@@ -2486,7 +2487,7 @@ function pollEdit(id, t0, minTs, wlbl, kind, focus){
               if(kind==='clip'){ wclear(); showClips(d); }
               else if(kind==='cutscan'){ wclear(); showCuts(d, id); }
               else if(d.url){ showResult(d, Math.round((Date.now()-t0)/1000)); editSubsInit(id); }   // 자막 산출 동반이면 편집기 활성(B-2)
-              else { wclear(); status.innerHTML=ERR_SVG+' '+esc(String(d.error||d.skip)); status.classList.add('err'); }
+              else { wclear(); status.innerHTML=ERR_SVG+' '+esc(String(d.error||d.skip))+(d.xtr_note?(' · '+esc(d.xtr_note)):''); status.classList.add('err'); }   // 배경 빼기 단독 실패 = 합성 단계 사유(「자막 타이밍 데이터 없음」)만으론 무슨 일인지 모른다 → 배경 빼기 사유 병기
               return;
             }
           }
@@ -2539,7 +2540,7 @@ function pollEditBg(id, t0, minTs, kind){
         if(tx&&tx.trim()&&!isHtml){
           let d=null; try{ d=JSON.parse(tx); }catch(e){}
           if(d&&Array.isArray(d.faces)) xtrFaces(xtrJobKey(id), d.faces.slice(0,32));   // 뒤에서 끝난 작업의 얼굴 = **그 영상 칸**에만(화면 무접촉 · 포커스 폴과 같은 규칙 = 한쪽만 고치면 재개분이 조용히 빠진다)
-          if(d&&(kind==='clip'? Array.isArray(d.clips) : kind==='cutscan'? Array.isArray(d.rm) : (d.url||d.error||d.skip))){
+          if(d&&(kind==='clip'? Array.isArray(d.clips) : kind==='cutscan'? Array.isArray(d.rm) : (d.url||d.error||d.skip)&&!d.xtr_wait)){
             const ts=Date.parse(d.ts||'');
             if(!isNaN(ts)&&ts>=minTs){
               stop(); pendClear(id);
@@ -3114,8 +3115,8 @@ async function lyPollVideo(outPath, t0, skipUrl) {   // 생성 완료 직후 연
     if (gen !== LY_VID_GEN) return;
     const j = await lyVidFetch(outPath);
     if (gen !== LY_VID_GEN) return;   // in-flight 중 리셋 = 표시·재예약 둘 다 봉인(좀비 폴 차단)
-    if (j && j.url && j.url !== skipUrl) { lyBurnShow(j); return; }
-    if (j && !j.url && (j.error || j.skip)) {
+    if (j && j.url && j.url !== skipUrl && !j.xtr_wait) { lyBurnShow(j); return; }   // xtr_wait = 배경 빼기 단계가 아직 도는 중(합성 쪽지가 먼저 올라온다) = 최종 쪽지까지 기다린다
+    if (j && !j.url && (j.error || j.skip) && !j.xtr_wait) {
       if (j.skip) { $('#lyBurnVid').hidden = true; $('#lyBurnDl').hidden = true; $('#lyBurnNote').textContent = j.skip; }   // 스킵 사유 표시(평의회6 260709) — 이 폴은 영상 기대(wantVid)에서만 도니 스킵 = 행위 피드백 1줄(§디자인 빈 상태 예외 · 구 '조용한 공백'은 오디오 입력 가정이라 침묵 오류였음)
       else { $('#lyBurnVid').hidden = true; $('#lyBurnDl').hidden = true; $('#lyBurnNote').textContent = j.error; }
       return;
@@ -3192,7 +3193,7 @@ function lyBurnShow(j) {
   const bx = $('#lyBurn'); if (!bx) return; bx.hidden = false;
   const v = $('#lyBurnVid'); if (v.getAttribute('src') !== j.url) v.src = j.url; v.hidden = false;
   if (v.parentElement) v.parentElement.classList.toggle('alpha', !!j.preview);
-  if (window.nmAlpha) { if (/^ly_out\/[A-Za-z0-9._\-\/]+(\?v=\d+)?$/.test(String(j.preview_stacked || ''))) nmAlpha.mount(v, String(j.preview_stacked), { w: j.stacked_w, h: j.stacked_h }); else nmAlpha.unmount(v); }   /* 스택 알파 재생기 = `#vwrap` 형제와 같은 술어 · 대기·초기화의 v.hidden 에 재생기가 스스로 걷힌다(nm-alpha.js 관찰자) */   /* 투명 체커보드 = `#vwrap` 형제와 같은 술어(`preview` 존재 = 알파 산출) · 자막+크로마키·키잉 조합이 이 창으로 오는 경로 담당 */
+  if (window.nmAlpha) { if (/^ly_out\/\d{12}-[0-9a-f]{6}\/preview_stacked\.mp4(\?v=\d+)?$/.test(String(j.preview_stacked || ''))) nmAlpha.mount(v, String(j.preview_stacked), { w: j.stacked_w, h: j.stacked_h }); else nmAlpha.unmount(v); }   /* 스택 알파 재생기 = `#vwrap` 형제와 같은 술어 · 대기·초기화의 v.hidden 에 재생기가 스스로 걷힌다(nm-alpha.js 관찰자) */   /* 투명 체커보드 = `#vwrap` 형제와 같은 술어(`preview` 존재 = 알파 산출) · 자막+크로마키·키잉 조합이 이 창으로 오는 경로 담당 */
   const opv = $('#lyPv'); if (opv && !opv.hidden) { try { const ov = $('#lyVid'); if (ov && !ov.paused) ov.pause(); } catch (e) {} opv.hidden = true; lyPvSync(); }   // 완성본 등장 = 원본 미리보기 숨김(운영자 260731 "작업본만 나오게" — 위아래 이중 영상 제거) · src 보존 = 조각 편집 lySeek는 hidden 가드로 무동작
 
   if (window.nmEta && _lyBurnT0) { nmEta.done('edit-burn', (Date.now() - _lyBurnT0) / 1000); _lyBurnT0 = 0; }   // 예상 학습 = 성공 완료만(ly 동문 · sb·k 배선 그대로)
@@ -3290,7 +3291,7 @@ async function editSubsInit(id){   // 완료 후 자막 편집기 활성(pollEdi
     const ct=(r.headers.get('content-type')||'').toLowerCase(); const md=await r.text();
     if(!md.trim()||ct.includes('text/html')||/^\s*<!doctype/i.test(md)) return;   // SPA 폴백(HTML 200) 가드 = ly poll 동일
     EDIT_SUB=true;
-    dlPark(); $('#vwrap').hidden=true; $('#dlVid').hidden=true;   // dlPark = 저장 버튼 되돌리기(숨는 창 안에 남으면 다시 켜도 안 보인다 · 260811) · 자막 작업 = 완성 영상·저장을 lyBurn(다시 입히기 UI 동반)이 전담
+    dlPark(); $('#vwrap').hidden=true; $('#dlVid').hidden=true; if(window.nmAlpha) nmAlpha.unmount($('#vwrap video'));   // 숨는 창의 투명 재생기 = 걷는다(같은 영상을 #lyBurn 이 다시 받는다 = 이중 다운로드·문맥 2개 차단) · dlPark = 저장 버튼 되돌리기(숨는 창 안에 남으면 다시 켜도 안 보인다 · 260811) · 자막 작업 = 완성 영상·저장을 lyBurn(다시 입히기 UI 동반)이 전담
     await lyResult(out, md, false);   // 복원 모드(랜딩 스크롤 없음) — 편집 스냅샷(nm_lyedit_<id>) 있으면 그대로 이어짐(ly 탭과 키 공유 = 의도)
     await lyVidCheck(out);   // video.json 있으면 lyBurnShow(완성 영상 + 다시 입히기·삭제 컷 노출) — await = 딥링크 포커싱이 #lyBurn 최종 라우팅을 잡게(레이스 봉합)
   }catch(e){}
@@ -3341,7 +3342,7 @@ function showResult(d, sec){
   dlPark();   // ⚠ 저장 버튼 되돌리기 선행 — 이 줄 아래가 창을 통째로 갈아엎는다(연속 제작 2번째에서 버튼 노드가 사라지던 자리 · 스모크 실측 봉합)
   vw.innerHTML='<video controls playsinline preload="metadata" src="'+esc(d.url)+'"></video>'
     +'<span class="hist-cap vmeta" id="vMeta" hidden></span>';
-  if(window.nmAlpha&&/^ly_out\/[A-Za-z0-9._\-\/]+(\?v=\d+)?$/.test(String(d.preview_stacked||''))) nmAlpha.mount(vw.querySelector('video'), String(d.preview_stacked), {w:d.stacked_w, h:d.stacked_h});   /* (260929 운영자 «B 진짜 투명 재생기») 배경 빼기 결과 = 스택 알파(WebGL) — 윈도우·아이폰 공통 진짜 투명 · 같은 출처 경로만(다른 출처 = WebGL 보안 오염) · 실패 = 위 webm video 그대로 */   /* 값 칩 = nm-hist.css `.hist-cap` 정본 그대로(좌상단 검은 알약 · 값 신설 0) — 우상단 저장 버튼 자리는 그 정본의 max-width가 이미 비워 둔다(운영자 260811 "영상 길이, 비율, 해상도 나오게") */
+  if(window.nmAlpha&&/^ly_out\/\d{12}-[0-9a-f]{6}\/preview_stacked\.mp4(\?v=\d+)?$/.test(String(d.preview_stacked||''))) nmAlpha.mount(vw.querySelector('video'), String(d.preview_stacked), {w:d.stacked_w, h:d.stacked_h});   /* (260929 운영자 «B 진짜 투명 재생기») 배경 빼기 결과 = 스택 알파(WebGL) — 윈도우·아이폰 공통 진짜 투명 · 같은 출처 경로만(다른 출처 = WebGL 보안 오염) · 실패 = 위 webm video 그대로 */   /* 값 칩 = nm-hist.css `.hist-cap` 정본 그대로(좌상단 검은 알약 · 값 신설 0) — 우상단 저장 버튼 자리는 그 정본의 max-width가 이미 비워 둔다(운영자 260811 "영상 길이, 비율, 해상도 나오게") */
   dockSync();   // 대기 스테이지(.scanline)가 완성본 video로 교체된 **뒤** 판정(재검① 260728 — 앞에 두면 scanline이 살아 있어 완성본에서 되레 펼쳐졌다)
   $('#dlVid').hidden=false;
   dlOver();   // 저장 버튼 = 완성 영상 **우상단 오버레이**(운영자 260811 "다 만들어지고 우상단에 위치하게(영상에 오버렙되게)") — 자리·크기는 nm-hist.css `.imgdl` 정본

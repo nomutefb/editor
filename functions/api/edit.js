@@ -16,6 +16,49 @@ const GH = (token, path, method, body) => fetch(`https://api.github.com/repos/${
   body: body ? JSON.stringify(body) : undefined,
 });
 
+// 추가 옵션(xtr) 화이트리스트 = 순수 함수(tests/edit-xtr.test.mjs) — 켠 축이 없으면 null.
+//   (260929 운영자 «키잉·크로마키 하나로») 구 keying·chroma = bgrm 하나 · 구 키잉 페더 kfe = bgfe(옛 저장 설정·열린 옛 화면 하위호환)
+export function cleanXtr(x) {
+  if (!x || typeof x !== 'object' || Array.isArray(x)) return null;
+  const num = (v, lo, hi) => (typeof v === 'number' && Number.isFinite(v)) ? Math.max(lo, Math.min(hi, v)) : null;
+  const xt = {};
+  for (const k of ['mosaic', 'pinset', 'bgrm', 'silh']) { if (x[k] === true) xt[k] = true; }
+  if (x.keying === true || x.chroma === true) xt.bgrm = true;   // 배경 빼기 통합(운영자 260929 «키잉·크로마키 하나로») — 구 두 축 = bgrm 하나(저장된 옛 설정·열린 옛 화면 하위호환)
+  if (!Object.keys(xt).length) return null;
+  if (x.shape === 'ellipse' || x.shape === 'rect') xt.shape = x.shape;
+  const xsz = num(x.size, 75, 250); if (xsz !== null) xt.size = Math.round(xsz);              // 가림 크기 %
+  const xfe = num(x.feather, 0, 40); if (xfe !== null) xt.feather = Math.round(xfe);          // 모자이크 페더
+  const xbf = num(x.bgfe ?? x.kfe, 0, 40); if (xbf !== null) xt.bgfe = Math.round(xbf);       // 배경 빼기 부드럽게(px · 구 키잉 페더 kfe 수용)
+  const xsf = num(x.sfe, 0, 40); if (xsf !== null) xt.sfe = Math.round(xsf);                  // 실루엣 페더
+  if (x.fill === 'image' || x.fill === 'mosaic') xt.fill = x.fill;
+  if (['smile', 'black', 'heart'].includes(x.preset)) xt.preset = x.preset;                   // 가면 프리셋(py 화이트리스트와 이중)
+  // 핀셋 라벨 = {pid: 이름} 맵(운영자 260809 묶음) — 같은 사람이 #1·#3·#4로 쪼개지므로 여러 pid에 같은 이름을 준다.
+  //   맵에 없는 pid = 라벨 미표기(「미지정」 = 운영자 의도) · 문자열도 받는다(구판 쉼표 = 하위호환)
+  if (x.names && typeof x.names === 'object' && !Array.isArray(x.names)) {
+    const nm = {}; let n = 0;
+    for (const [k, v] of Object.entries(x.names)) {
+      if (!/^[0-9]{1,2}$/.test(k) || typeof v !== 'string') continue;
+      const lab = v.trim().slice(0, 24);
+      if (!lab) continue;
+      nm[k] = lab;
+      if (++n >= 32) break;
+    }
+    if (n) xt.names = nm;
+  } else if (typeof x.names === 'string' && x.names.trim()) xt.names = x.names.trim().slice(0, 120);
+  // 이름표 글자색 = {pid:#hex} 맵(운영자 260810 «흰 기본 · 강조색1 · 강조색2») — 6자리 hex만 통과(track_render hex_bgr 계약)
+  if (x.colors && typeof x.colors === 'object' && !Array.isArray(x.colors)) {
+    const cm = {}; let cn = 0;
+    for (const [k, v] of Object.entries(x.colors)) {
+      if (!/^[0-9]{1,2}$/.test(k) || typeof v !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(v)) continue;
+      cm[k] = v;
+      if (++cn >= 32) break;
+    }
+    if (cn) xt.colors = cm;
+  }
+  // (260929) 크로마키 색·강도·수축·페더 노브는 걷었다 — 배경 빼기가 스크린 색을 영상에서 직접 재서(track_chroma.detect_screen) 정한다
+  return xt;
+}
+
 export async function onRequestPost({ request, env }) {
   const json = (o, s = 200) => new Response(JSON.stringify(o), { status: s, headers: { 'content-type': 'application/json' } });
   if (!env.GH_TOKEN) return json({ error: '서버 미설정 — Cloudflare 환경변수 GH_TOKEN 필요' }, 500);
@@ -101,45 +144,7 @@ export async function onRequestPost({ request, env }) {
   //   ⚠ 값 단위 = **폼 그대로**(size 75~250% · cksim 1~50%) — 배율(1.15)·비율(0.18) 환산은 러너 1곳에서만 한다.
   //     단위 변환을 여기서도 하면 반드시 갈린다(실측 260808 = api/track.js가 뷰어의 1~50 강도를 0.01~0.5로 클램프해
   //     **전 구간이 0.5로 붙어** 크로마키가 화면을 통째로 지웠다 = 라이브 무동작).
-  if (o.xtr && typeof o.xtr === 'object') {
-    const x = o.xtr, xt = {};
-    for (const k of ['mosaic', 'pinset', 'bgrm', 'silh']) { if (x[k] === true) xt[k] = true; }
-    if (x.keying === true || x.chroma === true) xt.bgrm = true;   // 배경 빼기 통합(운영자 260929 «키잉·크로마키 하나로») — 구 두 축 = bgrm 하나(저장된 옛 설정·열린 옛 화면 하위호환)
-    if (Object.keys(xt).length) {
-      if (x.shape === 'ellipse' || x.shape === 'rect') xt.shape = x.shape;
-      const xsz = num(x.size, 75, 250); if (xsz !== null) xt.size = Math.round(xsz);              // 가림 크기 %
-      const xfe = num(x.feather, 0, 40); if (xfe !== null) xt.feather = Math.round(xfe);          // 모자이크 페더
-      const xbf = num(x.bgfe ?? x.kfe, 0, 40); if (xbf !== null) xt.bgfe = Math.round(xbf);       // 배경 빼기 부드럽게(px · 구 키잉 페더 kfe 수용)
-      const xsf = num(x.sfe, 0, 40); if (xsf !== null) xt.sfe = Math.round(xsf);                  // 실루엣 페더
-      if (x.fill === 'image' || x.fill === 'mosaic') xt.fill = x.fill;
-      if (['smile', 'black', 'heart'].includes(x.preset)) xt.preset = x.preset;                   // 가면 프리셋(py 화이트리스트와 이중)
-      // 핀셋 라벨 = {pid: 이름} 맵(운영자 260809 묶음) — 같은 사람이 #1·#3·#4로 쪼개지므로 여러 pid에 같은 이름을 준다.
-      //   맵에 없는 pid = 라벨 미표기(「미지정」 = 운영자 의도) · 문자열도 받는다(구판 쉼표 = 하위호환)
-      if (x.names && typeof x.names === 'object' && !Array.isArray(x.names)) {
-        const nm = {}; let n = 0;
-        for (const [k, v] of Object.entries(x.names)) {
-          if (!/^[0-9]{1,2}$/.test(k) || typeof v !== 'string') continue;
-          const lab = v.trim().slice(0, 24);
-          if (!lab) continue;
-          nm[k] = lab;
-          if (++n >= 32) break;
-        }
-        if (n) xt.names = nm;
-      } else if (typeof x.names === 'string' && x.names.trim()) xt.names = x.names.trim().slice(0, 120);
-      // 이름표 글자색 = {pid:#hex} 맵(운영자 260810 «흰 기본 · 강조색1 · 강조색2») — 6자리 hex만 통과(track_render hex_bgr 계약)
-      if (x.colors && typeof x.colors === 'object' && !Array.isArray(x.colors)) {
-        const cm = {}; let cn = 0;
-        for (const [k, v] of Object.entries(x.colors)) {
-          if (!/^[0-9]{1,2}$/.test(k) || typeof v !== 'string' || !/^#[0-9a-fA-F]{6}$/.test(v)) continue;
-          cm[k] = v;
-          if (++cn >= 32) break;
-        }
-        if (cn) xt.colors = cm;
-      }
-      // (260929) 크로마키 색·강도·수축·페더 노브는 걷었다 — 배경 빼기가 스크린 색을 영상에서 직접 재서(track_chroma.detect_screen) 정한다
-      opts.xtr = xt;
-    }
-  }
+  { const xt = cleanXtr(o.xtr); if (xt) opts.xtr = xt; }   // 추가 옵션 = cleanXtr(아래 순수 함수 · 단위 변환 없이 폼 값 그대로)
   if (!opts.cutref) delete opts.cutoff;   // 참조 없는 제외 목록 = 무의미(잔여 키 청소 = clip_model 선례)
   if (opts.cutscan === true) { opts.clip = false; delete opts.clip; delete opts.clip_model; delete opts.cutref; delete opts.cutoff;
     for (const k of Object.keys(opts)) { if (!['cutscan', 'cut', 'cutlv', 'cutfill', 'take'].includes(k)) delete opts[k]; }   // 컷 미리보기 = 분석 전용 스캔(렌더 축 무시 = 러너 컴포즈 스킵과 계약 일치)

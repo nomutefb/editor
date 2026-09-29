@@ -58,7 +58,16 @@ GIT_FALLBACK_MAX = 30 * 1024 * 1024
 #     그 판이 막으려던 「초록 옷」은 그린스크린 촬영에서 원래 피하는 경우라, 흔한 쪽(틈)을 깨끗하게 하는 게 맞다(정직 한계 = 초록 옷은 같이 빠진다).
 MIX_ZONE = 0.03          # 사람 영역 팽창 폭(긴 변 비율 · 1920 → 58px) — 흩날린 머리카락 끝까지 크로마에 맡길 폭(512 업스케일 오차 ≈4px의 10배+)
 MIX_S_PF = 0.04          # 실측 단가: 섞기 추가 s/원본프레임(1080×1920 · 팽창 캐시 + 합치기 + 파이프 읽기) — 예산 가드 반영
-MIX_CHROMA = {"similarity": 0.15, "blend": 0.05, "despill": 0.5, "choke": 0, "feather": 1, "edge": "high"}
+MIX_CHROMA = {"similarity": 0.15, "blend": 0.05, "despill": 0.5, "choke": 0, "feather": 1, "edge": "high"}   # similarity = 판별분 screen.sim 우선(스크린 진하기 비례)
+# 섞기 안전장치(평의회 260929 — 스크린 오판·흐린 스크린에서 사람 옷이 투명해지던 실측 봉합) = 앞 프레임 몇 장으로 크로마가 믿을 만한지 잰다:
+#   · 몸 안쪽 손실 = AI 몸(수축)을 크로마가 뺀 비율 — 크면 사람 색이 키 색과 겹친다(하늘 오판의 파란 옷·흐린 스크린의 흰 셔츠·초록 옷)
+#   · 테두리 제거율 = 사람 테두리 띠(팽창 − AI)를 크로마가 뺀 비율 — 작으면 띠에 스크린이 아닌 실제 배경이 있다(후광으로 남는다)
+#   → 둘 중 하나라도 어긋나면 그 영상은 AI 단독(종전 키잉 = 「스크린 없으면 AI만」 약속 유지) · 판정 전 프레임은 버퍼에 잡아 뒀다가 한 방식으로 낸다.
+MIX_PROBE_N = 8          # 판정에 쓰는 앞 프레임 수(사람이 보이는 프레임만 센다)
+MIX_PROBE_CAP = 16       # 버퍼 상한(사람이 안 보이는 프레임이 이어져도 이만큼 모이면 있는 근거로 판정 · 1080p ≈ 260MB)
+MIX_CORE = 0.012         # 몸 안쪽 = AI 수축 폭(긴 변 비율 · 1920 → 23px)
+MIX_CORE_LOSS_MAX = 0.03 # 몸 안쪽 손실 상한(3%)
+MIX_BAND_MIN = 0.85      # 테두리 제거율 하한(85%)
 
 
 def mix_zone(ai, zone_k):
@@ -66,6 +75,19 @@ def mix_zone(ai, zone_k):
     AI 마스크는 세그 15fps hold라 바뀔 때만 다시 잰다(콜러 캐시 — 실측 1080×1920 ≈ 35ms/회)."""
     zone = cv2.dilate(ai, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (zone_k, zone_k))) if zone_k > 1 else ai
     return cv2.GaussianBlur(zone, (0, 0), max(1.0, zone_k / 6.0))   # 영역 끝단 = 칼선 대신 완만하게(크로마가 못 뺀 잔여가 딱 끊겨 보이지 않게)
+
+
+def mix_probe(ai, chroma_a, core_k, zone_k):
+    """섞기 안전장치 한 장 — (몸 안쪽 손실, 테두리 제거율) 또는 사람이 너무 작으면 None(판정 근거로 안 쓴다)."""
+    body = ai > 127
+    if body.mean() < 0.01:
+        return None
+    core = cv2.erode(ai, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (core_k, core_k))) > 127
+    band = (cv2.dilate(ai, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (zone_k, zone_k))) > 127) & ~body
+    if core.sum() < 64 or band.sum() < 64:
+        return None
+    keyed = chroma_a < 128
+    return float(keyed[core].mean()), float(keyed[band].mean())
 
 
 def mix_apply(zone, chroma_a):
@@ -80,6 +102,8 @@ def _chroma_pipe(src, screen, W2, H2):
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     import track_chroma as tc
     o = dict(MIX_CHROMA, color=tc._hex_color(screen.get("color"), "#00FF00"))
+    if isinstance(screen.get("sim"), (int, float)):
+        o["similarity"] = max(0.03, min(0.15, float(screen["sim"])))
     kind = screen.get("kind") if screen.get("kind") in ("green", "blue") else tc._kind(o["color"])
     vf = tc.build_filter(o, kind) + f",crop={W2}:{H2}:0:0,format=bgra"
     return subprocess.Popen(["ffmpeg", "-v", "error", "-i", src, "-map", "0:v:0", "-vf", vf, "-fps_mode", "passthrough",
@@ -374,7 +398,10 @@ def run(vid_id, req, doc, outdir):
             print(f"::warning::크로마 섞기 시작 실패 — AI 단독으로 계속: {e}", flush=True)
             ck = None
     zone_k = max(3, int(max(W2, H2) * MIX_ZONE)) | 1
+    core_k = max(3, int(max(W2, H2) * MIX_CORE)) | 1
     mix_key, zone, n_mix = None, None, 0
+    use_mix = None if ck is not None else False   # None = 판정 전(버퍼링) · True = 섞기 · False = AI 단독
+    pend, probes = [], []
     cap.release()
     cap = cv2.VideoCapture(src)   # 처음부터 재디코드(첫 프레임 포함 순차)
     try:
@@ -386,6 +413,38 @@ def run(vid_id, req, doc, outdir):
     kblur = 2 * fe + 1
     f = 0
     t0 = time.time()
+
+    def emit(frame, ai, cbgra, key):
+        """한 프레임 인코딩 — 섞기면 min(크로마, 사람 영역) + 스필 제거 색 · 아니면 AI 알파 + 원본 색(종전 키잉)."""
+        nonlocal mix_key, zone, n_mix
+        alpha = ai
+        if use_mix and cbgra is not None:
+            if key != mix_key:   # AI 마스크가 바뀐 때만 팽창 재계산(세그 15fps hold)
+                zone = mix_zone(ai, zone_k)
+                mix_key = key
+            alpha = mix_apply(zone, cbgra[:, :, 3])
+            frame = cbgra[:, :, :3]   # 스필 제거된 색(가장자리 초록물 빠짐)
+            n_mix += 1
+        if fe > 0:
+            alpha = cv2.GaussianBlur(alpha, (kblur, kblur), fe * 0.6)
+        bgra = np.dstack((frame, alpha))
+        enc_m.stdin.write(bgra.tobytes())
+        enc_p.stdin.write((bgra if pscale >= 1.0 else cv2.resize(bgra, (PW, PH), interpolation=cv2.INTER_AREA)).tobytes())
+
+    def decide():
+        nonlocal use_mix
+        loss = float(np.mean([a for a, _ in probes])) if probes else 0.0
+        band = float(np.mean([b for _, b in probes])) if probes else 1.0
+        use_mix = loss <= MIX_CORE_LOSS_MAX and band >= MIX_BAND_MIN
+        print(f"섞기 판정 = {'AI+크로마' if use_mix else 'AI 단독(안전장치)'} · 몸 안쪽 손실 {loss * 100:.1f}% · "
+              f"테두리 제거 {band * 100:.1f}% · 근거 {len(probes)}프레임", flush=True)
+        mix_note.update({"decided": "mix" if use_mix else "ai", "core_loss": round(loss, 4), "band_keyed": round(band, 4),
+                         "probes": len(probes)})
+        for it in pend:
+            emit(*it)
+        pend.clear()
+
+    mix_note = {}
     try:
         while True:
             ok, frame = cap.read()
@@ -426,25 +485,27 @@ def run(vid_id, req, doc, outdir):
                     print(f"::warning::크로마 섞기 파이프 {f}f에서 끊김 — 남은 구간 AI 단독", flush=True)
                     ck.kill()
                     ck = None
-            if cbgra is not None:
-                key = tuple(used)
-                if key != mix_key:   # AI 마스크가 바뀐 때만 팽창 재계산(세그 15fps hold)
-                    zone = mix_zone(alpha, zone_k)
-                    mix_key = key
-                alpha = mix_apply(zone, cbgra[:, :, 3])
-                frame = cbgra[:, :, :3]   # 스필 제거된 색(가장자리 초록물 빠짐)
-                n_mix += 1
-            if fe > 0:
-                alpha = cv2.GaussianBlur(alpha, (kblur, kblur), fe * 0.6)
-            bgra = np.dstack((frame, alpha))
             try:
-                enc_m.stdin.write(bgra.tobytes())
-                enc_p.stdin.write((bgra if pscale >= 1.0 else cv2.resize(bgra, (PW, PH), interpolation=cv2.INTER_AREA)).tobytes())
+                if use_mix is None:   # 판정 전 = 버퍼에 잡고 근거를 모은다
+                    if cbgra is not None:
+                        pr = mix_probe(alpha, cbgra[:, :, 3], core_k, zone_k)
+                        if pr is not None:
+                            probes.append(pr)
+                    pend.append((frame, alpha, cbgra, tuple(used)))
+                    if len(probes) >= MIX_PROBE_N or len(pend) >= MIX_PROBE_CAP or ck is None:
+                        decide()
+                else:
+                    emit(frame, alpha, cbgra, tuple(used))
             except BrokenPipeError:
                 break
             f += 1
             if f % 300 == 0:
                 print(f"합성 {f}f · {time.time() - t0:.0f}s", flush=True)
+        if use_mix is None:   # 영상이 판정 근거보다 짧다 = 있는 근거로 판정 후 방출
+            try:
+                decide()
+            except BrokenPipeError:
+                pass
         for enc in (enc_m, enc_p):
             try:
                 enc.stdin.close()
@@ -460,6 +521,11 @@ def run(vid_id, req, doc, outdir):
         shutil.rmtree(mask_root, ignore_errors=True)
     if screen:
         print(f"배경 빼기 섞기 {n_mix}/{f}프레임(AI 사람 영역 + 크로마)", flush=True)
+        try:   # 러너(edit_track)가 실제로 간 길을 기록하게(섞기 0프레임 = AI 단독 · 안전장치 판정 근거)
+            with open("/tmp/key_mix.json", "w", encoding="utf-8") as fh:
+                json.dump(dict(mix_note, frames=n_mix, total=f, color=screen.get("color")), fh)
+        except Exception:
+            pass
     if rc_m != 0 or not os.path.isfile(out_mov) or os.path.getsize(out_mov) < 1024:
         raise RuntimeError("영상 인코딩 실패(마스터) — 다시 시도해줘.")
     if rc_p != 0 or not os.path.isfile(out_webm) or os.path.getsize(out_webm) < 1024:

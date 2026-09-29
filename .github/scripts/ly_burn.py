@@ -336,8 +336,25 @@ def poster_jpg(mp4_bytes):
                 pass
 
 
+def _xtr_post_pending():
+    """편집 발사에 알파 계열 뒤 단계(배경 빼기·실루엣 = edit_track post)가 남아 있나 — 있으면 이 쪽지는 **중간 쪽지**다.
+    ⚠ 왜(260929 평의회) = 화면 폴은 url·error 가 보이는 순간 멈춘다. 배경 빼기만 켜면 이 합성 단계가 「자막 타이밍 데이터 없음」
+      error 를 먼저 올려 화면이 실패로 끝났고, 자막을 같이 켜면 투명이 아닌 자막본에서 멈췄다(뒤 단계 결과는 다시 열어야 보였다).
+      → 표식(xtr_wait)을 달아 폴이 뒤 단계 쪽지까지 기다리게 한다 · 뒤 단계(edit_track post)는 모든 출구에서 표식을 걷고 다시 올린다.
+    ⚠ 깃허브 러너에서만(GITHUB_ACTIONS=true) — 맥 2선 편집 드라이버는 xtr 을 안 돌린다(v1 스킵) = 표식을 달면 걷을 단계가 없어 화면이 영영 기다린다."""
+    if os.environ.get("GITHUB_ACTIONS") != "true":
+        return False
+    try:
+        x = (json.loads(os.environ.get("OPTS") or "{}") or {}).get("xtr") or {}
+    except Exception:
+        return False
+    return isinstance(x, dict) and any(x.get(k) is True for k in ("bgrm", "keying", "chroma", "silh"))
+
+
 def out_json(outdir, doc):
     doc["ts"] = kst_now()
+    if _xtr_post_pending():
+        doc["xtr_wait"] = True
     body = json.dumps(doc, ensure_ascii=False, separators=(",", ":"))
     with open(os.path.join(outdir, "video.json"), "w", encoding="utf-8") as f:
         f.write(body)
