@@ -1872,6 +1872,13 @@ def x_trends(limit=15):
                      ("https://getdaytrends.com/korea/", r'<a[^>]*class="[^"]*string[^"]*"[^>]*>([^<]{2,40})</a>')):
         try:
             b = _get(url)
+            # ⚠ trends24 = **첫 시간대 순위 목록**(`<ol class=trend-card__list>` · 최신 1시간 · 순위 순)만 읽는다.
+            #   그 목록 항목은 `<li><span class=trend-name><a …>말</a>` 이라 구판 패턴(`<li><a`)이 한 줄도 못 잡고,
+            #   페이지 아래 통계 칸(오래 걸린 말·광고성 해시태그)만 걸렸다(실측 9/29 = X 1위 닛몰캐쉬가 목록에 없고
+            #   「콰삭모짜킹」 같은 장기 체류 광고어가 상위 · 운영자 260929 근본 해결). 목록을 못 찾으면 구판 패턴 그대로(fail-soft).
+            m0 = re.search(r'<ol[^>]*class="?trend-card__list[^>]*>(.*?)</ol>', b, re.S) if "trends24" in url else None
+            if m0:
+                b, pat = m0.group(1), r'<a[^>]*>([^<]{2,40})</a>'
             seen, out = set(), []
             for m in re.finditer(pat, b):
                 q = re.sub(r"\s+", " ", m.group(1)).strip()

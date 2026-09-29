@@ -46,6 +46,7 @@ LEDGER = ROOT / "push" / "trend_sent.json"
 PUSH = ROOT / ".github" / "scripts" / "push_send.py"
 CANDS = ROOT / "viewer" / "candidates.json"
 SOCIAL = ROOT / "viewer" / "social_candidates.json"   # 커뮤니티 레인(social_burst 산출) = 커뮤니티 일치선 판정 입력
+SOCIAL_FETCH = os.environ.get("GITHUB_ACTIONS") == "true" and os.environ.get("TREND_SOCIAL_FETCH", "1") != "0"   # 러너 = origin/main 최신본(load_social 사유)
 # ── 관련 뉴스 PICK(운영자 260924 「추천 순서대로」 ⑦ SNS·뉴스 따로 놀던 것) — 급상승어와 맞는 수집함 후보가 있으면
 #    같은 알림에 PICK 버튼을 단다(본문 탭 = 종전 구글 검색 · 운영자 260819 · PICK = 그 뉴스 바로 요약 발사 · 사유 = 대세픽).
 #    매칭 = 뷰어 snsBuzz 규칙 사본(4자↑·공백 포함 = 포함 · 짧은 말 = 낱말 일치 또는 조사 꼬리) — 짧은 말 substring 오탐("로제"↔"프로젝트") 차단.
@@ -160,6 +161,24 @@ def ckey(s):
     return re.sub(r"\s+", "", str(s or "").lower()).strip()
 
 
+def load_social():
+    """커뮤니티 레인 목록 — 러너에선 **origin/main 최신본**을 먼저 읽는다.
+    ⚠ 같은 폰 하트비트가 social-scan·sns-trends 두 레인을 **동시에** 깨워 체크아웃 사본은 한 주기(30분) 묵은 것이다
+      (실측 9/29 = 11:08 급상승 런이 10:35 사본을 봐 11:04 커뮤니티 닛몰캐쉬 2위를 못 봤다). 실패·로컬 = 체크아웃 사본(fail-soft)."""
+    if SOCIAL_FETCH:
+        try:
+            subprocess.run(["git", "fetch", "-q", "origin", "main"], cwd=ROOT, timeout=60, check=True, capture_output=True)
+            out = subprocess.run(["git", "show", "FETCH_HEAD:viewer/social_candidates.json"], cwd=ROOT, timeout=30,
+                                 check=True, capture_output=True).stdout
+            d = json.loads(out.decode("utf-8"))
+            if isinstance(d, list):
+                return d
+        except Exception as e:  # noqa: BLE001
+            print(f"  커뮤니티 레인 최신본 읽기 실패 — 체크아웃 사본 사용: {type(e).__name__}")
+    d = jload(SOCIAL, [])
+    return d if isinstance(d, list) else []
+
+
 def xtop(items, *fields):
     """지금 화면에 떠 있는 그 목록 = 상위 XTOP_N 개의 겹침 키 집합(지난 목록은 안 본다)."""
     out = set()
@@ -192,8 +211,7 @@ def hot():
     t = jload(SNS, {}) or {}
     sig = xtop(t.get("signal"), "query", "q", "kw")
     bsky = xtop(t.get("bsky_trends"), "query", "q", "topic")
-    soc = jload(SOCIAL, [])
-    comm = [str(x.get("title") or "") for x in (soc if isinstance(soc, list) else []) if isinstance(x, dict)]
+    comm = [str(x.get("title") or "") for x in load_social() if isinstance(x, dict)]
     raw = {}
     def put(q, v, new_ok):
         """new_ok=False = **값 보강만**(후보 신설 금지) — 화면 밖 말이 풀로 우회 진입하는 뒷문 차단."""

@@ -11,11 +11,12 @@ _spec.loader.exec_module(T)
 class CommLineTest(unittest.TestCase):
     def setUp(self):
         self.d = Path(tempfile.mkdtemp())
-        self._orig = (T.SNS, T.SOCIAL, T.MIN_VOL, T.COMM_MIN_VOL)
+        self._orig = (T.SNS, T.SOCIAL, T.MIN_VOL, T.COMM_MIN_VOL, T.SOCIAL_FETCH)
         T.SNS, T.SOCIAL, T.MIN_VOL, T.COMM_MIN_VOL = self.d / "s.json", self.d / "c.json", 15000, 10000
+        T.SOCIAL_FETCH = False   # CI(GITHUB_ACTIONS)에서도 원격 최신본이 아니라 이 테스트 파일을 읽게
 
     def tearDown(self):
-        T.SNS, T.SOCIAL, T.MIN_VOL, T.COMM_MIN_VOL = self._orig
+        T.SNS, T.SOCIAL, T.MIN_VOL, T.COMM_MIN_VOL, T.SOCIAL_FETCH = self._orig
 
     def run_hot(self, gt, social):
         T.SNS.write_text(json.dumps({"gtrends": gt}, ensure_ascii=False), encoding="utf-8")
