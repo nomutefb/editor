@@ -16,6 +16,8 @@
     11위 이하는 비공식 API 꼬리라 화면이 이미 버린 자리다(아래 RANK_CAP 사유 = 260819 실사고 봉합).
   · `gtrends_pool` = 같은 말의 **검색량 보강 전용**(후보 신설 0 = 화면 밖 말의 우회 진입 차단).
   · 발사선 = `vol >= TREND_MIN_VOL`(기본 15000 = 운영자 지정 «1.5만회 이상»).
+  · 커뮤니티 일치선 = 같은 말이 **지금 커뮤니티 레인(viewer/social_candidates.json)** 제목에도 있으면
+    `TREND_COMM_MIN_VOL`(기본 10000 = 운영자 260929 «커뮤니티에서 실명이 일치하면 1만»)로 낮춘다.
   · 같은 말이 두 자리에 다 있으면 **큰 값 하나로 친다**(정규화 키로 중복 제거 = 한 말에 알림 2통 금지).
 
 어떻게(부작용 최소 — kw_watch 계약 100% 계승):
@@ -26,7 +28,7 @@
   · 하루 상한 TREND_DAY_CAP(기본 12) = 폭주 가드.
   · fail-soft — 파일 없음·파싱 실패·발송 실패가 수집 파이프를 못 죽인다(항상 rc=0).
 
-env: VAPID_PRIVATE_KEY·VAPID_SUBJECT(push_send.py가 소비) · TREND_MIN_VOL · TREND_DAY_CAP ·
+env: VAPID_PRIVATE_KEY·VAPID_SUBJECT(push_send.py가 소비) · TREND_MIN_VOL · TREND_COMM_MIN_VOL · TREND_DAY_CAP ·
      TREND_PUSH=0(끄기) · TREND_PUSH_DRY=1(실발송 없이 판정만 출력).
 """
 import json
@@ -43,6 +45,7 @@ SNS = ROOT / "viewer" / "sns_trends.json"
 LEDGER = ROOT / "push" / "trend_sent.json"
 PUSH = ROOT / ".github" / "scripts" / "push_send.py"
 CANDS = ROOT / "viewer" / "candidates.json"
+SOCIAL = ROOT / "viewer" / "social_candidates.json"   # 커뮤니티 레인(social_burst 산출) = 커뮤니티 일치선 판정 입력
 # ── 관련 뉴스 PICK(운영자 260924 「추천 순서대로」 ⑦ SNS·뉴스 따로 놀던 것) — 급상승어와 맞는 수집함 후보가 있으면
 #    같은 알림에 PICK 버튼을 단다(본문 탭 = 종전 구글 검색 · 운영자 260819 · PICK = 그 뉴스 바로 요약 발사 · 사유 = 대세픽).
 #    매칭 = 뷰어 snsBuzz 규칙 사본(4자↑·공백 포함 = 포함 · 짧은 말 = 낱말 일치 또는 조사 꼬리) — 짧은 말 substring 오탐("로제"↔"프로젝트") 차단.
@@ -96,6 +99,12 @@ MIN_VOL = int(os.environ.get("TREND_MIN_VOL", "15000"))   # 운영자 260818 지
 #   그래서 이 문턱은 **좀처럼 안 걸린다** — 그게 계약이다(운영자 260819 «4시간 이내 1.5만 실제로 찍히면 그게 맞음»).
 #   즉 「알림이 며칠째 0건」은 고장이 아니라 정상이고, 4시간 안에 진짜로 1.5만이 찍힌 말만 나간다.
 #   ⚠ 다음 세션이 이걸 사고로 오진해 문턱을 임의로 낮추지 마라(값 변경 = 운영자 판단 · 레버 = TREND_MIN_VOL).
+# ⚠ 커뮤니티 일치선(운영자 260929 «커뮤니티에서 실명이 일치하면 1만 · 적용하는거로») — 닛몰캐쉬 사례 = 커뮤니티 레인 11:04 실명 2위
+#   · 구글 급상승 11:08 vol 10000 인데 1.5만 선에 막혀 알림 0. 같은 말이 사람들 글(커뮤니티)과 검색(구글) 두 축에서 동시에 뜨면
+#   한 축만 뜬 말보다 확실하다 → 문턱만 낮춘다(가점처럼 값에 곱하지 않는다 = 운영자가 준 건 「선」이다).
+#   대상 = **지금 떠 있는 커뮤니티 목록 전체**(지난 목록은 안 본다 = 위 겹침 가점과 같은 시간 기준) · 일치 = kw_hit(뷰어 대세 규칙 사본).
+#   ⚠ 일치는 제목 낱말 기준이라 인명이 아닌 일반 명사도 걸릴 수 있다 — 하루·회차 상한(아래)이 그대로 폭주를 막는다.
+COMM_MIN_VOL = int(os.environ.get("TREND_COMM_MIN_VOL", "10000"))
 DAY_CAP = int(os.environ.get("TREND_DAY_CAP", "12"))      # 하루 상한(폭주 가드 · 260818 실측 = 1.5만↑ 중복제거 5건)
 TTL_S = 24 * 3600                                          # 원장 수명(kw_watch 24h 창과 같은 값)
 # ⚠ 첫 회차 도장은 **짧게 산다**(운영자 260819 «저녁에 한번 오긴했는데 그 이후에도 한번 기준치를 초과한거같은데 안찍혔어»).
@@ -183,6 +192,8 @@ def hot():
     t = jload(SNS, {}) or {}
     sig = xtop(t.get("signal"), "query", "q", "kw")
     bsky = xtop(t.get("bsky_trends"), "query", "q", "topic")
+    soc = jload(SOCIAL, [])
+    comm = [str(x.get("title") or "") for x in (soc if isinstance(soc, list) else []) if isinstance(x, dict)]
     raw = {}
     def put(q, v, new_ok):
         """new_ok=False = **값 보강만**(후보 신설 금지) — 화면 밖 말이 풀로 우회 진입하는 뒷문 차단."""
@@ -217,7 +228,11 @@ def hot():
         if overlaps(ck, bsky):
             eff *= BOOST_BSKY
             where.append("블루스카이")
-        if eff < MIN_VOL:
+        thr = MIN_VOL
+        if any(kw_hit(q, ct) for ct in comm):   # 커뮤니티 일치선(위 COMM_MIN_VOL 사유)
+            thr = min(MIN_VOL, COMM_MIN_VOL)
+            where.append("커뮤니티")
+        if eff < thr:
             continue
         out[k] = (q, v, int(round(eff)), where)
     return out
@@ -266,7 +281,7 @@ def main():
         return
     cur = hot()
     if not cur:
-        print(f"검색 {MIN_VOL:,}회 이상 급상승어 없음 — 발송 0")
+        print(f"검색 {MIN_VOL:,}회(커뮤니티 일치 {COMM_MIN_VOL:,}회) 이상 급상승어 없음 — 발송 0")
         return
 
     led = jload(LEDGER, {})

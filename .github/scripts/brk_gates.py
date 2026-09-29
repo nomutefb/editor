@@ -15,7 +15,9 @@ AI 판정(RUBRIC)이 O를 줘도 아래 3축은 **제목만으로** 기계 판�
    사형·테러·한국인 피해·전면전·지진(규모 규칙)·대인 강력범죄(피해자 수 축)·사법 어휘(③이 담당)는 이 축 밖.
    합산 표기(사망·실종자 N명)는 비둘기집으로 어느 한 문턱을 반드시 넘는 N(해외 210↑)만 통과.
 ② 연예 관계·지위(celeb) — 열애·결혼·결별·이혼·소속사 이동·입대·컴백·근황 = X.
-   사망·사고·범죄 연루(입건·구속·음주·마약·폭행 …)·해체·은퇴는 통과(그쪽은 사건).
+   사망·사고·범죄 연루(입건·구속·음주·마약·폭행 …)·폭력·폭로·활동 중단·하차·해체·은퇴는 통과(그쪽은 사건).
+   메이저급 참조 명단(apps/news/major_award_winners.json) 인물의 관계·지위 소식이면 이 축을 건너뛴다 = 루브릭 🎤
+   «메이저급 연예인 혼인·사건 예외»가 판정한다(운영자 260929 A2 · 코드가 루브릭 예외를 뒤집던 모순 해소).
 ③ 사법 절차·판결(judicial) — 수사·영장·기소·구형·재판·1심/2심/항소심/상고·선고·판결·무죄·유죄·법정구속·확정 = **전부 X**
    (운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게» · 구판의 선고·판결 통과와 매체 몰림(cross≥8) 통과를 폐지).
    예외 2 = 사형(운영자 260831 «사형은 아무나 안때려» · 구형이어도 통과) · 탄핵(헌재 선고 = 정치 사태 축 · 사법 후속 아님).
@@ -191,15 +193,64 @@ def casualty_gate(title, cat=None):
 
 
 # ── ② 연예 관계·지위 ──────────────────────────────────────────────────────────────────────────
+# `데이트(?!\s*폭)` = 데이트폭력·데이트 폭행은 연애 소식이 아니다(운영자 260929 A1 · 닛몰캐쉬 「데이트폭력·비하발언 폭로」가
+#   `데이트` 에 걸려 LLM 판정과 무관하게 X로 확정되던 오인). 통과어 폭력·폭언·폭로·활동 중단·하차 = 같은 사례의 후속 제목축.
 _CELEB = re.compile(r"열애|결혼|결별|이혼|재혼|약혼|파혼|♥|혼인|예비신랑|예비신부|웨딩|상견례|재계약|전속계약|소속사|엔터(?:테인먼트)?와|"
-                    r"입대|군대|제대|컴백|화보|근황|데이트|목격담|품절남|품절녀|득남|득녀|임신|출산")
+                    r"입대|군대|제대|컴백|화보|근황|데이트(?!\s*폭)|목격담|품절남|품절녀|득남|득녀|임신|출산")
 _CELEB_KEEP = re.compile(r"사망|별세|숨|타계|부고|구속|입건|기소|체포|피소|송치|영장|사고|중상|의식불명|폭행|성폭|마약|음주|사기|협박|"
-                         r"고소|수사|경찰|검찰|해체|은퇴|탈퇴|제명|사형|실종|피해|학대|살해")
+                         r"고소|수사|경찰|검찰|해체|은퇴|탈퇴|제명|사형|실종|피해|학대|살해|폭력|폭언|폭로|활동 ?중단|하차")
+
+# 메이저급 참조 명단(breaking_judge ROSTER 와 같은 파일) — 명단 인물이면 ② 축을 건너뛰고 루브릭 🎤 메이저 예외에 맡긴다.
+#   이름 일치 = 3자↑ 포함 · 2자 = 낱말 그대로 또는 조사 꼬리(«지민이»·«로제의») · 1자 = 제외(«비» 같은 이름은 제목 낱말과 구별 불가).
+#   파일 없음·깨짐 = 빈 명단(종전 동작 = 전원 ② 축 적용) — fail-soft.
+_ROSTER_P = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "apps", "news", "major_award_winners.json")
+_JOSA = set("이가은는을를의와과도만에서부터께랑님씨측")
+_roster_cache = None
+
+
+def _roster():
+    global _roster_cache
+    if _roster_cache is None:
+        try:
+            import json
+            with open(_ROSTER_P, encoding="utf-8") as f:
+                d = json.load(f)
+            groups = d.get("idol_groups") or {}
+            names = set(d.get("names") or []) | set(groups) | {m for ms in groups.values() for m in ms}
+            _roster_cache = frozenset(n.strip() for n in names if isinstance(n, str) and len(n.strip()) >= 2)
+        except Exception:  # noqa: BLE001
+            _roster_cache = frozenset()
+    return _roster_cache
+
+
+def major_in(title):
+    """제목에 메이저급 참조 명단 인물이 있으면 그 이름(없으면 None)."""
+    t = title or ""
+    words = None
+    for n in _roster():
+        if len(n) >= 3:
+            if n in t:
+                return n
+            continue
+        if n not in t:
+            continue
+        if words is None:
+            words = re.findall(r"[가-힣A-Za-z0-9]+", t)
+        for w in words:
+            if w == n or (len(w) <= len(n) + 2 and w.startswith(n) and all(ch in _JOSA for ch in w[len(n):])):
+                return n
+    return None
+
+
+# 명단 인물이라도 건너뛰는 건 **루브릭 메이저 예외가 다루는 축**뿐 — 관계(열애·결혼·결별·이혼) · 지위(소속·전속계약·입대).
+#   컴백·화보·근황·임신·출산·데이트 목격·♥ 표기만 있는 근황은 루브릭도 X 라 종전대로 여기서 X(260917 타이트닝 보존 ·
+#   실측 14일 = 명단 인물 관문 X 192건 중 이 축 68건만 판정기로 넘어간다).
+_MAJOR_AXIS = re.compile(r"열애|결별|이혼|재혼|약혼|파혼|결혼|혼인|교제|전속계약|재계약|소속사|입대|군대|제대")
 
 
 def celeb_gate(title):
     t = title or ""
-    if _CELEB.search(t) and not _CELEB_KEEP.search(t):
+    if _CELEB.search(t) and not _CELEB_KEEP.search(t) and not (_MAJOR_AXIS.search(t) and major_in(t)):
         return "연예 관계·지위 소식(열애·혼인·결별·소속·입대 = 콘텐츠 축)"
     return None
 

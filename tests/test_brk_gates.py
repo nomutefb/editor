@@ -141,11 +141,27 @@ class CasualtyGate(unittest.TestCase):
 
 class CelebGate(unittest.TestCase):
     def test_romance_status_x(self):
-        for t in ["지상렬♥신보람 결별설…은지원 \"헤어진 거냐\"", "‘3살 연상 사업가♥’ 티아라 류화영, 결혼 소감 밝혔다",
-                  "조병규, 13년 소속사 떠나 군대 간다..\"카투사 탈락, 육군 생각 중\"", "고수, BH엔터와 15년 동행 마무리…\"새로운 출발 응원\"",
+        for t in ["조병규, 13년 소속사 떠나 군대 간다..\"카투사 탈락, 육군 생각 중\"", "고수, BH엔터와 15년 동행 마무리…\"새로운 출발 응원\"",
                   "송혜교, 파리서 남자 지인과 데이트…어깨에 살포시", "백진희 “예비신랑=재력가 아닌 평범한 직장인”",
+                  "'박수홍♥' 김다예, '90kg→52kg' 2년만에 부산행", "라이즈, 11월 3일 컴백 확정",   # 명단 인물이어도 근황·컴백·♥ 표기 = X
                   "톰 홀랜드♥젠데이아, 결혼했다더니 말장난?…측근 “거짓말, 아직 안 해”"]:
             self.assertIsNotNone(G.celeb_gate(t), t)
+
+    def test_major_roster_defers_to_rubric(self):
+        # 운영자 260929 A2 — 메이저급 참조 명단 인물은 ② 축을 건너뛴다(루브릭 🎤 «메이저급 연예인 혼인·사건 예외»가 판정)
+        for t in ["지상렬♥신보람 결별설…은지원 \"헤어진 거냐\"", "‘3살 연상 사업가♥’ 티아라 류화영, 결혼 소감 밝혔다",
+                  "아이유·이종석, 4년 열애 끝 결별", "지민이 열애 인정", "한예리, 신생 기획사와 전속계약 체결"]:
+            self.assertIsNone(G.celeb_gate(t), t)
+        self.assertIsNotNone(G.celeb_gate("신인 배우 김아무개 열애설"))          # 명단 밖 = 종전대로 X
+        self.assertIsNotNone(G.celeb_gate("비 오는 날 결혼식 하객 패션"))        # 1자 이름은 일치 판정 제외
+
+    def test_dating_violence_is_incident(self):
+        # 운영자 260929 A1 — 닛몰캐쉬 실측 제목: `데이트` 가 데이트폭력에 걸려 X 확정되던 오인
+        for t in ["닛몰캐쉬, 데이트폭력·비하발언 폭로 터졌다…전 여친 녹취록 공개 '확산' [Oh!쎈 이슈]",
+                  "'잘자요 아가씨' 닛몰캐쉬, 데이트 폭력 인정 \"주장 대부분 사실\" [공식입장]",
+                  "닛몰캐쉬 소속사 \"폭로 내용 인정\"…활동 중단", "유튜버 ○○, 전 여친에 폭언 녹취록…결국 하차"]:
+            self.assertIsNone(G.celeb_gate(t), t)
+        self.assertIsNotNone(G.celeb_gate("신인 배우 김아무개, 한강 데이트 포착"))   # 연애 데이트는 종전대로 X
 
     def test_incident_pass(self):
         for t in ["'이혼 빚 딛고 화가로 복귀' 낸시랭, 새벽 만취운전 경찰 적발", "‘화상·피폭·차별’ 넘은 타격왕 장훈 별세",
