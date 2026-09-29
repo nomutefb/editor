@@ -88,6 +88,16 @@
      구 `cursor:default`(= 못 누른다는 신호)를 pointer로 되돌리고, 헤더 어디를 눌러도 칩이 눌린 것으로 보이게 press를 중계한다. 값 = --press-m(.cyv:active 정본 동값 · 신규 값 0). */
   .scard .hd.st:has(> .cyv:only-child) { cursor:pointer; -webkit-tap-highlight-color:transparent; }
   .scard .hd.st:has(> .cyv:only-child):active .cyv { transform:scale(var(--press-m)); }
+  /* ── 카테고리 접이(운영자 260929 «자막이나 저런 거 다 v 카테고라이징으로 묶어줘» · 큰 묶음 = 자막 설정·컷·구간·화면 설정) = 유튜브 탭 accCard 정본 동값 ──
+     헤더 = 버튼 한 개(카드 전체가 눌린다 · .hd.st 가 아니라 워드 토글 위임 미적중) · 펼침 = kinetics «Accordion Spring»(grid 0fr→1fr .45s) · v = morphicons chevron-down↔up
+     안쪽 = 종전 카드 그대로(값·핸들러·Snap Rail·게이지 무변) · 펼침 상태 = ACC_OPEN(render()가 #stack 을 다시 그려도 유지 · 기본 접힘 = 유튜브 탭 동일) */
+  .scard > .hd.acch { width:100%; margin:0; background:none; border:0; color:var(--fg); font-family:inherit; text-align:left; -webkit-tap-highlight-color:transparent; }   /* ys .scard .hd 버튼 리셋 동값 */
+  .scard .chev { width:14px; height:14px; flex:none; fill:none; stroke:var(--mut); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }   /* raw-ok: ys .scard .chev 동값(진행 카드 .tk-chev) */
+  .scard > .acc { display:grid; grid-template-rows:0fr; transition:grid-template-rows .45s cubic-bezier(.16,1,.3,1); }   /* raw-ok: ys .scard .acc 동값(max-height 전이 = check_layout_transition 래칫 대상이라 grid 행으로 같은 곡선) */
+  .scard.open > .acc { grid-template-rows:1fr; }
+  .scard > .acc > .acc-in { min-height:0; overflow:hidden; visibility:hidden; transition:visibility 0s linear .45s; }   /* raw-ok: ys .acc-in 동값 = 닫힘 곡선 뒤 숨김(잘린 조작칸이 탭 포커스·히트 측정에 남지 않게) */
+  .scard.open > .acc > .acc-in { visibility:visible; transition-delay:0s; }
+  @media (prefers-reduced-motion:reduce) { .scard > .acc, .scard > .acc > .acc-in { transition:none; } }
   .addbtn { margin-top:var(--sp-2); width:100%; height:42px; border-radius:var(--r-l); border:1px dashed var(--line); background:transparent; color:var(--accent); font:inherit; font-weight:var(--fw-x); font-size:var(--fs-label); cursor:pointer; transition:transform var(--dur-fast); }
   .addbtn:active { transform:scale(var(--press-l)); }
 
@@ -969,6 +979,7 @@ function sum(k){
      켜두면 말하는 지점이 아니라 미리 정해둔 낱말이 칠해져서 「지금 어디를 말하는지」가 안 보인다. */
 const SUBSTY=['karaoke','hi','pop'];
 const SUBSTY_L={karaoke:'가라오케', hi:'강조', pop:'툭 튀어나오기'};
+const TONE_OPTS=[['lit','직역'],['plain','기본'],['sns','의역'],['mz','MZ어']];   // 의역 칸 = lymake.sh 프롬프트 3분기 + 직역과 1:1 · 접이 요약(accSum)과 한 벌
 const pc=(k,v,on,dim,txt,xcls)=>'<button class="pc'+(on?' on':'')+(dim?' dim':'')+(xcls?' '+xcls:'')+'" type="button" data-p="'+k+':'+v+'" aria-pressed="'+(on?'true':'false')+'"'+(dim?' disabled':'')+'>'+txt+'</button>';   // aria-pressed = 토글 상태 SR 공지(P2평의회5 a11y)
 function segs(k, arr, cur, dim){ return '<div class="prow">'+arr.map(a=>pc(k,a[0],String(cur)===a[0],dim,a[1])).join('')+'</div>'; }
 const srow=(lbl,chips)=>'<div class="srow"><span class="plbl">'+lbl+'</span><span class="sopts">'+chips.join('<span class="ssep" aria-hidden="true">|</span>')+'</span></div>';
@@ -1070,14 +1081,14 @@ function subLineMirror(el, fs, f, box){   /* ★ 한국어 줄 = 러너(libass) 
 }
 const gvTxt=(k,v,u)=>v+u;   // (260729) 구 'sh 100% = 기본' 특례 폐지 — 운영자 "딱딱 끊겨서 조절되는 게 아니라 자연스럽게": 숫자가 도중에 낱말로 바뀌면 연속 조절이 끊겨 보인다 → 전 게이지 숫자 단일 · 기준선 안내는 게이지 title로 이관
 function gauge(k, lbl, min, max, val, unit, tip){ return '<div class="grow"><span class="k">'+lbl+'</span><input type="range" data-nmg min="'+min+'" max="'+max+'" step="1" value="'+val+'" data-g="'+k+'" aria-label="'+lbl+(tip?(' — '+tip):'')+'"'+(tip?(' title="'+esc(tip)+'"'):'')+'><span class="v">'+gvTxt(k,val,unit)+'</span></div>'; }   // tip = 기준선 안내(260729 — 구 값칸 낱말 치환 대체)
-function prm(k){
+function prm(k,head){   // head = 카드 스택 맨 앞에 붙일 카드(자막 설정 접이 = 「자막」 켜고 끄기 카드 · 없으면 종전 그대로)
   if(k==='sub'){ const C=x=>x?'<div class="scard">'+x+'</div>':'';   // 행 → 카드 1:1(운영자 260729 "이미지 스튜디오 디자인과 같이" · thumb .scard > .csec 정본 계승 · 빈 행은 카드도 안 만든다)
     return '<div class="pvslot" id="pvSlotSub"></div>'   // 도먼트(자막 탭 이관 260711) · 라이브 미리보기 자리(영속 #pv 노드를 render()가 이주)
-    +'<div class="optcards">'
+    +'<div class="optcards">'+(head||'')
     /* 프리셋 행 = 폐지(운영자 260731 19차 "자막 on 시 세부 기능 정리 — 프리셋 > 삭제") · SUBPRE·spre 핸들러는 도먼트 보존(복원 = 이 자리 srow 한 줄) */
     +'<div class="scard cyc"><div class="hd st" title="ON = 원문이 50% 작게 위 · 한국어 자막이 아래(원문+한글 동시 표기)">'+cyv('trn','번역')+'</div></div>'   // 번역 = 자막 **안** 첫 카드로 이주(운영자 260803 7차 "어짜피 자막에 포함되어 있는거니까 없애고 자막 안으로 삽입") — 부품·워딩·핸들러 = 구 hl3 3분할 행 tg3 그대로(생김새 창작 0 · 워드 점등 정본) · 축 계약 불변(setAxis trn: ON = 자막 자동 ON · 자막 OFF = 번역 동반 OFF)
     /* 언어 행 = 폐지 유지(운영자 260803 8차 "언어 > 원문 포함 고정") — lang은 P 기본값 'dual' 상시 고정 · setAxis('lang') 핸들러·발사 경로는 도먼트 보존(복원 = 이 자리 srow 한 줄) */
-    +(ON.trn?C(snapRow('의역','tone',[['lit','직역'],['plain','기본'],['sns','의역'],['mz','MZ어']].map(a=>['tone',a[0],P.tone===a[0],false,a[1]]))):'')   /* ★ 번역 OFF = 이 줄 자체가 없다(운영자 260812 "번역 꺼지면 번역 관련 선택자는 다 꺼져야 맞음 · 외국어 자막 디자인 설정부터 의역 설정까지") — 톤은 러너 lymake.sh 에서 **외국어 소스 전용**으로 못박혀 있어(그 파일 63행 "위 톤 지시는 외국어 소스 전용") 번역을 안 켜면 고를 수 있어도 아무 데도 안 쓰인다 = 죽은 선택자였다 */   /* ⚠배치 = 자막 카드 안 '번역' 바로 아래(운영자 260812 "의역의 강도를 좀 더 창의적으로, 사람이 말하는것 처럼 변환할 수 잇는 강도를 조정") — 260803 8차에 「의역 고정」으로 없앤 톤 행의 **복원 + 한 단 증설**: 그때 고정한 건 'sns'(기본 의역)였고 그보다 센 단이 아예 없었다 · 부품·문법 = 같은 카드의 '음영' 행 srow+pc 값 사본(생김새 창작 0) · 핸들러 = setAxis 일반 폴백 P[k]=v(신규 로직 0) · 값 = lymake.sh 프롬프트 3분기와 1:1 */
+    +(ON.trn?C(snapRow('의역','tone',TONE_OPTS.map(a=>['tone',a[0],P.tone===a[0],false,a[1]]))):'')   /* ★ 번역 OFF = 이 줄 자체가 없다(운영자 260812 "번역 꺼지면 번역 관련 선택자는 다 꺼져야 맞음 · 외국어 자막 디자인 설정부터 의역 설정까지") — 톤은 러너 lymake.sh 에서 **외국어 소스 전용**으로 못박혀 있어(그 파일 63행 "위 톤 지시는 외국어 소스 전용") 번역을 안 켜면 고를 수 있어도 아무 데도 안 쓰인다 = 죽은 선택자였다 */   /* ⚠배치 = 자막 카드 안 '번역' 바로 아래(운영자 260812 "의역의 강도를 좀 더 창의적으로, 사람이 말하는것 처럼 변환할 수 잇는 강도를 조정") — 260803 8차에 「의역 고정」으로 없앤 톤 행의 **복원 + 한 단 증설**: 그때 고정한 건 'sns'(기본 의역)였고 그보다 센 단이 아예 없었다 · 부품·문법 = 같은 카드의 '음영' 행 srow+pc 값 사본(생김새 창작 0) · 핸들러 = setAxis 일반 폴백 P[k]=v(신규 로직 0) · 값 = lymake.sh 프롬프트 3분기와 1:1 */
     +C(snapRow('글자 형태','font1',['pretendard','gothic','serif','paper'].map(f=>['font',f,P.font===f,false,FONT_PV[f].lbl]))
        +snapRow('글자 형태','font2',['barun','plex','jua','gowun'].map(f=>['font',f,P.font===f,false,FONT_PV[f].lbl]),true))   // (260923) 8종 = 2줄 — 둘째 줄 = 라벨 없는 행(칩 우측 정렬 · swdefrow 문법 계승 · 신규 부품 0) · 폰 390 한 줄 4칩 실측   // 운영자 260805 "기본은 본고딕 · 명조랑 페이퍼 줄임말로 고를수있게" — 고딕(본고딕·기본)·명조(본명조)·페이퍼(페이퍼로지 5 Medium · 레포 동봉) 3종 · 나눔고딕(260731 19차)·손글씨(260805) = 도먼트(러너 화이트리스트 불변 · 복원 = 배열에 키 한 줄)
     /* 모양 행 = 폐지 잔존(운영자 260731 19차 "모양-강조 없애자 · 모양 = 깔끔(기본)으로 가고 나머진 다 숨김") — style 기본값 'clean' 고정 · pop·keyword 축은 도먼트 보존 */
@@ -1130,7 +1141,7 @@ function setEta(){   // 도먼트(운영자 260722 "이미지 스튜디오처럼
   const e=g.querySelector('.eta'); if(e) e.remove();   // 잔존 스팬 방어 제거(복귀 텍스트 교체 경로와 무충돌)
 }
 /* 섹션 상시 노출 IA(운영자 260712 — 시안 3분류 뷰 정합: "1 리사이징"류 번호 섹션이 항상 펼쳐져 축 칩이 바로 보임 · 빈 스택+시트 추가형 폐지) — 기본 = 음량 통일만 ON(운영자 260712 보정 기본)·나머지 축 '원본/그대로/끔' · 칩 선택 = ON[k] 파생이라 buildOpts·etaCalc·레시피·클리퍼 배타 전부 불변 */
-const IA=[['설계',['trim','sub','cut']],['기본',['screen','res']]];   // 소머리 '하이라이트' → '설계'(운영자 260804 "다른 부분하고 동일하게 용어 통일") = 콘티(sb)·프롬프팅(k)·음원(song) 「설계」 소머리와 한 어휘 — 라벨 1개만 교체(축 키 trim/sub/cut·카드·발사 페이로드 전부 불변)   // 섹션 재편(운영자 260803 7차) — ⓐ 번역 = 자막 **안**으로 이주("어짜피 자막에 포함되어 있는거니까") ⓑ 고프레임 = 레일 전용("네비게이션에서만 선택") ⓒ 음량 통일 = 기본값 고정·카드 삭제(ON.anorm 기본 true 불변) ⓓ 배경음 = 레일 전용(기본 활성 · 끄면 '배경음 제거') → 음향 섹션 통째 소멸 · 구 'hl3' 3분할 행 = 도먼트(hlRow 보존 · 복원 = 'sub' 자리에 'hl3' 1줄) · 클리퍼 = 숨김(Q08 · 복원 = 'cut' 뒤 'clip' 재추가 1줄 + PREC 쇼츠 클립 재추가) · 구 IA = git 이력
+const IA=[['설계',[['sub','자막 설정',['sub']],['cuts','컷·구간',['trim','cut']]]],['기본',[['scr','화면 설정',['screen','res']]]]];   // (260929) 섹션 안 = 카테고리 접이 [키, 이름, 카드 축](운영자 «자막이나 저런 거 다 v 카테고라이징으로 묶어줘» · 유튜브 탭 음성·화면·자막 설정 동문 · 큰 묶음) — 카드 축·발사 페이로드 불변   // 소머리 '하이라이트' → '설계'(운영자 260804 "다른 부분하고 동일하게 용어 통일") = 콘티(sb)·프롬프팅(k)·음원(song) 「설계」 소머리와 한 어휘 — 라벨 1개만 교체(축 키 trim/sub/cut·카드·발사 페이로드 전부 불변)   // 섹션 재편(운영자 260803 7차) — ⓐ 번역 = 자막 **안**으로 이주("어짜피 자막에 포함되어 있는거니까") ⓑ 고프레임 = 레일 전용("네비게이션에서만 선택") ⓒ 음량 통일 = 기본값 고정·카드 삭제(ON.anorm 기본 true 불변) ⓓ 배경음 = 레일 전용(기본 활성 · 끄면 '배경음 제거') → 음향 섹션 통째 소멸 · 구 'hl3' 3분할 행 = 도먼트(hlRow 보존 · 복원 = 'sub' 자리에 'hl3' 1줄) · 클리퍼 = 숨김(Q08 · 복원 = 'cut' 뒤 'clip' 재추가 1줄 + PREC 쇼츠 클립 재추가) · 구 IA = git 이력
 /* ── 순환값 문법(운영자 260712 5문법 — 잔여 선택지 나열 폐지 · 탭=한 바퀴 · 단일축 카드 = 반폭 페어) ── */
 const CYC={ ar:['off','9:16','1:1','4:5','16:9'], fit:['crop','pad','blur'], res:['off','src','720','1080','2k','4k'], fps:['off','60i'], cutlv:['off','soft','std','hard'], clip:['off','on'], bgm:['off','on'], anorm:['off','on'], sdr:['off','on'], trim:['off','on'], sub:['off','on'], trn:['off','on'] };   // fps = 고프레임 OFF/ON 토글(운영자 260728 Q06 — 30fps 선택지 도먼트 · 복원 = '30' 재추가) · cutlv = 4값 복구(평의회⑦ 260728 — ['off','std']로 좁혔더니 게이지로 고른 '살짝/많이'가 헤더 탭 왕복 한 번에 말없이 '기본'으로 덮이던 것 · 게이지와 값 도메인 일치) · trn = 번역 토글 신설 · 24fps 삭제(운영자 260712) · trim = OFF/ON 토글(운영자 260713) · sub = OFF/ON(운영자 260721)
 const CYL={ ar:{off:'원본','9:16':'9:16','1:1':'1:1','4:5':'4:5','16:9':'16:9'}, fit:{crop:'자르기',pad:'검정 여백',blur:'블러 여백'}, res:{off:'원본',src:'원본',720:'720p','1080':'FHD','2k':'2K','4k':'4K'}, fps:{off:'OFF','60i':'ON','30':'30fps'}, cutlv:{off:'OFF',soft:'살짝',std:'기본',hard:'많이'}, clip:{off:'OFF',on:'후보 스캔'}, sdr:{off:'OFF',on:'ON'}, bgm:{off:'ON',on:'OFF'} /* ⚠ 의도적 반전(운영자 260803 7차 "배경음 > 활성화가 기본값, 비활성화 하면 > 배경음 제거") — 축 키 ON.bgm은 종전 그대로 **'배경음 제거' 플래그**(발사 페이로드·eta·요약 전부 무접촉)이고 표시만 뒤집는다: 제거 안 함(off) = 배경음 'ON'(점등·기본) · 제거함(on) = 배경음 'OFF'(소등) */, anorm:{off:'OFF',on:'ON'}, trim:{off:'OFF',on:'ON'}, sub:{off:'OFF',on:'ON'}, trn:{off:'OFF',on:'ON'} };   // fps 표기 = 고프레임 OFF/ON(운영자 260728 — '60fps 보간' 산문은 카드 title·요약 sum()이 전담 · '30' 라벨은 도먼트 짝) · trn 합류   // 말 통일(운영자 260712 5차): 미적용 = 비율과 동일 '원본'(res·fps — 구 '그대로' 폐지 · src는 '4K'로 개명 = '원본' 중복 회피·의미 동일 3840캡) · 이진/세기 축 미적용 = 'OFF'(구 '끔' — 이미지 모달 OFF/ON 문법 계승) · 적용 = 실값 or 'ON'
@@ -1241,14 +1252,15 @@ function resNote(){
     : _vw+'×'+_vh+' → <b>'+tw+'×'+th+'</b>'+(up?' 확대':' 축소'))
     +(k>1?' · 선명화 동반(AI 아님 — 없던 디테일이 생기진 않아)':'')+'</div>';
 }
-function cardHtml(k,half){   // 한 줄 헤더(라벨|값 or 라벨|칩 나열 or 이진=워드 토글 단독) + 잔여(게이지·구간 입력·노트)만 아래
+function cardHtml(k,half,bare){   // bare = 헤더만(자막 설정 접이 안 「자막」 켜고 끄기 카드 — 세부 카드는 같은 스택에 나란히) · 한 줄 헤더(라벨|값 or 라벨|칩 나열 or 이진=워드 토글 단독) + 잔여(게이지·구간 입력·노트)만 아래
   let vals='',hdNm=true;   // hdNm=false = 이진 워드 토글이 라벨을 흡수(운영자 260803 · 아래 CARDAX 분기)
   if(k==='screen') vals=hdChips('ar',[['off','원본'],['9:16','9:16'],['1:1','1:1'],['4:5','4:5'],['16:9','16:9']],ON.screen?P.ar:'off');   // 비율 = 칩 상시 나열(운영자 260728 Q10 — 이미지 스튜디오 형식 · 값 축은 edit 기존 집합 유지)
   else if(k==='res') vals=resChips(ON.res?P.res:'off');   // 사다리 = 소스 실측 기준 동적(운영자 260809) — 원본이 중심축 · 위쪽 업스케일 · 아래쪽 다운스케일 · 같은 급 칩은 미표시
   else if(k==='cut') vals=hdChips('cutlv',[['off','OFF'],['std','기본'],['soft','살짝'],['hard','많이']],ON.cut?P.cutlv:'off');   // 컷 강도 = 비율·해상도와 같은 헤더 우측 칩 나열(운영자 260804) — 값·순서 = 구 cutBody segs 사본(백엔드 무변) · CARDAX 워드토글 분기보다 **앞**(같은 축을 두 문법으로 그리지 않는다)
   else if(CARDAX[k]){ const ax=CARDAX[k], v0=curCyc(ax), lab0=CYL[ax][v0]||String(v0); if(lab0==='OFF'||lab0==='ON'){ hdNm=false; vals=cyv(ax,CARD[k].nm); } else vals='<span class="cysep">|</span>'+cyv(ax); }   // 이진 상태 = 카드 라벨 자체가 토글 칩(운영자 260803 · #cnTog 문법 — 'nm | OFF' 이중 표기 폐지 · 칩 워딩 = CARD.nm 그대로) · 실값 상태(컷 살짝·배경음 목소리만)는 종전 라벨|값
   let body='';
-  if(k==='sub'&&ON.sub) body='<div class="prm">'+prm('sub')+'</div>';   // (hl3 밖 단독 배치 폴백용 보존)
+  if(bare) body='';
+  else if(k==='sub'&&ON.sub) body='<div class="prm">'+prm('sub')+'</div>';   // (hl3 밖 단독 배치 폴백용 보존)
   else if(k==='screen'&&ON.screen) body='<div class="prm"><div class="plbl plbl-nm" style="margin-top:0">방식</div>'+snapLine('fit','방식',[['crop','자르기'],['pad','검정 여백'],['blur','블러 여백']].map(a=>pc('fit',a[0],P.fit===a[0],false,a[1])).concat(pc('genfill','x',false,true,'생성형')))+(P.fit==='crop'?gauge('vpos','위치',0,100,P.vpos,'%'):'')+'</div>';   // 방식 = 비율 ON일 때 아래 구획(운영자 260712 3차 동급 위계 유지 — 헤더는 칩 나열이 차지)
   else if(k==='res'&&ON.res) body=resNote();   // 「기존 > 변경」 실측 표기(운영자 260809) — ⚠ 첨부 파일 소스만(URL은 원본 크기를 브라우저가 모른다 = 추측 대신 침묵)
   else if(k==='cut') body=cutBody();   // 4구간 분할 게이지(운영자 260728 Q07) — OFF에서도 게이지 노출 = 게이지가 곧 스위치
@@ -1256,6 +1268,38 @@ function cardHtml(k,half){   // 한 줄 헤더(라벨|값 or 라벨|칩 나열 o
   else if(k==='trim'&&ON.trim) body=trimBody();   // n구간+룰러+디졸브(운영자 260728 Q04)
   return '<div class="scard cyc'+(half?' half':'')+(ON.clip&&k!=='clip'?' dim':'')+'"><div class="hd st">'+(hdNm?'<span class="nm">'+CARD[k].nm+'</span>':'')+vals+'</div>'+body+'</div>';   // 클리퍼 배타 중 = 타 축 dim(운영자 260712 6차 승인 — 시각만·탭=배타 해제 그대로) · 이진 워드 토글 카드 = nm 생략(칩이 워딩 자체 · 260803)
 }
+/* ── 카테고리 접이(운영자 260929 · 유튜브 탭 accCard 정본 동문) — 접힌 줄 = 이름 + 지금 값 요약 + v · 안쪽 = 종전 카드 그대로 ── */
+const CHEV_DN='m6 9 6 6 6-6', CHEV_UP='m18 15-6-6-6 6';   // Lucide chevron-down·up(ISC) = 유튜브 탭 D.chevDown·chevUp 동값
+const ACC_OPEN={};   // 펼친 묶음(키 → true) — render()가 #stack 을 통째로 다시 그려도 그대로 · 기본 접힘(유튜브 탭 동일) · 저장 안 함(매 진입 접힘)
+function accSum(id){   // 접힌 줄 오른쪽 = 지금 값 요약(유튜브 탭 paintSums 동문 · 작게·흐림 = .scard .sum)
+  if(id==='sub'){ if(!ON.sub) return '끔'; const st=SUBSTY.find(k=>P[k]);
+    return [FONT_PV[P.font]?FONT_PV[P.font].lbl:'', ON.trn?((TONE_OPTS.find(a=>a[0]===P.tone)||[])[1]||''):'한글만', st?SUBSTY_L[st]:''].filter(Boolean).join(' · '); }
+  if(id==='cuts'){ const n=(P.segs||[]).filter(g=>String(g.s)!==''||String(g.e)!=='').length;
+    return '컷 '+(ON.cut?(CYL.cutlv[P.cutlv]||P.cutlv):'끔')+' · 구간 '+(ON.trim?(n?n+'개':'켬'):'끔'); }
+  if(id==='scr') return (ON.screen?P.ar+' · '+(CYL.fit[P.fit]||P.fit):'비율 원본')+' · 해상도 '+(ON.res?(CYL.res[P.res]||P.res):'원본');   // 라벨 = CYL 정본(칩 표기와 한 벌)
+  return '';
+}
+function accCard(g){   // g = [키, 이름, 카드 축] · 자막 = 「자막」 켜고 끄기 카드(헤더만) + 세부 카드를 한 스택에(카드 안 카드 3겹 방지 = 폭 유지)
+  const id=g[0], o=!!ACC_OPEN[id];
+  const body=g[2][0]==='sub'?(ON.sub?prm('sub',cardHtml('sub',false,true)):'<div class="optcards">'+cardHtml('sub',false,true)+'</div>')
+    :'<div class="optcards">'+secCards(g[2])+'</div>';
+  return '<div class="scard'+(o?' open':'')+'" data-acc="'+id+'"><button type="button" class="hd acch" aria-expanded="'+o+'" aria-controls="acc_'+id+'"><span class="nm">'+g[1]+'</span><span class="sum">'+esc(accSum(id))+'</span><svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="'+(o?CHEV_UP:CHEV_DN)+'"/></svg></button>'
+    +'<div class="acc" id="acc_'+id+'"'+(o?'':' inert')+'><div class="acc-in"><div class="prm">'+body+'</div></div></div></div>';
+}
+/* v 모핑 = morphicons(MIT · viewer/vendor/morphicons · 유튜브 탭과 같은 모듈) — 동적 import(인라인 정적 import 는 check_viewer_js 구문 오류) · 로드 전·실패 = d 즉시 교체 · reduced-motion = 즉시 */
+let _accMorph=null;
+import('./vendor/morphicons/dom.js').then(m=>{ _accMorph=m.createMorph; }).catch(()=>{});
+function chevTo(path,d){ const from=path.getAttribute('d'); if(from===d) return;
+  if(_accMorph){ try{ (path._mo||(path._mo=_accMorph(path,from,{reducedMotion:'user'}))).morphTo(d,'snappy'); return; }catch(_){} }
+  path.setAttribute('d',d); }
+document.addEventListener('click',e=>{   // 여닫기 = 그 자리 토글(다시 그리지 않음 = 스프링이 돈다 · 소스 게이트 비대상 = 값이 아니라 보기만 바뀐다)
+  const h=e.target.closest&&e.target.closest('.acch'); if(!h) return;
+  const c=h.closest('[data-acc]'); if(!c) return;
+  const o=!c.classList.contains('open'); ACC_OPEN[c.dataset.acc]=o;
+  c.classList.toggle('open',o); h.setAttribute('aria-expanded',String(o));
+  const a=c.querySelector(':scope > .acc'); if(a){ if(o) a.removeAttribute('inert'); else a.setAttribute('inert',''); }
+  const p=h.querySelector('.chev path'); if(p) chevTo(p,o?CHEV_UP:CHEV_DN);
+});
 function secCards(ks){ let out='',i=0; while(i<ks.length){ const k=ks[i]; if(k==='hl3'){ out+=hlRow(); i++; continue; } if(HALF.has(k)&&i+1<ks.length&&HALF.has(ks[i+1])){ out+='<div class="cyrow">'+cardHtml(k,true)+cardHtml(ks[i+1],true)+'</div>'; i+=2; } else { out+=cardHtml(k,false); i++; } } return out; }
 function render(){
   const _pv=document.getElementById('pv');   // 미리보기 노드 보존 — 슬롯(#pvSlot)이 #stack 안이라 innerHTML 교체 전에 반드시 분리(안 하면 video 파괴 = 매 칩 클릭 리로드 · 운영자 260711 3차 귀속)
@@ -1264,7 +1308,7 @@ function render(){
     /* 프리셋 섹션 = 폐지(운영자 260804 "프리셋 부분 삭제") — 소머리 「프리셋」 + 칩 행(PREC·내 프리셋·+ 저장) 한 덩이 제거 · PREC/MYPRE/recipe()/data-precnm·premine·presave 핸들러는 도먼트 보존(복원 = 이 자리에 260728 판 sech+scard 한 줄) · ⚠ 세로축 = 첫 소머리를 IA 첫 섹션이 그대로 승계하고 .sech margin(16/0/9)이 위치 무관 상수라 도크↔첫 블릿 잉크(smoke_studioshell C9 = 18px 정본)는 불변 */
     IA.map(sec=>
     '<div class="sech"><span class="nm">'+sec[0]+'</span></div>'   // 번호 폐지 = 이미지 모달 소머리 문법(• 블릿 = CSS ::before · 운영자 260712 6차)
-    +secCards(sec[1])
+    +sec[1].map(accCard).join('')
   ).join('');
   setEta();
   pvSync();
@@ -1500,6 +1544,7 @@ $('#stack').addEventListener('input',e=>{
     if(P.segs&&P.segs[i]){ const _bad=ts.validity&&ts.validity.badInput, _v=(ts.value!==''||!_bad)?ts.value:(isS?P.segs[i].s:P.segs[i].e); if(isS) P.segs[i].s=_v; else P.segs[i].e=_v; }   // badInput(= '6.'처럼 확정 전 타이핑)일 때만 직전 값 유지 — number 입력의 .value는 미완성 소수를 ''로 돌려줘 재렌더 시 '6'까지 날아가던 것 차단(평의회⑤ 260728 · 진짜 지운 건 '' 그대로 반영)
     _preManual(); tlDraw();
     const v=parseFloat(ts.value); const vv=$('#pvVid'); if(Number.isFinite(v)&&vv&&FILE_URL){ _segHold=Date.now(); try{ vv.currentTime=Math.max(0,Math.min(_dur||v,v)); }catch(_){} }   // 입력한 초를 실제로 보게 유예(구간 점프가 즉시 끌어가던 것 차단 · 평의회⑤ 260728)
+    const cs=document.querySelector('[data-acc="cuts"] > .acch .sum'); if(cs) cs.textContent=accSum('cuts');   // 접이 요약 = 입력 중에도(여기는 다시 그리지 않는 경로)
     updateOptStrip(); return; }
   const t=e.target.closest('#t0,#t1'); if(t){ P[t.id]=t.value; }   // (도먼트 — 구 단일 구간 입력 잔존 가드)
 });

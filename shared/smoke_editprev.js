@@ -168,6 +168,8 @@ function chk(name, pass, detail) { R.push({ name, pass, detail }); console.log((
       sub ? (sub.font + ' · font-size ' + sub.px + ' (기대 ' + (sub.fs / sub.lh).toFixed(2) + ') · 굵기 ' + sub.fw + '/강조 ' + sub.kw + ' · 박스 ' + sub.boxH + ' (기대 ' + sub.want + ') · 기준선 ' + sub.base + ' (기대 ' + sub.baseWant + ')') : '자막 미리보기 없음');
 
     // C6 비율 칩 → 미리보기 리사이즈(9:16 → 1:1) — 260728 재편: 순환값(data-cyc) → 칩 상시 나열(data-p="ar:…" · 이미지 스튜디오 형식) = 조작만 칩 클릭으로
+    //    (260929) 비율 칩 = 「화면 설정」 접이 안(기본 접힘) → 사람처럼 한 번 펼치고 누른다 · 두 번째 칩(1:1)은 다시 그린 뒤에도 펼침이 남아 있어야 눌린다
+    await pg.click('[data-acc="scr"] > .acch'); await pg.waitForTimeout(600);
     const arPick = async v => { await pg.click('[data-p="ar:' + v + '"]'); await pg.waitForTimeout(350);
       return pg.evaluate(() => { const b = document.querySelector('.pvbox').getBoundingClientRect(); const on = document.querySelector('[data-p^="ar:"].on'); return { l: on ? on.textContent.trim() : '', ar: +(b.width / b.height).toFixed(3) }; }); };
     const a1 = await arPick('9:16');
