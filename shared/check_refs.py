@@ -6445,6 +6445,13 @@ def check_trend_alert_scope():
     elif m and lane.group(1) != m.group(1):
         bad.append('화면 컷(%s) ≠ 알림 컷(%s) — 알림이 화면에 없는 말을 말하게 된다(둘은 한 값이어야 한다)'
                    % (lane.group(1), m.group(1)))
+    # ④-b 커뮤니티 일치선 = 화면 커뮤니티 레인 하한(SOC_MIN) 사본 — 화면에 없는 행으로 1만 선을 낮추지 않는다(평의회260929 #2·#8)
+    sm_tw = _re.search(r'^SOC_MIN\s*=\s*([0-9.]+)', tw_code, _re.M)
+    sm_vw = _re.search(r'const SOC_MIN\s*=\s*([0-9.]+)', vw)
+    if not sm_tw or not sm_vw:
+        bad.append('커뮤니티 일치선 하한 SOC_MIN 앵커 누락(trend_watch.py 또는 viewer 커뮤니티 레인) — fail-closed')
+    elif float(sm_tw.group(1)) != float(sm_vw.group(1)):
+        bad.append('커뮤니티 일치선 하한(trend_watch SOC_MIN %s) ≠ 화면 커뮤니티 레인 하한(viewer SOC_MIN %s)' % (sm_tw.group(1), sm_vw.group(1)))
     # ⑤ 딥링크 = **축마다 목적지가 다르다**(운영자 260819 «랜딩을 그걸 검색한 구글 창으로 가게 하셈 새창으로»
     #    + «지금 키워드 급상승을 말하는거야»). 두 알림은 성격이 반대라 목적지도 반대다:
     #      · 급상승(trend) = 「내가 모르는 말이 떴다」 → 필요한 건 우리 목록이 아니라 **그 말이 무슨 일인지**

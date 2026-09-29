@@ -81,7 +81,7 @@ async function startServer() {
 
 // ── 셀렉터 SSOT(섹션 개편 시 여기만 갱신) ──
 const SEL = {
-  gt: 'details[data-sec="gt"]', sig: 'details[data-sec="sig"]', xtr: 'details[data-sec="xtr"]',
+  gt: 'details[data-sec="gt"]', sig: 'details[data-sec="sig"]', xtr: 'details[data-sec="xtr"]', nmu: 'details[data-sec="nmu"]',
   wrap: '.rt2col', row: 'a.trend-row', rank: '.trend-rank', q: '.trend-q',
   chg: '.trend-chg', traffic: '.trend-traffic', tm: '.trend-tm', cnhot: '.trend-q.cnhot',
   base: 'summary .trend-unit .fin-base', foldKey: 'nm_trend_fold',
@@ -131,11 +131,13 @@ const SEL = {
 
     const t10 = await pg.evaluate(S => {
       const all = [...document.querySelectorAll(S.cnhot)];
-      const outside = all.filter(f => !f.closest(S.gt) && !f.closest(S.sig)).length;   // 골드레몬 교차합의 = 실검 gt/sig 전용(해커뉴스·박스오피스 등 타 brow 섹션 유출 0)
+      const outside = all.filter(f => !f.closest(S.gt) && !f.closest(S.sig) && !f.closest(S.nmu)).length;   // 교차합의 색 = 실검 gt/sig/나무위키 전용(운영자 260929 3소스 · 해커뉴스·박스오피스 등 타 brow 섹션 유출 0)
       const okRow = all.every(f => !!f.closest(S.row));   // 각 = 실검 행 내부(.trend-q 자체가 cnhot 색)
-      return { total: all.length, outside, okRow };
+      const cn3 = [...document.querySelectorAll('.trend-q.cn3')];
+      const cn3ok = cn3.every(f => f.classList.contains('cnhot') && (f.closest(S.gt) || f.closest(S.sig) || f.closest(S.nmu)));   // 3소스 = cnhot 의 부분집합(스카이시안은 골드레몬 위 단계)
+      return { total: all.length, outside, okRow, cn3: cn3.length, cn3ok };
     }, SEL);
-    ok('T10 교차합의 골드레몬 = 실검 전용(타 섹션 유출 0 · 행 내부)', t10.outside === 0 && t10.okRow, JSON.stringify(t10));
+    ok('T10 교차합의 색 = 실검 전용(타 섹션 유출 0 · 행 내부 · 3소스 ⊂ 2소스)', t10.outside === 0 && t10.okRow && t10.cn3ok, JSON.stringify(t10));
 
     const t4 = await pg.evaluate(S => { const el = document.querySelector(S.xtr); return { has: !!el, tm: el ? el.querySelectorAll(S.tm).length : 0 }; }, SEL);
     ok('T4 회귀 가드(xtr 시각 열 잔존 = 월경 없음)', xtrN === 0 ? !t4.has : (t4.has && t4.tm === xtrN), JSON.stringify(t4) + ` 기대 ${xtrN}`);

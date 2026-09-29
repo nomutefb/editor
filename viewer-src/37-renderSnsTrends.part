@@ -64,10 +64,11 @@ function renderSnsTrends() {
   const tkvA = ((d.tiktok || {}).videos) || [], tkv = cutH(tkvA, TK_CUT_H).filter(t3 => (t3.views || 0) >= TK_MIN_V).sort(TRREG === 'kr' ? (a3, b3) => tkScore(b3) - tkScore(a3) : (a3, b3) => (b3.views || 0) - (a3.views || 0)).slice(0, TK_TOP), tk = ((d.tiktok || {}).hashtags) || [];   // videos = tikwm 주 경로(260711) · 월드 모드 = 감점 없는 순수 조회수순(종전 규약 유지 — 국내 우대는 국내 모드 전용 축) · slice = tkv 자체를 10개로 절단 = 하위 소비처(lane·sec·fillT) 전부 자동 10개 · hashtags = 구 카나리아 폴백(무시각 = 컷 비대상)
   const sb = d.subs || {}, sxRaw = sb.x || [], stkRaw = sb.tiktok || [], sreRaw = sb.insta || [], sytRaw = sb.youtube || [], sx = cut3d(sxRaw), stk = cut3d(stkRaw), sre = cut3d(sreRaw), syt = cut3d(sytRaw);   // 구독 축(운영자 260711 — 수집 = SNS_SUBS 게이트) · 3일 컷(260721 — 큐레이션 스테일 carry["8개월 전"]가 최신처럼 랭킹되던 것 봉인 = 컷 후 0건 섹션은 조용한 공백)
   const shvRaw = d.shorts || [], aivRaw = d.aivid || [], shv = cut3d(shvRaw), aiv = cutH(aivRaw, 168);   // 쇼츠 = 3일 컷 · AI 영상 = 7일 컷 · Raw = 채움 풀(운영자 260721 "10개까지 안나오고 짤림" — 검색 파생 니치 = 일 1~3건 수집이라 3일 창 = 2건 고사 실측 · TOP 풀 제외 소스라 완화 무부작용)
-  const sig = d.signal || [], xtr = d.xtrends || [];   // ⑨⑩ 시그널 실검·X 실시간 트렌드(운영자 260712 버튼 승인 · 국내 축 = 모드 무관 표시) — 검색어류 = 컷 비대상
+  const sig = d.signal || [], xtr = d.xtrends || [], nmuL = (d.namu || []).slice(0, 10);   // ⑨⑩ 시그널 실검·X 실시간 트렌드(운영자 260712 버튼 승인 · 국내 축 = 모드 무관 표시) — 검색어류 = 컷 비대상 · nmuL = 나무위키 실시간 검색어(운영자 260929 · 빈 상태 판정에도 합류)
+  const _isoMs = s => Date.parse(String(s || '').replace(/(\.\d{3})\d+/, '$1'));   // 폰 isoformat 마이크로초 6자리 = 사파리 Date.parse NaN(26-ovlGradient 주석 판례) → 밀리초 3자리로
   const rdd = cut3d(d.reddit || []), bsk = cut3d(d.bsky || []), sth = cut3d(sb.threads || []);   // ⑥⑦⑧ 레딧·블루스카이·스레드 구독(운영자 260713 "추천대로" 배치 승인 — 레딧 = 커뮤니티 그룹 · 블스·스레드 = 새 그룹) · 게시물 = 3일 컷
   const hnl = cut3d(d.hackernews || []), finc = d.finance || {}, finR = finc.rates || [], finC = finc.coins || [], finI = finc.indices || [], finS = finc.stocks || [], dsl = d.disaster || [], kob = d.kobis || [], exw = d.expressway || [];   // ⑫⑬⑭⑮⑯ 해커뉴스(3일 컷)·금융(환율/코인/증시/종목 · 운영자 260717 2x2)·재난문자·박스오피스·고속도로 돌발(운영자 260713 "ㄱ" · 데이터 있을 때만 그룹 등장 = 조용한 공백 · 대시보드류 = 컷 비대상)
-  if (!gt.length && !yt.length && !ytn.length && !tkv.length && !tk.length && !sx.length && !stk.length && !sre.length && !syt.length && !shv.length && !aiv.length && !sig.length && !xtr.length && !rdd.length && !bsk.length && !sth.length && !hnl.length && !finR.length && !finC.length && !dsl.length && !kob.length && !exw.length) { box.innerHTML = ''; return; }   // 빈 상태 = 조용한 공백(필러 문구 금지 · §디자인 e-가) — sns_trends.json 레포 상존+실패 시 직전분 보존이라 실무 도달 불가(평의회3 · 의도적 유지) · HN·금융·재난·박스오피스·고속도로 5키 누락 봉합(260720 평의회 F1 — 이 그룹들만 데이터일 때 통삭제 잠복)
+  if (!gt.length && !yt.length && !ytn.length && !tkv.length && !tk.length && !sx.length && !stk.length && !sre.length && !syt.length && !shv.length && !aiv.length && !sig.length && !xtr.length && !nmuL.length && !rdd.length && !bsk.length && !sth.length && !hnl.length && !finR.length && !finC.length && !dsl.length && !kob.length && !exw.length) { box.innerHTML = ''; return; }   // 빈 상태 = 조용한 공백(필러 문구 금지 · §디자인 e-가) — sns_trends.json 레포 상존+실패 시 직전분 보존이라 실무 도달 불가(평의회3 · 의도적 유지) · HN·금융·재난·박스오피스·고속도로 5키 누락 봉합(260720 평의회 F1 — 이 그룹들만 데이터일 때 통삭제 잠복)
   // vfmt = 전역 승격(260720 평의회 후속 — 임베드 모달 인기 댓글도 사용 · 정의 = renderSnsTrends 위 전역 1곳)
   const tfmt = s => { const n2 = parseInt(String(s || '').replace(/[^0-9]/g, ''), 10); return n2 > 0 ? vfmt(n2) + '+' : ''; };   // 구글 검색량 문자열 "20,000+"→"2만+" 만단위 통일 — 천단위 원값은 RSS approx_traffic 저단위 버킷(수집기 교체 검토 = 운영자 결정 대기)
   const tm = fmtK12(String(d.updated || ''));   // 수집 시각(살아있냐 신호 · 평의회10) — 표기 = "7월 16일 2:18PM" 공통(운영자 260716 "시간표시 동일하게")
@@ -346,8 +347,7 @@ function renderSnsTrends() {
   const _cnGt = new Set(gt.map(g => _cnNorm(g.query)).filter(Boolean));     // 구글 실검 키워드 집합
   // 나무위키 실시간 검색어(운영자 260929 «블루스카이처럼 순위 · 겹치면 노란색 · 3군데 겹치면 파란색») — 공급 = 폰 전용(sns_trends.py namu_rank · 클라우드 403)
   //   폰이 멈추면 순위가 낡는다 → namu_updated 180분 초과(폰 하트비트 phoneStale 임계 동률) = 「폰 점검 필요」 배지 + 교차합의 집합에서 제외(낡은 말로 색칠 금지)
-  const nmuL = (d.namu || []).slice(0, 10);
-  const nmuStale = !!(nmuL.length && (!d.namu_updated || Date.now() - new Date(d.namu_updated).getTime() > 180 * 60000));
+  const nmuStale = !!(nmuL.length && !(_isoMs(d.namu_updated) > Date.now() - 180 * 60000));   // 읽지 못한 시각(NaN) = 낡음으로(신선 오판 금지 · 평의회260929 #4)
   const _cnNm = new Set(nmuStale ? [] : nmuL.map(g => _cnNorm(g.query)).filter(Boolean));   // 나무위키 검색어 집합(교차합의 3번째 소스)
   // 교차합의 색 = 구글·시그널·나무위키 중 몇 곳에 떴나 — 2곳 = 골드레몬(cnhot · 종전 구글∩시그널 규칙 그대로) · 3곳 = 스카이시안(cnhot cn3)
   //   **자기 집합 포함 셈**이라 2곳 이상 = 반드시 다른 열 1곳 이상과 겹친 것(자기 집합만 대조하던 전 행 오점화[T10]와 다른 축) · X·블스 = 팬덤이라 합의 제외 유지
@@ -415,14 +415,14 @@ function renderSnsTrends() {
   // (구 X 세계군 별도 sec[sx-gl] = 260724 지역 무관 통합으로 sx 단일 블록에 병합 · 국내/세계 구분 폐지)
   const sigSec = sig.length ? sec('sig', '시그널 실시간 검색어', rtBase, Math.min(sig.length, 10), sig.slice(0, 10).map((g, i) =>
     brow(i, ggUrl(g), undefined, _cnHotSig(g.query))).join('')) : '';   // ⑨ 시그널 실검(운영자 260718) — 클릭 = 구글 웹검색 검색어 입력 상태(운영자 260803 "구글 뉴스가 아닌 '구글'에서 검색자로 투입" — 구 Google News 리버스크론[평의회 260723 #2]은 뉴스만 걸러 보여 원천 맥락이 좁았다 · 목적지 = ggUrl 정본 1곳 공용 = 구글 실검과 동일 문법) · 순위+검색어만(brow)
-  gGG += (gtSec && sigSec) ? '<div class="rt2col">' + gtSec + sigSec + '</div>' : gtSec + sigSec;
+  gGG += (gtSec && sigSec) ? '<div class="rt2col">' + gtSec + sigSec + '</div>' : gtSec + sigSec;   // 구글|시그널 좌우 2열 매칭(운영자 260718 · 모바일 1열 스택 = .rt2col 미디어) — 한쪽 결측 = 그리드 없이 단독(조용한 공백 동축)
   // 나무위키 = 구글|시그널 아래 단독 폭(교차합의 3소스 묶음 · rt2col 결측 단독 폭 관용구 = 신규 컴포넌트 0) · 행 = brow(순위+검색어 · 원천 수치 없음 = 시그널과 동일) · 클릭 = 나무위키 검색 검색어 입력 상태
-  const _nmPh = d.health && d.health.phone, _nmPhAlive = !!(_nmPh && _nmPh.updated && Date.now() - new Date(_nmPh.updated).getTime() <= 180 * 60000);   // 폰 하트비트(아래 phoneStale 과 같은 180분 축) — 폰은 살았는데 나무만 막힌 경우를 가른다(평의회260929 #3)
+  const _nmPh = d.health && d.health.phone, _nmPhAlive = !!(_nmPh && _isoMs(_nmPh.updated) > Date.now() - 180 * 60000);   // 폰 하트비트(아래 phoneStale 과 같은 180분 축) — 폰은 살았는데 나무만 막힌 경우를 가른다(평의회260929 #3)
   const nmuSec = nmuL.length ? sec('nmu', '나무위키 실시간 검색어', !nmuStale ? rtBase : _nmPhAlive
     ? '<span class="tdash-time stale" title="폰 수집기는 정상인데 나무위키 순위가 3시간+ 안 들어왔다 — 나무위키 쪽 응답 차단·형식 변경 의심(폰 로그 「나무 N건」 확인)">나무위키 응답 없음</span>'
     : '<span class="tdash-time stale" title="폰 수집기가 3시간+ 멈춤 — 나무위키 순위가 오래됐다(공급원 = 폰 · 재가동 = phone_subs)">폰 점검 필요</span>', nmuL.length,
-    nmuL.map((g, i) => brow(i, 'https://namu.wiki/Search?q=' + encodeURIComponent(g.query || ''), undefined, _cnCls(g.query))).join('')) : '';
-  gGG += nmuSec;   // 구글|시그널 좌우 2열 매칭(운영자 260718 · 모바일 1열 스택 = .rt2col 미디어) — 한쪽 결측 = 그리드 없이 단독(조용한 공백 동축)
+    nmuL.map((g, i) => brow(i, 'https://namu.wiki/Search?q=' + encodeURIComponent(g.query || ''), undefined, nmuStale ? undefined : _cnCls(g.query))).join('')) : '';   // 낡은 나무 행 = 무색(교차합의 불참과 같은 축)
+  gGG += nmuSec;
   // ⑩+⑦-b 실시간 트렌드 반갈(운영자 260721 "1~10위 엑스 | 1~10위 블루스카이 · 모양 = 실검 반갈[구글|시그널] 그대로") — rt2col+sec 블릿·마진 = 9915 관용구 100% 계승 · 행 = row(순위·키워드·시간 = 기존 xtr 그대로 · 블스 시간 = started[relT 문법]) · 좌 상한 15→10(운영자 "1위~10위") · 블스 결측 = X 단독 폭(조용한 공백 동축) · 클릭 = X 검색 / 블스 검색(둘 다 검색어 입력 상태 · 운영자 260803 — 구 블스 link 피드 우선 폐지)
   const xtrSec = xtr.length ? sec('xtr', 'X 실시간 트렌드', '', Math.min(xtr.length, 10), xtr.slice(0, 10).map((g, i) =>
     row(i, 'https://x.com/search?q=' + encodeURIComponent(g.query || ''), '', g, '')).join('')) : '';
@@ -513,7 +513,7 @@ function renderSnsTrends() {
   const finUpdHtml = () => !_finUt ? '' : esc(qAgo(_finUt)) + (Date.now() - _finUt >= 65 * 60000 ? ' <span class="fin-chk">(점검 필요)</span>' : '');   // 금융 갱신 시각 = "nn분 전" 상대 표기(운영자 260723-2 "날짜 빼고 nn분 전 흰색" — 사다리 = qAgo 정본 재사용 · 무효 = '' fail-soft) + 수집 65분↑ = "(점검 필요)" 부착(운영자 260723-4 "65분 동일하게 · 괄호 점검 필요" — 임계 = .tdash-time.stale 65분 동률 · 시간 본문 표출 그대로 · 보라 = .fin-chk CSS) · 초기 렌더·라이브 틱 공용 빌더 · 소스 = 전체 수집 시각 d.updated(#vhTime 동일 정본 · finance._ts는 소스별 개별 dict라 단일값 부적격) · (구 GPEN·penSeg 펜 칩 = main 260723 설정 이관 삭제 유지)
   const FIN_UPD = finUpdHtml();
   const finHotAny = /fin-hot/.test(gFI);   // ⑬ 임계 초과 행 존재 신호(운영자 260723 hot 배지) — 행 판정(finHot 클래스 마커) 재사용 = 이중 임계 로직 0
-  const _phH = d.health && d.health.phone; const phoneStale = !!(_phH && (!_phH.updated || Date.now() - new Date(_phH.updated).getTime() > 180 * 60000));   // 폰 하트비트(평의회 260723 #5 · health.phone) — 폰 수집기(스레드 유일 공급원)가 180분+ 멈춤 = 죽음(워치독 check_phone 임계 동률 · updated 무효/노후 판정) · updated = KST 오프셋 ISO라 기기 TZ 무관 · **health.phone 필드 부재(구 스키마·러너 미실행) = 판정보류 no-dim**(_phH undefined → false = 롤아웃 오탐 방지)
+  const _phH = d.health && d.health.phone; const phoneStale = !!(_phH && !(_isoMs(_phH.updated) > Date.now() - 180 * 60000));   // 폰 하트비트(평의회 260723 #5 · health.phone) — 폰 수집기(스레드 유일 공급원)가 180분+ 멈춤 = 죽음(워치독 check_phone 임계 동률 · updated 무효/노후 판정) · updated = KST 오프셋 ISO라 기기 TZ 무관 · **health.phone 필드 부재(구 스키마·러너 미실행) = 판정보류 no-dim**(_phH undefined → false = 롤아웃 오탐 방지) · 시각 파싱 = _isoMs(마이크로초 6자리 사파리 NaN = 낡음으로 · 평의회260929 #4)
   h += GRPS.map(g => { const ttl = g[0] === 'fin' ? g[1] + (finHotAny ? '<span class="fin-hotdot" title="전일 대비 임계 초과 급변 있음"></span>' : '') + (FIN_UPD ? `<span class="tdash-time fin-upd">${FIN_UPD}</span>` : '') : (g[0] === 'cur' && phoneStale) ? g[1] + '<span class="tdash-time stale" title="폰 수집기가 3시간+ 멈춤 — 스레드 최신 글이 지연 중(재가동 = phone_subs)">폰 점검 필요</span>' : g[1]; return gsec(g[0], ttl, g[2]); }).join('');   // 대분류 = 제목만(시각 = 좌상단 #vhTime) · 예외: 금융 갱신시각+hot배지(운영자 260723) · 큐레이션 게시물 폰stale 배지(스레드 공급원 = 폰 · sth→cur 이관 260723) · X 정렬칩 = sx 소분류 인라인(xSeg 헤더칩 폐지)
   const _sv2 = $('#snsview'); if (_sv2 && box.contains(_sv2)) $('#trendview').appendChild(_sv2);   // 재구축 전 대피(innerHTML 소실 방지)
   // ── 실검 키워드 티커(운영자 260729 · MengTo marquee-loop 역이식) — 전 탭(feed·scrap·trend·chan) 공통 헤더 직하 한 줄 무한 루프.
