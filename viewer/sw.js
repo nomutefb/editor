@@ -1,15 +1,15 @@
-// 노뮤트 서비스워커 — ① 긴급(breaking) 속보 웹푸시 수신·표시 ② HTML 셸 stale-while-revalidate 캐시.
+// 노뮤트 서비스워커 — ① 긴급(breaking) 속보 웹푸시 수신·표시 ② HTML 셸 네트워크 우선(3s 캡) + 폴백 캐시.
 // 발송 = .github/scripts/push_send.py(pywebpush) / 구독 = api/push. 정본 설명 = CLAUDE.md §🚨·§8-5.
 //
 // ── ② 셸 캐시(운영자 승인 260706 — OS 스플래시 노출 최단화 · 기틀검증 5인 260706) ──
-// 뷰어 index 셸(/·/index.html) 최상위 내비게이션*만* 캐시-우선 + 백그라운드 재검증: 콜드부트 첫 페인트가
-// 네트워크 대기 없이 즉시 = WebAPK 스플래시가 한 깜빡으로 줄어듦.
+// 뷰어 index 셸(/·/index.html) 최상위 내비게이션*만* 캐시 대상. 260706 원안 = 캐시-우선(스플래시 최단화) →
+// 260929 운영자 지시로 네트워크 우선(아래 '진입 전략') — 캐시는 오프라인·지연·서버 오류 때 깨진 앱 대신 띄우는 폴백.
 // ⚠️ 스코프 = index 두 경로 화이트리스트가 기틀(평의회 1·2·4·5 수렴): 도구 HTML(thumb/ly/k/comp/track)은
 //    loadToolFrame의 `?v=Date.now()` 버스트 + _headers no-cache = '항상 최신' 계약이라 절대 캐시 대상 아님
 //    (전 내비게이션 캐시였던 초안이 이 계약을 무력화 → REJECT·수정). 스코프 넓히기 = 기틀 변경(재검증 필수).
-// 트레이드(운영자 수용): index 셸 = 인라인 앱 JS 포함 통째로 배포 후 첫 진입이 직전판(백그라운드 갱신 →
-//    다음 진입 반영 · 당겨서 새로고침도 SWR = 즉시 새 셸 아님). 데이터 JSON(articles 등)·외부 JS·이미지는
-//    fetch(비내비게이션)라 SW 불간섭 = 기사 내용 '항상 최신' 불변.
+// 진입 전략(운영자 260929 「사이트 접속 시 캐시 무시하는 강제 새로고침」 — 260706 캐시 즉시 트레이드를 뒤집음):
+//    저장본이 있어도 매 진입 네트워크 우선 3s 캡 = 배포 뒤 첫 진입부터 최신 셸. 캐시 = 오프라인·지연(3s 초과)·서버 오류 폴백 전용.
+//    데이터 JSON(articles 등)·외부 JS·이미지는 fetch(비내비게이션)라 SW 불간섭 = 기사 내용 '항상 최신' 불변.
 // 가드 3중: ⓐ res.type==='basic' && ok && !redirected만 캐시 = Cloudflare Access 로그인/리다이렉트 오염 차단
 //          ⓑ ?nosw=1 = 캐시 전면 우회 탈출구(순수 네트워크)
 //          ⓒ 재검증이 리다이렉트/401·403 감지 시 클라이언트에 nm-auth-stale 통지 → 페이지가 ?nosw=1 재진입
@@ -90,12 +90,11 @@ self.addEventListener('fetch', event => {
       }
       return res;
     });
-    if (cached && (req.cache === 'no-cache' || req.cache === 'reload' || url.searchParams.has('act'))) {   // + 알림 PICK 진입(act) = 새 셸 우선(옛 캐시 셸은 보관 요청을 못 읽는다 · 260924 검토)   // 명시적 새로고침(Ctrl+R·당겨서 새로고침) = 네트워크 우선 3s 캡(운영자 260720 평의회 F6 — "머지했는데 안 보임" 구조 봉합: SWR이 매 진입 직전판 셸을 먼저 서빙 · 새로고침 제스처만 "즉시 새 셸" 계약 신설 · 일반 진입 = 아래 SWR 유지 = 스플래시 최단화 계약 불변)
+    if (cached) {   // 진입 = 네트워크 우선 3s 캡(운영자 260929 「사이트 접속 시 캐시 무시하는 강제 새로고침 · 컨트롤 쉬프트 알 개념」) — 종전엔 명시적 새로고침(Ctrl+R·당겨서 · 운영자 260720 평의회 F6)·알림 PICK 진입(act · 260924)만 이 분기였고 평소 진입은 캐시 즉시(SWR) = 배포 뒤 첫 진입이 직전판 셸이라 「고쳤는데 안 뜸」이 반복됐다(260929 수집함 실패 줄 배포 직후 실측). 이제 모든 진입이 이 분기(260706 스플래시 최단화 트레이드 = 운영자가 최신 우선으로 뒤집음)
       const winner = await Promise.race([netP.catch(() => null), new Promise(r => setTimeout(() => r(null), 3000))]);
-      if (winner) return winner;                                            // 3s 내 도착 = 새 셸 즉시(netP가 캐시 put·통지까지 수행)
-      event.waitUntil(netP.catch(() => {})); return cached;                 // 미도착(오프라인·지연) = 캐시 폴백(깨진 앱 방지 · 갱신은 백그라운드 지속)
+      if (winner && (winner.ok || winner.type === 'opaqueredirect' || winner.redirected || winner.status === 401 || winner.status === 403)) return winner;   // 3s 내 도착 = 새 셸 즉시(netP가 캐시 put·통지까지 수행) · Access 만료(리다이렉트·401·403) = 그대로 넘겨 로그인 화면으로(옛 셸에 갇혀 목록이 비는 것 차단)
+      event.waitUntil(netP.catch(() => {})); return cached;                 // 미도착(오프라인·지연)·서버 오류(5xx·404) = 캐시 폴백(깨진 앱·오류 화면 방지 · 갱신은 백그라운드 지속)
     }
-    if (cached) { event.waitUntil(netP.catch(() => {})); return cached; }   // 캐시 즉시 응답 + 뒤에서 갱신
     return netP.catch(() => Response.error());                              // 첫 방문 = 네트워크 그대로
   })());
 });
