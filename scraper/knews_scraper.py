@@ -521,6 +521,8 @@ def collect(feeds, hours):
             src = _reprint_src(feed["publisher"], e.get("author"))
             if src:
                 art["src"] = src   # 교차 셈 전용(원 보도국) · 표시·링크는 publisher 그대로
+            if is_pool_feed(feed):
+                art["pool"] = 1    # 부착 풀(묶기 불참 · main 이 떼어 score_crosspost(pool=) 로만 넘긴다 · articles.json 미기록)
             articles.append(art)
 
     log(f"피드 결과: 성공 {ok} / 죽음 {dead} / 수집 수 {len(articles)}건")
@@ -553,7 +555,8 @@ PICK_PRIORITY = [
 #   표시·원문 링크·건강 원장은 피드 이름 그대로 — 「몇 개 언론사가 썼나」 셈만 합친다.
 #   연합뉴스TV = 연합 기사 재송출(평의회2-5) · NYT코리아 = NYT 한국 토픽 피드(같은 보도국 두 이름).
 #   ⚠ 같은 그룹이라도 기자·기사가 따로면 별개 보도국(평의회3-7 실측: MBN↔매경·IT조선↔조선·스포츠경향↔경향 = 같은 제목 0건).
-CROSS_ALIAS = {"연합뉴스TV": "연합뉴스", "NYT코리아": "NYT"}
+#   스타뉴스 = 머니투데이 연예 브랜드(머니투데이 피드에 같은 기사 번호로 실림 · 260929 실측) — 부착 풀 셈에서도 같은 보도국.
+CROSS_ALIAS = {"연합뉴스TV": "연합뉴스", "NYT코리아": "NYT", "스타뉴스": "머니투데이"}
 # 기사 단위 원 보도국(평의회3-7) — 조선일보 연예·스포츠·전체 피드는 대부분 OSEN·스포츠조선·뉴시스 기사를 그대로 싣고 author 칸에
 #   원 매체명을 적는다(연예 100건 중 OSEN 80 · 스포츠조선 15 · 뉴시스 5 실측). 교차 셈은 이 원 매체로 → 원본과 재송출이 +1 을
 #   만들지 않고, OSEN 같은 별개 보도국이 조선일보 이름에 묻히지도 않는다. author 가 정확히 이 이름일 때만(부분 일치 = 영문 인명 오인).
@@ -565,9 +568,94 @@ def _reprint_src(publisher, author):
     return a if a in REPRINT_AUTHOR.get(publisher, ()) else None
 
 
+# 연합뉴스 전재(260929 · 운영자 «재송출은 연합으로 세기») — 세계일보는 연합 기사를 제목·본문 그대로 싣고 author 칸이 비어 있어
+#   REPRINT_AUTHOR 로는 못 가른다(라이브 104건 중 22건 = 연합과 같은 제목 · 본문 = 연합 기사에서 「(서울=연합뉴스) 기자 =」만 뗀 것).
+#   판정 = 연합 기사와 제목이 같고(공백·문장부호 무시) **본문 첫머리 WIRE_PROBE 글자가 그대로 들어 있을 때만** 연합으로 센다.
+#   제목만 같은 건 제외 — 파이낸셜뉴스의 같은 제목 3건은 자사 기자 [속보]·연합 인용 재작성(본문 다름)이라 별개 보도다.
+#   같은 규칙에 SBS 디지털 전재(사진 설명 뒤 연합 본문)·싱글리스트 전재도 걸린다(매체 목록 없이 본문 대조 한 가지로 판정).
+WIRE_SRC = "연합뉴스"
+WIRE_PROBE = 30   # 대조 글자 수(한글·영숫자만) — 본문이 이보다 짧은 연합 기사([속보] 1줄 등)는 대조하지 않는다
+_WIRE_DATELINE = re.compile(r"^\s*\([^()=]{1,20}=연합뉴스\)\s*(?:[^=]{0,40}?=\s*)?")
+_ALNUM = re.compile(r"[^0-9A-Za-z가-힣]")
+
+
+def mark_wire_reprints(articles):
+    """연합 기사 전재분에 src=연합뉴스 를 단다(교차·burst 셈 전용 · 표시·링크는 publisher 그대로). 반환 = 표시한 건수."""
+    wire = {}
+    for a in articles:
+        if _cross_key(a) != WIRE_SRC:
+            continue
+        body = _ALNUM.sub("", _WIRE_DATELINE.sub("", a.get("summary") or ""))
+        if len(body) >= WIRE_PROBE:
+            wire.setdefault(_ALNUM.sub("", a.get("title") or ""), []).append(body[:WIRE_PROBE])
+    n = 0
+    for a in articles:
+        if a.get("src") or _cross_key(a) == WIRE_SRC:
+            continue
+        probes = wire.get(_ALNUM.sub("", a.get("title") or ""))
+        if probes:
+            text = _ALNUM.sub("", a.get("summary") or "")
+            if any(p in text for p in probes):
+                a["src"] = WIRE_SRC
+                n += 1
+    return n
+
+
 def _cross_key(art):
     pub = art.get("src") or art["publisher"]
     return CROSS_ALIAS.get(pub, pub)
+
+
+# ── 연예 전문지 부착 풀(ENT pool · 운영자 260929 «수집 넓히기는 다 반영» · 가중치 부스트 아님) ──
+#   기존 피드엔 연예 전문지가 적어 연예 대형 사건 cross 가 6~8 에서 멈췄다(닛몰캐쉬 9/29 = 구글뉴스 ~26곳 보도 · 우리 cross 7).
+#   전문지를 그대로 묶기에 넣으면 [MD포토]·신곡 홍보 묶음이 부풀고 새 기사가 무관 묶음을 잇는다(게임대상 9→12 과병합 실측).
+#   → feeds.csv categories 에 POOL_TAG 가 있는 피드는 **기존 묶기에 참여하지 않고**, 기사마다 같은 사건인 기존 묶음 **한 곳에만** 붙는다
+#     (여럿이면 cross 가 가장 큰 묶음). 풀끼리만 모인 사건은 버린다. 홍보·사진 제목(POOL_PROMO)은 세지 않고,
+#     대표·픽 제목이 홍보·사진인 묶음(시사회 [사진] 묶음 등)에는 붙이지 않는다.
+#   산출 = 대표 기사의 px(그 묶음에 없던 풀 매체 수 · CROSS_ALIAS 적용 · 0 이면 키 없음). cross·burst·arts·멤버 url 은 그대로.
+#   소비 = to_candidates(px 캐리) → 뷰어 누적 진입·랭킹의 실효 cross(cross + POOL_W×px · 이슈 배지·속보는 기존 cross).
+#   되돌리기 = feeds.csv 의 pool 행 제거(묶기·cross 는 이 풀과 무관하게 종전 그대로).
+POOL_TAG = "pool"
+POOL_PROMO = re.compile(r"[\[(][^\])]{0,8}(?:포토|사진|화보|영상|현장)[^\])]{0,4}[\])]|제작발표회|제작보고회|쇼케이스|시사회|무대인사|티저|포스터 공개|\[가요소식\]")
+
+
+def is_pool_feed(feed):
+    return POOL_TAG in (feed.get("categories") or "").split("|")
+
+
+def _attach_pool(articles, toks, clusters, reps, pool):
+    """풀 기사를 기존 묶음 한 곳에만 붙여 대표에 px 를 싣는다(묶음 경계·cross 불변). 반환 = (부착 수, 미부착 수, px>0 묶음 수)."""
+    cid, index = {}, defaultdict(set)
+    for root, members in clusters.items():
+        for m in members:
+            cid[m] = root
+    for i, t in enumerate(toks):
+        for w in t:
+            index[w].add(i)
+    keys = {r: {_cross_key(articles[m]) for m in mem} for r, mem in clusters.items()}
+    order = {r: (-len(keys[r]), -len(clusters[r]), articles[reps[r]].get("link") or "") for r in clusters}
+    promo = {r for r in clusters if any(POOL_PROMO.search(x or "") for x in (
+        articles[reps[r]].get("title"), (articles[reps[r]].get("breaking_pick") or {}).get("title")))}
+    extra = defaultdict(set)
+    attached = dropped = 0
+    for a in pool:
+        title = a.get("title") or ""
+        t = tokenize(title)
+        if not t or POOL_PROMO.search(title):
+            continue
+        cand = set().union(*(index.get(w, ()) for w in t))   # 같은 사건 판정은 공유 토큰이 있어야 성립 = 역색인으로 후보만 대조
+        hits = {cid[i] for i in cand if same_topic(t, toks[i])} - promo
+        if not hits:
+            dropped += 1   # 풀 단독 사건(기존 수집에 없음 · 풀끼리 새 묶음을 만들지 않는다) 또는 홍보 묶음만 맞음 → 버림
+            continue
+        best = min(hits, key=order.__getitem__)   # cross 최대 → 멤버 수 → 대표 url(결정적)
+        attached += 1
+        k = _cross_key(a)
+        if k not in keys[best]:
+            extra[best].add(k)
+    for r, ks in extra.items():
+        articles[reps[r]]["px"] = len(ks)
+    return attached, dropped, len(extra)
 
 
 def _pick_rank(pub):
@@ -598,8 +686,12 @@ def _burst(members, articles):
     return best
 
 
-def score_crosspost(articles):
-    """유사 제목끼리 Union-Find 로 묶고, 클러스터 내 '고유 매체 수'를 주요도로."""
+def score_crosspost(articles, pool=()):
+    """유사 제목끼리 Union-Find 로 묶고, 클러스터 내 '고유 매체 수'를 주요도로.
+    pool = 부착 풀 기사(묶기 불참 · _attach_pool 이 대표에 px 만 싣는다)."""
+    wn = mark_wire_reprints(list(articles) + list(pool))
+    if wn:
+        log(f"연합 전재 {wn}건 = 교차 셈을 연합뉴스로")
     n = len(articles)
     parent = list(range(n))
 
@@ -627,13 +719,15 @@ def score_crosspost(articles):
     for i in range(n):
         clusters[find(i)].append(i)
 
-    for members in clusters.values():
+    reps = {}
+    for root, members in clusters.items():
         pubs = {_cross_key(articles[m]) for m in members}
         score = len(pubs)  # 몇 개 매체에 떴나 = 주요도
         # 클러스터 대표 = 가장 먼저 보도한 기사(최초 발) — 빈 시각은 뒤로
         rep = min(members, key=lambda m: (articles[m]["published"] is None,
                                           articles[m]["published"] or "",
                                           articles[m].get("link") or ""))   # url 막타이브레이크=결정적(rep 흔들림↓)
+        reps[root] = rep
         burst = _burst(members, articles)
         # 속보 픽 = 보수메이저 우선(조선>동아…) — 없으면 최초보도.
         # ⚠️ 대표와 '동일 토픽'인 멤버로만 한정 = transitive chaining 오병합(무관 기사가 한
@@ -668,6 +762,9 @@ def score_crosspost(articles):
                 articles[rep]["lb"] = lb
         except Exception:  # noqa: BLE001
             pass
+    if pool:
+        att, drop, nx = _attach_pool(articles, toks, clusters, reps, pool)
+        log(f"ENT 풀 {len(pool)}건: 부착 {att} · 미부착 버림 {drop} · px 실은 사건 {nx}")
     return articles
 
 
@@ -724,11 +821,13 @@ def main():
     except Exception as e:  # noqa: BLE001
         log(f"feed_health 기록 실패(비치명·계속): {e}")
 
+    pool = [a for a in articles if a.get("pool")]   # 부착 풀 = 묶기·산출에서 빠지고 기존 묶음의 px 로만 남는다(위 POOL_TAG)
+    articles = [a for a in articles if not a.get("pool")]
     if not articles:
         log("수집된 기사 없음 — 피드 URL이 죽었거나 시간범위 내 기사가 없음")
         return
 
-    articles = score_crosspost(articles)
+    articles = score_crosspost(articles, pool)
     articles.sort(key=lambda a: (a["cross_score"], a["published"] or ""), reverse=True)
 
     (out / "articles.json").write_text(

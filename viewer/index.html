@@ -12563,6 +12563,7 @@ function mergeDecorate(anchor, memCands) {
   const _cap = _base * MERGE_DAMP_RATIO, _rankCross = _summed <= _cap ? _summed : _cap + (_summed - _cap) * MERGE_DAMP_GAIN;
   return { ...anchor,
     cross: _summed, _rankCross, _baseCross: _base,
+    px: (anchor.px || 0) + memCands.reduce((s, m) => s + (m.px || 0), 0),   // 연예 부착 풀 매체 수도 cross 처럼 합산(effCross·rankCross 입력 · 파이썬 짝 = daily_health.screen_merge)
     breaking: anchor.breaking || memCands.some(m => m.breaking),
     grade: grades.length ? Math.max(...grades) : anchor.grade,
     report_count: Math.max(anchor.report_count || 0, ...memCands.map(m => m.report_count || 0)),
@@ -12676,7 +12677,7 @@ function renderScrap() {
         }
       }
     } else {   // 누적 = 9시뉴스감(좌측·넓은 누적). 발생 4h↑(신규서 졸업) AND (cross≥8 OR 긴급[breaking] OR 연속보도 보조진입[followEnters: cross≥4 AND rc≥6 — grade 조건 없음·운영자 260720 "grade는 긴급용"]). 최신(<4h)과 시간 배타. ⚠️ 긴급이었던 건 cross<8이어도 누적 합류(사라지는 구멍 차단·운영자 260617) → 일반 누적 점수(scScore)로 랭킹. 중요도순.
-      arr = pool.filter(c => _untri(c) && ((c.cross || 0) >= CROSS_MIN || isBreaking(c) || followEnters(c) || failRequeued(c) || pickState(c)) && (Date.now() - scTs(c)) >= FAST_MAX_H * 3600000);   // + 실패 체크복귀(failRequeued)·픽 이력(pickState=picking[재시도 포함]/settled[완료]) = cross<8·non-breaking이라 원래 자격 없어도 면제 = 리스트 유지(재시도 Picking 중·완료도 안 사라짐) · 정렬은 아래 scScore 그대로라 가산점 순위 제자리(강제 상단 X · 운영자 260701)
+      arr = pool.filter(c => _untri(c) && (effCross(c) >= CROSS_MIN || isBreaking(c) || followEnters(c) || failRequeued(c) || pickState(c)) && (Date.now() - scTs(c)) >= FAST_MAX_H * 3600000);   // + 실패 체크복귀(failRequeued)·픽 이력(pickState=picking[재시도 포함]/settled[완료]) = cross<8·non-breaking이라 원래 자격 없어도 면제 = 리스트 유지(재시도 Picking 중·완료도 안 사라짐) · 정렬은 아래 scScore 그대로라 가산점 순위 제자리(강제 상단 X · 운영자 260701)
       arr = arr.map(c => ({ c, s: scScore(c), t: scTs(c) })).sort((a, b) => (b.s - a.s) || (b.t - a.t)).map(x => x.c);   // 순수 scScore 순. 픽은 가라앉히지 않음 — 제자리 유지·PICKED 표시(운영자 인식 필요). ⚠️ 강제핀(pinB) 제거(260617): 오래된 breaking이 최신 고득점 위에 박혀 시간 가속감점을 무력화하던 것 차단(실측: 밀양 28h·score9.5가 최신 score71 위 점유). ⚡이슈 배지는 유지(찾기 가능)·최신 pinFresh(최신속보 핀)는 별개 유지. ⚡버퍼 260701: Schwartzian(scScore 요소당 1회) — 비교당 재계산 제거·순서 동일. ⚠️ 24h+ 순위 게이트(260713 v2)는 같은 날 v3서 폐지 — 운영자 "23h↔24h 1시간 차가 넘사(하드 경계)면 안 됨" = 하드 컷 재도입 금지(ageMul 연속 시그모이드가 전담·§8 260713).
     }
     const lim = Math.min(scShown[key], arr.length);   // dedup은 pool 단계서 전역 1회(위) — 칼럼별 중복 접기 불요
@@ -12861,6 +12862,12 @@ const scTs = c => {
 // ── 최신 게이트(scFast): 속보 OR 다매체(cross≥2·fbJunk 제외). grade는 진입 조건 아님(운영자 260720 "표시는 전부·grade는 긴급용") — 저신호는 접힘, 랭킹에서 연속보도(scFollow)·경중(gradeW)이 정렬. ──
 const BADGE_MAX_AGE_H = 24;   // 배지(⚡이슈)·OUT 완화 공용 소멸선(1일) — brkIssueKind(피드)·scBadgeType(수집함)·OUT_MAX_AGE_H 단일출처. 맨 리터럴 24가 두 곳에 이중 존재해 OUT만 바꾸면 "배지·완화 동시 소멸" 계약이 조용히 깨지던 드리프트 지뢰 봉합(분신술 10인 감사·260710). 조정 가능.
 const CROSS_MIN = 8;   // 누적 진입선 = 8개 매체 이상(운영자 260617: 5→8 엄선 — 어중간한 건 컷·DB엔 잔존). renderScrap(진입·OUT 통계)·fbJunk veto 공용 — 함수 로컬이던 것을 top-level 승격해 fbJunk의 맨 리터럴 8 제거(의미 같은 값 이중 정의 봉합·분신술 260710). 조정 가능.
+// 실효 cross(연예 전문지 부착 풀 · 운영자 260929 «수집 넓히기는 다 반영») — px = 기존 묶음에 없던 연예 전문지 매체 수(정본 = scraper/knews_scraper.py POOL_TAG · 풀은 묶기 불참·한 묶음에만 부착·홍보/사진 제외).
+//   누적 진입(CROSS_MIN·followEnters)과 랭킹(crossConvex·fastScore)만 cross + POOL_W×px 로 본다. ⚡이슈 배지·속보·글로우·표시 매체 수는 기존 cross 그대로 · OUT 감쇠하한(outStatUpd·timeAccOut)도 배지 자격(issCross) 종속이라 기존 축.
+//   파이썬 사본 = scraper/daily_health.py POOL_W·_eff_cross(패리티 = check_refs check_follow_enters_parity). 조정 가능.
+const POOL_W = 0.5;
+const effCross = c => (c.cross || 0) + POOL_W * (c.px || 0);   // 진입 게이트용(raw 합산 cross 기준)
+const rankCross = c => (c._rankCross ?? (c.cross || 0)) + POOL_W * (c.px || 0);   // 랭킹용(병합 댐핑 _rankCross 기준)
 const FRESH_UNFOLD_H = 1.5;   // 신선 접기 면제 나이(h) — 이보다 어린 기사는 검증대기 접기 비대상(운영자 260710 "30분 전 기사" 실시간성 · 조정 가능)
 const FAST_MAX_H = 4, FAST_HALF_H = 2;   // ⏱ 신규↔누적 칼럼 경계 = 발생 4h(운영자 정본 260617: 최신=나이<4h=화면 '3시간 전'까지 / 누적=나이≥4h='4시간 전'부터). 자리(칼럼)=신규·누적 / 사건(배지)=긴급=속보[breaking] = 별개 축 — 긴급 사건은 나이 들면 *자리만* 신규→누적로 이동(개념 불변). 이 한 상수가 최신진입·누적진입·속보핀·토스트·배지(🚨긴급↔⚡이슈)를 전부 결정 = 단일출처(드리프트 차단). FAST_HALF_H=하강 반감기. 조정 가능.
 // 속보 1보 단독(운영자 260923 «속보로 뜨는 게 늦어버리는 점 = 제일 우선순위 · 혹시 아닐지라도 우선순위 요건에 들어가는 게 맞다») — 수집이 첫 보도 태그 단독 1보를 cross 1 + solo 표식으로 싣는다(정본 scraper/to_candidates.py SOLO_TAG_ON · 태그 = scraper/brk_tag.py).
@@ -12890,7 +12897,7 @@ const fpScore = c => {   // 0~4 (①문화결 어휘[시간가중] + ②전역 �
   s = Math.min(s, 4); if (_fpCache.size > 4000) _fpCache.clear(); _fpCache.set(id, s); return s;   // 상한 1.0 = 인물축이 만점의 25%로 제한(평의회D: 상한2.0이 트럼프 단독 만점 → 정치 스레드 +4~9 편중 실측) · 캐시 캡 4000(평의회B: 장수명 탭 무한성장)
 };
 const fpW = c => 1 + FP_W * (fpScore(c) / 4);   // 정규화(0~1) × 소폭 가중 — 랭킹 곱셈항(신규·누적 공용)
-const followEnters = c => (c.cross || 0) >= FOLLOW_CROSS_MIN && ((c.report_count || 0) >= FOLLOW_RC_MIN || ((c.report_count || 0) >= FP_RC_RELAX && fpScore(c) >= FP_STRONG && !fbJunk(c)));   // 보조진입 = 발행량 2축 + 강지문 완화로(운영자 260720 "안 걸러지기만 해도 이득"). PR 살포 방어: rc<3 차단·cross≥4 필수·완화로는 잡음마커 하드제외(평의회A 선제 봉쇄).
+const followEnters = c => effCross(c) >= FOLLOW_CROSS_MIN && ((c.report_count || 0) >= FOLLOW_RC_MIN || ((c.report_count || 0) >= FP_RC_RELAX && fpScore(c) >= FP_STRONG && !fbJunk(c)));   // 보조진입 = 발행량 2축 + 강지문 완화로(운영자 260720 "안 걸러지기만 해도 이득"). PR 살포 방어: rc<3 차단·cross≥4 필수·완화로는 잡음마커 하드제외(평의회A 선제 봉쇄).
 // AI 경중 게이트 가중 — gate_judge가 grade 0~3 채점(0 비뉴스/보도자료 · 1 경미 · 2 주목 · 3 대형). 구조가 못 가르는 보도자료·잡음 침몰·대형 부상. 미채점(grade 없음)=중립 1(콜드스타트=구조만). docs §2.5.
 const GRADE_W = { 0: 0.5, 1: 0.7, 2: 1.0, 3: 1.7 };   // ★재정의(운영자 260628·분신술2차 전수검증): grade=긴급탐지 도구지 경중 도구 아님 → 경중·랭킹은 발행량(cross·연속보도)이 정함. floor 0.05→0.5(곱셈 지배 제거): 보도자료/비뉴스는 ×0.5 약한 감점(JUNK_HEAD가 정형잡음 별도 컷·rc 낮아 시간감점 침몰), 대형(3)만 ×1.7 부상(1.8→1.5 · 운영자 260807 "3 그레이드 가점 x1.5로" → **1.5→1.7 · 운영자 260810 "2는 1.0배, 3은 1.7배"** = S(1.2)와의 간격 복원[1.5는 S 대비 1.25배뿐이라 대형이 대세에 눌리던 축]·2는 1.0 유지 확인). 옛 ×0.05는 cross17·rc11 전국민 대세(홍명보·송영길 축구)를 1/20로 짓밟던 드리프트(문화 452건 grade2·3=0건·드리프트 541건 실측). 긴급축(isBreaking g≥2·isAlert g≥3)은 raw grade 직독이라 불변.
 // ── 피드백 학습 감점/거르기 (운영자 가치없음·홍보성 마킹 공통패턴 · 260701 적대 10인 평의회) ──
@@ -12943,7 +12950,7 @@ const isBuzzLv = c => gradeBase(c) < BUZZ_W && snsBuzz(c);   // S(대세) 승격
 const gradeW = c => isBuzzLv(c) ? BUZZ_W : gradeBase(c);   // 피드백 잡음 = grade0 floor(0.5) 취급(우선순위 감점 — 누적서 하강) · **S 레벨(운영자 260808 "grade에 관계없이 · 0 1 2 S 3 · S가 대세")** = 대세 키워드 매칭이면 등급 무관 gradeW 1.2로 승격(0·1·2·미채점 전부 → S · 3[1.5]은 S보다 위라 불변 · 카테고리 무관 — 문화 한정 폐지)
 // 최신 정렬 = (긴급도[burst+breaking] + 보도량[cross]) × 시간 반감 decay × 연속보도 가점 × AI 경중. 옛·후속끊긴·비뉴스 자연 하강.
 const FRESH_CROSS_W = 0.4;   // 신규 칼럼 보도량 가중 = base에 +W×cross(운영자 260803 "보도 지표 13인데 너무 아래 — 묻히면 신뢰도 하락으로 사용을 안 하게 됨"): 종전 base=burst+breaking뿐이라 cross(매체 수)가 신규(0~4h) 랭킹에 0% 반영 → cr13·25건 대형(경산 방화 수사경찰 사망)이 cr2 보도자료 밑 9/173위 실측. cross축 = 누적 crossConvex와 동일 _rankCross(병합 댐핑 반영) · 진입 게이트(scFast)·검증대기 접기·핀·시간반감 전부 무접촉 = 순수 정렬항 추가. 평의회 260803 W 검증. 조정 가능.
-const fastScore = c => ((c.burst || 0) + (c.breaking ? 5 : 0) + FRESH_CROSS_W * (c._rankCross ?? (c.cross || 0))) * Math.pow(0.5, Math.max(0, (Date.now() - scTs(c)) / 3600000) / FAST_HALF_H) * scFollow(c) * gradeW(c) * fpW(c);
+const fastScore = c => ((c.burst || 0) + (c.breaking ? 5 : 0) + FRESH_CROSS_W * rankCross(c)) * Math.pow(0.5, Math.max(0, (Date.now() - scTs(c)) / 3600000) / FAST_HALF_H) * scFollow(c) * gradeW(c) * fpW(c);
 const JUNK_HEAD = /^(?!.*(?:서킷브레이커|사이드카|폭락|급락|폭등|급등|역대급|패닉|상한가|하한가|돌파|최고치|최저치|폭염특보|한파경보|호우경보|태풍특보|주의보|온열질환|침수|범람|산사태|대피|이재민))(?:\s*(?:[\[\(](알림|공고|부고|부음|동정|인사|프로필|단신|사진|[A-Z]{0,2}포토|표|그래픽|증시|특징주|마감시황|개장시황|시황|프로야구|프로농구|프로배구|게시판)(?:\s[^\]\)]*)?[\]\)]|[\[\(][^\]\)]*(운세|날씨|데이터랩|증시|마켓뷰)[^\]\)]*[\]\)]|오늘의\s*(?:부고|운세|날씨|증시|주요뉴스))|.*원.?달러\s*환율.*마감)/;   // 머리표 junk(뉴스 아님) — 양 컬럼서 제외. ① 사건어 예외(맨 앞 `(?!.*서킷브레이커|폭락…)`) = 머리표가 시황/날씨류여도 본문에 *증시/재난 사건어* 있으면 컷 면제(감사2·8·12: '[마감시황] 코스피 급락 서킷브레이커'·'[날씨]폭염특보 온열질환 사망' 과잉컷 구제·260628 · [E포토]류 = 영문 코너 접두 허용·260923 평의회3-3·260630 평의회10 재난날씨 대칭화 · 260701 평의회10 하위티어 대칭보강=주의보[폭염/호우/한파 주의보]·산사태·대피·이재민 추가 · 260702 fable패널: 돌파·최고치·최저치 추가[환율마감 보호짝·전 패턴 공용 부활 0 실측]) ② 괄호 정확 머리표 + *부가어 허용*(`(?:\s…)?` = '[프로야구 중간순위]'도 컷·감사6 우회 봉합 · `프로필`·`단신` = 정치인약력/연예·스포츠 단신 = 운영자 가치없음 마킹·260630 평의회10 실측 오컷0) ③ 괄호 포함 머리표(운세·날씨·데이터랩·증시·마켓뷰 = 정형 컬럼어) ④ '오늘의 X' ⑤ 정례 환율마감(mid-title `.*원·달러 환율…마감` — 260702 fable패널: 5/5 숨김·부활 0·"1600원 돌파 마감"은 ①예외로 보호·개장('출발')은 의식적 스코프 밖·기대는 UX 아닌 위생+breaking AI콜 절약). ⚠️ 본문 키워드 매칭은 사건어 예외(부정)+⑤에만(교통량↔교통사고 오살 방지). gradeW floor 0.5와 한 쌍. 조정 가능.
 // ── 누적 점수 = 두 가속 곡선 (260617 운영자 재설계) ──────────────────
 // 구결함: 옛 누적은 ① cross가 concave(log)라 다매체 변별 약하고 ② 시간감쇠를 활동시각(last_report)
@@ -12953,7 +12960,7 @@ const JUNK_HEAD = /^(?!.*(?:서킷브레이커|사이드카|폭락|급락|폭등
 //    다수 동시보도일수록 가속 상단. (concave log 대체 · 운영자 "5→7→9→11 가속".) 잡음은 gradeW가 veto.
 const CROSS_POW = 1.3;   // cross^POW. 조정 가능(↑일수록 다매체 더 지배). 1.6→1.3(260628 Stage2): cross 볼록 가속이 연속보도를 압도해 'rc 높은 지속보도'가 'cross 높은 한탕'에 묻히던 것 완화 — 발행량 두 축(매체수·연속보도)의 균형 복원(§★ 연속보도 우선).
 const MERGE_DAMP_RATIO = 1.5, MERGE_DAMP_GAIN = 0.75;   // 병합 cross 댐핑(mergeDecorate가 _rankCross 산출): 기준의 1.5배 초과분만 75% 랭킹반영 · 운영자 260628
-const crossConvex = c => Math.pow(c._rankCross ?? (c.cross || 0), CROSS_POW);   // 병합카드면 댐핑된 _rankCross, 평상시 raw cross. 랭킹에만 적용(표시/게이트/배지는 raw c.cross).
+const crossConvex = c => Math.pow(rankCross(c), CROSS_POW);   // 병합카드면 댐핑된 _rankCross, 평상시 raw cross(+ 부착 풀 POOL_W×px). 랭킹에만 적용(표시/배지는 raw c.cross · 진입은 effCross).
 // 2) 시간 가속 감점(Hill): 발생(발행 pubAge=scTs, 화면 'N시간 전') 기준. 최신엔 거의 1, ~12h 넘으면 *가속* 침몰
 //    (8→10h보다 10→12h가 더 깎임 — 운영자 "12h 후 가속"). 활동시각(last_report)은 활성 사이클서 0~2h 균일이라
 //    시간축이 죽어 폐기 → 발행 기준 복원(계속보도 가치는 scFollow가 따로 가점 — 역할 분리).

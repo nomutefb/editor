@@ -92,12 +92,23 @@ def _cum_enter(x):
     ⚠️ 손복사 금지 — 이 함수 하나만 쓴다. 구판은 같은 술어가 3벌(_dominance·긴급부스트 신선창·묻힘 계측)
        손복사돼 있어 뷰어만 고치면 조용히 갈렸다(260805 8인 평의회 실측 = 패리티 게이트 0이던 사각).
     ⚠️ 소비처 = 이 파일 계기판 + scraper/to_candidates.py CAP 컷 순서 2단(260923 · screen_merge 와 함께 import) —
-       술어를 바꾸면 수집함 보관 순서도 같이 움직인다. 이 모듈에 무거운 import 를 들이면 수집이 종전 컷 순서로 폴백한다."""
+       술어를 바꾸면 수집함 보관 순서도 같이 움직인다. 이 모듈에 무거운 import 를 들이면 수집이 종전 컷 순서로 폴백한다.
+    ⚠️ cross 두 축 = 실효 cross(_eff_cross · 연예 부착 풀 px 반영 · 260929) — viewer effCross 와 같은 식."""
     g = x.get("grade")
     brk = bool(x.get("breaking")) and (g is None or (g or 0) >= 2)
     rc = x.get("report_count") or 0
-    fol = (x.get("cross") or 0) >= 4 and rc >= 6
-    return (x.get("cross") or 0) >= 8 or brk or fol
+    cr = _eff_cross(x)
+    fol = cr >= 4 and rc >= 6
+    return cr >= 8 or brk or fol
+
+
+POOL_W = 0.5   # = viewer POOL_W 사본(패리티 = check_refs check_follow_enters_parity)
+
+
+def _eff_cross(x):
+    """실효 cross = cross + POOL_W × px(연예 전문지 부착 풀 매체 수 · knews_scraper POOL_TAG) — 누적 진입·랭킹 전용.
+    이슈 배지·속보·표시는 기존 cross 그대로(배지 계기판 _iss_ok 도 기존 cross)."""
+    return (x.get("cross") or 0) + POOL_W * (x.get("px") or 0)
 
 
 def screen_merge(cands):
@@ -131,6 +142,7 @@ def screen_merge(cands):
         grades = [g for g in [anchor.get("grade")] + [m.get("grade") for m in mem] if g is not None]
         deco[ai] = {**anchor,
                     "cross": (anchor.get("cross") or 0) + sum((m.get("cross") or 0) for m in mem),
+                    "px": (anchor.get("px") or 0) + sum((m.get("px") or 0) for m in mem),   # 부착 풀 매체 수도 cross 처럼 합산(viewer mergeDecorate 짝)
                     "breaking": bool(anchor.get("breaking")) or any(m.get("breaking") for m in mem),
                     "grade": max(grades) if grades else anchor.get("grade"),
                     "report_count": max([anchor.get("report_count") or 0]
@@ -256,7 +268,8 @@ def buried_alert():
                   " 등급이 최고여도 진입선 8을 구조적으로 못 넘는다 = 코드로 고칠 자리가 없다.",
                   "  이 건들을 화면에 올리고 싶으면 진입선이 아니라 **연예 전용 진입 경로**를 여는 별건"
                   " 판단이 필요하다(운영자 축 · 지금 발화선을 내리면 진짜 묻힌 재난·국제가 같이 헐거워진다)."]
-    lines += ["", "진입 자격 = cross≥8 OR 긴급 OR followEnters(cross≥4 ∧ [rc≥6 OR rc≥5+grade≥2 OR rc≥3+강지문]).",
+    lines += ["", "진입 자격 = cross≥8 OR 긴급 OR followEnters(cross≥4 ∧ [rc≥6 OR rc≥5+grade≥2 OR rc≥3+강지문])"
+              " · cross = 실효값(cross + 0.5×연예 부착 풀 px).",
               "위 건들은 셋 다 미달이라 화면에서 사라진 상태입니다.",
               "",
               # ⚠️ 구판(260811)은 여기에 「5건 중 1건(연예 소속사 사명 변경)이 대형 오채점이었다」를
@@ -302,7 +315,7 @@ def _dominance(cands, now):
             pool.append((c, a))
     if len(pool) < 15:
         return None
-    scored = sorted(pool, key=lambda x: ((x[0].get("cross") or 0) ** 1.3) / (1 + (x[1] / 13) ** 3.0),
+    scored = sorted(pool, key=lambda x: (_eff_cross(x[0]) ** 1.3) / (1 + (x[1] / 13) ** 3.0),
                     reverse=True)[:30]
     top = [c for c, _ in scored]
     tokenize, same_topic = _get_tokenizer()
@@ -385,7 +398,7 @@ def main():
             with (ROOT / "scraper" / "feeds.csv").open(encoding="utf-8") as fp:
                 for row in csv.DictReader(fp):
                     p = (row.get("publisher") or "").strip()
-                    if p:
+                    if p and "pool" not in (row.get("categories") or "").split("|"):   # 부착 풀(knews_scraper POOL_TAG) = 대표가 될 수 없는 설계 → orphan 대상 아님(260929)
                         pubs[p] += 1
             bad = Counter((x.get("publisher") or "").strip() for x in deadf + zomb)
             alive_pubs = {p for p, n in pubs.items() if bad.get(p, 0) < n}   # 피드 1개라도 생존하면 alive
@@ -511,7 +524,7 @@ def main():
             g = x.get("grade")
             return bool(x.get("breaking")) and (g is None or g >= 2)
         def _scr(x):   # 누적 scScore 근사(신곡선 부스트 포함)
-            cr = x.get("cross") or 0
+            cr = _eff_cross(x)   # 누적 랭킹 = 실효 cross(viewer crossConvex 짝)
             rk = _iss_age(x) or 99
             ta = 1 / (1 + (max(_ba(x) or 99, 0) / 13) ** 3.0)
             fol = 1 + 0.5 * math.log2(1 + (x.get("report_count") or 0))

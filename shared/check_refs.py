@@ -569,7 +569,8 @@ def check_follow_enters_parity():
     값이 갈리면 "화면엔 떴는데 묻힘 계기판은 여전히 묻혔다고 보고"하는 **무증상 드리프트**가 된다 — 계기판이
     거짓말을 시작하는 순간 §1 자동감시가 죽는데 화면은 멀쩡해서 아무도 모른다. ⚠️ 구판은 같은 술어가
     daily_health 안에만 손복사 3벌(_dominance·긴급부스트 신선창·묻힘 계측)이었고 패리티 게이트가 없었다 =
-    뷰어만 고치면 조용히 갈라지던 사각(260805 실측 발견). 추출 실패 = fail-closed."""
+    뷰어만 고치면 조용히 갈라지던 사각(260805 실측 발견). 추출 실패 = fail-closed.
+    260929 = 실효 cross(연예 부착 풀 px) 편입 — CROSS_MIN·POOL_W 도 같이 대조(to_candidates CAP 컷 순서가 이 사본을 쓴다)."""
     try:
         v = _FilePath(os.path.join(ROOT, 'viewer', 'index.html')).read_text(encoding='utf-8')
         dh = _FilePath(os.path.join(ROOT, 'scraper', 'daily_health.py')).read_text(encoding='utf-8')
@@ -577,18 +578,30 @@ def check_follow_enters_parity():
         print('❌ check_follow_enters_parity 파일 읽기 실패(fail-closed):', e); return 1
     m_cr = re.search(r'FOLLOW_CROSS_MIN\s*=\s*(\d+)', v)
     m_rc = re.search(r'FOLLOW_RC_MIN\s*=\s*(\d+)', v)
+    m_min = re.search(r'const CROSS_MIN\s*=\s*(\d+)', v)
+    m_pw = re.search(r'const POOL_W\s*=\s*([\d.]+)', v)
     m_fn = re.search(r'def _cum_enter\(x\):.*?\n\n', dh, re.S)
-    if not (m_cr and m_rc and m_fn):
-        print('❌ followEnters 상수/미러 추출 실패(cross=%s·rc=%s·_cum_enter=%s) — 선언 형태 변경 시 이 게이트도 갱신'
-              % (bool(m_cr), bool(m_rc), bool(m_fn))); return 1
-    p_cr = re.search(r'\(x\.get\("cross"\) or 0\) >= (\d+) and rc >= (\d+)', m_fn.group(0))
-    if not p_cr:
-        print('❌ _cum_enter 술어 추출 실패(daily_health.py) — followEnters 미러 형태가 바뀌었다'); return 1
+    if not (m_cr and m_rc and m_min and m_pw and m_fn):
+        print('❌ followEnters 상수/미러 추출 실패(cross=%s·rc=%s·CROSS_MIN=%s·POOL_W=%s·_cum_enter=%s) — 선언 형태 변경 시 이 게이트도 갱신'
+              % (bool(m_cr), bool(m_rc), bool(m_min), bool(m_pw), bool(m_fn))); return 1
+    p_cr = re.search(r'cr = _eff_cross\(x\)\n\s*fol = cr >= (\d+) and rc >= (\d+)\n\s*return cr >= (\d+) or brk or fol', m_fn.group(0))
+    p_pw = re.search(r'^POOL_W = ([\d.]+)', dh, re.M)
+    p_ef = re.search(r'def _eff_cross\(x\):.*?return \(x\.get\("cross"\) or 0\) \+ POOL_W \* \(x\.get\("px"\) or 0\)', dh, re.S)
+    if not (p_cr and p_pw and p_ef):
+        print('❌ _cum_enter 술어 추출 실패(daily_health.py · 술어=%s·POOL_W=%s·_eff_cross=%s) — followEnters 미러 형태가 바뀌었다'
+              % (bool(p_cr), bool(p_pw), bool(p_ef))); return 1
     want, got = (m_cr.group(1), m_rc.group(1)), (p_cr.group(1), p_cr.group(2))
     if want != got:
         print('❌ followEnters 크로스랭귀지 드리프트: viewer(cross≥%s·rc≥%s) ≠ daily_health _cum_enter(cross≥%s·rc≥%s)'
               % (want + got)); return 1
-    print('✅ followEnters 패리티 — viewer(cross≥%s ∧ rc≥%s) = daily_health _cum_enter 동일.' % want)
+    if m_min.group(1) != p_cr.group(3):
+        print('❌ 누적 진입선 드리프트: viewer CROSS_MIN=%s ≠ daily_health _cum_enter cross≥%s' % (m_min.group(1), p_cr.group(3))); return 1
+    if float(m_pw.group(1)) != float(p_pw.group(1)):
+        print('❌ 실효 cross 가중 드리프트: viewer POOL_W=%s ≠ daily_health POOL_W=%s' % (m_pw.group(1), p_pw.group(1))); return 1
+    if not re.search(r'const effCross = c => \(c\.cross \|\| 0\) \+ POOL_W \* \(c\.px \|\| 0\);', v):
+        print('❌ viewer effCross 식 추출 실패 — 실효 cross 식이 바뀌면 daily_health._eff_cross 와 이 게이트도 갱신'); return 1
+    print('✅ followEnters 패리티 — viewer(cross≥%s ∧ rc≥%s · 진입선 %s · POOL_W %s) = daily_health _cum_enter 동일.'
+          % (want + (m_min.group(1), m_pw.group(1))))
     return 0
 
 

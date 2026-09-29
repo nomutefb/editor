@@ -647,6 +647,7 @@ function mergeDecorate(anchor, memCands) {
   const _cap = _base * MERGE_DAMP_RATIO, _rankCross = _summed <= _cap ? _summed : _cap + (_summed - _cap) * MERGE_DAMP_GAIN;
   return { ...anchor,
     cross: _summed, _rankCross, _baseCross: _base,
+    px: (anchor.px || 0) + memCands.reduce((s, m) => s + (m.px || 0), 0),   // 연예 부착 풀 매체 수도 cross 처럼 합산(effCross·rankCross 입력 · 파이썬 짝 = daily_health.screen_merge)
     breaking: anchor.breaking || memCands.some(m => m.breaking),
     grade: grades.length ? Math.max(...grades) : anchor.grade,
     report_count: Math.max(anchor.report_count || 0, ...memCands.map(m => m.report_count || 0)),

@@ -15,9 +15,10 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from stock_filter import is_excluded_title  # 증권/시황 노이즈 제외(SSOT · 운영자 260701)
 from brk_tag import BREAKING_TAG, has_exclusive_tag  # 속보 제목 태그(SSOT · push_send 공용 · 뷰어는 solo 표식만 읽음 · 260923)
 try:   # 누적 칼럼 진입 술어·화면 병합의 단일 파이썬 미러(손복사 금지 = followEnters 패리티 게이트 대상) — CAP 컷 순서용(260923 · 아래 CUT_VISIBLE)
-    from daily_health import _cum_enter, screen_merge
+    from daily_health import _cum_enter, screen_merge, _eff_cross
 except Exception:  # noqa: BLE001  미러를 못 읽으면 컷 순서만 종전 2군으로 폴백(수집·쓰기는 그대로 = 수집 중단 없음)
     _cum_enter = screen_merge = None
+    _eff_cross = lambda c: c.get("cross") or 0   # noqa: E731  폴백 = 기존 cross(실효 cross 정본 = daily_health._eff_cross)
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "scraper" / "out" / "articles.json"
@@ -151,7 +152,7 @@ def cum_visible_ids(kept):
     if _cum_enter is None or screen_merge is None:
         return set()
     out = {id(c) for c in kept if _cum_enter(c)
-           or ((c.get("cross") or 0) >= 4 and (c.get("report_count") or 0) >= 3)}   # + 강지문 완화로 상위집합(cross≥4 ∧ rc≥3 · 뷰어 fpScore 는 사전이 필요해 미러 밖 · 평의회4-2 260924)
+           or (_eff_cross(c) >= 4 and (c.get("report_count") or 0) >= 3)}   # + 강지문 완화로 상위집합(cross≥4 ∧ rc≥3 · 뷰어 fpScore 는 사전이 필요해 미러 밖 · 평의회4-2 260924)
     fam = {}
     for c in kept:
         if c.get("group_id"):
@@ -444,6 +445,8 @@ def main():
         }
         if url in solo_urls:
             fresh[url]["solo"] = 1
+        if a.get("px"):
+            fresh[url]["px"] = int(a["px"])   # 연예 전문지 부착 풀 매체 수(knews_scraper POOL_TAG) — 뷰어 누적 진입·랭킹의 실효 cross 입력 · 0 이면 키 없음(바이트 예산)
         if LB_ON and isinstance(a.get("lb"), dict) and a["lb"].get("t"):
             fresh[url]["lb"] = a["lb"]   # 최신 국면 멤버(lb_member.pick_lb) — 있는 클러스터만 키를 박는다(없으면 키 자체 없음 = 예산)
 
@@ -515,6 +518,8 @@ def main():
         entry = {**prev, **c}                     # prev의 grade/breaking 도장 등 보존 + c가 최신 덮음
         if not c.get("solo"):
             entry.pop("solo", None)               # 두 번째 매체가 붙음 = 단독 표식 해제(다매체 규칙으로 전환)
+        if not c.get("px"):
+            entry.pop("px", None)                 # 이번 회차 풀 부착 0 = 지난 px 가 눌어붙지 않게(cross 처럼 매 회차 새 값)
         carry_lb(prev, c, entry, now)             # lb 캐리·스왑 고정(260913 · 위 carry_lb 정본)
         if is_alias and entry.get("title") != prev.get("title"):   # 별칭 + 제목 바뀜 → AI rubric 비워 재판정 유도(stale 도장 전파 차단)
             entry.pop("grade_rubric", None)                         # 제목 같음 = 판정 입력 동일 → 도장 유지(평의회3-2 · 대표만 바뀐 묶음
@@ -656,7 +661,7 @@ def main():
         return 1 if age is not None and -10 <= age < FRESH_KEEP_H else 0   # -10h 하한 = 선의 KST+00 스큐(≤9h 미래)만 신선 허용 — 임의 미래값(2099 등)이 TTL(10일)까지 1군 영구 점유하는 슬롯 고갈 벡터 차단(평의회6) · 양측 결측·전부 파싱실패 = 구군(보수 — 옛 nowiso 폴백의 '불멸 1군' 구멍 폐쇄 · 평의회1·4)
     try:
         vis = cum_visible_ids(kept)
-        gsum = {x.get("group_id"): (x.get("cross") or 0) for x in screen_merge(kept) if x.get("_mergeCount") and x.get("group_id")} if screen_merge else {}
+        gsum = {x.get("group_id"): _eff_cross(x) for x in screen_merge(kept) if x.get("_mergeCount") and x.get("group_id")} if screen_merge else {}
     except Exception as e:  # noqa: BLE001 — 미러 런타임 실패(이상 필드 등)가 수집함 갱신을 멈추면 안 된다 = 종전 순서로(평의회7)
         print(f"⚠️ 누적 미러 런타임 실패 — 컷 순서 종전 2군: {type(e).__name__}", file=sys.stderr)
         vis, gsum = None, {}
@@ -681,7 +686,7 @@ def main():
         def _proxy(c):
             a = _age_h_first(c.get("published"), c.get("first_seen"))
             a = max(0.0, a) if a is not None else 0.0
-            cr = max(c.get("cross") or 0, gsum.get(c.get("group_id"), 0) if c.get("group_id") else 0)
+            cr = max(_eff_cross(c), gsum.get(c.get("group_id"), 0) if c.get("group_id") else 0)   # 실효 cross = 뷰어 crossConvex 짝
             return (cr ** RANK_CROSS_POW) / (1 + (a / RANK_ACC_T_HALF) ** RANK_ACC_T_POW)
         within = {id(c): _proxy(c) for c in kept if band.get(id(c)) == 2}
         gmax = {}
@@ -693,8 +698,8 @@ def main():
                 within[id(c)] = gmax[c["group_id"]]   # 병합 형제 = 한 점수(하나만 잘려 합산이 깨지는 것 차단)
     kept.sort(key=lambda c: (rank[id(c)], within.get(id(c), c.get("cross") or 0), c.get("published") or ""), reverse=True)   # 단 안에서는 종전 cross·발행 내림차 — CAP 컷·바이트 트림은 꼬리(0단 → 1단 → 2단 순)부터 침
 
-    def _cuts(seq):   # (누적급 cross≥8 · 누적 자격(2단) · 비노출 4~6h 신선(1단) · 48h+ 누적 정리(0.5단)) 컷 수
-        return (sum(1 for c in seq if (c.get("cross") or 0) >= 8 and band.get(id(c)) != 0.5),
+    def _cuts(seq):   # (누적급 실효 cross≥8 · 누적 자격(2단) · 비노출 4~6h 신선(1단) · 48h+ 누적 정리(0.5단)) 컷 수
+        return (sum(1 for c in seq if _eff_cross(c) >= 8 and band.get(id(c)) != 0.5),
                 sum(1 for c in seq if band.get(id(c)) == 2),
                 sum(1 for c in seq if band.get(id(c)) == 1),
                 sum(1 for c in seq if band.get(id(c)) == 0.5))
