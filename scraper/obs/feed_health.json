@@ -1,23 +1,7 @@
 {
- "ok": 182,
- "dead": 3,
- "dead_feeds": [
-  {
-   "publisher": "머니투데이",
-   "title": "전체기사",
-   "url": "https://rss.mt.co.kr/mt_news.xml"
-  },
-  {
-   "publisher": "아시아경제",
-   "title": "전체기사",
-   "url": "https://www.asiae.co.kr/rss/all.htm"
-  },
-  {
-   "publisher": "스타뉴스",
-   "title": "전체기사",
-   "url": "https://rss.mt.co.kr/st_news.xml"
-  }
- ],
+ "ok": 185,
+ "dead": 0,
+ "dead_feeds": [],
  "zombie_feeds": [
   {
    "publisher": "국민일보",
@@ -83,6 +67,11 @@
    "publisher": "여성신문",
    "title": "오피니언",
    "url": "http://www.womennews.co.kr/rss/S1N12.xml"
+  },
+  {
+   "publisher": "일다",
+   "title": "전체",
+   "url": "https://www.ildaro.com/rss/rss_news.php"
   },
   {
    "publisher": "통일뉴스",
