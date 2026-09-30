@@ -16,52 +16,62 @@
  "threads": [
   {
    "account": "daily_ai_star",
+   "text": "OpenShell은 실행 중인 에이전트의 모든 허용·거부 결정을 기록하고, 정책 밖 요청은 차단합니다. Sentry는 호스트와 분리된 하드웨어 계층에서 감시합니다.\n\n이 구조는 프롬프트와 하네스에 보안 책임을 남겨두지 않습니다. Claude Code, Codex, GitHub Copilot CLI처럼 서로 다른 에이전트를 같은 정책 계층에서 운영하려는 방향입니다.\n\n코딩 에이전트가 오래 실행되고 더 많은 권한을 가질수록, 안전성은 모델 평가표보다 실행 환경의 경계와 감사 기록으로 확인하게 됩니다.\n\nhttps://nvidianews.nvidia.com/news/open-agent-safety-platform",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790727946,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd5CuwHgXSo",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "NVIDIA Open Agent Safety Platform이 9월 28일 공개됐습니다.\n\nOpenShell은 에이전트를 샌드박스 안에서 실행하고 파일·네트워크·도구·자격 증명 접근을 정책으로 제한합니다. NVIDIA Sentry는 BlueField-4 DPU에서 에이전트의 행동을 별도로 감시하고, 경계를 벗어나려는 시도를 밀리초 단위로 격리할 수 있습니다.\n\n에이전트 보안의 기준이 모델이 말을 잘 듣는가에서, 모델이 벗어나도 바깥에서 멈출 수 있는가로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790727936,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd5CtTeAZy2",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "3/ 성능은 수치로 눈에 띄게 갈렸습니다. 에이전틱 코딩 평가인 터미널 벤치 4.0에서 소넷 5는 10.3퍼센트에 그쳤지만, 이번 모델은 70.6퍼센트를 찍으며 격차를 벌렸습니다. 다양한 직군의 실제 업무를 시험하는 지디피발 AA 테스트에서도 상위 모델인 오푸스 5.5와 단 2점 차이밖에 나지 않을 만큼 성능이 바짝 쫓아갔습니다. 출력 속도도 전작보다 30퍼센트 이상 빨라져 역대 소넷 중 가장 빠릅니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790727867,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825324454_18090643307407306_343956125355792732_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5NzIzNzQ2NDY3MTQzNjg1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=QuLAwuIF_FcQ7kNvwF4Bc4t&_nc_oc=AdroRWrRJ4PP5v8MowUcvfLL7rsAitqRYt191Y3uggMSaMfx8wf8h1MDAqO0HwDmhxY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9MnohwYyB83SYe05GNa4Vw&_nc_ss=7a20f&oh=00_AQP3SO_icF4DW4J5dO3dH_EzPT0eibiprMCoPUEzLleaCQ&oe=6AC21CD2",
+   "url": "https://www.threads.com/@aipeekme/post/Dd5Cku8n8A5",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "2/ 일상적인 업무와 문서 작성, 버그 수정 같은 반복 작업에서 제 역할을 하도록 다듬어졌습니다. 글을 쓰는 방식이 이전보다 더 명확해져서 협업 파트너로 쓰기 편해졌고, 화면 스크린샷만 보고 포켓몬스터 레드 버전을 클리어한 최초의 소넷 모델일 정도로 이미지 이해도와 장기 작업 수행 능력이 좋아졌습니다. 처리 속도가 빨라져서 복잡하지 않은 작업은 지연 없이 빠르게 치고 나갈 수 있습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790727849,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825324789_18090643262407306_5714528537315316093_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5NzIzNzMwNTU4OTg2ODkyNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=E9jCe4vQe-MQ7kNvwEa-3gj&_nc_oc=AdqKDuxZ7zatan-zDon5Gej3AH7P23SabhN5m50fzIOkvf_a2k4qjy_bBaKK6aY-q2s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9MnohwYyB83SYe05GNa4Vw&_nc_ss=7a20f&oh=00_AQOV9Zh_GrkRRK9MJn4gLb_kP1dxRQfYz3hk5sXiXvEz4A&oe=6AC243F1",
+   "url": "https://www.threads.com/@aipeekme/post/Dd5Ciayn6l8",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "1/ 이번에 공개된 클로드 소넷 5.5는 클로드 5.5 라인업의 두 번째 모델입니다. 상위 모델인 오푸스 5.5의 무거움을 덜어내고 일상적인 작업과 코딩 보조에 초점을 맞춘 실속형 포지션입니다. 입력 토큰 백만 개당 2달러, 출력 토큰 백만 개당 10달러로 토큰 정가 자체는 전작과 같습니다. 하지만 처리 효율이 좋아져서 실제 작업당 들어가는 비용은 최대 30퍼센트까지 낮아졌다는 게 공식 설명입니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790727831,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825324466_18090643226407306_4919837266711483496_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5NzIzNzE0NTgzNzIwNDQyNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzOS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=WGKDd5bokTQQ7kNvwHEWnL-&_nc_oc=Adoh4yLBOtGwQ9RV7d5C920ThdLF_zVsdEUk2c9_dTu-4oHnTj81sCZDrXFxz4JTLs4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9MnohwYyB83SYe05GNa4Vw&_nc_ss=7a20f&oh=00_AQN3wRZ9QNAFOkMPD2ylrNQIrlEco92LZDzOJYgzYGXz5A&oe=6AC2462A",
+   "url": "https://www.threads.com/@aipeekme/post/Dd5CgGAn3PK",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
    "text": "https://github.blog/changelog/2026-09-28-self-hosted-runner-version-enforcement-date-has-moved/",
    "likes": 0,
    "cmts": 0,
    "time": 1790726447,
    "thumb": "",
    "url": "https://www.threads.com/@daily_ai_star/post/Dd4_3vEgfhA",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "GitHub Actions self-hosted runner가 9월 29일부터 새 버전 기준을 강제합니다.\n\nGitHub Enterprise Cloud에서 2.329.0보다 낮은 러너는 등록하거나 다시 등록할 수 없습니다. 이미 등록된 러너도 실행 기준보다 낮으면 워크플로 작업을 더 이상 처리하지 못합니다.\n\nGitHub Enterprise Server에는 적용되지 않습니다. GitHub는 러너 버전별 지원 종료 시점을 확인하는 REST API도 함께 제공했습니다.\n\nAI 코딩 에이전트의 CI 비용은 모델 호출료만이 아니라, 오래된 실행 환경이 작업을 멈추는 순간에도 발생합니다.\n\n이제 러너 버전은 인프라 정리 항목이 아니라 에이전트 배포 전 확인 항목입니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790726438,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd4_2uAgdsP",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "3/ 성능 비교에 대한 구체적인 수치는 이번 자료에 따로 제시되지 않았습니다. 직전 버전 대비 상승폭이나 경쟁 상대와의 점수 격차 같은 정량적 비교 데이터는 아직 공개된 바 없습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790726076,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd4_KcDn29e",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "2/ 사용자가 직접 시키지 않은 일도 미리 파악해 결과를 가져다줍니다. 버그 조사를 시작하거나 디자인 시안을 앱으로 구현하기도 합니다. ChatGPT나 Slack, Teams 등 여러 채널을 오가며 맥락을 유지하고 음성 통화로도 소통할 수 있습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790726062,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd4_IrBnzWV",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "1/ OpenAI가 공개한 dots는 상시 작동하는 에이전트 모델입니다. GPT-6 Astra 기반으로 구동되며 자체 클라우드 컴퓨터와 브라우저를 갖추고 있습니다. 플러그인을 통해 4천 개가 넘는 앱과 연결될 수 있도록 설계되었습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790726047,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd4_G7kHzi4",
    "region": "kr"
   },
   {
@@ -77,10 +87,10 @@
   {
    "account": "aicoffeechat",
    "text": "앤트로픽 엔지니어 슬랙에서 발견한 시크릿 프롬프트\n\n\"Please be braver\"\n\"좀 더 과감하게 해주세요\" \n\n뭐든 할 수 있는 힘이 있다며 좀 더 과감해지라고 모델에게 요청한다고 합니다. 막힐 때 한번씩 적용해보시면 좋을 것 같습니다.",
-   "likes": 18,
-   "cmts": 6,
+   "likes": 26,
+   "cmts": 7,
    "time": 1790725312,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825277422_17959617450232485_2989497985087687898_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzIxNjA5MDc0MDY5MzExMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_fksKMCo6AgQ7kNvwH4ktwQ&_nc_oc=AdqzQ-X3hphZLsPMr8Wz4powGvgnPU1UWFOtNBRjbD9FczhNTca51fXH2gCeQkSGk1k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=RbcYJiWgqL8AKY93NFuilw&_nc_ss=7a20f&oh=00_AQPsak150ngGnDySR819EkAAxX3HZLTAELXg5xILfDokUQ&oe=6AC21557",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825277422_17959617450232485_2989497985087687898_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzIxNjA5MDc0MDY5MzExMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_fksKMCo6AgQ7kNvwH4ktwQ&_nc_oc=AdqzQ-X3hphZLsPMr8Wz4powGvgnPU1UWFOtNBRjbD9FczhNTca51fXH2gCeQkSGk1k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=VBjj6vL-ICbjzW9ucphvwg&_nc_ss=7a20f&oh=00_AQNKd6Xdb8xC9IsE_uhKQrzlYHCKoCRfOIqfE6zOP7CvAQ&oe=6AC21557",
    "url": "https://www.threads.com/@aicoffeechat/post/Dd49ts7Exh3",
    "region": "kr"
   },
@@ -90,7 +100,7 @@
    "likes": 0,
    "cmts": 0,
    "time": 1790724657,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825323761_1080291924599022_6553759187972687810_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NzE5NTk1Njg0ODAwMjgwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8SIRgZYi9KsQ7kNvwFQgF8D&_nc_oc=AdqL10y2qAj42e3-UKA3_emm_6eJLuQ5-8EwFSZVyPfvZCEnwq-t28T2f44xoVsR7vY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XmUmyqP-vQvvHs_6gQUYpQ&_nc_ss=7a20f&oh=00_AQOwOWOy7swnFEXPAO1Me2XBn3F9yau2mk7SjTPdgvVB8g&oe=6AC22787",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825323761_1080291924599022_6553759187972687810_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5NzE5NTk1Njg0ODAwMjgwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=8SIRgZYi9KsQ7kNvwFQgF8D&_nc_oc=AdqL10y2qAj42e3-UKA3_emm_6eJLuQ5-8EwFSZVyPfvZCEnwq-t28T2f44xoVsR7vY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LaxwNhYm6tuz5YIhnKnFWQ&_nc_ss=7a20f&oh=00_AQNDEKifME0qd3AeYYgVySvFN2qtU3HRRxcruU7yqJ4Fzg&oe=6AC22787",
    "url": "https://www.threads.com/@choi.openai/post/Dd48dyFj456",
    "region": "kr"
   },
@@ -100,17 +110,17 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790724643,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830572792_1084459441116631_7632516010319551207_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5NzE5NjU2NjE4ODEwMjYzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PbFcB6Gr-p4Q7kNvwHGcl9b&_nc_oc=Ado49DV1QJV70esHLP_-uONwbfo79MLFJeSesgxJh2LxDpr3RYlJrWidkEGcxKiRbmw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XmUmyqP-vQvvHs_6gQUYpQ&_nc_ss=7a20f&oh=00_AQNvv8SzRVCaao_1yY63nbaiJIo0GWp4vXzp27AEmVoDxw&oe=6AC21DDC",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830572792_1084459441116631_7632516010319551207_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5NzE5NjU2NjE4ODEwMjYzMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=PbFcB6Gr-p4Q7kNvwHGcl9b&_nc_oc=Ado49DV1QJV70esHLP_-uONwbfo79MLFJeSesgxJh2LxDpr3RYlJrWidkEGcxKiRbmw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LaxwNhYm6tuz5YIhnKnFWQ&_nc_ss=7a20f&oh=00_AQMUhyIkR5KYyZAuYMgf5yFBtNHAQAZ0a_OfdAYlLHZhYA&oe=6AC21DDC",
    "url": "https://www.threads.com/@choi.openai/post/Dd45RlRDZPo",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "1/ 오픈AI가 DevDay에서 Decisions API를 공개했습니다.\n\n개발자가 질문과 가능한 답 목록을 정하고 텍스트나 이미지를 맥락으로 보내면, GPT-6 Luna가 그중 하나를 골라 돌려주는 방식입니다.\n\n고객 문의와 문의를 넘길 수 있는 팀 목록을 함께 보내면 앱이 바로 쓸 수 있는 배정 결과가 나오는 식인데요.\n\n오픈AI는 콘텐츠 분류, 요청 라우팅, 에이전트의 다음 행동 선택을 주요 용도로 꼽았습니다.\n\n지금은 일부 API 고객에게만 제한 프리뷰로 열렸고, 며칠 안에 더 넓게 풀릴 예정입니다.",
-   "likes": 3,
+   "likes": 4,
    "cmts": 1,
    "time": 1790724632,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829528176_17989330176112832_7806242399407059788_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzIxMDM5MTE1OTQ1NzE3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=f8RDpe7bGosQ7kNvwGdFWze&_nc_oc=AdpYHi2SmQUzhjwl54t5M8cFtNIvnOsRkzDO7XF1KzzQX3sJU6lPloZHYwsjPpSVp1I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XmUmyqP-vQvvHs_6gQUYpQ&_nc_ss=7a20f&oh=00_AQPv43ndvu_cCAoVtEsvX4x_oCvJp9EN5rNRKmY_Yq3MOA&oe=6AC20C59",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829528176_17989330176112832_7806242399407059788_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzIxMDM5MTE1OTQ1NzE3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjQwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=f8RDpe7bGosQ7kNvwGdFWze&_nc_oc=AdpYHi2SmQUzhjwl54t5M8cFtNIvnOsRkzDO7XF1KzzQX3sJU6lPloZHYwsjPpSVp1I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LaxwNhYm6tuz5YIhnKnFWQ&_nc_ss=7a20f&oh=00_AQOGGH1VpExZwN-l435nCikTFMCDaEUdj_lt1h0YenQZqw&oe=6AC24499",
    "url": "https://www.threads.com/@choi.openai/post/Dd48awxj0Wa",
    "region": "kr"
   },
@@ -145,32 +155,32 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "요청은 예산을 지불하는 조직이나 엔터프라이즈로 자동 전달됩니다. 승인하면 관리자가 정한 금액으로 예산이 바뀌고, AI 크레딧 접근도 즉시 복구됩니다.\n\n대상은 사용량 기반 과금의 Copilot Business와 Enterprise입니다. 관리형 사용자를 둔 엔터프라이즈는 대상이 아닙니다.\n\n에이전트 운영의 기준이 정액 좌석 수에서 벗어나고 있습니다. 중요한 것은 누가 더 쓸 수 있는지가 아니라, 한도 초과를 누가 어떤 근거로 승인하는지입니다.\n\nhttps://github.blog/changelog/2026-09-16-copilot-budget-increase-requests-are-generally-available",
+   "account": "aipeekme",
+   "text": "앤트로픽에서 클로드 소넷 5.5 모델을 공개했습니다. 직전 버전 대비 속도가 30퍼센트 이상 빨라지고 작업당 비용은 최대 30퍼센트까지 줄어들었다고 합니다. 에이전틱 코딩 평가인 터미널 벤치에서 점수가 대폭 뛰었다는데, 직접 써보면 체감이 어떨지 궁금해집니다 …정리했습니다 🧵",
    "likes": 0,
-   "cmts": 0,
-   "time": 1790646039,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd2mgDlGT8x",
+   "cmts": 8,
+   "time": 1790727749,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/828480823_18090643133407306_1177390990145579022_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzIzNjQ2OTg0OTYwMzkwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=gnuezWfoDbYQ7kNvwGAvd1T&_nc_oc=Adq6X-ukk2qSJVSILVQYE34OLgXPuiBIIg-ZnCow7wT9WZzSNXw2R9oEdum7XRxp6m0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9MnohwYyB83SYe05GNa4Vw&_nc_ss=7a20f&oh=00_AQNnXfSVfaW-WdnMVMHNeuojfe1rRPfWs2rysJa_iERRjA&oe=6AC22347",
+   "url": "https://www.threads.com/@aipeekme/post/Dd5CWQcnz88",
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "스스로 일하는 상시 작동 에이전트 dots가 나왔습니다. 백그라운드에서 사용자를 대신해 목표를 향해 달리고 플러그인으로 4천 개가 넘는 앱을 연결한다는군요 …정리했습니다 🧵",
+   "account": "daily_ai_star",
+   "text": "GitHub Actions self-hosted runner가 9월 29일부터 새 버전 기준을 강제합니다.\n\nGitHub Enterprise Cloud에서 2.329.0보다 낮은 러너는 등록하거나 다시 등록할 수 없습니다. 이미 등록된 러너도 실행 기준보다 낮으면 워크플로 작업을 더 이상 처리하지 못합니다.\n\nGitHub Enterprise Server에는 적용되지 않습니다. GitHub는 러너 버전별 지원 종료 시점을 확인하는 REST API도 함께 제공했습니다.\n\nAI 코딩 에이전트의 CI 비용은 모델 호출료만이 아니라, 오래된 실행 환경이 작업을 멈추는 순간에도 발생합니다.\n\n이제 러너 버전은 인프라 정리 항목이 아니라 에이전트 배포 전 확인 항목입니다.",
    "likes": 0,
-   "cmts": 8,
-   "time": 1790726038,
+   "cmts": 1,
+   "time": 1790726438,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd4_FuPn6KL",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd4_2uAgdsP",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "🚨 오픈AI가 Jev가 나온 지 2주 만에 같은 방식의 Decisions API를 내놨습니다.\n\nGPT-6 Luna가 미리 정한 선택지 중 하나를 고르는데, 응답까지 0.15초로 일반 Luna 호출보다 약 10배 빠릅니다 🧵",
-   "likes": 25,
-   "cmts": 6,
+   "likes": 45,
+   "cmts": 7,
    "time": 1790724627,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829197395_17989330722112832_3494973888623466105_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NzIxMDM0NTM5MTIyNzM5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v4YLrdMx5hgQ7kNvwGhGEHV&_nc_oc=AdqvZYGPa4FnnOk4vESwO3-ZLYcj87w5GPKKkL0DB80lgdnr16rUbvQM5S9g20-kmB4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XmUmyqP-vQvvHs_6gQUYpQ&_nc_ss=7a20f&oh=00_AQOKO0xjR9GMjCBVvIm3YyI0wqVeN2hA8TAFT7kXPVnf_w&oe=6AC22C0B",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829197395_17989330722112832_3494973888623466105_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5NzIxMDM0NTM5MTIyNzM5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=v4YLrdMx5hgQ7kNvwGhGEHV&_nc_oc=AdqvZYGPa4FnnOk4vESwO3-ZLYcj87w5GPKKkL0DB80lgdnr16rUbvQM5S9g20-kmB4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LaxwNhYm6tuz5YIhnKnFWQ&_nc_ss=7a20f&oh=00_AQOeXuNjG0oQ2xbwGMkYOgy3SsSNJSnvij3GPmlP-eKNvQ&oe=6AC22C0B",
    "url": "https://www.threads.com/@choi.openai/post/Dd48aGJj4IF",
    "region": "kr"
   },
@@ -180,28 +190,18 @@
    "likes": 1,
    "cmts": 3,
    "time": 1790692823,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/828280572_17939043861362958_4098005355540784675_n.jpg?stp=cp6_dst-jpegr_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Njk0MzU1ODM2NDA1OTU5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ5Ni5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=go4Cmt9K6vIQ7kNvwGcN8Ca&_nc_oc=AdqtKpt7-2B1FjYNj2xp6QTdoE-sj7n7RlL79T-dtzHw1-5PokyYk5RSQe3MjrtDhio&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=TbD2QRem4nJxlINGgBynhw&_nc_ss=7a20f&oh=00_AQO1Ev-nU2Vy4HkbHf32QfFQX4ST2qZCkjiod4gbd-2K4Q&oe=6AC20AA7",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/828280572_17939043861362958_4098005355540784675_n.jpg?stp=cp6_dst-jpegr_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Njk0MzU1ODM2NDA1OTU5Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ5Ni5oZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=go4Cmt9K6vIQ7kNvwGcN8Ca&_nc_oc=AdqtKpt7-2B1FjYNj2xp6QTdoE-sj7n7RlL79T-dtzHw1-5PokyYk5RSQe3MjrtDhio&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=uWr_DrnKQmdLA_e24e7NkA&_nc_ss=7a20f&oh=00_AQOGdzFMwSTat-9fjMuSxO6P9IbdGMSMz_OCPYNpwsikbw&oe=6AC242E7",
    "url": "https://www.threads.com/@takepage_/post/Dd3_v1Xk1fM",
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "GitHub Copilot이 9월 16일 사용량 제한에 걸린 뒤 추가 예산을 요청하는 기능을 정식 제공했습니다.\n\n기존에는 AI 크레딧을 다 쓰면 해당 기능이 바로 막혔습니다. 이제 사용자가 한도에 도달한 순간 추가 예산을 요청할 수 있고, 관리자는 설정 화면을 떠나지 않고 승인·금액 조정·거부를 처리합니다.\n\nCopilot의 사용량 상한이 차단선에서 승인선으로 바뀌었습니다.",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790646029,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd2me-0mecw",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://github.com/jaredpalmer/kev",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790722895,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd45GErn53g",
+   "text": "동네 산책!!\n\n프롬프트 하단👇",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1790727401,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825323700_1721957459511129_1664499914321163133_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5NzIzMzQwNjg2NjA4NDEyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=CAZqNyCqCecQ7kNvwEj_E2t&_nc_oc=AdpR8ujV7EgGqCR5iw_cAu4o2-6Jz5_5AqqDewGP-2oqKpVJMo1k7iRcGzQncstgVEM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9MnohwYyB83SYe05GNa4Vw&_nc_ss=7a20f&oh=00_AQNYkcB11KZz-ta0y4w0ONmxQuwWCnO61hXP7ScqiKevXQ&oe=6AC21AFC",
+   "url": "https://www.threads.com/@aipeekme/post/Dd5Bpr0k9Ed",
    "region": "kr"
   },
   {
@@ -210,7 +210,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1790720734,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825352118_17989328247112832_2350203267402677034_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzE3NjcwOTQ3MTU1NzY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AALQ7J3utwIQ7kNvwHkAo_f&_nc_oc=AdovC5uVdbyJC7WYNdHQFry5YRaXxwyI41_pgn4hvqYRT29zUDrB2APoAaD_I5B4vW8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=XmUmyqP-vQvvHs_6gQUYpQ&_nc_ss=7a20f&oh=00_AQO6T9xs-q8kZF0DGY16sjasS718rhQPRdDtUcETDdIecQ&oe=6AC20ABB",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825352118_17989328247112832_2350203267402677034_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzE3NjcwOTQ3MTU1NzY1Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTE0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=AALQ7J3utwIQ7kNvwHkAo_f&_nc_oc=AdovC5uVdbyJC7WYNdHQFry5YRaXxwyI41_pgn4hvqYRT29zUDrB2APoAaD_I5B4vW8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=LaxwNhYm6tuz5YIhnKnFWQ&_nc_ss=7a20f&oh=00_AQOZS6_O5BaNfOpvR902uoZfZSEssu3S2-lMKPOoTF5njA&oe=6AC242FB",
    "url": "https://www.threads.com/@choi.openai/post/Dd40-3ND45b",
    "region": "kr"
   }
@@ -236,15 +236,6 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wtdbpr/being_told_my_tea_steeper_is_unprofessional/"
   },
   {
-   "sub": "mildlyinteresting",
-   "title": "My cat's nose glitters in direct sunlight",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ptawei40dish1.jpeg?width=640&crop=smart&auto=webp&s=ba8de477277050a4cf0ecc750fef651f871e7421",
-   "time": 1790708923,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wtj3m3/my_cats_nose_glitters_in_direct_sunlight/"
-  },
-  {
    "sub": "SipsTea",
    "title": "Ah yes, the \"American Dream\" package deal!",
    "score": 0,
@@ -254,13 +245,22 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wtkdwr/ah_yes_the_american_dream_package_deal/"
   },
   {
-   "sub": "MadeMeSmile",
-   "title": "This dad agrees",
+   "sub": "mildlyinteresting",
+   "title": "My cat's nose glitters in direct sunlight",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/89fw3p4d4ish1.png?width=640&crop=smart&auto=webp&s=cd64ccd5e1aa283c773877525c40c599aec62437",
-   "time": 1790706029,
-   "url": "https://www.reddit.com/r/MadeMeSmile/comments/1wtht87/this_dad_agrees/"
+   "thumb": "https://preview.redd.it/ptawei40dish1.jpeg?width=640&crop=smart&auto=webp&s=ba8de477277050a4cf0ecc750fef651f871e7421",
+   "time": 1790708923,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wtj3m3/my_cats_nose_glitters_in_direct_sunlight/"
+  },
+  {
+   "sub": "mildlyinfuriating",
+   "title": "My dad’s reaction to this was “nice” and then walked away to watch soccer",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/o30uff576jsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=4d5035198d07678d8fe6ff3533355049629c2822",
+   "time": 1790718741,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wtnb87/my_dads_reaction_to_this_was_nice_and_then_walked/"
   },
   {
    "sub": "AskReddit",
@@ -281,15 +281,6 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wtkmc1/in_japan_a_new_trend_called_jucy_book_rave_has/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "My dad’s reaction to this was “nice” and then walked away to watch soccer",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/o30uff576jsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=4d5035198d07678d8fe6ff3533355049629c2822",
-   "time": 1790718741,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wtnb87/my_dads_reaction_to_this_was_nice_and_then_walked/"
-  },
-  {
    "sub": "movies",
    "title": "My 14 year old son agreed to watch ONE black and white film with me",
    "score": 0,
@@ -297,15 +288,6 @@
    "thumb": "",
    "time": 1790710885,
    "url": "https://www.reddit.com/r/movies/comments/1wtjy1s/my_14_year_old_son_agreed_to_watch_one_black_and/"
-  },
-  {
-   "sub": "politics",
-   "title": "White House’s New AI Website Confirms Trump Lost the 2020 Presidential Election",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/Wrl8y6jzcQB24Vu8ZiiQb1yc2Kh9dU1mZE_FfgO2IgM.jpeg?width=640&crop=smart&auto=webp&s=7b58130388c51e6dbaed59168de51c4f45b4ef72",
-   "time": 1790707675,
-   "url": "https://www.reddit.com/r/politics/comments/1wtijj6/white_houses_new_ai_website_confirms_trump_lost/"
   },
   {
    "sub": "NameMyCat",
@@ -324,6 +306,51 @@
    "thumb": "https://preview.redd.it/9wrwut7paish1.jpeg?width=640&crop=smart&auto=webp&s=8317d4c56064b68c9e4dc7c39492c9140f26ee33",
    "time": 1790708151,
    "url": "https://www.reddit.com/r/pics/comments/1wtir08/president_trump_meets_with_ai_executives_at_the/"
+  },
+  {
+   "sub": "Steam",
+   "title": "Gabe Newell's Mega Yacht",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ZHZhNWZsZXhuZ3NoMZbPMEwJX1L5cPue3Ct-W0RLDRyX0UrDedzaEsPMYOgI.png?width=640&crop=smart&auto=webp&s=84f27fbb39c8326405fb206ed1e4e85be5bef76e",
+   "time": 1790688388,
+   "url": "https://www.reddit.com/r/Steam/comments/1wta2y0/gabe_newells_mega_yacht/"
+  },
+  {
+   "sub": "comics",
+   "title": "The Boy From Venus 15",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/b8p9mkyd8jsh1.png?width=140&height=140&crop=1:1,smart&auto=webp&s=5231dd71055a1173d42871e78bf01085fc52ff14",
+   "time": 1790719577,
+   "url": "https://www.reddit.com/r/comics/comments/1wtno36/the_boy_from_venus_15/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "/r/WorldNews Live Thread: Russian Invasion of Ukraine Day 1679, Part 1 (Thread #1826)",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790654553,
+   "url": "https://www.reddit.com/r/worldnews/comments/1wt0445/rworldnews_live_thread_russian_invasion_of/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Canada not going to apologize to Trump amid trade war, LeBlanc says",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/DiHndB58Purvk4ntiaJwZ58UMwDd7Mvi6-Csowexa_s.jpeg?width=640&crop=smart&auto=webp&s=48393f7926b8d05827f9a9a525cfc95b8e415072",
+   "time": 1790712496,
+   "url": "https://www.reddit.com/r/worldnews/comments/1wtknyy/canada_not_going_to_apologize_to_trump_amid_trade/"
+  },
+  {
+   "sub": "worldnews",
+   "title": "Iran offers up to $40,000 reward to Middle East citizens who capture, kill US soldiers - report",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/iusIPB4EjGvRaUHl1N2-3XnmAFbob-E0k_EqalggQgk.jpeg?width=640&crop=smart&auto=webp&s=01c30711d63fc5099e0f2f154fdebcc5e77fa785",
+   "time": 1790721556,
+   "url": "https://www.reddit.com/r/worldnews/comments/1wtof08/iran_offers_up_to_40000_reward_to_middle_east/"
   }
  ],
  "disaster": [],
@@ -333,39 +360,39 @@
    "rank": 1
   },
   {
-   "query": "맨시티",
+   "query": "아시안 게임 롤",
    "rank": 2
   },
   {
-   "query": "암살자(들)",
+   "query": "맨시티",
    "rank": 3
   },
   {
-   "query": "아시안 게임 롤",
+   "query": "암살자(들)",
    "rank": 4
   },
   {
-   "query": "사망여우",
+   "query": "부캉이",
    "rank": 5
   },
   {
-   "query": "부캉이",
+   "query": "안세영",
    "rank": 6
   },
   {
-   "query": "안세영",
+   "query": "봉누도2",
    "rank": 7
   },
   {
-   "query": "봉누도2",
+   "query": "사망여우",
    "rank": 8
   },
   {
-   "query": "신병4",
+   "query": "암살자들",
    "rank": 9
   },
   {
-   "query": "암살자들",
+   "query": "신병4",
    "rank": 10
   }
  ],
@@ -388,10 +415,10 @@
    }
   },
   "landing": {
-   "at": "2026-09-30T08:36:17",
+   "at": "2026-09-30T09:01:31",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-09-30T09:01:29.359301+09:00"
+ "updated": "2026-09-30T09:34:04.588817+09:00"
 }
