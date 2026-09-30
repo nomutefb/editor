@@ -143,7 +143,8 @@ class ForeignCrimeUnified(unittest.TestCase):   # 운영자 260930 «해외 같�
     def test_below_threshold_x(self):
         for t, cat in [("Somali pirates killed five crew members on hijacked tanker, officials say", "국제"),   # 260930 실발송
                        ("소말리아 해적, 납치 유조선 선원 5명 살해", "국제"), ("파리 카페 테러로 2명 사망", "국제"),
-                       ("美 총기 난사 3명 사망·20명 부상", "국제"), ("남아공 여성안전 '빨간불'…한 도시서 두 달 새 7명 피살", "국제")]:
+                       ("美 총기 난사 3명 사망·20명 부상", "국제"), ("남아공 여성안전 '빨간불'…한 도시서 두 달 새 7명 피살", "국제"),
+                       ("폴란드 수도원서 우크라인 흉기 난동…5명 사상", "국제")]:   # 「N명 사상」 = 합산(평의회260930 실데이터)
             r = G.casualty_gate(t, cat)
             self.assertIsNotNone(r, t)
             self.assertIn("범죄·테러", r)
@@ -156,6 +157,29 @@ class ForeignCrimeUnified(unittest.TestCase):   # 운영자 260930 «해외 같�
                        ("필리핀서 한국인 관광객 피살", "국제"),               # 한국 직접영향 = 🌐 종전
                        ("주택가서 모녀 흉기에 숨진 채 발견", "사회")]:         # 국내 = 피해자 수 축
             self.assertIsNone(G.casualty_gate(t, cat), t)
+
+    def test_count_parsing_pass(self):   # 평의회260930 — 수를 제대로 읽거나 못 읽으면 판정기로(수 미상 오차단 0)
+        for t in ["사망자 12명 부상자 20명…美 총격", "美 총격 사망 12명 부상 20명", "총격 사상자 60명",   # 사상자 = 사망+부상 → 59↑면 한 문턱은 반드시 넘는다
+                  "수십 명 사망·8명 부상…나이지리아 총격", "Dozens killed, 8 injured in Nigeria gunmen attack"]:
+            self.assertIsNone(G.casualty_gate(t, "국제"), t)
+
+    def test_domestic_axis_and_hold_pass(self):   # 한인 피해·국내 장소 = 국내 축 · 요인 저격·전쟁 개시·진압(가해자 사살) = 종전 판정
+        for t, cat in [("LA서 한인 2명 피살", "국제"), ("소말리아 해적, 한국 선원 2명 살해", "국제"), ("주한미군 총기 난사로 2명 사망", "국제"),
+                       ("Gunman kills 2 in Seoul subway station", "국제"), ("서울 지하철역서 흉기 피격…2명 사망", "사회"),
+                       ("Two killed in Seoul subway stabbing", "사회"), ("트럼프 유세 중 총격…청중 1명 사망", "국제"),
+                       ("하마스 무장대원 침투…민간인 납치·5명 사망", "국제"), ("[속보] 모스크바 공연장 인질극 진압…테러범 5명 사살", "국제"),
+                       ("Police kill 3 gunmen after hostage siege at mall", "국제"), ("살인적 폭염에 인도서 8명 사망", "국제")]:
+            self.assertIsNone(G.casualty_gate(t, cat), t)
+
+    def test_new_crime_words_keep_old_accident_axis(self):   # 260930 신설 범죄어가 사고·군사 판정을 풀지 않는다(평의회260930 재현)
+        for t, cat in [("해적선 놀이기구 추락 사고 2명 사망", "사회"), ("해적 피습 화물선 침몰", "국제"),
+                       ("이스라엘군 가자 난민촌 공습…하마스 \"학살\" 규탄", "국제"), ("이스라엘군, 공습으로 하마스 대원 12명 사살", "국제")]:
+            self.assertIsNotNone(G.casualty_gate(t, cat), t)
+
+    def test_kill_count_crime_only(self):   # 「N명 피살」은 범죄 축에서만 센다 = 유명인 ⑤·국내 사법 축 무접촉
+        self.assertIsNone(G.casualty_counts("교수 등 2명 피살…경찰 수사 착수")[0])
+        self.assertEqual(G.casualty_counts("사망자 12명 부상자 20명…美 총격")[:2], (12, 20))
+        self.assertEqual(G.casualty_counts("5명 사망 12명 부상 버스 추락")[:2], (5, 12))   # B#8 유지
 
     def test_accident_unchanged(self):
         self.assertIsNotNone(G.casualty_gate("Floods kill dozens in Nepal", "국제"))   # 사고 수 미상 = 종전대로 X
@@ -225,14 +249,22 @@ class JudicialGate(unittest.TestCase):
                   "檢 \"사형 선고해 달라\"…장윤기 결심공판", "장윤기 1심 결심공판…검찰 사형 구형",
                   "항소심서도 사형 구형…檢 \"반성 없어\"", "檢, 주범 사형·공범 무기징역 구형",
                   "檢, 장윤기 사형 구형…선고는 다음 달 20일", "檢, 장윤기 사형 구형…다음 달 20일 선고",   # 뒷날 선고 안내 = 구형 기사
+                  "檢, ○○ 사형 구형…선고 11월 14일", "檢 \"○○ 사형 선고 해달라\"", "\"○○ 사형에 처해달라\"…결심공판",
+                  "무죄 주장 ○○에 검찰 사형 구형", "1심서 사형 선고받은 ○○, 항소심서도 사형 구형", "집행유예 기간 중 살인 ○○에 사형 구형",
+                  "Prosecutors seek death penalty for Buffalo shooter",
                   "[속보] 헌재, 윤석열 대통령 탄핵 인용…파면 선고"]:   # 탄핵 = 정치 사태 축
+            self.assertIsNone(G.judicial_gate(t, 3), t)
+
+    def test_death_ambiguous_deferred_to_judge(self):   # 「구형」이 적힌 선고 되짚기 = 제목으로 못 가른다(평의회260930) → 게이트 밖 = 판정기 _OP260930_RULE
+        for t in ["장윤기 1심 무기징역…檢 사형 구형했지만", "'모텔 약물 연쇄살인' 김소영 1심 선고…檢, 사형 구형"]:
             self.assertIsNone(G.judicial_gate(t, 3), t)
 
     def test_death_sentence_not_demand_x(self):   # 운영자 260930 «선고든 예고든 구형이 된 게 아니면 다 제외»
         for t in ["검찰 “사형 선고해달라”…‘여고생 살해범’ 장윤기 오늘 1심 선고",   # 260930 06:32 실발송(선고 예고)
                   "방글라데시 법원, 반정부 시위 유혈 진압한 전 장관 등 7명 사형 판결", "법원, 장윤기에 사형 선고",
-                  "장윤기 사형 선고 앞두고…유족 \"엄벌\"", "사형 구형 장윤기, 오늘 선고", "장윤기 1심 무기징역…檢 사형 구형했지만",
-                  "'모텔 약물 연쇄살인' 김소영 1심 선고…檢, 사형 구형"]:
+                  "장윤기 사형 선고 앞두고…유족 \"엄벌\"", "사형 구형 장윤기, 오늘 선고", "장윤기, 사형 구형 이어 오늘 운명의 날",
+                  "장윤기 오늘 결심공판…검찰 사형 구형 예정", "장윤기 30일 1심 선고…사형 판결 나올까", "日 법원, 교토애니 방화범에 사형",
+                  "美 배심원단, 버펄로 총격범 사형 평결", "Bangladesh court sentences Hasina to death"]:
             self.assertIsNotNone(G.judicial_gate(t, 3), t)
 
     def test_mass_coverage_still_x(self):
