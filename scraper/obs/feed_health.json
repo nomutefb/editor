@@ -1,7 +1,158 @@
 {
- "ok": 185,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 155,
+ "dead": 30,
+ "dead_feeds": [
+  {
+   "publisher": "서울신문",
+   "title": "정치",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_politics.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "사회",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_society.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "경제",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_economy.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "국제",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_international.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "문화/건강",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_life.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "스포츠",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_sports.xml"
+  },
+  {
+   "publisher": "서울신문",
+   "title": "연예",
+   "url": "https://www.seoul.co.kr/xml/rss/rss_entertainment.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "정치",
+   "url": "http://www.segye.com/Articles/RSSList/segye_politic.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "경제",
+   "url": "http://www.segye.com/Articles/RSSList/segye_economy.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "사회",
+   "url": "http://www.segye.com/Articles/RSSList/segye_society.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "국제",
+   "url": "http://www.segye.com/Articles/RSSList/segye_international.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "문화",
+   "url": "http://www.segye.com/Articles/RSSList/segye_culture.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "오피니언",
+   "url": "http://www.segye.com/Articles/RSSList/segye_opinion.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "연예",
+   "url": "http://www.segye.com/Articles/RSSList/segye_entertainment.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "스포츠",
+   "url": "http://www.segye.com/Articles/RSSList/segye_sports.xml"
+  },
+  {
+   "publisher": "세계일보",
+   "title": "전체뉴스",
+   "url": "http://www.segye.com/Articles/RSSList/segye_recent.xml"
+  },
+  {
+   "publisher": "시사인",
+   "title": "전체기사",
+   "url": "https://cdn.sisain.co.kr/rss/gns_allArticle.xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "정치",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/politics/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "경제",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/economy/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "사회",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/national/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "국제",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/international/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "문화/라이프",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/culture-life/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "오피니언",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/opinion/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "스포츠",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/sports/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "연예",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/category/entertainments/?outputType=xml"
+  },
+  {
+   "publisher": "조선일보",
+   "title": "전체기사",
+   "url": "https://www.chosun.com/arc/outboundfeeds/rss/?outputType=xml"
+  },
+  {
+   "publisher": "KED글로벌",
+   "title": "전체(영문)",
+   "url": "https://www.kedglobal.com/rss/allArticle.xml"
+  },
+  {
+   "publisher": "NYT코리아",
+   "title": "South Korea(영문)",
+   "url": "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/topic/destination/south-korea/rss.xml"
+  },
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "스타뉴스",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/st_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "국민일보",
@@ -107,11 +258,6 @@
    "publisher": "프레시안",
    "title": "스포츠",
    "url": "https://www.pressian.com/api/v3/site/rss/section/70"
-  },
-  {
-   "publisher": "NYT코리아",
-   "title": "South Korea(영문)",
-   "url": "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/topic/destination/south-korea/rss.xml"
   }
  ]
 }
