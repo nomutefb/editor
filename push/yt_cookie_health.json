@@ -2,8 +2,8 @@
  "_meta": {
   "dead_streak": 0,
   "alert_id": "",
-  "last_ok": "2026-09-30 13:34",
-  "last_run": "2026-09-30 13:34",
+  "last_ok": "2026-10-01 02:45",
+  "last_run": "2026-10-01 02:45",
   "acct": "황세…(3자)",
   "slots": {
    "YT_T_COOKIES": "살아있음"
@@ -11,15 +11,6 @@
   "half_id": ""
  },
  "runs": [
-  {
-   "t": "2026-08-16 22:44",
-   "ok": false,
-   "why": "YT_T_COOKIES: ② 파싱: 실패 — Netscape cookies.txt 형식이 아님(LoadError). 브라우저 확장(Get cookies.txt LOCALLY)으로 다시 내보내 붙여넣어야 한다.",
-   "acct": "",
-   "slots": {
-    "YT_T_COOKIES": "죽음"
-   }
-  },
   {
    "t": "2026-08-17 12:16",
    "ok": false,
@@ -814,6 +805,15 @@
   },
   {
    "t": "2026-09-30 13:34",
+   "ok": true,
+   "why": "",
+   "acct": "황세…(3자)",
+   "slots": {
+    "YT_T_COOKIES": "살아있음"
+   }
+  },
+  {
+   "t": "2026-10-01 02:45",
    "ok": true,
    "why": "",
    "acct": "황세…(3자)",
