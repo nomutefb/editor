@@ -93,13 +93,14 @@ def _x_collect(accounts, prev_items):
     accounts = list(accounts or [])
     if not accounts:
         return []
+    carry = st.x_rank(prev_items or [], accounts=accounts)   # 이월도 등록 계정·X_SUB_H 창 안만(261001 — 해제 계정·창 밖 글이 이월로 굳던 구멍)
     if not _x_due():
-        print(f"x 계측: 미시도(주기 {int(_X_GAP / 60)}분) · 이월 {len(prev_items or [])}건")
-        return list(prev_items or [])
-    got = st.x_subs(accounts, limit=20, sleep_s=_X_SLEEP)
+        print(f"x 계측: 미시도(주기 {int(_X_GAP / 60)}분) · 이월 {len(carry)}건")
+        return carry
+    got = st.x_subs(accounts, sleep_s=_X_SLEEP)
     _x_stamp()
-    print(f"x 계측: 수확 {len(got)}건 · 등록 {len(accounts)}계정 · 계정간 {int(_X_SLEEP)}s")
-    return got if got else list(prev_items or [])   # 빈 수확 = 차단 국면 → 직전분 보존(fail-soft)
+    print(f"x 계측: 수확 {len(got)}건(창 {st.X_SUB_H}h) · 등록 {len(accounts)}계정 · 계정간 {int(_X_SLEEP)}s")
+    return got if got else carry   # 빈 수확 = 차단 국면 → 직전분 보존(fail-soft)
 
 
 def _st_read():
