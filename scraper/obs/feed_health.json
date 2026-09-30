@@ -1,11 +1,16 @@
 {
- "ok": 184,
- "dead": 1,
+ "ok": 183,
+ "dead": 2,
  "dead_feeds": [
   {
-   "publisher": "France24",
-   "title": "세계(영문·외신)",
-   "url": "https://www.france24.com/en/rss"
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "스타뉴스",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/st_news.xml"
   }
  ],
  "zombie_feeds": [
