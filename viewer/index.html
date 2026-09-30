@@ -8470,7 +8470,14 @@ function sysErrMsgs() {
     //   쿠키를 건드리지 말라는 정반대 안내(실측 = 폰 자체 기록 260905 14:35 인스타 5계정 HTTP 401 · 회전 5계정씩 260904 07:10부터).
     const _sessN = _try.filter(v => v === '401' || v === '403').length, _wallN = _try.filter(v => v === 'wall').length;
     const _uaEnv = String(SYS_PHONE_PLAT[k] || '').replace(/_COOKIE$/, '_UA');   // 세션-UA 짝(260729 useragent mismatch · INSTA_UA / THREADS_UA)
-    if (SYS_PHONE_PLAT[k] && !phDead && _stk * 2 > _try.length) {
+    const _xa = String(((hh.subs || {}).xauth) || 'off');   // X 로그인 경로 상태(261001) — X 칸 빈 상태 문구(renderSnsTrends subEmptySec)와 같은 사유·같은 조치(C-D5 한 축)
+    if (k === 'x' && (_xa === 'off' || _xa === 'fail')) {
+      _c = 'xauth-' + _xa;
+      text = head + (_xa === 'fail'
+        ? '로그인 쿠키가 거절됐어요(만료·로그아웃·계정 제한).\n\n👉 네가 할 일: 가계정으로 x.com에 다시 로그인해서 쿠키 auth_token·ct0를 새로 뽑아 깃허브 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0를 갈아 줘. 그래도 안 되면 그 가계정이 막힌 거라 새로 만들어야 해.\n\n'
+        : '로그인 없이 걷고 있어서예요 — X가 비로그인엔 최신 글 대신 옛 인기글만 줘서 새 글이 0건이에요.\n\n👉 네가 할 일: 가계정(본계 말고 — 자동화 감지 밴)으로 x.com에 로그인한 브라우저 쿠키 auth_token·ct0 두 값을 깃허브 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0에 넣어 줘. 넣으면 다음 수집부터 최신 글이 조회수 순으로 떠.\n\n')
+        + '확인(✓)하면 오늘은 다시 안 떠요.';
+    } else if (SYS_PHONE_PLAT[k] && !phDead && _stk * 2 > _try.length) {
       _c = 'stuck';
       text = head + '이틀 넘게 한 건도 못 걷었어요 — 쉬었다 다시 시도하는 자동 복구로는 안 풀리는 상태예요.\n\n'
         + '👉 네가 할 일: ' + SYS_PLAT_KO[k] + ' 부계정(본계 말고 — 자동화 감지 밴) 세션쿠키를 폰 크론 환경변수 ' + SYS_PHONE_PLAT[k] + '에 새로 뽑아 갈아 줘. '
@@ -13895,12 +13902,14 @@ function renderSnsTrends() {
   const _PHONE_PLAT = { insta: 1, threads: 1 };   // 메타 데센 IP 차단 = 폰 전용 공급원(sysErrMsgs SYS_PHONE_PLAT과 동일 축)
   const subEmptySec = (key, lbl, plat) => {
     // 등록 0개 = 「구독 비움 상태」 명시(운영자 260810 "비었다고 - 구독 비움 상태 라고 뜨게해줘") — 구판은 여기서 ''를 반환해 **섹션을 통째로 안 그렸다**. `_subStale` 소스가 health.subs.stale = 「등록 계정 있음 ∧ 이번 런 0건」이라, 등록이 0개면 애초에 그 집합에 못 들어와 침묵이 유일한 출력이었다. ⚠ 실사고 260810 = 틱톡 등록 계정이 0개(`viewer/sns_accounts.json` tiktok {kr:[],gl:[]} · 형제는 x6·insta20·youtube30·threads5)라 「틱톡 - 구독」이 화면에서 사라졌고, 바로 옆 「틱톡 - 추천」(tikwm for-you 표본)이 그 자리를 대신하는 것처럼 보여 운영자가 **그것을 자기 구독 채널로 읽었다**. 화면이 침묵하면 사람이 옆 것으로 메운다 = 이 레포가 반복해 겪은 「관측이 지워지면 다음 사람이 추측으로 메운다」와 같은 축(스레드 `[1차 실측]`·틱톡 `_e1`·smoke 사유 0자). 부품 = 아래 stale 분기의 `sec()`+`.qempty` **그대로** = 신규 CSS·신규 셀렉터 0
-    // X = 등록은 있는데 X_SUB_H 창 안 0건 → 로그인 경로 상태로 사유를 가른다(261001 — 비로그인은 옛 인기글만 와서 '비움 상태'·'차례 대기'가 둘 다 거짓말이었다) 
-    const _hs = ((TRENDS && TRENDS.health) || {}).subs || {}, _xa = _hs.xauth || 'off';   // 결측 = 로그인 경로 이전 수집기 = 비로그인과 같다
-    if (plat === 'x' && ((((_hs.cover || {}).x) || {}).reg > 0 || _subStale.has('x'))) return sec(key, lbl, '', 0, '<div class="qempty">' +
-      (_xa === 'ok' ? '18시간 안에 올라온 글이 없어요<small>구독 계정이 새 글을 올리면 조회수 순으로 떠요</small>'
-        : _xa === 'fail' ? 'X 로그인 쿠키가 막혔어요<small>만료·제한 — 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0를 새로 넣어 주세요</small>'
-        : '18시간 안 새 글을 못 받았어요<small>로그인 없이는 X가 옛 인기글만 줘요 — 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0(가계정 쿠키)를 넣으면 최신 글이 조회수 순으로 떠요</small>') + '</div>');
+    // X = 등록은 있는데 X_SUB_H 창 안 0건 → 로그인 경로 상태(health.subs.xauth)로 사유를 가른다(261001 — 비로그인은 옛 인기글만 와서 '비움 상태'·'차례 대기'가 둘 다 거짓말이었다)
+    //   off(결측 = 로그인 경로 이전 수집기 = 비로그인과 같다) = 조치 · fail(401·403) = 쿠키 교체 · ok = 정상 침묵 · err(쿼리·레이트·네트워크) = 아래 종전 판정(쿠키 탓 아님)
+    //   알림함 sysErrMsgs X 분기와 같은 사유·같은 조치(C-D5 한 축)
+    const _hs = ((TRENDS && TRENDS.health) || {}).subs || {}, _xa = _hs.xauth || 'off';
+    if (plat === 'x' && _xa !== 'err' && ((((_hs.cover || {}).x) || {}).reg > 0 || _subStale.has('x'))) return sec(key, lbl, '', 0, '<div class="qempty">' +
+      (_xa === 'ok' ? `${X_SUB_H}시간 안에 올라온 글이 없어요<small>구독 계정이 새 글을 올리면 조회수 순으로 떠요</small>`
+        : _xa === 'fail' ? 'X 로그인 쿠키가 거절됐어요<small>만료·로그아웃 — 가계정 쿠키를 새로 뽑아 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0를 갈아 주세요</small>'
+        : `${X_SUB_H}시간 안 새 글을 못 받았어요<small>로그인 없이는 X가 옛 인기글만 줘요 — 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0(가계정 쿠키)를 넣으면 최신 글이 조회수 순으로 떠요</small>`) + '</div>');
     if (!_subStale.has(plat)) return sec(key, lbl, '', 0, '<div class="qempty">구독 비움 상태<small>설정 → 구독 채널에서 계정을 추가하면 여기에 쌓여요</small></div>');
     const ph = ((TRENDS && TRENDS.health) || {}).phone;
     // 대기 사유는 알림함과 **같은 판정**으로 읽는다(260730 적대검증 C-D5) — 종전엔 입력이 health.phone 하나뿐이라
@@ -14001,7 +14010,7 @@ function renderSnsTrends() {
   // 쿼터 자동 산출(운영자 260726 "계정은 더 늘어날 예정임") = clamp(올림(slots ÷ 계정수), 1, 3) — 상수 3이면 칸 수가 고정이라 '칸÷3'에서 다양성이 막힌다(10칸 = 3+3+3+1 → **계정을 6개든 15개든 늘려도 화면엔 4계정**) · 칸을 계정 수로 나누면 등록만 늘려도 자동 대응(상수 손보기 0) · 계정이 적으면 몫이 커져 cap 3에 걸림 = 종전과 동일(무회귀) · 하한 1 = 계정이 칸보다 많아도 최소 1개 보장
   // ⚠ 구 산식 = '순위 밀기'(eff = 원순위 + tier×3칸) — 260726 실측으로 폐기: 밀기 폭이 상수 3칸이라 한 계정이 상위를 통째 독식한 최악 케이스(= 운영자가 호소한 그 상황)에서 뒤쪽 계정의 원순위 격차를 못 넘는다 → 계정을 6·10·15개로 늘려도 top10 계정수가 3에 고정(동적 쿼터를 넣어도 동일). 스케일 실패라 수집 축(_acct_spread)과 같은 '블록 강등'(tier 1차 키)으로 통일 = 쿼터 안은 원순위 그대로, 초과분만 tier 순 뒤로(안정 정렬) · 두 축 산식 일치 = 수집·표시가 같은 방식
   const divRank = (arr, slots = 10, cap = 3) => { const uniq = new Set(arr.map(t => String(t.account || '').toLowerCase())).size, quota = Math.max(1, Math.min(cap, Math.ceil(slots / Math.max(1, uniq)))), c = {}; return arr.map((t, i) => { const a = String(t.account || '').toLowerCase(), n = c[a] = (c[a] || 0) + 1; return { t, i, tier: Math.max(0, n - quota) }; }).sort((a, b2) => a.tier - b2.tier || a.i - b2.i).map(o => o.t); };
-  const sxAll = divRank(bySort(sx, 'views')).slice(0, 10);   // 큐레이션 = 지역 무관 통합(운영자 260724 "큐레이션 지역 구분 없이 다") — 구독은 내가 고른 계정이라 국내/세계 토글과 무관 · divRank = 계정 도배 감산(260725) · 정렬 = 조회수(운영자 261001 "조회수 순으로 10위까지" · 구 좋아요 고정 260726) · 조회수 = 수집 x_enrich/로그인 타임라인 공급 · 결측 0 = 뒤로
+  const sxAll = bySort(sx, 'views').slice(0, 10);   // 큐레이션 = 지역 무관 통합(운영자 260724 "큐레이션 지역 구분 없이 다") — 구독은 내가 고른 계정이라 국내/세계 토글과 무관 · 정렬 = 순수 조회수(운영자 261001 "조회수 순으로 10위까지" · 구 좋아요 고정 260726 · divRank 계정 쿼터 해제 = 10계정이면 계정당 1개로 묶여 조회수 순이 깨졌다 · 수집기 x_rank와 같은 축) · 조회수 = 수집 x_enrich/로그인 타임라인 공급 · 결측 0 = 뒤로
   const all10 = (cutA, rawA, sf) => fill10(bySort(cutA, sf), bySort(rawA, sf));   // 큐레이션(영상 카드) 지역 무관 통합 top10(운영자 260724 — 국내/세계 구분 폐지 · 구 reg10 군분리 = 구독엔 부적절[내가 고른 계정 = 지역 무관 다 보기] · 컷분 우선 → raw 채움 = 10개 보장 계승)
   const stkAll = all10(stk, stkRaw, 'views');   // 틱톡 구독 = 지역 무관 통합 top10(운영자 260724) · 조회수 정렬 · 10개 보장
   const sreAll = all10(sre, sreRaw, 'views');   // 인스타 구독 = 지역 무관 통합 top10(운영자 260724) · 조회수 정렬 · 10개 보장

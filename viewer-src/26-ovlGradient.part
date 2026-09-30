@@ -482,7 +482,14 @@ function sysErrMsgs() {
     //   쿠키를 건드리지 말라는 정반대 안내(실측 = 폰 자체 기록 260905 14:35 인스타 5계정 HTTP 401 · 회전 5계정씩 260904 07:10부터).
     const _sessN = _try.filter(v => v === '401' || v === '403').length, _wallN = _try.filter(v => v === 'wall').length;
     const _uaEnv = String(SYS_PHONE_PLAT[k] || '').replace(/_COOKIE$/, '_UA');   // 세션-UA 짝(260729 useragent mismatch · INSTA_UA / THREADS_UA)
-    if (SYS_PHONE_PLAT[k] && !phDead && _stk * 2 > _try.length) {
+    const _xa = String(((hh.subs || {}).xauth) || 'off');   // X 로그인 경로 상태(261001) — X 칸 빈 상태 문구(renderSnsTrends subEmptySec)와 같은 사유·같은 조치(C-D5 한 축)
+    if (k === 'x' && (_xa === 'off' || _xa === 'fail')) {
+      _c = 'xauth-' + _xa;
+      text = head + (_xa === 'fail'
+        ? '로그인 쿠키가 거절됐어요(만료·로그아웃·계정 제한).\n\n👉 네가 할 일: 가계정으로 x.com에 다시 로그인해서 쿠키 auth_token·ct0를 새로 뽑아 깃허브 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0를 갈아 줘. 그래도 안 되면 그 가계정이 막힌 거라 새로 만들어야 해.\n\n'
+        : '로그인 없이 걷고 있어서예요 — X가 비로그인엔 최신 글 대신 옛 인기글만 줘서 새 글이 0건이에요.\n\n👉 네가 할 일: 가계정(본계 말고 — 자동화 감지 밴)으로 x.com에 로그인한 브라우저 쿠키 auth_token·ct0 두 값을 깃허브 저장소 시크릿 X_SUBS_AUTH_TOKEN·X_SUBS_CT0에 넣어 줘. 넣으면 다음 수집부터 최신 글이 조회수 순으로 떠.\n\n')
+        + '확인(✓)하면 오늘은 다시 안 떠요.';
+    } else if (SYS_PHONE_PLAT[k] && !phDead && _stk * 2 > _try.length) {
       _c = 'stuck';
       text = head + '이틀 넘게 한 건도 못 걷었어요 — 쉬었다 다시 시도하는 자동 복구로는 안 풀리는 상태예요.\n\n'
         + '👉 네가 할 일: ' + SYS_PLAT_KO[k] + ' 부계정(본계 말고 — 자동화 감지 밴) 세션쿠키를 폰 크론 환경변수 ' + SYS_PHONE_PLAT[k] + '에 새로 뽑아 갈아 줘. '

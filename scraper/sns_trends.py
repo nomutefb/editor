@@ -710,8 +710,9 @@ def _x_rss(acc, dead):
             continue
         try:
             x = _get(base + "/" + urllib.parse.quote(acc) + "/rss", timeout=12)
-        except Exception:  # noqa: BLE001
-            dead.add(base)   # 접속 실패(403·502·타임아웃) = 죽은 미러
+        except Exception as e:  # noqa: BLE001
+            if _hcode(e) != 404:   # 404 = 그 계정 사정(미러는 산 것) · 나머지(403·502·타임아웃) = 죽은 미러
+                dead.add(base)
             continue
         items = re.findall(r"<item>(.*?)</item>", x or "", re.S)
         if not items:
@@ -722,6 +723,8 @@ def _x_rss(acc, dead):
             link, txt = _tag(it, "link"), re.sub(r"<[^>]+>", "", _tag(it, "title")).strip()
             m = re.search(r"/status/(\d+)", link)
             if not m or not txt:
+                continue
+            if txt.startswith("RT by "):   # 리트윗 = 남의 글(로그인 경로와 같은 의미 · 평의회 261001) ⚠ Nitter 표기 미실측 = 표기가 다르면 무동작
                 continue
             got.append({"account": acc, "text": txt[:280], "likes": 0, "rts": 0, "cmts": 0, "views": 0,
                         "time": _tag(it, "pubDate"),   # RFC822("Sat, 25 Jul 2026 00:41:19 GMT") = parsedate_to_datetime·뷰어 new Date 양쪽 파싱 OK
@@ -736,10 +739,13 @@ _X_GUEST_BEARER = ("AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%
                    "1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA")   # X 웹 공개 앱 토큰(무인증 게스트 활성화용 · 공개 상수)
 _X_GQL_TWEET = "0hWvDhmW8YQ-S_ib3azIrw/TweetResultByRestId"   # GraphQL 쿼리 id(웹앱 번들 상수 · 변동 시 폴백으로 자동 강등)
 _X_GQL_USER = "xmU6X_CKVnQ5lSrCbAmJsg/UserByScreenName"   # 핸들 → 숫자 id(실측 261001 200)
-_X_GQL_TL = "E3opETHurmVJflFsUBVuUQ/UserTweets"   # 계정 타임라인(실측 261001 200 · 비로그인 = profile_best_highlights[역대 인기글]만 반환)
+_X_GQL_TL = "E3opETHurmVJflFsUBVuUQ/UserTweets"   # 계정 타임라인(실측 261001 200 · 비로그인 응답은 계정마다 다름 — 아래 _x_auth_hdr)
 X_SUB_H = 18   # X 구독 창(시간) — 운영자 261001 "구독한 채널 기준 18시간 내, 조회수 순으로 10위까지" · 뷰어 X_SUB_H와 같은 값
-X_AUTH_STATE = "off"   # 로그인 경로 결과(off = 쿠키 없음 · fail = 쿠키 있는데 막힘 · ok = 1계정 이상 성공) → health.subs.xauth → 뷰어 빈 상태 사유
-X_SUB_POOL = 30   # 수집 풀 — 조회수 순위는 보강(x_enrich) 뒤에야 확정되므로 표시 10칸보다 넉넉히 남긴다
+X_SUB_POOL = 30   # 저장 풀(조회수 순 상위) — 표시 10칸 + 다음 런 재정렬 여유
+X_SUB_RAW = 80   # 보강 전 풀 — 조회수를 모르는 경로(신디케이션·RSS)에서 최신순으로 미리 자르면 고조회 옛 글이 빠진다(평의회 261001)
+X_AUTH_GAP_MIN = 60   # 로그인 경로 최소 간격(분) — 운영자 260819 «x 1시간 단위» 주기 계약을 가계정 호출에도 적용(러너 30분 주기 = 2런 중 1런만)
+XA = {"state": "off", "stop": False, "empty": 0, "at": ""}   # 로그인 경로 런 상태 — state: off 쿠키 없음 · ok 성공 · fail 401/403(쿠키) · err 그 밖(쿼리·레이트·타임아웃) → health.subs.xauth
+X_UID = {}   # 핸들(소문자) → 숫자 id 캐시(직전 산출물 health.subs.xuid 승계 = UserByScreenName 반복 콜 0)
 
 
 def _x_ts(s):
@@ -752,9 +758,12 @@ def _x_ts(s):
 
 def _x_auth_hdr():
     """로그인 타임라인 헤더 — env X_SUBS_AUTH_TOKEN + X_SUBS_CT0(가계정 쿠키) 둘 다 있을 때만, 없으면 None(= 종전 경로).
-    왜 로그인인가(실측 261001): 비로그인 UserTweets는 100/100이 profile_best_highlights(2017~2025 역대 인기글)이고,
-    신디케이션도 같은 성질이라 폰이 10계정 전부 응답 OK를 받고도 X_SUB_H 창에 들어오는 글이 0건이었다.
-    이름을 x_search의 X_AUTH_TOKEN과 분리한 이유 = 폰 env에 남은 옛 쿠키로 홈 IP 로그인 호출이 머지만으로 켜지지 않게."""
+    왜 로그인인가(실측 261001 · 구독 10계정 게스트 UserTweets): 6계정 = profile_best_highlights(2017~2025 역대 인기글) ·
+    4계정 = 빈 타임라인 → 창 안 0건. 신디케이션도 같은 성질이라 폰이 10계정 전부 응답 OK를 받고도 화면이 비었다
+    (게스트도 최신 글을 주는 계정이 있다 = 평의회 실측 @SpaceX — 계정마다 다르고, 현 구독 계정은 전부 아니다).
+    가드 2겹 = ① 이름을 x_search의 X_AUTH_TOKEN과 분리 ② 러너(GITHUB_ACTIONS)에서만 — 폰 홈 IP 로그인 호출은 어떤 env로도 안 켜진다."""
+    if XA["stop"] or os.environ.get("GITHUB_ACTIONS") != "true":
+        return None
     tok = (os.environ.get("X_SUBS_AUTH_TOKEN") or "").strip()
     ct0 = (os.environ.get("X_SUBS_CT0") or "").strip()
     if not (tok and ct0):
@@ -813,38 +822,62 @@ def _x_tl_items(resp, acc, uid):
                 continue
             if leg.get("retweeted_status_result") or str(leg.get("full_text") or "").startswith("RT @"):
                 continue
-            txt = ((r.get("note_tweet") or {}).get("note_tweet_results") or {}).get("result", {}).get("text") or leg.get("full_text") or ""
             usr = (((r.get("core") or {}).get("user_results") or {}).get("result") or {})
             out.append({"account": acc, "name": (usr.get("legacy") or {}).get("name") or (usr.get("core") or {}).get("name") or "",
-                        "text": _x_body(txt, leg.get("display_text_range")), "thumb": _x_med_gql(r),
+                        "text": _x_text(r, leg), "thumb": _x_med_gql(r),
                         "views": _i((r.get("views") or {}).get("count")), "likes": _i(leg.get("favorite_count")),
                         "rts": _i(leg.get("retweet_count")), "cmts": _i(leg.get("reply_count")),
                         "time": leg.get("created_at") or "", "url": "https://x.com/%s/status/%s" % (acc, tid)})
     return out
 
 
+class _XAccErr(Exception):
+    """계정 단위 실패(없음·빈 타임라인) — 로그인 경로 전체 중단과 구분(JSON 파싱 오류 = ValueError라 별도 클래스)."""
+
+
 def _x_auth_tl(acc, hdr, base="https://x.com/i/api/graphql/"):
-    """로그인 타임라인 1계정 — 최신 글 20개 + 조회수. 실패 = 예외 그대로(호출부가 HTTP 코드로 중단/폴백을 가른다)."""
-    u = (((_x_gql(_X_GQL_USER, {"screen_name": acc, "withSafetyModeUserFields": True}, hdr, base).get("data") or {})
-          .get("user") or {}).get("result") or {})
-    uid = u.get("rest_id")
+    """로그인 타임라인 1계정 — 최신 글 40개(리트윗 빼고 다작 계정 18시간 커버 · 평의회 261001) + 조회수.
+    실패 = 예외 그대로(호출부가 계정 단위 _XAccErr / 경로 중단을 가른다)."""
+    uid = X_UID.get(acc.lower())
     if not uid:
-        raise ValueError("계정 없음·비공개")
-    return _x_tl_items(_x_gql(_X_GQL_TL, {"userId": uid, "count": 20, "includePromotedContent": False,
-                                          "withQuickPromoteEligibilityTweetFields": False, "withVoice": True,
-                                          "withV2Timeline": True}, hdr, base), acc, uid)
+        u = (((_x_gql(_X_GQL_USER, {"screen_name": acc, "withSafetyModeUserFields": True}, hdr, base).get("data") or {})
+              .get("user") or {}).get("result") or {})
+        uid = u.get("rest_id")
+        if not uid:
+            raise _XAccErr("계정 없음·정지")
+        X_UID[acc.lower()] = str(uid)
+    got = _x_tl_items(_x_gql(_X_GQL_TL, {"userId": uid, "count": 40, "includePromotedContent": False,
+                                         "withQuickPromoteEligibilityTweetFields": False, "withVoice": True,
+                                         "withV2Timeline": True}, hdr, base), acc, uid)
+    if not got:
+        raise _XAccErr("빈 타임라인(비공개·응답 구조 변경 의심)")
+    return got
+
+
+def _x_tid(t):
+    m = re.search(r"/status/(\d+)", str((t or {}).get("url") or ""))
+    return m.group(1) if m else str((t or {}).get("url") or "")
 
 
 def x_rank(items, hours=X_SUB_H, limit=X_SUB_POOL, accounts=None):
-    """X 구독 최종 정렬 — ① 등록 계정만(accounts 지정 시 · 해제한 계정의 이월분 차단) ② hours 창 안만
-    ③ 조회수 내림차순(모르면 0 = 최신순으로 뒤에) ④ 계정 다양성 재배열(_acct_spread) ⑤ limit 절단.
-    순서 = 정렬 → spread → 절단 고정(spread를 앞에 두면 재정렬이 덮는다)."""
+    """X 구독 정렬 정본 — ① 트윗 id 중복 제거(앞선 항목 우선) ② 등록 계정만(accounts 지정 시 · 해제 계정 이월분 차단)
+    ③ hours 창 안만 ④ 조회수 내림차순(모르면 0 = 최신순으로 뒤에) ⑤ limit 절단.
+    계정 다양성 재배열(_acct_spread) 미적용 = 운영자 261001 "조회수 순으로 10위까지"(쿼터가 1위 계정의 2·3위 글을 1천 뷰 글 뒤로 밀던 것)."""
     reg = {str(a).lower().lstrip("@") for a in accounts} if accounts is not None else None
     cut = datetime.now(KST).timestamp() - hours * 3600
-    fresh = [t for t in items if isinstance(t, dict) and _x_ts(t.get("time")) >= cut
-             and (reg is None or str(t.get("account") or "").lower().lstrip("@") in reg)]
+    seen, fresh = set(), []
+    for t in items:
+        if not isinstance(t, dict) or _x_ts(t.get("time")) < cut:
+            continue
+        if reg is not None and str(t.get("account") or "").lower().lstrip("@") not in reg:
+            continue
+        k = _x_tid(t)
+        if k in seen:
+            continue
+        seen.add(k)
+        fresh.append(t)
     fresh.sort(key=lambda t: (_i(t.get("views")), _x_ts(t.get("time"))), reverse=True)
-    return _acct_spread(fresh, limit)[:limit]
+    return fresh[:limit]
 
 
 def _x_guest():
@@ -940,8 +973,7 @@ def _x_one(tid, gt):
             leg = r.get("legacy") or {}
             if leg:
                 usr = (((r.get("core") or {}).get("user_results") or {}).get("result") or {}).get("legacy") or {}
-                txt = ((r.get("note_tweet") or {}).get("note_tweet_results") or {}).get("result", {}).get("text") or leg.get("full_text") or ""
-                got = {"name": usr.get("name") or "", "text": _x_body(txt, leg.get("display_text_range")),
+                got = {"name": usr.get("name") or "", "text": _x_text(r, leg),
                        "thumb": _x_med_gql(r),
                        "views": _i(((r.get("views") or {}).get("count"))),
                        "likes": _i(leg.get("favorite_count")), "rts": _i(leg.get("retweet_count")), "cmts": _i(leg.get("reply_count"))}
@@ -963,6 +995,15 @@ def _x_one(tid, gt):
     except Exception as e:  # noqa: BLE001
         print(f"::warning::x syn {tid}: {e}", file=sys.stderr)
     return got or {}
+
+
+def _x_text(r, leg):
+    """본문 = 긴 글(note_tweet)이면 그 원문 그대로(범위·엔티티 복원 없음 — note는 이스케이프 없이 오고 display_text_range는
+    legacy 기준이라 적용하면 잘림·밀림 · 평의회 261001 실측), 아니면 legacy full_text를 _x_body로."""
+    nt = (((r.get("note_tweet") or {}).get("note_tweet_results") or {}).get("result") or {}).get("text")
+    if nt:
+        return re.sub(r"\n{3,}", "\n\n", re.sub(r"\s*https?://t\.co/\w+", "", str(nt))).strip()[:280]
+    return _x_body(leg.get("full_text") or "", leg.get("display_text_range"))
 
 
 def _x_body(txt, rng):
@@ -991,7 +1032,7 @@ def x_enrich(items, deadline=None, gap=0.3):
             print("::warning::x 보강 예산 소진 — 잔여 스킵", file=sys.stderr)
             break
         m = re.search(r"/status/(\d+)", str(it.get("url") or ""))
-        if not m:
+        if not m or (_i(it.get("views")) > 0 and it.get("name")):   # 로그인 타임라인분 = 이미 완성(재조회 = 게스트 부하만 · 평의회 261001)
             continue
         d = _x_one(m.group(1), gt)
         if not d:
@@ -1008,19 +1049,21 @@ def x_enrich(items, deadline=None, gap=0.3):
     return items
 
 
-def x_subs(accounts, limit=X_SUB_POOL, deadline=None, sleep_s=None, hours=X_SUB_H):
+def x_subs(accounts, limit=X_SUB_RAW, deadline=None, sleep_s=None, hours=X_SUB_H):
     """X 구독 계정 최신 트윗 — 경로 3단:
     ① 로그인 타임라인(_x_auth_tl · env 쿠키 있을 때만 · 최신순 + 조회수 · 261001)
     ② 임베드 신디케이션(무인증 · 콜 간 4s — 분신 실측 260712: 1.2s = 16연속 429 · 4s = 전원 회복)
     ③ Nitter RSS 미러(_x_rss · 260725).
     ②는 비로그인이라 역대 인기글 위주로 준다 → ③ 폴백 판정 = '0건'이 아니라 **'hours 창 안 0건'**(261001 —
     구 판정은 옛 글이 1건이라도 오면 ③을 건너뛰어, 10계정 응답 OK인데 화면 0~1건이 한 주 넘게 이어졌다).
-    크로스 계정 리트윗 = 트윗 id 기준 dedup(평의회8). 정렬·절단 = x_rank(조회수순 · 계정 다양성)."""
-    global X_AUTH_STATE
+    크로스 계정 리트윗 = 트윗 id 기준 dedup(평의회8). 정렬·절단 = x_rank(조회수순).
+    로그인 상태(XA) = 호출 사이에 유지(러너 kr·gl 2회 호출이 중단을 되살리지 않게) — 계정 단위 실패(_XAccErr)는 그 계정만
+    폴백(연속 2회 + 성공 0 = 응답 구조 변경으로 보고 중단) · 그 밖 전부(HTTP·타임아웃·파싱) = 이번 런 로그인 중단.
+    상태 분류 = 401/403 → fail(쿠키 갈 일) · 그 밖 → err(쿼리 id·레이트·네트워크 = 쿠키 문제 아님) · 중단 없이 1건↑ 성공 → ok."""
     out, seen_tid, dead = [], set(), set()
     auth = _x_auth_hdr()
-    if accounts and auth and X_AUTH_STATE == "off":
-        X_AUTH_STATE = "fail"   # 성공 전까지 = 막힘(성공 1건이면 ok · 러너가 kr/gl 두 번 불러도 ok는 안 내려간다)
+    if accounts and auth and XA["state"] == "off":
+        XA["state"], XA["at"] = "err", datetime.now(KST).isoformat(timespec="seconds")   # 시도 시작 = 성공 전까지 err(예산 소진으로 한 계정도 못 돌면 그대로)
     cut = datetime.now(KST).timestamp() - hours * 3600
 
     def _add(t, tid):
@@ -1038,18 +1081,28 @@ def x_subs(accounts, limit=X_SUB_POOL, deadline=None, sleep_s=None, hours=X_SUB_
             # (운영자 260819 «계정 간 간격도 인스타처럼 훨씬 띄워줘» · 폰 수집기가 20초를 넘긴다 = 429 확률 하향).
             time.sleep(sleep_s if (sleep_s and sleep_s > 0) else 4)
         _n0 = len(out)
-        if auth:
+        if auth and not XA["stop"]:
             try:
                 for t in _x_auth_tl(acc, auth):
                     _add(t, t["url"].rsplit("/", 1)[-1])
                 _sok("x", acc)
-                X_AUTH_STATE = "ok"
-                continue   # 로그인 경로 = 이 계정 정본(0건 = 창 안에 쓴 글이 없는 것)
+                XA["empty"] = 0
+                if XA["state"] == "err":
+                    XA["state"] = "ok"
+                continue   # 로그인 경로 = 이 계정 정본(창 안 0건 = 그 계정이 18시간 동안 안 쓴 것)
+            except _XAccErr as e:
+                XA["empty"] += 1
+                print(f"::warning::x @{acc} 로그인 타임라인: {e} — 이 계정만 비로그인 경로", file=sys.stderr)
+                if XA["empty"] >= 2 and XA["state"] != "ok":
+                    XA["stop"] = True
+                    print("::warning::x 로그인 경로 중단 — 연속 빈 타임라인(응답 구조 변경 의심 · 코드 축)", file=sys.stderr)
             except Exception as e:  # noqa: BLE001
-                print(f"::warning::x @{acc} 로그인 타임라인 실패: {e}", file=sys.stderr)
-                if _hcode(e) in (401, 403, 404, 429):   # 쿠키 만료·제한·쿼리 id 변경 = 이번 런 로그인 중단(연타 금지) → 아래 비로그인 경로
-                    print("::warning::x 로그인 경로 중단(HTTP %s) — 쿠키(X_SUBS_AUTH_TOKEN·X_SUBS_CT0) 점검" % _hcode(e), file=sys.stderr)
-                    auth = None
+                code = _hcode(e)
+                XA["stop"] = True   # 연타 금지 — 같은 원인이 나머지 계정·다음 호출(gl)에도 그대로라 예산만 먹는다
+                XA["state"] = "fail" if code in (401, 403) else "err"
+                # 예외 원문 금지 = 헤더 값(쿠키)이 http.client 오류 메시지에 실릴 수 있다(평의회 261001 재현) → 코드·타입만
+                print("::warning::x 로그인 경로 중단(%s) — %s" % ("HTTP %s" % code if code != "err" else type(e).__name__,
+                      "쿠키(X_SUBS_AUTH_TOKEN·X_SUBS_CT0) 만료·거절" if XA["state"] == "fail" else "쿼리 id·레이트·네트워크(쿠키 문제 아님)"), file=sys.stderr)
         try:
             h = _get("https://syndication.twitter.com/srv/timeline-profile/screen-name/" + urllib.parse.quote(acc))
             m = re.search(r'<script id="__NEXT_DATA__" type="application/json">(.*?)</script>', h, re.S)
@@ -1070,7 +1123,7 @@ def x_subs(accounts, limit=X_SUB_POOL, deadline=None, sleep_s=None, hours=X_SUB_
                 if not tid or not txt:
                     continue
                 vw = t.get("views")
-                _add({"account": acc, "text": txt[:280], "likes": _i(t.get("favorite_count")),
+                _add({"account": acc, "text": html.unescape(txt)[:280], "likes": _i(t.get("favorite_count")),
                       "rts": _i(t.get("retweet_count")), "cmts": _i(t.get("reply_count")),
                       "views": _i(vw.get("count")) if isinstance(vw, dict) else 0,
                       "time": t.get("created_at") or "",
@@ -1468,7 +1521,8 @@ def yt_reco(limit=30):
         print("::warning::yt_reco 스킵 — 받기 사다리 미존재", file=sys.stderr)
         return []
     try:
-        env = dict(os.environ, YTDLP_LABEL="맞춤 추천", YTDLP_ERR="/tmp/yt_reco_err.txt",
+        # X 가계정 쿠키(X_SUBS_*) = 외부 도구 비상속(평의회 261001 — yt-dlp는 버전 고정 없이 매 런 최신 설치)
+        env = dict({k: v for k, v in os.environ.items() if not k.startswith("X_SUBS_")}, YTDLP_LABEL="맞춤 추천", YTDLP_ERR="/tmp/yt_reco_err.txt",
                    YTDLP_CKDIR="/tmp/yt_reco_ck", YTDLP_DIAG="/tmp/yt_reco_diag.txt")
         r = subprocess.run(["bash", wrap, "--flat-playlist", "--skip-download", "--playlist-end", str(limit),
                             "--print", "%(id)s", YT_RECO_URL],
@@ -2810,6 +2864,19 @@ def main():
     subs_new, acc = None, None
     if SUBS_ON:
         acc, accreg = _load_accounts()
+        # X 로그인 경로 승계(261001) — uid 캐시 + 60분 게이트(운영자 260819 «x 1시간 단위» · 러너 30분 주기라 2런 중 1런)
+        #   게이트 닫힌 런 = 로그인 호출 0 · 직전 상태·시각 그대로 · 화면은 아래 이월 합집합이 직전 로그인분을 유지
+        _hsp = ((prev.get("health") or {}).get("subs") or {})
+        if isinstance(_hsp.get("xuid"), dict):
+            X_UID.update({str(k).lower(): str(v) for k, v in _hsp["xuid"].items() if v})
+        if _x_auth_hdr():
+            try:
+                _xgap = (datetime.now(KST) - datetime.fromisoformat(str(_hsp.get("xauth_at")))).total_seconds() / 60
+            except Exception:  # noqa: BLE001 — 첫 런·파손 = 게이트 열림
+                _xgap = None
+            if _xgap is not None and 0 <= _xgap < X_AUTH_GAP_MIN and _hsp.get("xauth") in ("ok", "err", "fail"):
+                XA.update(stop=True, state=_hsp["xauth"], at=str(_hsp.get("xauth_at")))
+                print(f"x 로그인 경로 대기({_xgap:.0f}분 전 시도 · 주기 {X_AUTH_GAP_MIN}분) — 직전 상태 {XA['state']} 승계")
         # wall-clock 예산(기본 240s·env SNS_SUBS_BUDGET — 워크플로가 480 지정 = 지역 2군 확장분) — 최악(전 콜 타임아웃 직렬)이
         # workflow timeout을 넘겨 레거시 수집분까지 dump 못 하고 버리는 시나리오 차단(평의회2·9) · 초과 = 잔여 계정 스킵(수집분 사용)
         dl = time.monotonic() + (_i(os.environ.get("SNS_SUBS_BUDGET")) or 240)   # 비수치 env = 240 폴백(파스 크래시 가드 · 재검증1)
@@ -2830,7 +2897,7 @@ def main():
             _ph_fresh = -5 <= _phm <= PHONE_FRESH
         except Exception:  # noqa: BLE001 — 파일 없음·파손 = 폰 없음 취급(러너가 종전대로 시도)
             pass
-        subs_new = {"x": _rsubs(x_subs, "x", per=X_SUB_POOL), "tiktok": _rsubs(tiktok_subs, "tiktok"),
+        subs_new = {"x": _rsubs(x_subs, "x", per=X_SUB_RAW), "tiktok": _rsubs(tiktok_subs, "tiktok"),
                     "insta": [] if _ph_fresh else _rsubs(insta_subs, "insta"), "youtube": _rsubs(yt_subs, "youtube"),
                     "threads": []}   # ⑧ 스레드 = 러너 미수집(Meta 데센 IP 차단 — 인스타 동류) · 폰/맥 채택(아래)이 유일 공급원
         if _ph_fresh:
@@ -2903,9 +2970,10 @@ def main():
             pass
         # X 상세 보강(운영자 260726 "닉네임·정확한 글·대표 이미지·조회수") — 폰 채택 '뒤'에 두는 게 요점:
         # 채택된 폰 수집분도 같은 경로로 보강돼야 표시 4값이 공급원과 무관하게 동일(러너/폰 갈림 방지).
-        #   앞뒤 x_rank(261001) = 등록 계정·X_SUB_H 창 컷 후 보강(창 밖 글에 콜 낭비 0) → 보강으로 채워진 조회수로 재정렬.
-        subs_new["x"] = x_rank(x_enrich(x_rank(subs_new.get("x") or [], accounts=acc["x"]),
-                                        deadline=time.monotonic() + (_i(os.environ.get("SNS_X_ENRICH_BUDGET")) or 90)), accounts=acc["x"])
+        #   앞뒤 x_rank(261001) = 등록 계정·X_SUB_H 창 컷(넉넉한 X_SUB_RAW) 후 보강 — 조회수 없는 것부터(예산 소진 시 이미 아는 것만 남게)
+        #   → 보강으로 채워진 조회수로 재정렬해 X_SUB_POOL 절단(조회수 모르는 채 최신순으로 먼저 자르면 고조회 옛 글이 빠진다 · 평의회 261001).
+        _xp = sorted(x_rank(subs_new.get("x") or [], limit=X_SUB_RAW, accounts=acc["x"]), key=lambda t: _i(t.get("views")) > 0)
+        subs_new["x"] = x_rank(x_enrich(_xp, deadline=time.monotonic() + (_i(os.environ.get("SNS_X_ENRICH_BUDGET")) or 90)), accounts=acc["x"])
     # ⑭-b 재난문자 폴백 — 본선(safetydata 러너 차단) · 폰 신선분이 둘 다 0건일 때만 Korea Monitor SSR로 슬롯을 살린다.
     #   순서 = 폰 채택 '뒤' = 폰/공식이 있으면 그게 이긴다(폴백은 빈칸 메우기 전용 · 운영자 260802 "재난문자 급만").
     dis_src = "safetydata·폰" if dis else ""
@@ -2982,6 +3050,9 @@ def main():
         # (or 폴백이 '수집 실패 보존'과 '구독 전체 해제'를 구분 못해 옛 데이터가 영영 잔존하던 구멍 — 평의회8 F1)
         subs = {"updated": now if subs_any else (psubs.get("updated") or now),   # 전멸 런 = 직전 수집 시각 유지(신선 오표기 방지)
                 **{k: ((subs_new[k] or carry(k)) if acc[k] else []) for k in ("x", "tiktok", "insta", "youtube", "threads")}}
+        if acc["x"]:   # X = 이번 런 ∪ 직전분(261001) — 부분 실패 런(러너 0 + 폰 1)에 18h 안 고조회 글이 한 런 사라졌다 돌아오는 출렁임 방지
+            #   · x_rank가 창 밖·해제 계정을 거르므로 이월이 굳지 않는다 · id 중복 = 이번 런(최신 조회수) 우선 · stale 판정은 subs_new 기준 그대로
+            subs["x"] = x_rank((subs_new["x"] or []) + carry("x"), accounts=acc["x"])
         if not subs_new["tiktok"] and subs["tiktok"]:
             _tk_cover_fresh(subs["tiktok"])   # carry 폴백 런 한정 — 만료 서명 커버 oEmbed 재서명(260721 검은 썸네일 판례 · 신선 수집 런 = 콜 0)
         # ④⑧ X·스레드 AI 요약 승계(운영자 260726 "한줄 요약" · ⑦ 블스 번역 승계 패턴 미러) — 직전분 kw·sum·sv를
@@ -3018,7 +3089,11 @@ def main():
               "expressway": _hh("expressway", exw, bool(EX_KEY)),
               "subs": _hh("subs", (subs_new if (subs_new is not None and subs_any) else []), SUBS_ON)}
     if subs_new is not None and acc:
-        health["subs"]["xauth"] = X_AUTH_STATE   # X 빈 상태 사유 축(261001) — off = 비로그인이라 옛 인기글만 옴 · fail = 쿠키 막힘 · ok = 창 안 새 글 없음
+        health["subs"]["xauth"] = XA["state"]   # X 빈 상태 사유 축(261001) — off 비로그인(옛 인기글만) · fail 쿠키 거절 · err 쿼리·레이트·네트워크 · ok 로그인 정상
+        if XA["at"]:
+            health["subs"]["xauth_at"] = XA["at"]   # 로그인 시도 시각 = 다음 런 60분 게이트 기준
+        if X_UID:
+            health["subs"]["xuid"] = {k: X_UID[k] for k in sorted(X_UID) if k in {a.lower() for a in acc["x"]}}   # 등록 계정분만(해제 계정 id 잔류 0)
         health["subs"]["off"] = sorted(SUB_OFF)   # 운영자가 끈 플랫폼 — 뷰어 renderSnsTrends가 그 구독 섹션을 아예 안 그린다(비움 상태 문구도 없음 = 숨김)
         health["subs"]["stale"] = [k for k in ("x", "tiktok", "insta", "youtube", "threads") if acc[k] and not subs_new[k]]   # 이번 런 carry 폴백 축 — 집계 ok=True가 개별 플랫폼 7일 부패를 가리던 은폐 보강(260721 틱톡 판례 · 표시 전용)
         # 부분 실패 관측(운영자 260727 "재발 방지 대책") — stale은 **전멸(0건)만** 잡아서, 등록 11계정 중 8개만
@@ -3052,9 +3127,10 @@ def main():
             #   carry가 살아 있는 한 got=20/20으로 계산돼 stale·80% 두 알림 축이 **동시에 침묵**하고, 72h 뒤 뷰어가
             #   컷하면 화면 섹션만 조용히 비는 완전 무경보 구간이 생겼다(260727 봉합의 3번째 재발 경로).
             #   time 필드가 없는 축(youtube 등)은 종전대로 신선 취급 = 회귀 0.
-            _cut = int(time.time()) - 3 * 86400
+            _cut = int(time.time()) - (X_SUB_H * 3600 if _k == "x" else 3 * 86400)   # X = 화면 창(18h)과 같은 축(261001)
+            #   ⚠ X time 문자열(created_at·RFC822) = _i()가 숫자만 이어붙여 1020192400002018 같은 거대값 → 항상 신선 판정되던 것 교정(평의회 261001)
             _got = {str(it.get("account") or "").lower().lstrip("@") for it in (subs.get(_k) or [])
-                    if not it.get("time") or _i(it.get("time")) >= _cut} | _okset
+                    if not it.get("time") or (_x_ts(it.get("time")) if _k == "x" else _i(it.get("time"))) >= _cut} | _okset   # 타 플랫폼 = 종전 그대로(ISO 등 형식 혼재 · 회귀 0)
             _reg = [str(a).lower().lstrip("@") for a in (acc[_k] or [])]
             _miss = [a for a in _reg if a not in _got]
             _fsrc = {**(SUB_FAIL.get(_k) or {}), **(PHONE_COVER["why"].get(_k) or {})}   # 폰 기록이 러너 잔향을 덮는다(폰 = 주 공급)

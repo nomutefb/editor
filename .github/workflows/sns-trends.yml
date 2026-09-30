@@ -102,9 +102,10 @@ jobs:
           SNS_YT_RECO: ${{ vars.SNS_YT_RECO || '1' }}   # 맞춤 추천 = 기본 ON · 끄기 = 저장소 변수 SNS_YT_RECO=0. ⚠ dispatch input으로 안 뺀다 — 이 워크플로는 이미 input 13개라 GitHub 상한 10을 넘겨 있고(11번째부터 디스패치 400 = rate.yml 판례) 한 칸 더 얹으면 그 위험만 키운다
           SNS_SUBS: ${{ inputs.subs || '1' }}   # 구독 축 = 기본 ON 승격(§📰-e 이행 완료 — 카나리아 run 29153925931 실측 260711: rc=0·65s·틱톡10·유튜브10·레거시 무손상·커밋 eab3bc5). schedule = inputs 없음 → '1'(social-scan 관용구) · dispatch subs='0'=일시 OFF. X·인스타 = 러너 IP 429 실측(런마다 IP 로터리 = 확률 수집·빈 런 = 직전분 보존 fail-soft) — 지속 0건이면 폰 수집 경로 후속. 롤백 = || '' 복귀
           # X 구독 로그인 타임라인(운영자 261001 "18시간 내 조회수 순 10위") — 비로그인은 역대 인기글만 줘서 창 안 글이 0건(실측).
-          #   미설정 = 종전 경로(신디케이션·RSS) 그대로 · 등록 = 가계정 x.com 쿠키 auth_token·ct0 두 값 · 끄기 = 시크릿 삭제.
-          X_SUBS_AUTH_TOKEN: ${{ secrets.X_SUBS_AUTH_TOKEN }}
-          X_SUBS_CT0: ${{ secrets.X_SUBS_CT0 }}
+          #   미설정 = 종전 경로(신디케이션·RSS) 그대로 = 의도된 휴면(`|| ''` = 빈 칸 점검 레인이 결함 아닌 선택 칸으로 분류) ·
+          #   등록 = 가계정 x.com 쿠키 auth_token·ct0 두 값 · 끄기 = 시크릿 삭제 · 호출 = 러너 전용·60분 주기(sns_trends.py X_AUTH_GAP_MIN).
+          X_SUBS_AUTH_TOKEN: ${{ secrets.X_SUBS_AUTH_TOKEN || '' }}
+          X_SUBS_CT0: ${{ secrets.X_SUBS_CT0 || '' }}
           SNS_SUBS_BUDGET: '480'   # 한국/세계 2군 확장분(구 기본 240 · 지역별 상한 x20·tk15·ig10·yt15 = 최악 직렬 ≈460s 커버 · 운영자 260712)
           SNS_REDDIT: ${{ inputs.reddit || '1' }}   # ⑥ 레딧 = 기본 ON 승격(운영자 260801 승인) — OFF 사유였던 러너 403(카나리아 run 29197039475 실측 260713: 3서브레딧 전부 `.json` HTTP 403 = 데이터센터 IP 차단)은 `_reddit_rss` 폴백(260727 실측 "RSS + 봇UA = 200")으로 이미 우회로가 생겼다. 승격 목적 = **폰 단일 공급 해소**(워치독 `해외 레딧 0건(러너 IP 403 = 폰 공급 의존)` 축 — 폰이 죽으면 해외 커뮤니티축이 통째로 0건). ⚠️ 게시물 '나이'는 이걸로 안 줄어든다(레딧 hot 랭킹 특성 = 상위글이 원래 수 시간 숙성 · 실측 중앙 8.8h) — 이건 지연이 아니라 플랫폼 성질. 주 공급 우선순위는 **폰 유지**(sns_trends.py main `if _pr: rd = _pr` 무변경) = 러너는 폰 0건일 때 받는 폴백 → 회귀 위험 0. 러너도 RSS 403이면 rd=[] → 직전분 carry(종전 동일). 롤백 = || '0' 복귀
           SNS_BSKY: ${{ inputs.bsky || '1' }}       # ⑦ 블루스카이 = 기본 ON 승격(§📰-e 이행 — 카나리아 run 29197039475 실측 260713: rc=0·12건 수집·What's Hot 정상) · 롤백 = || '0'
