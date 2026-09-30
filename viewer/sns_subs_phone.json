@@ -1,19 +1,37 @@
 {
- "x": [
-  {
-   "account": "MarioNawfal",
-   "text": "🇮🇶🇮🇷 8 US Marines were reportedly wounded on a contracted ship in the Strait of Hormuz, and Kataib Hezbollah says it will shoot at aircraft over Iraq if flights to Iran don't resume by October 1\n\nThe Marines were aboard a US-contracted vessel, not a warship, when an Iranian https",
-   "likes": 360,
-   "rts": 63,
-   "cmts": 41,
-   "views": 0,
-   "time": "Mon Sep 28 23:17:15 +0000 2026",
-   "url": "https://x.com/MarioNawfal/status/2104712067009720700",
-   "region": "gl"
-  }
- ],
+ "x": [],
  "insta": [],
  "threads": [
+  {
+   "account": "choi.openai",
+   "text": "3/ 논쟁의 중심은 안전장치입니다.\nGLM-5.3도 명백히 해로운 요청은 대체로 거절하도록 학습돼 있습니다.\n\n하지만 가중치가 공개된 모델은 누구나 내려받아 수정할 수 있고, 거절 반응을 지워낸 변형판이 출시 며칠 만에 공개 저장소에 올라왔습니다.\n\n앤트로픽이 해로운 요청 벤치마크로 확인해 보니 거절률은 95% 수준에서 평균 6%로 떨어졌고, 과학 문제 풀이와 사이버 과제 성능은 거의 그대로 남았습니다\n\n9월 초에는 GLM-5.3의 거절을 걷어낸 모델을 아예 서비스로 내놓은 곳도 나왔습니다.\n가중치가 공개되는 순간 안전장치는 개발사가 관리하는 기능에서 사용자가 고르는 옵션으로 바뀝니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1790785277,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831567995_17989431138112832_3154568474387283756_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NzcxOTExODE5MTY5ODQwNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTAwOC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=LtL2KaGQclwQ7kNvwFJotOZ&_nc_oc=Adpp8GPXWgC4ddXizTCBu31q1yXfByKqxmEOwPzGY0RtoUPCsG_x20vS6qmqNGfE4Ak&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PJ_olS9DLQl34NXbP2b2CA&_nc_ss=7a20f&oh=00_AQNb0mfxBpVNSrMRxbHIQ-axN8qTQ2y1LgbBQhkUS7ELKg&oe=6AC32632",
+   "url": "https://www.threads.com/@choi.openai/post/Dd6wFtvmqHm",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 능력 비교부터 살펴보면, ExploitBench는 크롬의 자바스크립트 엔진 V8에 있는 알려진 취약점 41개를 주고, 모델이 작동하는 공격 코드를 스스로 완성하는지 보는 공개 벤치마크입니다.\n\n410번 시도에서 GLM-5.3은 50번, Mythos Preview는 56번 성공했습니다.\n오픈소스 프로젝트를 대상으로 한 앤트로픽 내부 평가에서도 GLM-5.3은 4%, Mythos Preview는 6%를 기록했고, 직전 세대인 GLM-5.2와 Claude Opus 4.6은 한 번도 성공하지 못했습니다.\n\n미국 NIST 산하 CAISI도 9월 17일 GLM-5.3을 지금까지 나온 오픈웨이트 모델 중 사이버 능력이 가장 높다고 평가했고, 미국 최전선과의 격차를 약 4개월로 봤습니다.\n\n앤트로픽은 이 비교에 쓰인 미국 모델이 안전장치를 끈 버전이거나 검증된 사용자에게만 풀린 모델이라, 공격자가 실제로 손에 넣기 어려운 버전이라는 점을 강조합니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1790785270,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825325895_17989431120112832_7126416721961590245_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5NzcxOTA1NjA1NzI3NDEzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTgwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=4I9wS4tj1OMQ7kNvwHHPGeQ&_nc_oc=AdqZsPXr6cwKA5xaqitlO5mDL6wVKtbAPnBmPZEdlSMWqNzejGayrLNzoresj_jeIVc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PJ_olS9DLQl34NXbP2b2CA&_nc_ss=7a20f&oh=00_AQMNBUDWdFnPIm2LJhr7CRPZmf6QpjBStWDdKvmiNsIDVw&oe=6AC31917",
+   "url": "https://www.threads.com/@choi.openai/post/Dd6wEz4Go8T",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 앤트로픽 프런티어 레드팀이 중국 Z.ai의 GLM-5.3을 분석한 보고서를 공개했습니다.\n\nZ.ai는 옛 Zhipu AI로, 8월 14일 GLM-5.3을 내놓은 뒤 8월 말 가중치까지 공개했습니다.\n\n누구나 내려받아 자기 서버에서 돌릴 수 있는 모델입니다.\n\n앤트로픽의 결론은 두 가지입니다. 이 모델이 Claude Mythos Preview에 가까운 수준으로 소프트웨어 취약점을 공격 코드로 만들어내고, 이를 막는 안전장치는 쉽게 우회되거나 제거된다는 것입니다.\n\n5개월 전 앤트로픽이 위험하다며 제한된 방어자 그룹에만 풀었던 능력이, 이제 무료 모델로 넘어왔다는 주장입니다.",
+   "likes": 2,
+   "cmts": 1,
+   "time": 1790785260,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831475150_17989431102112832_4107348894073510649_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzcxODk3Njk0NDI3NjkwMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTgyLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=0m9IEHKbPFgQ7kNvwFnnoTu&_nc_oc=AdqHjjQDD1C-yPenGat6UHRk4v1sSVsqxtIXy-jPjOzhGY74SaOo4curUOGN_dGYyqk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PJ_olS9DLQl34NXbP2b2CA&_nc_ss=7a20f&oh=00_AQOrJCOQp4N3XwpgmlBwuuo50J9E5oTk3gys9LL6ZU681Q&oe=6AC31B92",
+   "url": "https://www.threads.com/@choi.openai/post/Dd6wDqMmgWl",
+   "region": "kr"
+  },
   {
    "account": "takepage_",
    "text": "내 업무에 AI를 제대로 적용하기 위해\n10/6일까지 모집하는 1:1 AI 에이전트 교육\n1기를 언능 신청하세요!",
@@ -22,36 +40,6 @@
    "time": 1790781254,
    "thumb": "",
    "url": "https://www.threads.com/@takepage_/post/Dd6oajhk3Sq",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "일론 머스크는 AI와 초지능(Superintelligence)이 가져올 미래를 “풍요의 시대”로 정의했습니다.\n\n그는 미래 사회가 단순히 ‘기본소득’을 넘어 “보편적 고소득”을 누리는 경제 체제가 될 것이며, 로봇과 초지능의 결합으로 누구나 최고 수준의 의료 서비스를 받게 될 것이라고 전망했습니다.\n\n화이트칼라의 일자리 소멸 우려에 대해서는 “과거 인간 계산원의 단순 수치 연산 업무를 디지털 컴퓨터가 대체했듯, 직업의 진화가 일어날 뿐”이라며 기술 발전에 따른 역할 변화를 긍정적으로 평가했습니다.\n\n오히려 AI 도입과 데이터센터 확장이 새로운 수요를 창출하고 경제적 번영을 이끌 것이라는 분석입니다.",
-   "likes": 30,
-   "cmts": 3,
-   "time": 1790778646,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/830434338_1436720588404884_446376085614962719_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=110&ig_cache_key=Mzk5NzY2MzQ5MzM5ODExOTYyMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=VV9Dteg5VToQ7kNvwHwNJ3g&_nc_oc=Adpa_Sx0BtnkSNnqyXUwwFhsMsobbEo3Wh0_ieJusWF7yHamPM2l4z2dtp-Uj3lNu3Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ejRWhp2oKcnqNd5q7I5-_g&_nc_ss=7a20f&oh=00_AQPvmwFgC06oBiJLenX1WniauXCFBmW3F4xDXOyvA8UL4w&oe=6AC2EC67",
-   "url": "https://www.threads.com/@choi.openai/post/Dd6jcRHisTE",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "블로그 :\nhttps://openclaw.ai/blog/openclaw-enterprise",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1790773249,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd6ZJdjDa4x",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "OpenClaw이 기업에서 AI 에이전트를 직접 운영할 수 있는 OpenClaw Enterprise를 오픈소스로 공개했습니다.\n\n오픈AI에서 시작된 프로젝트를 OpenClaw Foundation에 기부했으며, 현재 레드햇·엔비디아와 함께 개발하고 있습니다.\n\n기업 자체 서버에서 여러 에이전트를 운영하면서 사용자별 권한, 샌드박스, 감사 기록 등을 관리할 수 있고 모델이나 에이전트 실행 환경도 교체할 수 있습니다.\n\n현재 오픈AI와 레드햇이 내부에서 시험 운영 중이며, 기업은 무료로 직접 호스팅할 수 있습니다.",
-   "likes": 28,
-   "cmts": 1,
-   "time": 1790773237,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825324526_17989365279112832_6318015604368132640_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NzYxODExNzUyMTc5NjIxMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=GVxZ6TC-wfMQ7kNvwEEh95Z&_nc_oc=AdpNygiLvDsfyDwQ_S8o_YtWcwAQlveCppw4tfNcO9Mug3bqK9K2F3hgREer3Wx2QqQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ejRWhp2oKcnqNd5q7I5-_g&_nc_ss=7a20f&oh=00_AQN05eG5qN2ie0KRQ3N3ICiJhNWq2bIi4guTWhgQVu0Tkg&oe=6AC2FD62",
-   "url": "https://www.threads.com/@choi.openai/post/Dd6ZH9ijWx1",
    "region": "kr"
   },
   {
@@ -70,7 +58,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790769684,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829155584_18090748184407306_8931453179508692423_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NzU4ODI0MDIwMzc1MzI5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Vw0WFeldjk4Q7kNvwEzEc7r&_nc_oc=AdoI8LQGN00XRMl2G-eIMUfHRLxhSdHmunE86WvsO1JE21GKG6jtBty2ocaaW3_Ovdw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=yZ0tSHsLOtCXxBvr8bJWOQ&_nc_ss=7a20f&oh=00_AQMJzNhX41E29kGLdYQLIkx6b8fIRO78palcCJcOtYfAqg&oe=6AC2F939",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829155584_18090748184407306_8931453179508692423_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NzU4ODI0MDIwMzc1MzI5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Vw0WFeldjk4Q7kNvwEzEc7r&_nc_oc=AdoI8LQGN00XRMl2G-eIMUfHRLxhSdHmunE86WvsO1JE21GKG6jtBty2ocaaW3_Ovdw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=KTP4Ah-4-eGjM9jp2FuoMQ&_nc_ss=7a20f&oh=00_AQP_oWLn3c2HkcvhSQ6Qs0gAlpIchfDZSc9WENLI34KAUg&oe=6AC2F939",
    "url": "https://www.threads.com/@aipeekme/post/Dd6SVMHn6dT",
    "region": "kr"
   },
@@ -80,7 +68,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1790761099,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829492100_17939159217362958_7660079184825155377_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=109&ig_cache_key=Mzk5NzUxNjI5Njc1NzY3MzQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nCXM5EHykFAQ7kNvwFDzptO&_nc_oc=Ado5u5I8Giv1Q58yQmMg59BZRTXt3FgxHDo5lyIi8T2FVzh1aH7AxgTVgPi94Tze-PE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8K-ZyukdPC21EqAbl20-KA&_nc_ss=7a20f&oh=00_AQMBLBycwwCCzm-kCfPFKkobwNqsydCoTc8f6-_Fyy86tA&oe=6AC30974",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829492100_17939159217362958_7660079184825155377_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=109&ig_cache_key=Mzk5NzUxNjI5Njc1NzY3MzQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nCXM5EHykFAQ7kNvwFDzptO&_nc_oc=Ado5u5I8Giv1Q58yQmMg59BZRTXt3FgxHDo5lyIi8T2FVzh1aH7AxgTVgPi94Tze-PE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2KaLZScaptE7uwxiXWF0wA&_nc_ss=7a20f&oh=00_AQNM1MAmXrIQsELajzUNZ9X2a2hpedYDkQkHBJ2KWlOl7g&oe=6AC30974",
    "url": "https://www.threads.com/@takepage_/post/Dd6B-RkE33A",
    "region": "kr"
   },
@@ -107,10 +95,10 @@
   {
    "account": "kopp",
    "text": "this feels so good to scroll through ✨",
-   "likes": 1,
+   "likes": 2,
    "cmts": 1,
    "time": 1790746207,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829631781_1771175987486420_4721813965134096515_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM5MTE0MTg3MjEwNzQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4WfoVRwT68wQ7kNvwHbnT5r&_nc_oc=AdpWtZBrqYeXWKEtbhsRG-BcPzqjO8hRu9f8FgvcM0o12AEqFx5gLEqDih4PBVrffdI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5L2eW8bJaxYjBPZDkckE6w&_nc_ss=7a20f&oh=00_AQNRsv0ZOo8q5DLrbJ90gl9BiKn1Bc_1nPlD4ihoZhh8Cw&oe=6AC2EC14",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829631781_1771175987486420_4721813965134096515_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM5MTE0MTg3MjEwNzQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4WfoVRwT68wQ7kNvwHbnT5r&_nc_oc=AdpWtZBrqYeXWKEtbhsRG-BcPzqjO8hRu9f8FgvcM0o12AEqFx5gLEqDih4PBVrffdI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=RQC5gBpnlbNyfHvFYILSJQ&_nc_ss=7a20f&oh=00_AQMn-B_V0BrOtQ9iyikSthPAZW1FLxQ_b9yF_hC4kB3QaA&oe=6AC32454",
    "url": "https://www.threads.com/@kopp/post/Dd5lhB_lH_O",
    "region": "kr"
   },
@@ -167,21 +155,21 @@
   {
    "account": "aicoffeechat",
    "text": "앤트로픽 엔지니어 슬랙에서 발견한 시크릿 프롬프트\n\n\"Please be braver\"\n\"좀 더 과감하게 해주세요\" \n\n뭐든 할 수 있는 힘이 있다며 좀 더 과감해지라고 모델에게 요청한다고 합니다. 막힐 때 한번씩 적용해보시면 좋을 것 같습니다.",
-   "likes": 64,
+   "likes": 65,
    "cmts": 9,
    "time": 1790725312,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825277422_17959617450232485_2989497985087687898_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzIxNjA5MDc0MDY5MzExMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_fksKMCo6AgQ7kNvwGHJzyo&_nc_oc=AdoJ2AjqNMGrMyCbpBKJHPladv8mFfmanQQaIJoXkLcFYXfH0ofTg4DEa9WTNaOFuvI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=9xp0K8IMvO0JpM17b5WTAg&_nc_ss=7a20f&oh=00_AQOQDmprLgYlUCCvQdYw8k7AqLew_PXobGccLx9LfB7MAQ&oe=6AC2F657",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825277422_17959617450232485_2989497985087687898_n.jpg?stp=cp6_dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzIxNjA5MDc0MDY5MzExMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ3Ni5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_fksKMCo6AgQ7kNvwGHJzyo&_nc_oc=AdoJ2AjqNMGrMyCbpBKJHPladv8mFfmanQQaIJoXkLcFYXfH0ofTg4DEa9WTNaOFuvI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YRFb0xkUYuuA0RGmE-jMTw&_nc_ss=7a20f&oh=00_AQNqfFsqIbTOgDUJ5JO0R936fc36a58LTBQ8HDesEWwvnA&oe=6AC2F657",
    "url": "https://www.threads.com/@aicoffeechat/post/Dd49ts7Exh3",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "v0에서 ChatGPT Plus·Pro 계정을 연결해 구독에 포함된 토큰으로 서비스를 만들 수 있게 됐습니다.\n\n지금은 오픈AI를 떠났지만, 당시 CPO였던 케빈 웨일은 2025년 “Sign in with OpenAI”를 언급하며 오픈AI 계정을 다른 앱과 서비스로 확장하는 방향을 이야기한 적이 있습니다.\n\n이번 v0 사례를 보면 그 방향이 조금씩 현실화되는 것 같습니다.\n\n결국, 지능을 제공할 테니, 그 위에서 가치를 만드는 가치에 집중을 하라는 의미로도 보입니다.\n\n과거부터 여러 서비스와의 통합 가능성을 준비해왔던 만큼, 못해서 안 하는 게 아니라 생태계가 확장될 때를 기다리고 있는 오픈AI입니다.",
-   "likes": 35,
-   "cmts": 2,
-   "time": 1790767825,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829170749_1800753967775856_5807545895611722067_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzU3MjcxNjEwMjI5NjA5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=3Sgbqt2OcdsQ7kNvwEGzcq1&_nc_oc=AdqHhIq94YXR51MVWPayAbzWfHrbKh6M6i0HHh8QHf67sqdgOmWe0BKKdn9OuDm-5VQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ejRWhp2oKcnqNd5q7I5-_g&_nc_ss=7a20f&oh=00_AQN7b6c6XCMwb_-Ho3Q6ERsjtRO5o-btFoyWFN7bXU-02A&oe=6AC303F7",
-   "url": "https://www.threads.com/@choi.openai/post/Dd6OzSLEiIj",
+   "text": "앤트로픽이 누구나 내려받을 수 있는 중국 오픈웨이트 모델 GLM-5.3의 사이버 공격 능력이 Claude Mythos Preview에 근접했다고 발표했습니다.\n\n반년 전 앤트로픽이 위험하다며 일반 공개를 미뤘던 수준의 능력이 이제 무료 모델로 넘어왔다는 주장입니다. 🧵",
+   "likes": 7,
+   "cmts": 10,
+   "time": 1790785255,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/825320830_17989431273112832_2383962480910085294_n.webp?_nc_cat=103&ig_cache_key=Mzk5NzcxODkzMTI2ODMxNDQ2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=YKAAeODxMqYQ7kNvwFO3-1u&_nc_oc=AdohnyY7T6Yf0qT1wScRetDArEHs1d4CCbVxF-4TEPGZiWk4hzCBcIGyWzAEx_or6SA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=PJ_olS9DLQl34NXbP2b2CA&_nc_ss=7a20f&oh=00_AQOwyhYAiNxx1cIrPSJNrU_8E1AA_xduPjiKdQCvVzRIcw&oe=6AC3002C",
+   "url": "https://www.threads.com/@choi.openai/post/Dd6wC_qGiVg",
    "region": "kr"
   },
   {
@@ -190,7 +178,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1790760688,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829246654_18090721502407306_3698883200265443660_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzUxMjc4MDgyNDQxNDMwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zJgUhsJSABIQ7kNvwFHqscH&_nc_oc=AdqgLXhi9IMywD4UaOtjkimUz4K0CDfbhy8wRFnftP40_VU-8Jp_nAPjU1_TNyBwWqE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=yZ0tSHsLOtCXxBvr8bJWOQ&_nc_ss=7a20f&oh=00_AQPf3LrslDhgDxREMRPt-JCMymY103CNShjVn2HvZuWGOQ&oe=6AC2F895",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829246654_18090721502407306_3698883200265443660_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5NzUxMjc4MDgyNDQxNDMwNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=zJgUhsJSABIQ7kNvwFHqscH&_nc_oc=AdqgLXhi9IMywD4UaOtjkimUz4K0CDfbhy8wRFnftP40_VU-8Jp_nAPjU1_TNyBwWqE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=KTP4Ah-4-eGjM9jp2FuoMQ&_nc_ss=7a20f&oh=00_AQNvSrtOXAf6N2Bhj9kOV4nCY6VT9YVQX5Ozytaufebuvw&oe=6AC2F895",
    "url": "https://www.threads.com/@aipeekme/post/Dd6BLHGH4hh",
    "region": "kr"
   },
@@ -200,7 +188,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1790743567,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829585637_17939134113362958_8798613075038473755_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM2OTA5NDQyOTE4NjMyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMzE4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=vj5RIi5sCssQ7kNvwHhz0F5&_nc_oc=AdrRWJt250qutGEYLzjAVNhpLK3nPtrrSs3C-44X7wUQgIkJY00BO7JXpsTux7ocIZE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=8K-ZyukdPC21EqAbl20-KA&_nc_ss=7a20f&oh=00_AQMLZ8ZwmxKwFuJAu4V8_zUPh9xTBYJCdodAvh0JB29Diw&oe=6AC303F7",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829585637_17939134113362958_8798613075038473755_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM2OTA5NDQyOTE4NjMyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMzE4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=vj5RIi5sCssQ7kNvwHhz0F5&_nc_oc=AdrRWJt250qutGEYLzjAVNhpLK3nPtrrSs3C-44X7wUQgIkJY00BO7JXpsTux7ocIZE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2KaLZScaptE7uwxiXWF0wA&_nc_ss=7a20f&oh=00_AQNK-f1WkQPqt7kZ1n8SOPf8H9UIyxJiW5Q4YQczWOg_Vg&oe=6AC303F7",
    "url": "https://www.threads.com/@takepage_/post/Dd5giMME2r2",
    "region": "kr"
   },
@@ -241,7 +229,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 869000,
+   "views": 869200,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=Z5syO424pbza8fnGGYviDZAFm%2FU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -252,7 +240,7 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 605400,
+   "views": 605600,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=4nkOGOyZT8Z2IKoaeDdO1HRZVHk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -266,7 +254,7 @@
    "views": 558500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=PwpRwdZ%2Fe%2B7blNA6Vs%2FIUJkhVcU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=hsyyNk3cOxqMDXQMw0h%2BRMJULTg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -288,7 +276,7 @@
    "views": 193700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=Bvjn887%2BVZvGdHey8ll%2Bbl%2BQags%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=NLC4bmFN4Vdy333XbtSaBGjQgRk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790384214,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
    "region": "kr"
@@ -299,7 +287,7 @@
    "views": 143500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=DAjc1TxeUI5KVQR1MIgcj7PToOw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=O4JyiS%2FUWygCQsk6FW2RPzl6iSc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -321,22 +309,35 @@
    "views": 81300,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=3GGOgGIwKr7e5IZlCGtI645po7Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=qoV9Rf8IOdYniEVX62v2pwF3%2FZ8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "아이브(IVE) 레이, 러블리한 현실 콩순이 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토어 오픈을 ",
+   "views": 3271,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oACVDEgjE1qAyHCSIC8AecFApvCUYBfGnqAmEp~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=GjcbEBwgCUr0GOuZOyDypd0wcC4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790730567,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7691129224370998548",
+   "region": "kr"
+  },
+  {
+   "account": "tictok_ent",
+   "title": "소녀시대 수영, 눈길 사로잡는 가을 스타일 / 아이그너(AIGNER) 포토월 주식회사 유닉유니온이 전개하는 독일 럭셔리 브랜드 아이그너(AIGNER)의 팝업스토어 오픈을 기념하는 포토행사가 29일 오후 경기도 성남시",
+   "views": 927,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o0AAKPiIEAw1ZqXfoViK7OC7vrtaNBA5BBaKA9~tplv-tiktokx-origin.image?dr=14575&x-expires=1790956800&x-signature=k0WQ5YP3C7R5XO%2FSAONI5KBH2W8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790662263,
+   "url": "https://www.tiktok.com/@tictok_ent/video/7690835861071482113",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "sportsgossips",
-   "title": "Full angle of A'ja Wilson’s altercation over a fan pointing finger at her",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/NXRraG9rOWo0bHNoMQ_qd1PLTm1EXWctBP9_Vc4u8fjyP7FxRBVqu2msPg8o.png?width=320&crop=smart&auto=webp&s=b84a4e4b91ab182258faae347914477aa3b2dafc",
-   "time": 1790742426,
-   "url": "https://www.reddit.com/r/sportsgossips/comments/1wtvlfq/full_angle_of_aja_wilsons_altercation_over_a_fan/"
-  },
   {
    "sub": "Damnthatsinteresting",
    "title": "In Southeast Asia, thousands of ducks are deployed into rice fields to act as natural pest control and weeders",
@@ -347,13 +348,13 @@
    "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wu60ir/in_southeast_asia_thousands_of_ducks_are_deployed/"
   },
   {
-   "sub": "SipsTea",
-   "title": "Ah yes, the \"American Dream\" package deal!",
+   "sub": "mildlyinfuriating",
+   "title": "I havent had a Crunch in 5 years and it literally tastes like eating Chemicals.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/u2sh8javlish1.png?width=640&crop=smart&auto=webp&s=a3575a5c748d6b231fa6a358b82b3b9eeb2c8dd6",
-   "time": 1790711905,
-   "url": "https://www.reddit.com/r/SipsTea/comments/1wtkdwr/ah_yes_the_american_dream_package_deal/"
+   "thumb": "https://preview.redd.it/16ehiozm4osh1.jpeg?width=640&crop=smart&auto=webp&s=ac37eb94d95dcfc28140b4bbddec753a578f9711",
+   "time": 1790778752,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wu6in8/i_havent_had_a_crunch_in_5_years_and_it_literally/"
   },
   {
    "sub": "SipsTea",
@@ -365,6 +366,42 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wu66dl/anything_but_lowering_the_prices_classic/"
   },
   {
+   "sub": "europe",
+   "title": "\"They aren't really shooting at us\"",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ihit63r6gnsh1.png?width=640&crop=smart&auto=webp&s=a8e77a88504e70ad99255203d02920b2ecf1cef7",
+   "time": 1790770564,
+   "url": "https://www.reddit.com/r/europe/comments/1wu3czy/they_arent_really_shooting_at_us/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "A completely black King Penguin, one of the rarest color mutations in the wild. Spotted on South Georgia Island",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/7v0azeirqnsh1.jpg?width=140&height=140&auto=webp&s=c7b7b467de2d41a2e15bc720241e3f7a46713920",
+   "time": 1790774086,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wu4nho/a_completely_black_king_penguin_one_of_the_rarest/"
+  },
+  {
+   "sub": "sportsgossips",
+   "title": "Full angle of A'ja Wilson’s altercation over a fan pointing finger at her",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/NXRraG9rOWo0bHNoMQ_qd1PLTm1EXWctBP9_Vc4u8fjyP7FxRBVqu2msPg8o.png?width=320&crop=smart&auto=webp&s=b84a4e4b91ab182258faae347914477aa3b2dafc",
+   "time": 1790742426,
+   "url": "https://www.reddit.com/r/sportsgossips/comments/1wtvlfq/full_angle_of_aja_wilsons_altercation_over_a_fan/"
+  },
+  {
+   "sub": "PoursTea",
+   "title": "Hopefully our next Attorney General.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/lbv9vsta0osh1.jpeg?width=640&crop=smart&auto=webp&s=ea45c2a149929fa51aa6842c4d91638ff46a8592",
+   "time": 1790777292,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wu5wxv/hopefully_our_next_attorney_general/"
+  },
+  {
    "sub": "technology",
    "title": "McDonald's Is Reportedly Using AI To \"Dynamically\" Price Its Burgers",
    "score": 0,
@@ -374,13 +411,13 @@
    "url": "https://www.reddit.com/r/technology/comments/1wtm5mp/mcdonalds_is_reportedly_using_ai_to_dynamically/"
   },
   {
-   "sub": "news",
-   "title": "Homeland Security taps $20M in taxpayer funds for pro-Trump ads",
+   "sub": "technology",
+   "title": "Palantir CEO Alex Karp quietly purchased 37,000 acres of forests in Sweden—and locals found out when hunters lost leases to use the property",
    "score": 0,
    "cmts": 0,
-   "thumb": "",
-   "time": 1790708389,
-   "url": "https://www.reddit.com/r/news/comments/1wtiuu6/homeland_security_taps_20m_in_taxpayer_funds_for/"
+   "thumb": "https://external-preview.redd.it/MZIXYPE19SZgTfl7nX9Z537U_WA6LVEnFsR3EYmwrqM.jpeg?width=640&crop=smart&auto=webp&s=cb601c6b6cca2758afce7e5e82272aadc16995dc",
+   "time": 1790773955,
+   "url": "https://www.reddit.com/r/technology/comments/1wu4lnz/palantir_ceo_alex_karp_quietly_purchased_37000/"
   },
   {
    "sub": "rareinsults",
@@ -390,24 +427,6 @@
    "thumb": "https://preview.redd.it/2fwzfv0d5ksh1.jpeg?width=640&crop=smart&auto=webp&s=b5ddb78af718fd90322a3e5786668c83d07cb937",
    "time": 1790730568,
    "url": "https://www.reddit.com/r/rareinsults/comments/1wtroxr/elon_musks_strange_shape/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "This government's priorities",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/9yv1cdkbalsh1.jpeg?width=640&crop=smart&auto=webp&s=6c8bf68ccf5a1ca4d3cd86b22c4d03d4b145dc16",
-   "time": 1790744456,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wtw72n/this_governments_priorities/"
-  },
-  {
-   "sub": "europe",
-   "title": "\"They aren't really shooting at us\"",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/ihit63r6gnsh1.png?width=640&crop=smart&auto=webp&s=a8e77a88504e70ad99255203d02920b2ecf1cef7",
-   "time": 1790770564,
-   "url": "https://www.reddit.com/r/europe/comments/1wu3czy/they_arent_really_shooting_at_us/"
   },
   {
    "sub": "ChatGPT",
@@ -426,15 +445,6 @@
    "thumb": "https://external-preview.redd.it/YjJjcnl5MDd6bHNoMc107nVZ1Ouvycf3dX4kQLJYY8reko3Cj-PgJl5D1rq2.png?width=320&crop=smart&auto=webp&s=d1f5b8803c339687e5d90d993f497d94f5d3470f",
    "time": 1790752817,
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wtyglx/dynamic_pricing_being_tested_by_mcdonalds/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "I havent had a Crunch in 5 years and it literally tastes like eating Chemicals.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/16ehiozm4osh1.jpeg?width=640&crop=smart&auto=webp&s=ac37eb94d95dcfc28140b4bbddec753a578f9711",
-   "time": 1790778752,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wu6in8/i_havent_had_a_crunch_in_5_years_and_it_literally/"
   }
  ],
  "disaster": [],
@@ -448,52 +458,40 @@
    "rank": 2
   },
   {
-   "query": "치이카와",
+   "query": "이동진",
    "rank": 3
   },
   {
-   "query": "이동진",
+   "query": "암살자(들)",
    "rank": 4
   },
   {
-   "query": "봉누도2",
+   "query": "치이카와",
    "rank": 5
   },
   {
-   "query": "콩밥특별시",
+   "query": "봉누도2",
    "rank": 6
   },
   {
-   "query": "암살자(들)",
+   "query": "콩밥특별시",
    "rank": 7
   },
   {
-   "query": "봉누도",
+   "query": "이홍구",
    "rank": 8
   },
   {
-   "query": "이홍구",
+   "query": "지뢰",
    "rank": 9
   },
   {
-   "query": "맨시티",
+   "query": "센 카르멘",
    "rank": 10
   }
  ],
  "_cover": {
   "ok": {
-   "x": [
-    "1992__j",
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "mugmulree",
-    "tech_meow"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -504,19 +502,16 @@
     "takepage_"
    ],
    "tiktok": [
-    "jaemyung_lee"
+    "jaemyung_lee",
+    "tictok_ent"
    ]
   },
-  "why": {
-   "tiktok": {
-    "tictok_ent": 503
-   }
-  },
+  "why": {},
   "landing": {
-   "at": "2026-10-01T00:31:27",
+   "at": "2026-10-01T01:06:24",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-01T01:06:15.522917+09:00"
+ "updated": "2026-10-01T01:31:22.875274+09:00"
 }
