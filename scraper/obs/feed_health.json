@@ -1,11 +1,26 @@
 {
- "ok": 184,
- "dead": 1,
+ "ok": 181,
+ "dead": 4,
  "dead_feeds": [
   {
-   "publisher": "전자신문",
-   "title": "IT·산업전반",
-   "url": "https://rss.etnews.com/Section901.xml"
+   "publisher": "JTBC",
+   "title": "사회",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/society"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "연예",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/section/entertainment"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "속보",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/newsflesh"
+  },
+  {
+   "publisher": "JTBC",
+   "title": "주요",
+   "url": "https://news-ex.jtbc.co.kr/v1/get/rss/issue"
   }
  ],
  "zombie_feeds": [
