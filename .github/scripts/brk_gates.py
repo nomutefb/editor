@@ -12,7 +12,9 @@ AI 판정(RUBRIC)이 O를 줘도 아래 3축은 **제목만으로** 기계 판�
 ① 인명 문턱(casualty) — 재해·사고·군사행위 제목은 **명시된 확정 수**로만 통과.
    해외 = 사망≥10 ∨ 부상≥50 ∨ 실종≥150(각 독립 · 합산 금지) / 국내 = 사망≥3. 수 미상 = X.
    누적·기간 집계는 문턱에 쓰지 않는다. 신규 피해와 함께 적히면 신규 수만 센다.
-   사형·테러·한국인 피해·전면전·지진(규모 규칙)·대인 강력범죄(피해자 수 축)·사법 어휘(③이 담당)는 이 축 밖.
+   사형·한국인 피해·전면전·지진(규모 규칙)·사법 어휘(③이 담당)는 이 축 밖. 대인 강력범죄·테러는 **국내만** 축 밖(피해자 수 축 = 루브릭 🔪) —
+   **해외** 범죄·테러는 피해 수가 적혀 있으면 해외 사고와 같은 문턱(운영자 260930 «해외 같은 경우 10명 이상 사망으로 통일» · 소말리아 해적 선원 5명 살해 실발송).
+   피해 수가 아직 없는 해외 진행형 1보(항공기·선박 납치·인질극)는 루브릭이 판정한다(같은 날 「이스라엘행 항공기 납치 신호」 발송 = 운영자 ㅇㅋ).
    합산 표기(사망·실종자 N명)는 비둘기집으로 어느 한 문턱을 반드시 넘는 N(해외 210↑)만 통과.
 ② 연예 관계·지위(celeb) — 열애·결혼·결별·이혼·소속사 이동·입대·컴백·근황 = X.
    사망·사고·범죄 연루(입건·구속·음주·마약·폭행 …)·폭력·폭로·활동 중단·하차·해체·은퇴는 통과(그쪽은 사건).
@@ -20,7 +22,8 @@ AI 판정(RUBRIC)이 O를 줘도 아래 3축은 **제목만으로** 기계 판�
    «메이저급 연예인 혼인·사건 예외»가 판정한다(운영자 260929 A2 · 코드가 루브릭 예외를 뒤집던 모순 해소).
 ③ 사법 절차·판결(judicial) — 수사·영장·기소·구형·재판·1심/2심/항소심/상고·선고·판결·무죄·유죄·법정구속·확정 = **전부 X**
    (운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게» · 구판의 선고·판결 통과와 매체 몰림(cross≥8) 통과를 폐지).
-   예외 2 = 사형(운영자 260831 «사형은 아무나 안때려» · 구형이어도 통과) · 탄핵(헌재 선고 = 정치 사태 축 · 사법 후속 아님).
+   예외 2 = 사형 **구형 1보**(운영자 260831 «사형은 아무나 안때려» → 260930 «선고든 예고든 구형이 된 게 아니면 다 제외» = 사형 선고·판결·선고 예고는 X)
+   · 탄핵(헌재 선고 = 정치 사태 축 · 사법 후속 아님).
 
 ④ 확산 [강](lv.t≥3 · scraper/live_signal.py) + 연예·문화 인물(분류 문화·사회 ∨ 연예 직업어 ∨ 명단 인물 · 공직·체육 역할어 제외) = ② 관계·지위 축을
    명단 인물과 같게 열고(운영자 260929 A9 — 닛몰캐쉬 「데이트폭력 폭로」가 비메이저로 막히던 자리를 분포 증거로 푼다) ③은 **수사 단계**(고소·피소·고발·수사·
@@ -48,8 +51,11 @@ _ACCIDENT = re.compile(
     r"\bfire\b|crash|collapse|derail|capsiz|explosion|blast|\bsink|\bsank|flood|landslide|accident|wreck", re.I)
 _MILITARY = re.compile(r"공습|폭격|포격|피격|교전|airstrike|air strike|shelling|bombard", re.I)
 _SKIP = re.compile(
-    r"사형|테러|terror|한국인|교민|재외국민|한국 ?기업|한국군|우리 국민|전면전|침공|선전포고|지진|earthquake|규모 ?\d|연락 ?두절|"
-    r"살해|살인|피살|흉기|찔|난동|총격|총기|납치|인질|성폭|\bstab|\bshoot|gunman|murder|hostage|kidnap|femicide", re.I)
+    r"사형|한국인|교민|재외국민|한국 ?기업|한국군|우리 국민|전면전|침공|선전포고|지진|earthquake|규모 ?\d|연락 ?두절", re.I)
+# 대인 강력범죄·테러 — 국내 = 이 축 밖(피해자 수 축) · 해외 = 피해 수가 적혀 있으면 해외 문턱(운영자 260930 통일 · 위 머리말 ①).
+_CRIME = re.compile(
+    r"테러|살해|살인|피살|흉기|찔|난동|총격|총기|난사|납치|피랍|인질|해적|학살|성폭|"
+    r"terror|\bstab|\bshoot|gunm[ae]n|murder|hostage|kidnap|femicide|pirat|hijack|massacre", re.I)
 # `(?<![촬수])영장` = 「촬영장」·「수영장」은 영장이 아니다(260929 · 「드라마 촬영장 화재 N명 사망」·「수영장 붕괴로 5명 사망」이 사법 어휘로 인명 문턱·연예 축을 비껴가던 오인 · 세 정규식 공통 · 평의회260929-2 #1).
 _VERDICT_WORDS = re.compile(r"선고|판결|무죄|유죄|금고|징역|법정 ?구속|구형|기소|재판|(?<![촬수])영장|송치|입건|수사|압수수색|공판|항소|상고|소송|고소|고발|배상|구속")
 
@@ -88,6 +94,7 @@ def _ko_num(n, unit):
 
 _KO_N = r"(\d[\d,]*)\s*(천|만)?\s*여?\s*명"
 _P_DEAD = [re.compile(_KO_N + r"(?:이|의|이나|가)?\s*(?:이상\s*)?(?:넘게\s*)?(?:추가로?\s*|새로\s*|더\s*)?(?:사망|숨|목숨|참변|희생)"),
+           re.compile(_KO_N + r"(?:을|이|가)?\s*(?:살해|피살|사살)"),   # 해외 범죄 축(260930) — 「선원 5명 살해」 = 확정 사망 5
            re.compile(r"(?:사망자|사망|희생자)(?:가|는|이|는)?\s*(?:최소\s*)?(?:현재\s*)?(?:누적\s*)?" + _KO_N +
                       r"(?!\s*(?:이|가)?\s*(?:이상\s*)?(?:부상|다쳐|다침|실종|중상|경상))")]   # 「5명 사망 12명 부상」의 「사망 12명」 = 부상 수(평의회260929-3 B#8)
 _P_INJ = [re.compile(_KO_N + r"(?:이|가)?\s*(?:이상\s*)?(?:부상|다쳐|다침)"),
@@ -189,15 +196,19 @@ def casualty_gate(title, cat=None, notable=False):
         return None
     mil = bool(_MILITARY.search(t))
     (d, i, m, comb), cumulative = _casualty_counts(t)
-    if not (mil or _ACCIDENT.search(t) or cumulative):
+    foreign = mil or _is_english(t) or (cat or "") == "국제"
+    crime = bool(_CRIME.search(t))
+    if crime and (not foreign or (d is None and i is None and m is None and comb is None and not cumulative)):
+        return None   # 국내 범죄 = 피해자 수 축(루브릭 🔪) · 해외 범죄인데 피해 수 미상(진행 중 납치·인질 1보) = 루브릭 판정
+    if not (mil or crime or _ACCIDENT.search(t) or cumulative):
         return None
     if (comb or 0) >= FOREIGN_DEAD + FOREIGN_INJ + FOREIGN_MISS:
         return None   # 합산 표기라도 비둘기집으로 어느 축이든 문턱을 넘는 규모(해외 210↑ · 국내는 당연) = 축 무관 통과
-    foreign = mil or _is_english(t) or (cat or "") == "국제"
     if foreign:
         if (d or 0) >= FOREIGN_DEAD or (i or 0) >= FOREIGN_INJ or (m or 0) >= FOREIGN_MISS:
             return None
-        return f"해외 인명 문턱 미달(사망 {d}·부상 {i}·실종 {m} / 기준 {FOREIGN_DEAD}·{FOREIGN_INJ}·{FOREIGN_MISS})"
+        return (f"해외 {'범죄·테러 ' if crime else ''}인명 문턱 미달(사망 {d}·부상 {i}·실종 {m} / 기준 {FOREIGN_DEAD}·{FOREIGN_INJ}·{FOREIGN_MISS}"
+                + (" · 운영자 260930 해외 통일)" if crime else ")"))
     if (d or 0) >= DOMESTIC_DEAD:
         return None
     return f"국내 인명 문턱 미달(사망 {d} / 기준 {DOMESTIC_DEAD})"
@@ -295,12 +306,29 @@ def celeb_gate(title, major=False):
 #   `피소` = 🔎 목록 짝(「에피소드」 제외 · _CELEB_KEEP 같은 식).
 # 운영자 260921 «항소심 선고 이런 관련된거는 다 긴급 안오게» — 절차(수사·영장·기소·구형)뿐 아니라 결과(선고·판결·
 # 무죄·유죄·법정구속·확정)도 X. 매체가 몰려도 X(구판 cross≥8 통과 폐지 = 판결 보도는 원래 매체가 몰린다).
-# 예외 = 사형(260831 별도 규칙) · 탄핵(헌재 선고 = 정치 사태). 킬스위치 = BRK_GATES=0(전 축).
+# 예외 = 사형 구형 1보(260831 별도 규칙 → 260930 구형만) · 탄핵(헌재 선고 = 정치 사태). 킬스위치 = BRK_GATES=0(전 축).
 _JUD = re.compile(r"구형|재판(?!매)|공판|(?<!특)수사|입건|송치|불송치|(?<![촬수])영장|기소|항소|상고|파기환송|대법원|헌재|증거 ?(?:인멸|조작|능력|불충분|채택)|"
                   r"고소(?![영득])|(?<!에)피소(?!드)|고발|소송|압수수색|"   # 고소영(배우)·고소득 ≠ 고소(평의회260929-3 A#9)
                   r"조사 ?착수|감사 ?착수|징계|선고|판결|무죄|유죄|법정 ?구속|실형|집행유예|징역|금고|벌금|형 ?확정|배상|"
                   r"1심|2심|3심|항소심|상고심")
-_JUD_KEEP = re.compile(r"사형|탄핵")
+_JUD_KEEP = re.compile(r"탄핵")
+# 사형 예외 = 구형 1보만(운영자 260930 «선고든 예고든 구형이 된 게 아니면 다 제외» · 실발송 「검찰 "사형 선고해달라"…장윤기 오늘 1심 선고」 = 예고).
+#   구형 신호 = 「구형」 또는 검찰 요청형 「사형 선고해달라」. 그 요청 문구와 구형 기사에 붙는 뒷날 선고 안내(「선고는 다음 달」)를 지운 뒤
+#   선고·판결 단계어(선고·판결·확정·법정구속·무죄·유죄·집행유예·실형 · 「1심 무기징역」 같은 심급+형량)가 남으면 = 선고·예고 기사 = X.
+_DP_DEMAND = re.compile(r"(?:사형\S{0,3}\s*)?선고(?:해|하여)\s*(?:달라|주십시오|줄\s*것|주기)|선고를?\s*(?:요청|구(?:했|한|해|하))")
+_DP_LATER = re.compile(r"(?:1심|2심|항소심|상고심)?\s*선고(?:\s*(?:공판|기일))?(?:은|는)\s*(?:오는|다음|내달|이달|\d)|"
+                       r"(?:오는|다음\s*달|내달|다음\s*주|\d+\s*월)(?:\s*\d+\s*일)?\s*(?:에\s*)?(?:1심\s*)?선고")
+_DP_STAGE = re.compile(r"선고|판결|확정|법정\s*구속|무죄|유죄|집행\s*유예|실형|"
+                       r"(?:1심|2심|3심|항소심|상고심|파기환송심)(?:서|에서)?\s*(?:징역|무기|사형|벌금)(?![^…·,]*구형)")
+
+
+def death_demand_only(title):
+    """사형 **구형 1보**인가(운영자 260930) — 사형 선고·판결·선고 예고·지난 구형을 되짚는 선고 기사는 False."""
+    t = title or ""
+    if "사형" not in t or not (re.search(r"구형", t) or _DP_DEMAND.search(t)):
+        return False
+    rest = _DP_LATER.sub(" ", _DP_DEMAND.sub(" ", t))
+    return not _DP_STAGE.search(rest)
 
 
 # 수사 단계 어휘(운영자 260929 «고소 수사도 열어» — 연예·문화 인물 확산 [강] 한정) · 재판 단계(구형·공판·선고·판결·항소심·확정·소송 …)는 남긴다.
@@ -313,7 +341,7 @@ def judicial_gate(title, cross=0, early_ok=False):
     t = title or ""
     if early_ok:
         t = _JUD_EARLY.sub(" ", t)
-    if _JUD_KEEP.search(t):
+    if _JUD_KEEP.search(t) or death_demand_only(t):
         return None
     if _JUD.search(t):
         return "사법 절차·판결(수사·기소·구형·선고·항소심·확정 = 긴급 축 밖 · 운영자 260921)"
