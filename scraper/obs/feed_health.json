@@ -1,43 +1,7 @@
 {
- "ok": 185,
- "dead": 0,
- "dead_feeds": [],
- "zombie_feeds": [
-  {
-   "publisher": "동아일보",
-   "title": "레져",
-   "url": "https://rss.donga.com/leisure.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "도서",
-   "url": "https://rss.donga.com/book.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "공연",
-   "url": "https://rss.donga.com/show.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "여성",
-   "url": "https://rss.donga.com/woman.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "여행",
-   "url": "https://rss.donga.com/travel.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "생활정보",
-   "url": "https://rss.donga.com/lifeinfo.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "전체기사",
-   "url": "https://rss.donga.com/total.xml"
-  },
+ "ok": 183,
+ "dead": 2,
+ "dead_feeds": [
   {
    "publisher": "머니투데이",
    "title": "전체기사",
@@ -50,6 +14,16 @@
   }
  ],
  "zombie_feeds": [
+  {
+   "publisher": "동아일보",
+   "title": "레져",
+   "url": "https://rss.donga.com/leisure.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "여성",
+   "url": "https://rss.donga.com/woman.xml"
+  },
   {
    "publisher": "미디어오늘",
    "title": "국제",
@@ -74,6 +48,11 @@
    "publisher": "시사저널",
    "title": "국제",
    "url": "http://www.sisajournal.com/rss/S1N59.xml"
+  },
+  {
+   "publisher": "여성신문",
+   "title": "생활",
+   "url": "http://www.womennews.co.kr/rss/S1N7.xml"
   },
   {
    "publisher": "여성신문",
