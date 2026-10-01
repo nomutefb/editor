@@ -11,6 +11,7 @@
 //   P1 SW 보관 요청 = api/pick 1발 · 카드 Picking… · P2 재처리 = 중복 0 · P3 같은 묶음표 후보 여럿 = 보류
 //   P4 주소 쿼리 act=pick 만으로는 발사 0(외부 링크 무확인 과금 차단)
 //   F1~F4 불러오기 실패(회선·서버·로그인 만료) = 조용한 공백 대신 사유 1줄 + 조치 버튼 · 회복 뒤 목록 복귀
+//   L1~L4 라이브 api 한 번 끊김 = 즉시 노란 알림 0(10초 재시도) · 연속 2회부터 점등 · 라이브 보유 중엔 더 낡은 정적 사본으로 강등 0
 //   C1 페이지 에러 0
 // 원커맨드:  node shared/smoke_scraplive.js   (종료코드 0 = 전부 PASS)
 // 리스크 통제: 네트워크 0(api·후보 전부 route 스텁) · 라이브 데이터 무관(합성 후보) · 포트대 8940~8944.
@@ -165,6 +166,38 @@ const mk = (i, t, h, cross, extra = {}) => ({ id: 'https://x.kr/' + i, url: 'htt
     const moved = await p3.evaluate(() => !window.__nmStay && /nosw=1/.test(location.search)).catch(() => false);   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     ok('F4 로그인 만료 = 만료 문구 + 다시 로그인 → ?nosw=1 재진입(Access 로그인)', auOk && moved, JSON.stringify(f) + ' moved=' + moved);
     await ctx2.close();
+    // ── L: 라이브 api 한 번 끊김 = 즉시 노란 알림·강등 금지(261001 알림 리포트 「갱신이 안 되고 있어요」 · 후보라이브=false · 수신경과 0분) ──
+    let amode = 'fail';   // fail = api 503 · ok = 정상 — 정적 candidates.json 은 언제나 *더 낡은* 배포 스냅샷
+    const live = [mk(11, '라이브 최신 후보', 0.1, 3, { last_seen: iso(0.05) }), mk(12, '라이브 두번째', 0.3, 2, { last_seen: iso(0.1) })];
+    const snap = [mk(21, '배포 스냅샷 옛 후보', 15, 3, { last_seen: iso(15) }), mk(22, '배포 스냅샷 옛 후보2', 16, 2, { last_seen: iso(16) })];
+    const ctx3 = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    await ctx3.route('**/*', route => {
+      const u = new URL(route.request().url());
+      if (u.pathname.endsWith('/api/candidates')) return amode === 'ok' ? route.fulfill({ json: live, headers: { 'x-nm-src': 'gh' } }) : route.fulfill({ status: 503, body: 'x' });
+      if (u.pathname.endsWith('/candidates.json')) return route.fulfill({ json: snap });
+      if (u.pathname.includes('/api/')) return route.fulfill({ json: {} });
+      if (u.hostname !== '127.0.0.1' && u.hostname !== 'localhost') return route.fulfill({ status: 204, body: '' });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
+      return route.continue();
+    });
+    const p4 = await ctx3.newPage();   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    p4.on('pageerror', e => errs.push(String(e.message || e).slice(0, 160)));
+    const lst = () => p4.evaluate(() => ({ live: CAND_LIVE, miss: CAND_MISS, api: msgRptDiag().후보api, stale: !!staleDataMsg(), gear: document.body.classList.contains('has-freshbad'), ids: CANDS.map(c => c.url.slice(-2)).join(',') }));   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    await p4.goto('http://127.0.0.1:' + s.port + '/?nosw=1&tab=scrap');   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — thumbapi·sbflow 는 브라우저 비기동 스모크라 비대상
+    await p4.waitForFunction(() => typeof CAND_MISS !== 'undefined' && CAND_MISS >= 1 && CANDS.length >= 2 && !SCRAP_LOADING, null, { timeout: 15000 });
+    let l = await lst();
+    ok('L1 부팅 직후 api 1회 실패 = 정적 사본 표시 · 노란 알림·기어 보류(빠른 재시도 대기)', !l.live && l.miss === 1 && !l.stale && !l.gear && /HTTP 503/.test(l.api), JSON.stringify(l));
+    await p4.waitForFunction(() => CAND_MISS >= 2 && !SCRAP_LOADING, null, { timeout: 15000 }).catch(() => {});
+    l = await lst();
+    ok('L2 10초 재시도도 실패 = 연속 2회 → 노란 알림 점등(진짜 고장은 숨기지 않음)', l.miss >= 2 && l.stale, JSON.stringify(l));
+    amode = 'ok';
+    await p4.evaluate(async () => { while (SCRAP_LOADING) await new Promise(r => setTimeout(r, 50)); await loadCandidates(true); });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    l = await lst();
+    ok('L3 api 회복 = 라이브 · 연속실패 0 · 알림 소멸 · 진단 ok gh', l.live && l.miss === 0 && !l.stale && l.api === 'ok gh' && l.ids === '11,12', JSON.stringify(l));
+    amode = 'fail';
+    await p4.evaluate(async () => { while (SCRAP_LOADING) await new Promise(r => setTimeout(r, 50)); await loadCandidates(true); });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    l = await lst();
+    ok('L4 라이브 보유 중 api 1회 실패 = 더 낡은 정적 사본으로 강등 0 · 알림 0', l.live && l.ids === '11,12' && !l.stale && !l.gear && l.miss === 1, JSON.stringify(l));
+    await ctx3.close();
     ok('C1 페이지 에러 0', errs.length === 0, errs.length ? errs.slice(0, 3).join(' · ') : '콘솔 pageerror 0건');
   } catch (e) {
     R.push({ n: 'ABORT', c: false, d: String(e.message).slice(0, 200) });

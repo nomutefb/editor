@@ -341,7 +341,7 @@ function _rptSrc(m) {
     cmd: 'gh run list --workflow sb-make.yml --limit 5   # 해당 런 로그에서 "되쓰기" 경고 줄 확인 · 조치는 판정기 재실행(코드 축 아님)' };
   if (m._shellupd) return { fn: 'viewer/index.html shellUpdMsg()', src: '_shellUpdPending(SW nm-shell-updated → flagShellUpdate)', up: 'sw.js 셸 진입 재검증 + viewer/index.html 배포' };
   if (m._auth) return { fn: 'viewer/index.html authMsg()', src: 'nmAuthNote() → window.nmAuthCheck() = /nm-sync.js HEAD 프로브 3xx·401·403', up: 'Cloudflare Access 세션(edit.nomute.kr)' };
-  if (m._stale) return { fn: 'viewer/index.html staleDataMsg()', src: 'candStale() = 소스축 CAND_LIVE(정적 폴백) ∪ 시간축 CAND_TS(수신 경과 > CAND_STALE_MS)', up: 'functions/api + viewer/candidates.json' };   // 260731: src를 'CAND_LIVE' 단독으로 두면 새 조건(라이브인데 수신이 낡음 = CAND_LIVE **true**)에서 진단이 원인을 잘못 지목한다 — 260730 리포트 1번 항목("후보라이브=true인데 적재 실패로 지목")과 같은 모양의 재발이라 두 축을 병기(원값은 msgRptDiag.후보수신경과분)
+  if (m._stale) return { fn: 'viewer/index.html staleDataMsg()', src: 'candStale() = 소스축 CAND_LIVE(정적 폴백 · api 연속 실패 CAND_MISS ≥ 2) ∪ 시간축 CAND_TS(수신 경과 > CAND_STALE_MS)', up: 'functions/api + viewer/candidates.json' };   // 260731: src를 'CAND_LIVE' 단독으로 두면 새 조건(라이브인데 수신이 낡음 = CAND_LIVE **true**)에서 진단이 원인을 잘못 지목한다 — 260730 리포트 1번 항목("후보라이브=true인데 적재 실패로 지목")과 같은 모양의 재발이라 두 축을 병기(원값은 msgRptDiag.후보수신경과분)
   if (m._health) return { fn: 'viewer/index.html healthMsg()', src: "SHC(localStorage 'nomute_shc').healthy=false", up: 'thumb.html 맞춤법 검사기 + ?selftest 프로브' };
   return { fn: '서버 발행 메시지', src: 'messages/' + (id || '<id>') + '.json', up: 'scraper/msg.py' };
 }
@@ -368,6 +368,8 @@ function msgRptDiag() {   // 진단 스냅샷 = 알림을 띄운 **판정 소스
     레딧건수: ((TRENDS && TRENDS.reddit) || []).length,
     후보라이브: typeof CAND_LIVE === 'undefined' ? null : !!CAND_LIVE,
     후보수신경과분: typeof CAND_TS === 'undefined' || !CAND_TS ? null : Math.round((Date.now() - CAND_TS) / 60000),   // 260731 신설 — 경보 자격검사(candFresh)의 시간축 원값. 이게 없으면 "왜 떴나/왜 안 떴나"를 사후에 추측으로만 갈라야 한다(리포트 = 판정 소스 원값 스냅샷이라는 이 함수의 계약 그대로)
+    후보api: typeof CAND_API === 'undefined' ? null : (CAND_API || null),   // 261001 신설 — 마지막 api/candidates 결과(ok gh·ok r2 n분 = 미러 · HTTP 5xx·빈 응답(src=none)·시간초과·회선 오류). 후보라이브=false만으론 서버 실패인지 회선 끊김인지 못 갈랐다
+    후보api연속실패: typeof CAND_MISS === 'undefined' ? null : CAND_MISS,
   };
 }
 function msgRptHtml() {

@@ -9098,7 +9098,7 @@ function _rptSrc(m) {
     cmd: 'gh run list --workflow sb-make.yml --limit 5   # 해당 런 로그에서 "되쓰기" 경고 줄 확인 · 조치는 판정기 재실행(코드 축 아님)' };
   if (m._shellupd) return { fn: 'viewer/index.html shellUpdMsg()', src: '_shellUpdPending(SW nm-shell-updated → flagShellUpdate)', up: 'sw.js 셸 진입 재검증 + viewer/index.html 배포' };
   if (m._auth) return { fn: 'viewer/index.html authMsg()', src: 'nmAuthNote() → window.nmAuthCheck() = /nm-sync.js HEAD 프로브 3xx·401·403', up: 'Cloudflare Access 세션(edit.nomute.kr)' };
-  if (m._stale) return { fn: 'viewer/index.html staleDataMsg()', src: 'candStale() = 소스축 CAND_LIVE(정적 폴백) ∪ 시간축 CAND_TS(수신 경과 > CAND_STALE_MS)', up: 'functions/api + viewer/candidates.json' };   // 260731: src를 'CAND_LIVE' 단독으로 두면 새 조건(라이브인데 수신이 낡음 = CAND_LIVE **true**)에서 진단이 원인을 잘못 지목한다 — 260730 리포트 1번 항목("후보라이브=true인데 적재 실패로 지목")과 같은 모양의 재발이라 두 축을 병기(원값은 msgRptDiag.후보수신경과분)
+  if (m._stale) return { fn: 'viewer/index.html staleDataMsg()', src: 'candStale() = 소스축 CAND_LIVE(정적 폴백 · api 연속 실패 CAND_MISS ≥ 2) ∪ 시간축 CAND_TS(수신 경과 > CAND_STALE_MS)', up: 'functions/api + viewer/candidates.json' };   // 260731: src를 'CAND_LIVE' 단독으로 두면 새 조건(라이브인데 수신이 낡음 = CAND_LIVE **true**)에서 진단이 원인을 잘못 지목한다 — 260730 리포트 1번 항목("후보라이브=true인데 적재 실패로 지목")과 같은 모양의 재발이라 두 축을 병기(원값은 msgRptDiag.후보수신경과분)
   if (m._health) return { fn: 'viewer/index.html healthMsg()', src: "SHC(localStorage 'nomute_shc').healthy=false", up: 'thumb.html 맞춤법 검사기 + ?selftest 프로브' };
   return { fn: '서버 발행 메시지', src: 'messages/' + (id || '<id>') + '.json', up: 'scraper/msg.py' };
 }
@@ -9125,6 +9125,8 @@ function msgRptDiag() {   // 진단 스냅샷 = 알림을 띄운 **판정 소스
     레딧건수: ((TRENDS && TRENDS.reddit) || []).length,
     후보라이브: typeof CAND_LIVE === 'undefined' ? null : !!CAND_LIVE,
     후보수신경과분: typeof CAND_TS === 'undefined' || !CAND_TS ? null : Math.round((Date.now() - CAND_TS) / 60000),   // 260731 신설 — 경보 자격검사(candFresh)의 시간축 원값. 이게 없으면 "왜 떴나/왜 안 떴나"를 사후에 추측으로만 갈라야 한다(리포트 = 판정 소스 원값 스냅샷이라는 이 함수의 계약 그대로)
+    후보api: typeof CAND_API === 'undefined' ? null : (CAND_API || null),   // 261001 신설 — 마지막 api/candidates 결과(ok gh·ok r2 n분 = 미러 · HTTP 5xx·빈 응답(src=none)·시간초과·회선 오류). 후보라이브=false만으론 서버 실패인지 회선 끊김인지 못 갈랐다
+    후보api연속실패: typeof CAND_MISS === 'undefined' ? null : CAND_MISS,
   };
 }
 function msgRptHtml() {
@@ -11637,7 +11639,10 @@ let SCRAP_ERR = '';   // 수집함을 한 건도 못 받은 이유(''·'auth' �
 //   ⚠ 이 게이트는 laneBad에서 끝난다 — ack·rearm·야간·탭 양보 축은 무접촉(평의회A·B·C·E 봉합분 회귀 금지).
 const CAND_STALE_MS = 20 * 60000;   // 20분 = 폴 20회(60s·15336행) 연속 실패 허용. 하한 근거 = 정상 경로도 데이터가 최대 ~6.5분 묵는다(functions/api/candidates.js: 브라우저 max-age 60s + 엣지 cacheTtl 30s + raw 폴백 ~5분 캐시) · 수집 크론 15분(scrape.yml 외부 cron-job.org)이 실측 20~25분까지 벌어짐(260731 실측: max last_seen 12:07 vs 현재 12:33). 상한은 널널해도 무해 = 이 오탐이 성립하려면 데이터가 최소 4h(FAST_MAX_H) 묵어야 하므로 20분이든 60분이든 차단력 동일 · 반대로 값이 짧을수록 짧은 블립에 진짜 고장을 놓친다(미탐) → 큰 값이 정답. 조정 가능.
 const candFresh = () => CAND_LIVE && Date.now() - CAND_TS < CAND_STALE_MS;
-const candStale = () => !candFresh() && CANDS.length > 0;   // "지금 화면이 옛 사본" 상태 = 붉은 경보의 자격미달분 + 260725 정적 폴백분. **기어 점등·노란 메시지가 이 한 축을 공유**한다(syncStaleMsg 7515행 = 기어 토글 9843행) — 갈라두면 "기어는 빨간데 메시지함은 비어 있음" 같은 드리프트가 난다. len>0 = 부팅 전패(빈 화면)는 이 축 밖(기존 구멍 · 별건)
+let CAND_MISS = 0, CAND_API = '';   // CAND_MISS = api/candidates 연속 실패 횟수(라이브 성공 = 0) · CAND_API = 마지막 api 결과(성공 'ok gh'·실패 사유) — 알림 리포트 진단 원값(261001: 리포트에 "후보라이브=false"만 남고 api가 *왜* 실패했는지가 없어 서버 원인을 못 가렸다)
+const candNewest = a => { let m = 0; for (const c of a) { const t = Date.parse((c && c.last_seen) || '') || 0; if (t > m) m = t; } return m; };   // 후보 묶음의 최신 관측 시각 = 소스가 달라도 비교 가능한 신선도 지문(강등 금지 판정)
+const CAND_RETRY_MS = 10000;   // 첫 실패 뒤 빠른 재시도 = 1분 폴을 기다리지 않는다(알림 진입 부팅 직후 한 번 끊긴 요청이 노란 알림을 즉시 켜던 261001 리포트 봉합)
+const candStale = () => !candFresh() && CANDS.length > 0 && (CAND_LIVE || CAND_MISS >= 2);   // 정적 폴백(!CAND_LIVE)은 api **연속 2회** 실패부터 = 한 번 끊김(부팅 직후 회선·시간초과)은 10초 재시도가 흡수 · 라이브인데 낡음은 종전 시간축(CAND_STALE_MS) 그대로   // "지금 화면이 옛 사본" 상태 = 붉은 경보의 자격미달분 + 260725 정적 폴백분. **기어 점등·노란 메시지가 이 한 축을 공유**한다(syncStaleMsg 7515행 = 기어 토글 9843행) — 갈라두면 "기어는 빨간데 메시지함은 비어 있음" 같은 드리프트가 난다. len>0 = 부팅 전패(빈 화면)는 이 축 밖(기존 구멍 · 별건)
 let SOCIAL = [], SOCIAL_LOADED = false, SOCIAL_LOADING = false, SOC_LM = 0;   // 소셜 버스트(커뮤니티 공론화) 레인 = SNS 탭(메뉴2). social_candidates.json(scraper/social_burst.py 출력 · 설계 docs/social-burst.md). SOC_LM = 파일 Last-Modified(ms) — age_h 스냅샷 경과 보정 앵커(Q359 ㉠)
 // ── 전송한 카드 = 'Pk-ng'(분석 중) 잔류 원장(운영자 260804 "전송 누르고 나면 다시 전송으로 돌아오는데 picking으로") ──
 //   왜 저장하나: renderSns는 행 구성이 바뀌면 리스트를 통째 재빌드한다 → 메모리에만 두면 다음 스캔 갱신 때 Pk-ng가 '전송'으로 되돌아가 운영자가 지적한 그 증상이 그대로 재발한다. 새로고침도 동축.
@@ -11722,11 +11727,19 @@ async function loadCandidates(quiet) {   // quiet=라이브 폴링: CANDS·속�
     let netFail = false;   // fetch reject(만료·회선) 여부 — 전 소스 실패 시 SCRAP_ERR 판정 입력
     // api/candidates = 라이브 서빙(GitHub 직독, 빌드 우회) 우선 → 실패 시 정적 candidates.json 폴백.
     for (const u of ['api/candidates', 'candidates.json?_=' + Date.now()]) {
+      const api = u === 'api/candidates';
+      let why = '';
       try {
         const sig = (typeof AbortSignal !== 'undefined' && AbortSignal.timeout) ? AbortSignal.timeout(12000) : null;   // 12s 상한 = loadTrends(11244행) 관용구 그대로(새 규칙 창작 0 · 기능검출 가드 동일). 없으면 **매달린 소켓이 SCRAP_LOADING을 영구 점유**한다 — 그 상태에선 재진입 가드(9725행)가 이후 모든 폴을 즉시 return시키고, 그 return엔 finally가 안 붙어 checkFreshLane·syncStaleMsg가 **아예 안 돈다** = 서버가 회복돼도 빨강 기어·상주 토스트가 스스로 못 꺼진다(260725 "자가 소등 불능" 봉합의 재발 경로 · 모바일 백그라운드 전환 중 소켓 정지가 실제 트리거). 12s 초과 = 죽은 요청이라 폴 주기(60s·15345행) 안에서 다음 시도가 정상 재개
         const r = await fetch(u, sig ? { signal: sig } : undefined);
-        if (r.ok) { const d = await r.json(); if (Array.isArray(d) && d.length) { CANDS = d; CAND_LIVE = (u === 'api/candidates'); CAND_TS = Date.now(); SCRAP_LOADED = true; SCRAP_ERR = ''; detectBreaking(); detectPickFail(); if (quiet) scrapAutoRefresh(); if (!quiet && CURTAB === 'scrap') renderScrap(); return; } }   // &&d.length: api/candidates가 GitHub 서빙 실패 시 빈 [](HTTP 200)을 뱉으면 그걸 유효응답으로 수용해 정적 폴백을 건너뛰고 수집함이 통째로 비던 SPOF 봉합(260714) — 빈 배열이면 다음 소스(정적 candidates.json)로 폴백. 실뉴스 0건은 현실적 부재라 [] = 서빙실패 신호
-      } catch (e) { if (isNetErr(e)) netFail = true; /* 다음 소스 */ }
+        if (r.ok) { const d = await r.json(); if (Array.isArray(d) && d.length) {
+          if (api) { CAND_MISS = 0; CAND_API = 'ok ' + (r.headers.get('x-nm-src') || '?') + (r.headers.get('x-nm-age-min') ? ' ' + r.headers.get('x-nm-age-min') + '분' : ''); }
+          else if (CANDS.length && candNewest(d) <= candNewest(CANDS)) { SCRAP_LOADED = true; return; }   // 강등 금지 — 정적 사본(배포 시점 스냅샷)이 지금 든 것보다 새롭지 않으면 last-good 유지(CAND_LIVE·CAND_TS 무접촉 = 낡음은 시간축이 판정). 종전엔 api 한 번 끊기면 라이브 목록을 몇 시간 묵은 사본으로 덮었다
+          CANDS = d; CAND_LIVE = api; CAND_TS = Date.now(); SCRAP_LOADED = true; SCRAP_ERR = ''; detectBreaking(); detectPickFail(); if (quiet) scrapAutoRefresh(); if (!quiet && CURTAB === 'scrap') renderScrap(); return; }   // &&d.length: api/candidates가 GitHub 서빙 실패 시 빈 [](HTTP 200)을 뱉으면 그걸 유효응답으로 수용해 정적 폴백을 건너뛰고 수집함이 통째로 비던 SPOF 봉합(260714) — 빈 배열이면 다음 소스(정적 candidates.json)로 폴백. 실뉴스 0건은 현실적 부재라 [] = 서빙실패 신호
+          if (api) why = '빈 응답(src=' + (r.headers.get('x-nm-src') || '?') + ')';
+        } else if (api) why = 'HTTP ' + r.status;
+      } catch (e) { if (isNetErr(e)) netFail = true; if (api) why = e && (e.name === 'TimeoutError' || e.name === 'AbortError') ? '시간초과 12s' : isNetErr(e) ? '회선 오류' : '응답 오류 ' + ((e && e.name) || ''); /* 다음 소스 */ }
+      if (api) { CAND_MISS++; CAND_API = why; if (CAND_MISS === 1) setTimeout(() => loadCandidates(true), CAND_RETRY_MS); }   // 첫 실패만 빠른 재시도 1발(연속 실패는 1분 폴이 이어받음 = 재시도 폭주 0)
     }
     const _prevErr = SCRAP_ERR;
     if (!CANDS.length) { const k = await nmAuthNote(); SCRAP_ERR = k === 'auth' ? 'auth' : (netFail || k === 'net') ? 'net' : 'srv'; }   // 보여줄 것 0 = 원인 확정(Access 만료 302→CORS reject·회선·서버 [] 응답) · last-good 이 있으면 종전대로 그걸 유지(사유 줄 없음 = 신선도 알림 몫)
