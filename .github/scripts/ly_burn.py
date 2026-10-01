@@ -1080,6 +1080,10 @@ def _box_lines(plain, hp, dy):
 
 def build_ass(segs, w, h, opts):
     size_f = size_frac(opts)
+    if opts.get("size_auto") is True and w and h and w < h:
+        # (261001 2차) 기본 크기 세로 보정 — 편집 뷰어가 출력 비율을 모를 때(URL 소스 + 비율 원본)만 온다.
+        #   뷰어 sizeFor 와 같은 산식 = 짧은 변 기준(94‰ × w/h · 9:16 = 53‰) · 손댄 크기·ly 탭 발사엔 이 키가 없다 = 종전 그대로.
+        size_f = int(size_f * 1000 * w / h + 0.5) / 1000   # 반올림 = JS Math.round 동형(.5 올림)
     fs = max(18, int(h * size_f))
     omul = coef(opts, "outline", 1.0, 0.0, 3.0)    # 외곽선 두께 배율(운영자 260707 ×0.5) · (260729) 하한 0.25→0 = 음영 0%(끄기) 도달 — 뷰어 게이지 하한 0 짝
     pad = coef(opts, "pad", 0.10, 0.0, 0.5)        # 박스 패딩 계수 fs×pad(운영자 260707 ×0.16 · 구 box 0.10 승계 기본) · (260729) 하한 0.02→0 동행

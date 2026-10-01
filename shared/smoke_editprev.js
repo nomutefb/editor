@@ -12,7 +12,7 @@
 //   · 생성버튼 ✓ 단계 높이 동결(게이지 튐 0 · Q402)
 //
 // 원커맨드:  node shared/smoke_editprev.js          (종료코드 0 = 코어 전부 PASS)
-// 티어: 코어 11종 단일(대기 티어 없음 — 전건 오늘 계약 · C10 자막 미리보기 러너 미러 · C11 폰 캔버스 잘림 0 = 260923)
+// 티어: 코어 12종 단일(대기 티어 없음 — 전건 오늘 계약 · C10 자막 미리보기 러너 미러 · C11 폰 캔버스 잘림 0 = 260923 · C12 자막 기본 크기 비율 보정 = 261001)
 // 리스크 통제: 기하(rect)+computedStyle+이벤트(filechooser)만 — 스크린샷 베이스라인 diff 금지 ·
 //   첨부 픽스처 = 브라우저 내 캔버스 녹화 webm(외부 파일·ffmpeg 의존 0 = 환경 무관 결정론) ·
 //   라이브 코드 무접촉(DataTransfer 주입 = 실 change 파이프 그대로) · 서버 자체 종료(잔류 0)
@@ -147,6 +147,17 @@ function chk(name, pass, detail) { R.push({ name, pass, detail }); console.log((
       return { top: +(w.top + 1 - c.top).toFixed(2), bot: +(c.bottom - (w.bottom - 1)).toFixed(2), cw: +c.width.toFixed(1), ch: +c.height.toFixed(1), wh: +w.height.toFixed(1) }; });
     chk('C11 미리보기 캔버스 = 창 안(412폭 · 위아래 잘림 ≤0.5px)', fit.top <= 0.5 && fit.bot <= 0.5,
       '캔버스 ' + fit.cw + '×' + fit.ch + ' · 창 ' + fit.wh + ' · 넘침 위 ' + fit.top + ' / 아래 ' + fit.bot);
+
+    // C12 자막 기본 크기 = 출력 짧은 변 기준(운영자 261001 "세로는 그렇게 되도록") — 첨부 픽스처 320×568(세로) · 손댄 크기 고정 · 비율 모름 = 러너 위임(size_auto)
+    const sz = await pg.evaluate(() => { const r = {}, sv = [_vw, _vh];   // seal-ok: C12 단독 계측(편집 탭 자막 기본값 = 이 스모크 담당 표면)
+      P.sizeman = false; ON.sub = true; ON.screen = false; render(); r.port = P.size; r.autoKnown = buildOpts(false).size_auto === true;
+      ON.screen = true; P.ar = '16:9'; render(); r.land = P.size; P.ar = '4:5'; render(); r.r45 = P.size;
+      ON.screen = false; _vw = 0; _vh = 0; render(); r.unk = P.size; r.autoUnk = buildOpts(false).size_auto === true;
+      _vw = sv[0]; _vh = sv[1]; P.sizeman = true; P.size = 70; ON.screen = true; P.ar = '9:16'; render(); r.man = P.size; r.autoMan = buildOpts(false).size_auto === true;
+      P.sizeman = false; ON.screen = false; render(); return r; });
+    chk('C12 자막 기본 크기(세로 53·가로 94·4:5 75 · 비율 모름 = size_auto · 손댐 = 고정)',
+      sz.port === 53 && sz.land === 94 && sz.r45 === 75 && sz.unk === 94 && !sz.autoKnown && sz.autoUnk && sz.man === 70 && !sz.autoMan,
+      '세로 ' + sz.port + ' · 16:9 ' + sz.land + ' · 4:5 ' + sz.r45 + ' · 모름 ' + sz.unk + '(auto ' + sz.autoUnk + ') · 손댐 ' + sz.man + '(auto ' + sz.autoMan + ')');
 
     // C10 자막 미리보기 = 러너 미러(운영자 260923 "미리보기 글자 크기 맞춰줘") — 글자 = 크기 ÷ 폰트 줄 높이 비(libass 윈 정규화) · 굵기 = 러너 Bold ·
     //   강조어 = 줄과 같은 굵기 · 박스 = 높이 fs×(1+pad)(보이는 경계 = 그라데 잘라낸 뒤) — 구 산식(font-size = fs · 800)으로 돌아가면 여기서 잡힌다

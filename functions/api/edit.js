@@ -95,6 +95,7 @@ export async function onRequestPost({ request, env }) {
   const pos = num(o.pos, 0, 100); if (pos !== null) opts.pos = Math.round(pos);          // 자막 세로 위치 %
   const bg = num(o.bg, 0, 100); if (bg !== null) opts.bg = Math.round(bg);               // 자막 배경 %
   const size = num(o.size, 0.02, 0.2); if (size !== null) opts.size = Math.round(size * 1000) / 1000;   // 자막 높이비
+  if (o.size_auto === true && opts.size !== undefined) opts.size_auto = true;   // (261001 2차) 뷰어가 출력 비율을 몰라 기본 크기를 보냈다 = 러너가 실제 출력 비율로 세로 보정(ly_burn.build_ass)
   for (const k of ['outline', 'pad']) { const v = o[k]; if (typeof v === 'number' && Number.isFinite(v) && v >= 0 && v <= 3) opts[k] = Math.round(v * 1000) / 1000; }   // 음영 크기(외곽선 배율·박스 패딩 계수 — ly.js 미러 · 의미 재클램프 = ly_burn coef · 260711) · ⚠ 하한 = **0 포함**(구 `v > 0`) — 260729 "음영 0% 도달"에서 뷰어(edit.html buildOpts Math.max(0,…))와 러너(ly_burn coef lo=0.0)만 0으로 내리고 이 화이트리스트를 안 내려, 게이지 0%가 보내는 정확한 0이 **키째 탈락** → 러너가 결측으로 보고 기본값(omul 1.0 / pad 0.10)을 써서 미리보기엔 없는 음영이 결과물엔 그대로 찍혔다(= 끄기가 UI에만 존재 · 평의회3·5 독립 일치 260731). 0 = "음영 없음"이라는 **유효한 값**이지 결측이 아니다
   if (typeof o.oc === 'string' && ['black', 'white', 'green', 'mint', 'sky', 'blue', 'pink', 'yellow', 'red'].includes(o.oc)) opts.oc = o.oc;           // 자막 음영 색(닫힌 집합 = ly_burn OC_BGR 짝 · 260711)
   if (typeof o.font === 'string' && ['gothic', 'serif', 'nanum', 'pen', 'paper', 'pretendard', 'barun', 'plex', 'jua', 'gowun'].includes(o.font)) opts.font = o.font;                   // 자막 폰트(닫힌 집합 = ly_burn FONT_FAMILY 짝 — 러너 설치 폰트 + 레포 동봉 paper=페이퍼로지 · 260711 · 260805)

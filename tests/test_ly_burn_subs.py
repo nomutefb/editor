@@ -464,5 +464,25 @@ class SdrRender(unittest.TestCase):
         self.assertEqual(tag, 'bt709,bt709,bt709')
 
 
+class SizeAutoPortrait(unittest.TestCase):
+    """(261001 2차) 기본 크기 세로 보정 — 편집 뷰어가 출력 비율을 모를 때만 size_auto 가 온다(운영자 "세로는 그렇게 되도록").
+    짧은 변 기준 = 94‰ × w/h(9:16 = 53‰) · 가로·정사각·키 없음·키 False = 종전 높이 기준 그대로."""
+
+    @staticmethod
+    def fs(w, h, **opts):
+        st = [l for l in ly_burn.build_ass(SEG, w, h, dict(BOX, size=0.094, **opts)).splitlines() if l.startswith("Style: ")][0]
+        return int(st.split(",")[2])
+
+    def test_portrait_scales_by_short_side(self):
+        self.assertEqual(self.fs(1080, 1920, size_auto=True), int(1920 * 0.053))   # 101px = 16:9 1080p 94‰ 와 같은 글자
+        self.assertEqual(self.fs(1080, 1350, size_auto=True), int(1350 * 0.075))   # 4:5 = 75‰ (뷰어 sizeFor 와 같은 값)
+
+    def test_untouched_cases(self):
+        self.assertEqual(self.fs(1080, 1920), int(1920 * 0.094))                   # 키 없음 = 손댄 크기·ly 탭 = 종전
+        self.assertEqual(self.fs(1080, 1920, size_auto=False), int(1920 * 0.094))
+        self.assertEqual(self.fs(1920, 1080, size_auto=True), int(1080 * 0.094))   # 가로 = 보정 없음
+        self.assertEqual(self.fs(1080, 1080, size_auto=True), int(1080 * 0.094))   # 정사각 = 보정 없음
+
+
 if __name__ == '__main__':
     unittest.main()
