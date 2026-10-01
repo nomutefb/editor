@@ -1,57 +1,8 @@
 {
- "ok": 166,
- "dead": 19,
- "dead_feeds": [
-  {
-   "publisher": "동아일보",
-   "title": "정치",
-   "url": "https://rss.donga.com/politics.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "사회",
-   "url": "https://rss.donga.com/national.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "경제",
-   "url": "https://rss.donga.com/economy.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "국제",
-   "url": "https://rss.donga.com/international.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "사설칼럼",
-   "url": "https://rss.donga.com/editorials.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "의학과학",
-   "url": "https://rss.donga.com/science.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "문화연예",
-   "url": "https://rss.donga.com/culture.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "스포츠",
-   "url": "https://rss.donga.com/sports.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "사람속으로",
-   "url": "https://rss.donga.com/inmul.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "건강",
-   "url": "https://rss.donga.com/health.xml"
-  },
+ "ok": 185,
+ "dead": 0,
+ "dead_feeds": [],
+ "zombie_feeds": [
   {
    "publisher": "동아일보",
    "title": "레져",
@@ -113,11 +64,6 @@
    "publisher": "세계일보",
    "title": "오피니언",
    "url": "http://www.segye.com/Articles/RSSList/segye_opinion.xml"
-  },
-  {
-   "publisher": "시사인",
-   "title": "전체기사",
-   "url": "https://cdn.sisain.co.kr/rss/gns_allArticle.xml"
   },
   {
    "publisher": "시사저널",
