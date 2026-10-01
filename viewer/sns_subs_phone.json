@@ -4,11 +4,41 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "로봇이 이제 사람 한 명의 ‘직업’을 통째로 자동화하기 시작했습니다.\n\n다이나 로보틱스가 Dyna-2.1과 새로운 반휴머노이드 로봇 Taku를 공개했습니다.\n공개된 영상에서는 세탁실에서 약 1시간 동안 이어지는 작업을 처음부터 끝까지 자율적으로 수행합니다.\n\n각 동작의 성공률이 99%여도 작업이 길어지면 전체 성공률은 크게 떨어지는데, Dyna-2.1은 상황에 따라 작업 순서를 바꾸며 긴 업무를 이어가는 데 초점을 맞췄습니다.\n\n다이나 로보틱스는 이제 로봇의 ‘동작’이 아니라 사람 한 명이 맡던 ‘업무 전체’를 판매하겠다는 방향입니다.",
+   "likes": 5,
+   "cmts": 0,
+   "time": 1790827225,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830390268_1424962346268045_8284713310851087731_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5ODA3MTAwMzExNjk3MjAyOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=y0FMr-o1xbAQ7kNvwGP6vhH&_nc_oc=Adp0dJlSOuqg4_Y6BkzaO4jW73bg7fhjNapjt3erNv-6Bc7nA2rmmcFXmrsGG38l1Vs&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xJSYZJpssqte0-Kb7yrt1Q&_nc_ss=7a20f&oh=00_AQO2bUIntkTZWkHyyoYUcqnHmy8R9_uMGfSl-n8C7Vku8Q&oe=6AC3C108",
+   "url": "https://www.threads.com/@choi.openai/post/Dd8AGUHk6f9",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/NaiveAI/Naive-N0.5-Flash",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790825483,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dd78xJ0n_mg",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "Naive-N0.5-Flash는 오픈웨이트 309B MoE 모델로, 활성화 파라미터는 15.5B이며 코딩과 AI 연구 개발을 위해 제작되었습니다.\n슬라이딩 윈도우 어텐션과 가벼운 딥식 스파스 어텐션을 결합해 풀 어텐션 레이어 없이 네이티브 백만 토큰 컨텍스트 윈도우를 지원합니다.\n기존 미모 V2.5 베이스 모델을 기반으로 하며, 글로벌 어텐션 레이어를 딥식 스파스 어텐션으로 교체했습니다.\n네트워크는 8개의 6레이어 모듈로 구성되며, 슬라이딩 윈도우 어텐션은 128토큰 윈도우를, 딥식 스파스 어텐션은 상위 2,048개 토큰을 선택합니다.\n또한 4개의 KV 그룹을 사용하는 그룹 쿼리 어텐션을 채택하고 있으며, FP8 혼합 정밀도 추론과 FP8 지원 엔비디아 GPU를 요구합니다.\n개인적으로는 전반적인 성능 유지와 비용 절감 사이의 균형이 어떻게 잡혔을지 궁금합니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790825473,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/828776492_18090893207407306_2659910073320698182_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=109&ig_cache_key=Mzk5ODA1NjIzMDkxMzMxMDI2NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=XRfQcl2mmYYQ7kNvwFzvgWi&_nc_oc=AdqXoMGyv57mxK2DIfiVSeCYY-PEP6eZBFxT0FzwEU1C55GPkSw7JxstKkgeBtfI6Tc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9R_BIoVMNCaZzcpQ2zlZFw&_nc_ss=7a20f&oh=00_AQOfD7h9FqwADVEiKX-U6vMapVzPbmVf_a9yDhorWxq9Lw&oe=6AC3BFA7",
+   "url": "https://www.threads.com/@aipeekme/post/Dd78vWbn_45",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "이제 배달기사보다 드론이 먼저 도착하는 시대가 시작됩니다.\n\n도어대시가 드론 배달 서비스 DoorDash Air를 공개했습니다.\n13년간 쌓은 주문 데이터를 바탕으로 음식의 무게와 이동거리를 고려해 처음부터 배달용으로 설계했다고 합니다.\n\n초기 테스트에서는 평균 비행 배달 시간이 약 5분 이내였으며 Chipotle과 Popeyes가 첫 파트너로 참여합니다.\n\n첫 서비스는 북부 캘리포니아에서 시작됩니다.\n\n지상에서 자율주행 배달을 실험해온 도어대시가 이제 하늘까지 배달망을 넓히고 있습니다.",
-   "likes": 14,
+   "likes": 19,
    "cmts": 0,
    "time": 1790823615,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825323773_1642583854552673_1349579478304949307_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5ODA0MDcxNzgxNzA4MTc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9n8Qhbzv_O0Q7kNvwEIt7fR&_nc_oc=Adorszqk9tk0yGKgi_vLpva-mJqFGmjmDwvl-5HJk84budDibK40tBvXYeQSufEqK7U&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=qJmyfwGMMCsTzTyAgi89Ew&_nc_ss=7a20f&oh=00_AQOofIVmJOzCZ5nmEXeNSKZmy90oo_b5_4_lKHwmYKcvqw&oe=6AC3A31A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825323773_1642583854552673_1349579478304949307_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5ODA0MDcxNzgxNzA4MTc4Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9n8Qhbzv_O0Q7kNvwGS7x3C&_nc_oc=Adq6HYB05vRTbOxEI-KSP-U_Wx3BIiUz43dXbYIAgHFj8S6UP1Us1VaYphTLHPK2t10&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xJSYZJpssqte0-Kb7yrt1Q&_nc_ss=7a20f&oh=00_AQNSLn111gPZL_G1hOQRD6QUF1lrrALznY1s6_qm8sJ7og&oe=6AC3A31A",
    "url": "https://www.threads.com/@choi.openai/post/Dd75NmvCO-6",
    "region": "kr"
   },
@@ -38,7 +68,7 @@
    "likes": 2,
    "cmts": 3,
    "time": 1790820067,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825351953_17939205909362958_587087477022096465_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODAxMDk1OTMxNDc3ODAzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=B3ycM5YPmnoQ7kNvwEWG7ln&_nc_oc=AdqJ_igWwbvjuXg4dGij9PrYlskSEESS4KUhqZbycTrY4rd5wQMJ5SXxAFnov1F31zA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=UeHulsQ-0KMtSEFWWh6ytw&_nc_ss=7a20f&oh=00_AQPiEwisQETQT2v99NMAp8OUtMj5aD-gypdgXpws_4-sLQ&oe=6AC3B7AE",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825351953_17939205909362958_587087477022096465_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODAxMDk1OTMxNDc3ODAzMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTYwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=B3ycM5YPmnoQ7kNvwE0Uw0h&_nc_oc=Adqx-tsx36AslV0tyrMJ2E19poLQO3LTqE8_Rh-oq2gqxr3OZ3aRCAtDrVvIzWXhKYU&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=aycD8UPFbc5_qNL64YyrCA&_nc_ss=7a20f&oh=00_AQOvyXgxUF8bcuB0O469AK47QLtYdXdUKwvUehV3mREWKQ&oe=6AC3B7AE",
    "url": "https://www.threads.com/@takepage_/post/Dd7ycj-E3eu",
    "region": "kr"
   },
@@ -53,16 +83,6 @@
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "Cloudflare가 AI 에이전트를 위한 새로운 CLI인 `cf`를 공개했습니다.\n\n`cf`는 Cloudflare API 전반을 터미널에서 다룰 수 있도록 만든 도구인데요.\n도메인 구매부터 각종 Cloudflare 서비스 관리까지 명령어로 처리할 수 있습니다.\n\n특히 정확한 명령어를 몰라도 자연어로 “내 큐에 막혀 있는 메시지를 확인해줘”처럼 검색하면 관련 명령어를 찾아줍니다.\n\nCloudflare는 전체 API를 지원하는 MCP도 제공하고 있어, AI 에이전트가 웹 대시보드를 직접 돌아다니지 않고 Cloudflare를 관리할 수 있는 선택지가 늘어났습니다.",
-   "likes": 24,
-   "cmts": 3,
-   "time": 1790820015,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829226075_17989264917112832_5529600407956506059_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5ODAxMDUxOTczMzgwMjUwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_HFH9Gs9lYQQ7kNvwGEMMcN&_nc_oc=AdoOhMDiyb-Dfz0mx8mcNPFENxgII-_pPWDINYCMoHKIbS1uVvDItSX6CHhsODrAYbk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=qJmyfwGMMCsTzTyAgi89Ew&_nc_ss=7a20f&oh=00_AQOkXKMqslMsyVTe4FOSDTejkR-L7IWA7tBfUQQI111oQg&oe=6AC3AEA8",
-   "url": "https://www.threads.com/@choi.openai/post/Dd7yWKlAhYE",
-   "region": "kr"
-  },
-  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://www.anthropic.com/research/glm-5-3-and-the-spread-of-advanced-cyber-capabilities",
    "likes": 0,
@@ -70,16 +90,6 @@
    "time": 1790819401,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/Dd7xKmyHy2G",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "프론티어 레드 팀이 GLM-5.3 모델과 고도화된 사이버 역량의 확산을 다룬 글을 공개했습니다.\n지푸 AI가 개발한 GLM-5.3은 작동하는 익스플로잇을 처음부터 끝까지 스스로 개발할 수 있는 능력을 갖추고 있습니다.\n다만 이 모델은 오남용을 제한할 만한 의미 있는 안전장치 없이 출시되었다는 점이 확인되었습니다.\n시뮬레이션 테스트에서 공격자들이 간단한 기술로 GLM-5.3의 안전장치를 64%에서 100% 사이로 우회할 수 있는 것으로 나타났습니다.\n다섯 달 전 클로드 미토스 프리뷰가 최초로 정교한 사이버 익스플로잇을 자율적으로 구축하는 능력을 선보인 바 있습니다.\n이러한 능력이 다른 모델로 확산되면서 악의적인 사이버 공격자들이 높은 영향력을 가진 공격을 감행하기 더 쉬워졌습니다.\n미국 국립표준기술원 인공지능표준혁신센터(CAISI)도 GLM-5.3이 지금까지 출시된 가장 사이버 역량이 뛰어난 오픈웨이트 모델이라고 평가했습니다.\n\n📷 사진 출처: anthropic.com",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790819391,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825324687_18090878057407306_7963712889687548621_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5ODAwNTIyMjQwNTMwMTc2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=upe0exfxyNcQ7kNvwH0zxHd&_nc_oc=Adpid4pUDJ3pLCgmwUj1bYKLIIPLECrQtI-iSKdTB93N3zmkMdH5Hx2gZw15u_7-yNQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-Fabe-wea-cTGaXCXHYubA&_nc_ss=7a20f&oh=00_AQODv2nDEdN6wfk5HgJ75HeVWFTUu1Ng-fmQuAsvdPeKwg&oe=6AC3B2E5",
-   "url": "https://www.threads.com/@aipeekme/post/Dd7xJFDn-YH",
    "region": "kr"
   },
   {
@@ -103,16 +113,6 @@
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/?utm_source=deepmind.google&utm_medium=referral&utm_campaign=gdm&utm_content=",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790818303,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd7vEoIH9p_",
-   "region": "kr"
-  },
-  {
    "account": "daily_ai_star",
    "text": "HydraFusion이 9월 30일 VS Code와 GitHub Copilot 앱에 들어왔습니다.\n\n이름은 하나의 모델처럼 보이지만 실제로는 여러 모델을 조합하는 오케스트레이션입니다. 작업에 따라 세 가지 흐름을 고릅니다. 한 모델로 끝내는 Single, 초안 뒤 품질 관문을 거치는 Cascade, 다른 모델 계열의 독립 비평을 붙이는 Critique입니다.\n\nCopilot Auto가 요청마다 모델을 골랐다면 HydraFusion은 작업을 어떤 방식으로 풀지부터 고릅니다.\n\n코딩 에이전트의 비교 기준이 모델 목록에서, 품질·비용·검토 단계를 포함한 실행 설계로 이동하고 있습니다.\n\nhttps://github.blog/changelog/2026-09-30-hydrafusion-in-vs-code-and-the-github-copilot-app",
    "likes": 0,
@@ -125,7 +125,7 @@
   {
    "account": "aicoffeechat",
    "text": "작년엔 신청 하루 만에 마감됐었고 이번에도 선착순이라고 해요! \n\n링크 미리 저장해두시고 오전 10시에 바로 꼭 신청하여 놓치지 않는 것을 적극 추천드립니다. :) \n\n📌 참가 신청\n- 링크: https://bit.ly/47dRfud\n- 일정: 2026년 10월 1일, 오전 10시부터 신청 가능\n\n1️⃣ 지원 자격\n- 만 14세 이상 누구나 (직업, 경력 등 제한 없음)\n\n2️⃣ 권장 역량\n- 여러 AI 에이전트를 엮어 워크플로우를 설계해본 경험, 또는 다양한 AI 도구 활용 능력\n\n3️⃣ 대회 일정 및 진행 방식\n- 온라인 예선: 10/31(토)\n- 오프라인 본선: 11/21(토), 카카오 AI 캠퍼스",
-   "likes": 2,
+   "likes": 3,
    "cmts": 0,
    "time": 1790809230,
    "thumb": "",
@@ -138,7 +138,7 @@
    "likes": 13,
    "cmts": 1,
    "time": 1790809221,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829320765_17959663389232485_1198139729214991290_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkxOTk3Nzc3MTQzMzYzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F_HVVMMqwwQ7kNvwFIHSZ6&_nc_oc=Adr-ZLviNnHsuLEOS_oby1gqzJ271IFmpu01iNTdM09tsaQHId6m8NYlfXOcc-kjByo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=0q8DHfeYEdntFg5si6cyFw&_nc_ss=7a20f&oh=00_AQPiOcJQcm9mJolxhQAf9Ewj3iFgUreLJcORhAA_E5WdlA&oe=6AC39203",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829320765_17959663389232485_1198139729214991290_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkxOTk3Nzc3MTQzMzYzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F_HVVMMqwwQ7kNvwH8Oirw&_nc_oc=AdoUDTOi7pnukAIKKLnsiI4RAzJUBuM0xnSE539vSg_Y-6Q1Da53BGQbW3jOPhXRdpY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=rBsTMiDyNZBghrMtvp2mIQ&_nc_ss=7a20f&oh=00_AQMAwWSRPfr0etx84r3xtw9g3d4adPFojFideNG5Hp1CLQ&oe=6AC3CA43",
    "url": "https://www.threads.com/@aicoffeechat/post/Dd7dwmzgP6h",
    "region": "kr"
   },
@@ -148,7 +148,7 @@
    "likes": 10,
    "cmts": 4,
    "time": 1790796644,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830729309_1802322597464792_6248759910379488708_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NzgxNDIxNjA2NDY4NjIzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZwRSc4zmpsUQ7kNvwGKZ5fo&_nc_oc=AdqdHL85sPSBBaeT604gJs6blKe9q6GlxVKngn_PL3R3PdP2Kl3btg9kgNVhtAMD4W8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wY9R2MRWrDwNUg3mj8Finw&_nc_ss=7a20f&oh=00_AQMtRalUbuCROnMQOEuZbGAq9j7Pr-8g5C6efI2uMRakkA&oe=6AC3B187",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830729309_1802322597464792_6248759910379488708_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NzgxNDIxNjA2NDY4NjIzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZwRSc4zmpsUQ7kNvwHeBjqo&_nc_oc=AdoaMK9zDZv3PuRdPjpmMWkK82cwfCx1CD-I_Y_nrnzZ2E1xHlxQCyXlTOHUrTiQJoc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rb6AwzU-ESbDXRnvHxFfqQ&_nc_ss=7a20f&oh=00_AQP-rKYM_Z3URFEiKWebUpi5vnPBlJYESie3iHBOK3b5Tg&oe=6AC3B187",
    "url": "https://www.threads.com/@kopp/post/Dd7Ftkiitif",
    "region": "kr"
   },
@@ -168,28 +168,28 @@
    "likes": 2,
    "cmts": 1,
    "time": 1790746207,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/829631781_1771175987486420_4721813965134096515_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM5MTE0MTg3MjEwNzQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4WfoVRwT68wQ7kNvwGOx16O&_nc_oc=AdpOpJiERTjlaxsJA8D3jIE4QRtdTQq4KaFasxzeGWMs5lSxyTdN_lvbCOefHBpXpL0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=wY9R2MRWrDwNUg3mj8Finw&_nc_ss=7a20f&oh=00_AQMDut3tEWOYSITsjRXOeBC1723tQSXD7LcXMhOQu7rDKw&oe=6AC394D4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/829631781_1771175987486420_4721813965134096515_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM5MTE0MTg3MjEwNzQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4WfoVRwT68wQ7kNvwHWe4kc&_nc_oc=AdrXyD_Um3MJanl6-eM337olntjOs_MwETt7zx7FBOPrABmppSRXuJPT1iCNEFQt8zQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Rb6AwzU-ESbDXRnvHxFfqQ&_nc_ss=7a20f&oh=00_AQPbs9v_bdiPug2ExdApSsfEmrSLTB4UdLa5ik0itgeuFQ&oe=6AC394D4",
    "url": "https://www.threads.com/@kopp/post/Dd5lhB_lH_O",
    "region": "kr"
   },
   {
-   "account": "aipeekme",
-   "text": "구글 딥마인드가 차세대 프론티어 모델인 제미나이 4 아곤을 발표했습니다.\n실제 소프트웨어 엔지니어링과 법률 및 금융 같은 기업 지식 업무, 사이버 보안 방어 영역에서 복잡한 워크플로우를 처리하도록 설계되었습니다.\n제미나이 4 아곤은 복잡하고 장기적인 워크플로우 전반에서 깊이 있는 추론을 유지하도록 구축되어 구글 내부의 일하는 방식을 바꾸고 있습니다.\n현재 페어윈드 프로그램을 통해 신뢰할 수 있는 사이버 보안 방어자들에게 순차적으로 출시되고 있습니다.\n입력 토큰 100만 개당 2달러, 출력 토큰 100만 개당 10달러의 도입 가격으로 출시되며, 캐시된 입력 토큰은 입력 토큰 가격 대비 95% 할인된 가격이 적용됩니다.\n광범위한 출시 전 안전장치를 강화하는 단계에 집중하고 있습니다.\n기존 모델들과 비교해 복잡한 실무 과제에서 얼마나 실질적인 효율을 보여줄지 궁금합니다.\n범용 출시 이후 실제 현업에서 체감하는 성능 차이가 승부를 가를 것 같습니다.\n\n📷 사진 출처: blog.google",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790818293,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/832402771_18090875090407306_1734087984422963553_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Nzk5NjAxNTAyNzIyMzQyMg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=CsM493DxngwQ7kNvwGHDYqB&_nc_oc=AdrpntujIJmg_y9bPMfVzqfys-UL_BRATgqUPnX1ADqnF1pLEixxXhYdnSgtYH_LSPE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=-Fabe-wea-cTGaXCXHYubA&_nc_ss=7a20f&oh=00_AQOwtH_-dCgop3syfH-V0eiMDkl-8xN20aIjpeT8mZG5uw&oe=6AC3AA63",
-   "url": "https://www.threads.com/@aipeekme/post/Dd7vDGBH_t-",
+   "account": "choi.openai",
+   "text": "Cloudflare가 AI 에이전트를 위한 새로운 CLI인 `cf`를 공개했습니다.\n\n`cf`는 Cloudflare API 전반을 터미널에서 다룰 수 있도록 만든 도구인데요.\n도메인 구매부터 각종 Cloudflare 서비스 관리까지 명령어로 처리할 수 있습니다.\n\n특히 정확한 명령어를 몰라도 자연어로 “내 큐에 막혀 있는 메시지를 확인해줘”처럼 검색하면 관련 명령어를 찾아줍니다.\n\nCloudflare는 전체 API를 지원하는 MCP도 제공하고 있어, AI 에이전트가 웹 대시보드를 직접 돌아다니지 않고 Cloudflare를 관리할 수 있는 선택지가 늘어났습니다.",
+   "likes": 29,
+   "cmts": 3,
+   "time": 1790820015,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829226075_17989264917112832_5529600407956506059_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5ODAxMDUxOTczMzgwMjUwMA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=_HFH9Gs9lYQQ7kNvwHbWoVv&_nc_oc=AdrYX_SySB9DrSkSpHQao9vUAhdWJTD_kAZXievW0XKFFZt7QmtO-IFpIDvhxCjGP8g&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=xJSYZJpssqte0-Kb7yrt1Q&_nc_ss=7a20f&oh=00_AQO8gtG9lD4pl7rx6opOvBG-NFwWI1GBKBtineSwxUCuzg&oe=6AC3AEA8",
+   "url": "https://www.threads.com/@choi.openai/post/Dd7yWKlAhYE",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "발표내용 :\nhttps://ideogram.ai/models/4.5",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790816449,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd7ri0Xjtvg",
+   "account": "aipeekme",
+   "text": "프론티어 레드 팀이 GLM-5.3 모델과 고도화된 사이버 역량의 확산을 다룬 글을 공개했습니다.\n지푸 AI가 개발한 GLM-5.3은 작동하는 익스플로잇을 처음부터 끝까지 스스로 개발할 수 있는 능력을 갖추고 있습니다.\n다만 이 모델은 오남용을 제한할 만한 의미 있는 안전장치 없이 출시되었다는 점이 확인되었습니다.\n시뮬레이션 테스트에서 공격자들이 간단한 기술로 GLM-5.3의 안전장치를 64%에서 100% 사이로 우회할 수 있는 것으로 나타났습니다.\n다섯 달 전 클로드 미토스 프리뷰가 최초로 정교한 사이버 익스플로잇을 자율적으로 구축하는 능력을 선보인 바 있습니다.\n이러한 능력이 다른 모델로 확산되면서 악의적인 사이버 공격자들이 높은 영향력을 가진 공격을 감행하기 더 쉬워졌습니다.\n미국 국립표준기술원 인공지능표준혁신센터(CAISI)도 GLM-5.3이 지금까지 출시된 가장 사이버 역량이 뛰어난 오픈웨이트 모델이라고 평가했습니다.\n\n📷 사진 출처: anthropic.com",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790819391,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/825324687_18090878057407306_7963712889687548621_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5ODAwNTIyMjQwNTMwMTc2Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQ0MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=upe0exfxyNcQ7kNvwFit0xs&_nc_oc=AdqKOO4qmPAQus3cmkUNBZHe6VoLxjeD6sKLMTOWeODTmvX11DW_DLFguYGHF4Luus8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=9R_BIoVMNCaZzcpQ2zlZFw&_nc_ss=7a20f&oh=00_AQN61oHLQaR1Gu9FHKOViGqxRMGtJwh5yhI8mHCJXn4C6w&oe=6AC3B2E5",
+   "url": "https://www.threads.com/@aipeekme/post/Dd7xJFDn-YH",
    "region": "kr"
   },
   {
@@ -210,7 +210,7 @@
    "views": 4000000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=HrB%2BYpLehcXzawzuAGCd%2Bc858iQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=%2BLNGn1a6YNBqlx2Vh5L4DyCvaeE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790240939,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
    "region": "kr"
@@ -221,7 +221,7 @@
    "views": 1300000,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=R0AF1BAdlbbsNtgeeWXTGzQtB%2B4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=G1zTzKxGaQ3ngtRJODS7fPu5sRM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790294103,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
    "region": "kr"
@@ -229,10 +229,10 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 874300,
+   "views": 874600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=L5pTn2w%2Fj7h20FhKX5YLtAWS45U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=q%2B1qAYmU9TyDgnB%2FlIe%2BNcQdhCY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790285661,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
    "region": "kr"
@@ -240,10 +240,10 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 608600,
+   "views": 608900,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=nqmuch2OGVP9pnUF2VZSUoXKHwQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=l6wh4gIrh%2FdVl0xTzN9awXNCB%2BI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790316395,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
    "region": "kr"
@@ -251,10 +251,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 559500,
+   "views": 559600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=tN7jaQ0%2FzvE8HBuK6XiZD%2BJ%2B4vs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=JMroekJ13hXxsbwjZcs4NDf9fYU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -265,7 +265,7 @@
    "views": 300500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=EHT7PpPTotsm%2Bcywki5qCfzduTw%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=L2Jpu0Uw66dNQvVHnC5HMgkZwdk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789536283,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
    "region": "kr"
@@ -273,10 +273,10 @@
   {
    "account": "jaemyung_lee",
    "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 195600,
+   "views": 195700,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=AlAefzBEMVOp40ndow1Pey7epK4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=Z23yJtJNIsUpe1C1pqEv%2FyjRPNQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790384214,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
    "region": "kr"
@@ -287,7 +287,7 @@
    "views": 144100,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=3foLH4Rker5PtUktDDwM%2FPH%2BO8U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=wIg0517NzL9bnqfpzjX2H%2F%2BBvWY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -298,7 +298,7 @@
    "views": 94500,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=sBpiyyyyVPAxaTXH8nwi7zGjVlQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=IAqxKm7hTGqeL2ykvCsmUN8LBcM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789981488,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
    "region": "kr"
@@ -309,7 +309,7 @@
    "views": 81600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=MPXtRCfSzBRJiF3%2F45ACwKOu8Ac%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=gPq1208LkoxRAZg2uY3B2ViO28s%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1789605105,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
    "region": "kr"
@@ -317,10 +317,10 @@
   {
    "account": "tictok_ent",
    "title": "아이브(IVE) 레이, 러블리한 현실 콩순이 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토어 오픈을 ",
-   "views": 3441,
+   "views": 3443,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oACVDEgjE1qAyHCSIC8AecFApvCUYBfGnqAmEp~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=nM%2Bg3hggJUstw0LZ9snxmMxA8I8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oACVDEgjE1qAyHCSIC8AecFApvCUYBfGnqAmEp~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=yVewJQMil6Jke37%2FJUaG3KT6egg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790730567,
    "url": "https://www.tiktok.com/@tictok_ent/video/7691129224370998548",
    "region": "kr"
@@ -331,22 +331,13 @@
    "views": 847,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAqAkwxxrKXQMALWAGXgXerAAeJKAfeLcHgGIk~tplv-tiktokx-origin.image?dr=14575&x-expires=1790996400&x-signature=%2FM800cL75htMJOaIEWSUz3QYGzE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAqAkwxxrKXQMALWAGXgXerAAeJKAfeLcHgGIk~tplv-tiktokx-origin.image?dr=14575&x-expires=1791000000&x-signature=o3xVGEoJmRgNVwMgQC%2B69euu9oE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
    "time": 1790730511,
    "url": "https://www.tiktok.com/@tictok_ent/video/7691128981734640917",
    "region": "kr"
   }
  ],
  "reddit": [
-  {
-   "sub": "baseball",
-   "title": "THE HOUSTON ASTROS HAVE BEEN ELIMINATED FROM WORLD SERIES CONTENTION",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790813737,
-   "url": "https://www.reddit.com/r/baseball/comments/1wul4kr/the_houston_astros_have_been_eliminated_from/"
-  },
   {
    "sub": "TierlistFills",
    "title": "Companies - What's your opinion on EA?",
@@ -355,6 +346,15 @@
    "thumb": "",
    "time": 1790805173,
    "url": "https://www.reddit.com/r/TierlistFills/comments/1wuhyj6/companies_whats_your_opinion_on_ea/"
+  },
+  {
+   "sub": "baseball",
+   "title": "THE HOUSTON ASTROS HAVE BEEN ELIMINATED FROM WORLD SERIES CONTENTION",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790813737,
+   "url": "https://www.reddit.com/r/baseball/comments/1wul4kr/the_houston_astros_have_been_eliminated_from/"
   },
   {
    "sub": "NatureIsFuckingLit",
@@ -420,6 +420,15 @@
    "url": "https://www.reddit.com/r/news/comments/1wuegus/hegseth_confirms_that_the_us_military_will_cut_20/"
   },
   {
+   "sub": "pics",
+   "title": "Hero Captain Smit Machchhar whose quick thinking this morning prevented an attempted hijacking",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/07g1p2lr6qsh1.jpeg?width=640&crop=smart&auto=webp&s=c02ae0d13fedb05717b534b2cf779d1e4fea951d",
+   "time": 1790803708,
+   "url": "https://www.reddit.com/r/pics/comments/1wuhddc/hero_captain_smit_machchhar_whose_quick_thinking/"
+  },
+  {
    "sub": "worldnews",
    "title": "Dubai-Tel Aviv flight lands in Saudi Arabia after pilots brawl in cockpit, triggering hijacking alert",
    "score": 0,
@@ -436,15 +445,6 @@
    "thumb": "https://external-preview.redd.it/tJkmOGBWxokN0MjOdaBwqObTTsJYC6oE8VF8uAxjtz4.jpeg?width=640&crop=smart&auto=webp&s=f1a5a1378b156ac9db416ff118bc919e8996f3d5",
    "time": 1790805767,
    "url": "https://www.reddit.com/r/UpliftingNews/comments/1wui73b/californias_incarcerated_firefighters_handle/"
-  },
-  {
-   "sub": "pics",
-   "title": "Hero Captain Smit Machchhar whose quick thinking this morning prevented an attempted hijacking",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/07g1p2lr6qsh1.jpeg?width=640&crop=smart&auto=webp&s=c02ae0d13fedb05717b534b2cf779d1e4fea951d",
-   "time": 1790803708,
-   "url": "https://www.reddit.com/r/pics/comments/1wuhddc/hero_captain_smit_machchhar_whose_quick_thinking/"
   }
  ],
  "disaster": [],
@@ -454,44 +454,55 @@
    "rank": 1
   },
   {
-   "query": "악역영애 말포이",
+   "query": "허미미",
    "rank": 2
   },
   {
-   "query": "치이카와",
+   "query": "악역영애 말포이",
    "rank": 3
   },
   {
-   "query": "아시안 게임 롤",
+   "query": "치이카와",
    "rank": 4
   },
   {
-   "query": "이홍구",
+   "query": "아시안 게임 롤",
    "rank": 5
   },
   {
-   "query": "닛몰캐쉬",
+   "query": "암살자(들)",
    "rank": 6
   },
   {
-   "query": "맨시티",
+   "query": "봉누도2",
    "rank": 7
   },
   {
-   "query": "호날두",
+   "query": "닛몰캐쉬",
    "rank": 8
   },
   {
-   "query": "암살자(들)",
+   "query": "이홍구",
    "rank": 9
   },
   {
-   "query": "봉누도2",
+   "query": "이동진",
    "rank": 10
   }
  ],
  "_cover": {
   "ok": {
+   "x": [
+    "1992__j",
+    "64bitcoinkr",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "mugmulree",
+    "tech_meow"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -506,12 +517,16 @@
     "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "x": {
+    "awaken_eyes": "err"
+   }
+  },
   "landing": {
-   "at": "2026-10-01T12:01:28",
+   "at": "2026-10-01T12:31:33",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-01T12:31:31.086035+09:00"
+ "updated": "2026-10-01T13:06:19.068950+09:00"
 }
