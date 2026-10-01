@@ -4,11 +4,21 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "스레드가 블루뱃지 사용자에 대해 닉네임 노출 방식을 변경하려고 하는 것으로 보입니다.\nPC 버전에는 이미 적용되었고 모바일에는 롤아웃되는 것으로 보이는데요.\n만약 닉네임 노출 방식이 변경되면 오랫동안 고민했었던 핸들명 교체를 고려 해봐야겠습니다.",
+   "likes": 8,
+   "cmts": 4,
+   "time": 1790870940,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829054713_17989575123112832_21001605985721372_n.jpg?stp=cp6_dst-jpg_e35_tt6&_nc_cat=109&ig_cache_key=Mzk5ODQzNzcxMjU5MTgzOTE4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNTM0LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=YwHCpLB8uW0Q7kNvwF1kudx&_nc_oc=AdpNM2Vcs7pDHI9pOQhGKeOix3EL3_WM1DGAYBKhXU9DuigB7-_Qmakr3ZkUWanGLXo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7R25WbWRthy1pMPngLu69A&_nc_ss=7a20f&oh=00_AQMIDkQxXfDoTtK11av9ASPPGAScPoU5KwFrT2wPvTyPzg&oe=6AC45215",
+   "url": "https://www.threads.com/@choi.openai/post/Dd9Teo7j9_O",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "3/ 수법은 한 대화에서 받은 암호화된 추론을 복사해 다른 대화의 모델에게 풀어서 옮겨 적으라고 시키는 방식이었습니다.\n\n추론 API는 사고 과정을 암호화한 덩어리로 응답에 붙여 보내고, 사용자가 다음 요청에 이를 다시 넣으면 모델이 앞선 추론을 이어 가도록 설계돼 있습니다.\n\n8월 10일 arXiv에 올라온 논문 'Stealing Reasoning Traces from Proprietary LLM APIs'는 이 덩어리가 세션과 사용자, 모델 사이에서 그대로 호환된다는 점을 보였는데요.\n\n연구진은 Opus 4.8의 덩어리를 Haiku 4.5에 넣어 원문을 받아 적게 했고, 오픈AI에서는 GPT-5.6 계열이 이전 세대 모델의 덩어리를 받아들였습니다.\n\n오픈AI는 이번 글에서 이 논문을 독립 보안 연구자의 책임 있는 공개로 인용하며 공격 경로가 실제였다고 확인했습니다.",
    "likes": 0,
    "cmts": 1,
    "time": 1790870456,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829836870_17989573236112832_4695466339697060297_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5ODQzMzY1MTE0NjU5NzQ2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzMwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=0J7j-fAnP0wQ7kNvwFF7cyf&_nc_oc=AdrC7GyZa8wIeBOC5sT1B5BaQWUGTZaHRVtU48rLGdEQrRjpObgyPQa2ngEDAZ1eHXM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=uYeEbR-1PUfjSTxcn3cENw&_nc_ss=7a20f&oh=00_AQNiMhr3W6j8VGDyQBOiX2DaCT6CDTEzAQoYXg-jz8v_Mw&oe=6AC467AE",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829836870_17989573236112832_4695466339697060297_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5ODQzMzY1MTE0NjU5NzQ2OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzMwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=0J7j-fAnP0wQ7kNvwFF7cyf&_nc_oc=AdrC7GyZa8wIeBOC5sT1B5BaQWUGTZaHRVtU48rLGdEQrRjpObgyPQa2ngEDAZ1eHXM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7R25WbWRthy1pMPngLu69A&_nc_ss=7a20f&oh=00_AQMLBtbXgwRxhVvQoAtdqh0CMIf745rvD1Ql2yTQGPcbgA&oe=6AC467AE",
    "url": "https://www.threads.com/@choi.openai/post/Dd9Sjiaj6Rc",
    "region": "kr"
   },
@@ -18,18 +28,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790870447,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/833171263_17989573215112832_4096742532837790050_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5ODQzMzU3MjI5MzY5NzE4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzMwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=9oX7Rx261c4Q7kNvwEvoDAo&_nc_oc=AdpX0FhZUI0KP36Eimy4pU8U0THZORlMEpTF55C5UclxU-DBPcy5f_tYXyt0EfvDIaM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=uYeEbR-1PUfjSTxcn3cENw&_nc_ss=7a20f&oh=00_AQOuvW7dAqYewCURVnDgr94nNwRlrSdLhK3FtaWz1zLaJA&oe=6AC454A5",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/833171263_17989573215112832_4096742532837790050_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5ODQzMzU3MjI5MzY5NzE4Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzMwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=9oX7Rx261c4Q7kNvwEvoDAo&_nc_oc=AdpX0FhZUI0KP36Eimy4pU8U0THZORlMEpTF55C5UclxU-DBPcy5f_tYXyt0EfvDIaM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7R25WbWRthy1pMPngLu69A&_nc_ss=7a20f&oh=00_AQPIICtxl-icu5MDucTvnaiAce0t3jdxXWtr-XzK2nUd2A&oe=6AC454A5",
    "url": "https://www.threads.com/@choi.openai/post/Dd9SiY-j96e",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "1/ 오픈AI가 보안 블로그에 조직적인 모델 증류 캠페인을 적발해 차단했다는 글을 올렸습니다.\n\n7월 첫 주부터 누군가 오픈AI 모델의 보호된 추론을 체계적으로 빼내려 했고, 오픈AI는 이를 적대적 증류로 규정했습니다.\n\n적대적 증류는 다른 회사 모델의 출력이나 추론을 허가 없이 대량으로 모아 자기 모델을 훈련하고 복제하는 데 쓰는 행위입니다.\n\n오픈AI는 관찰한 운영자 모두가 한 주체에서 나왔는지는 분명하지 않다고 밝히면서도, 핵심 무리는 키미를 개발한 문샷AI와 연관된 개인들이라고 적었습니다.\n\n오픈AI가 문샷을 공개적으로 지목한 것은 이번이 처음입니다.",
-   "likes": 1,
-   "cmts": 1,
-   "time": 1790870439,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/833313374_17989573182112832_7394528431468785457_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5ODQzMzUwODMzMDUyMTI5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzIwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=B1mHLkJ7bOwQ7kNvwGqa7JH&_nc_oc=AdpSO5dp0AXt5o8mIC6gTuy0xTlg26wrBxcuNzb3EMbVauoBEI8zrLXxls3GK1sQ2Cw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=uYeEbR-1PUfjSTxcn3cENw&_nc_ss=7a20f&oh=00_AQPhENSCUqEZpoqu90sTzF2UmDDvWEDYpHPvHWmUDbGiEA&oe=6AC46FCF",
-   "url": "https://www.threads.com/@choi.openai/post/Dd9ShdaD0LP",
    "region": "kr"
   },
   {
@@ -48,7 +48,7 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790856244,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830701369_18090954236407306_2588320708183623998_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5ODMxNDM2MzMzODM0OTY3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3M-nhzR1lB4Q7kNvwEaz9C_&_nc_oc=AdoO32IUSZ7ciiVKtyNnh9mnuBajQPhQzVybCxCZFEpMhZ-eUbdcruawmOhgFo_j3PQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xGqlqJOeVJp-AQ9sn78oKw&_nc_ss=7a20f&oh=00_AQNGKpe0NT_El7z7Akbk8BKR91ga8P7Mg-DCpsdpcNBcbg&oe=6AC44276",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830701369_18090954236407306_2588320708183623998_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5ODMxNDM2MzMzODM0OTY3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=3M-nhzR1lB4Q7kNvwEaz9C_&_nc_oc=AdoO32IUSZ7ciiVKtyNnh9mnuBajQPhQzVybCxCZFEpMhZ-eUbdcruawmOhgFo_j3PQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BZFMmBEXHe5oaSW8usRbUQ&_nc_ss=7a20f&oh=00_AQNM2S0JeNKUCqoot71Rh4aBzHmfmkbkIb7Ky-CUFp6WCQ&oe=6AC44276",
    "url": "https://www.threads.com/@aipeekme/post/Dd83bq_H9xu",
    "region": "kr"
   },
@@ -105,10 +105,10 @@
   {
    "account": "kopp",
    "text": "a better way to scroll through features 🌀",
-   "likes": 9,
+   "likes": 10,
    "cmts": 1,
    "time": 1790836425,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829363455_2179041276322060_1573348961615240804_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5ODE0NzkyODc5MTUwNjIxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ILhx9dRbhYQQ7kNvwEWqaBy&_nc_oc=AdrqrFtlMDsmRpO9Ilf_lncb-NlJ14HBcYVW1JhvbACWm3TVPt1Iqiv5rWT53cpMtZc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2h1Yl5Lpu3dGtj7eBgeqVw&_nc_ss=7a20f&oh=00_AQOanoyCKDyRxOzu3gBpSLqYnHgSSBBJaenLgON_r3zAyA&oe=6AC4530F",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829363455_2179041276322060_1573348961615240804_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5ODE0NzkyODc5MTUwNjIxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ILhx9dRbhYQQ7kNvwEWqaBy&_nc_oc=AdrqrFtlMDsmRpO9Ilf_lncb-NlJ14HBcYVW1JhvbACWm3TVPt1Iqiv5rWT53cpMtZc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=AeDYV_DEjw3PB087g2eAfA&_nc_ss=7a20f&oh=00_AQNtzg03onynZTB3I8YzYX-qD34weluJjQvD6NJogz1hAg&oe=6AC4530F",
    "url": "https://www.threads.com/@kopp/post/Dd8RluvFN0j",
    "region": "kr"
   },
@@ -158,7 +158,7 @@
    "likes": 14,
    "cmts": 1,
    "time": 1790809221,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829320765_17959663389232485_1198139729214991290_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkxOTk3Nzc3MTQzMzYzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F_HVVMMqwwQ7kNvwFG4CrK&_nc_oc=AdqrGBBXtQSg0CnPwdFAQyYlIttAWMvRxb_8E-6udSx2rsSgJ6JajjygTn-9nHMwcPI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=Ym8zqljxHsmgMHHFFVmS7g&_nc_ss=7a20f&oh=00_AQOwoDQ3q49jZHJFpp39OGbFkYfGHuMTTPcO_n7_3_98Fw&oe=6AC47303",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829320765_17959663389232485_1198139729214991290_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkxOTk3Nzc3MTQzMzYzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F_HVVMMqwwQ7kNvwFG4CrK&_nc_oc=AdqrGBBXtQSg0CnPwdFAQyYlIttAWMvRxb_8E-6udSx2rsSgJ6JajjygTn-9nHMwcPI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=K1dnMVzuULwC3ODmiQVPxw&_nc_ss=7a20f&oh=00_AQOub5AHRb2lnr4TmIIm24RTEGoW61vANITSMAPx1TYLtA&oe=6AC47303",
    "url": "https://www.threads.com/@aicoffeechat/post/Dd7dwmzgP6h",
    "region": "kr"
   },
@@ -168,18 +168,18 @@
    "likes": 11,
    "cmts": 5,
    "time": 1790796644,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/830729309_1802322597464792_6248759910379488708_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NzgxNDIxNjA2NDY4NjIzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZwRSc4zmpsUQ7kNvwHFKlgk&_nc_oc=AdrsHKs6UPGsyU4S8jl1RQ_YrYRmV2v-Qp5qoUm1iWDv3R7j-e89zSxxx-EFHtDDV6k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=2h1Yl5Lpu3dGtj7eBgeqVw&_nc_ss=7a20f&oh=00_AQMAsnPRW661RWoJSqnVLE3ULiAYamk2j7LONk7dxDgMFg&oe=6AC45A47",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/830729309_1802322597464792_6248759910379488708_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NzgxNDIxNjA2NDY4NjIzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZwRSc4zmpsUQ7kNvwHFKlgk&_nc_oc=AdrsHKs6UPGsyU4S8jl1RQ_YrYRmV2v-Qp5qoUm1iWDv3R7j-e89zSxxx-EFHtDDV6k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=AeDYV_DEjw3PB087g2eAfA&_nc_ss=7a20f&oh=00_AQM1eDsL_8otrUq5eJrvGDD45zLLsbdJnIMevwczSa-J7Q&oe=6AC45A47",
    "url": "https://www.threads.com/@kopp/post/Dd7Ftkiitif",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "오픈AI가 문샷AI를 공개적으로 지목했습니다.\n\n누군가 1만 5천 명이 넘는 사용자 무리를 이용해 오픈AI 모델의 숨겨진 추론을 대규모로 빼내려 했고, 오픈AI는 핵심 무리가 Kimi 개발사 문샷AI와 연관됐다고 밝혔습니다.\n\n실제 추론 탈취 방법과 사건의 전말을 정리했습니다🧵",
-   "likes": 5,
-   "cmts": 11,
-   "time": 1790870436,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd9ShCfD66O",
+   "text": "1/ 오픈AI가 보안 블로그에 조직적인 모델 증류 캠페인을 적발해 차단했다는 글을 올렸습니다.\n\n7월 첫 주부터 누군가 오픈AI 모델의 보호된 추론을 체계적으로 빼내려 했고, 오픈AI는 이를 적대적 증류로 규정했습니다.\n\n적대적 증류는 다른 회사 모델의 출력이나 추론을 허가 없이 대량으로 모아 자기 모델을 훈련하고 복제하는 데 쓰는 행위입니다.\n\n오픈AI는 관찰한 운영자 모두가 한 주체에서 나왔는지는 분명하지 않다고 밝히면서도, 핵심 무리는 키미를 개발한 문샷AI와 연관된 개인들이라고 적었습니다.\n\n오픈AI가 문샷을 공개적으로 지목한 것은 이번이 처음입니다.",
+   "likes": 1,
+   "cmts": 1,
+   "time": 1790870439,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/833313374_17989573182112832_7394528431468785457_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5ODQzMzUwODMzMDUyMTI5NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNzIwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=B1mHLkJ7bOwQ7kNvwGqa7JH&_nc_oc=AdpSO5dp0AXt5o8mIC6gTuy0xTlg26wrBxcuNzb3EMbVauoBEI8zrLXxls3GK1sQ2Cw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=7R25WbWRthy1pMPngLu69A&_nc_ss=7a20f&oh=00_AQNxKsbPrHxYxhWnNKGARtPp_WrInH35QFstHH-EtwdbEQ&oe=6AC46FCF",
+   "url": "https://www.threads.com/@choi.openai/post/Dd9ShdaD0LP",
    "region": "kr"
   },
   {
@@ -188,7 +188,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1790847147,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830160552_18090933686407306_8013947893888041326_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5ODIzODA1MDkyMTQ0ODAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=K4LLOWoi49MQ7kNvwGkGwLJ&_nc_oc=AdpniXtPSAJgvjQWGv0CvpQfsQR9CryTn9PFPKavyocQfvjNVaJzbpQJihdt7Reshl0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=xGqlqJOeVJp-AQ9sn78oKw&_nc_ss=7a20f&oh=00_AQNUJYqhK91UsgpGW2SD17uaeJE0ZMPelBlmvyNeHMEEfA&oe=6AC47328",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830160552_18090933686407306_8013947893888041326_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=104&ig_cache_key=Mzk5ODIzODA1MDkyMTQ0ODAyNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=K4LLOWoi49MQ7kNvwGkGwLJ&_nc_oc=AdpniXtPSAJgvjQWGv0CvpQfsQR9CryTn9PFPKavyocQfvjNVaJzbpQJihdt7Reshl0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=BZFMmBEXHe5oaSW8usRbUQ&_nc_ss=7a20f&oh=00_AQOk6Notqn2KN7qw53lSR2_57HHeEIBYHZ-PnqnXksDBgw&oe=6AC47328",
    "url": "https://www.threads.com/@aipeekme/post/Dd8mFLgn4Jb",
    "region": "kr"
   },
@@ -198,7 +198,7 @@
    "likes": 2,
    "cmts": 5,
    "time": 1790836633,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831119033_17939286939362958_3367264805012017365_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5ODE0OTkyMjM5NDQzMTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KC0eUsvXG24Q7kNvwGvzadl&_nc_oc=AdryQn8UV3n4Sf827TJ71EVI-RILB485EoOd7hlFYVA4JwZgfuSraPxdkMMptfVCr20&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=h0MQ_NbZ6_RadeVdGlA-Rg&_nc_ss=7a20f&oh=00_AQP9GWDV2cHCnIu-EASoKfKQLWi16hjUKVVURFFU2AqMuw&oe=6AC441A1",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831119033_17939286939362958_3367264805012017365_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5ODE0OTkyMjM5NDQzMTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KC0eUsvXG24Q7kNvwGvzadl&_nc_oc=AdryQn8UV3n4Sf827TJ71EVI-RILB485EoOd7hlFYVA4JwZgfuSraPxdkMMptfVCr20&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YIAi-dwFPZaObdybh3t5Rg&_nc_ss=7a20f&oh=00_AQOAuc0NBXYR4ah_fUbolWLRp87e4uspKu1dPIwFZlMk4Q&oe=6AC441A1",
    "url": "https://www.threads.com/@takepage_/post/Dd8SCvbE2Aa",
    "region": "kr"
   }
@@ -229,7 +229,7 @@
   {
    "account": "jaemyung_lee",
    "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 878200,
+   "views": 878300,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=aP1k0jLaePLLnpkIa%2B8yjSIrWcc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -240,7 +240,7 @@
   {
    "account": "jaemyung_lee",
    "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 613300,
+   "views": 613400,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=bwISTNBp7vi%2BNBCETpfUAJDDZHU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -251,10 +251,10 @@
   {
    "account": "jaemyung_lee",
    "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 561100,
+   "views": 561200,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=k25X6kQxweRwBrUKh9tAnwKm980%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=2appmpa9MfJabtc1gsbSHt9%2BbUE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1789537496,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
    "region": "kr"
@@ -273,7 +273,7 @@
   {
    "account": "jaemyung_lee",
    "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 197900,
+   "views": 198000,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=I8jbM0jHIDhC6Kb4A6Dsx%2Fp1U40%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -287,7 +287,7 @@
    "views": 144600,
    "likes": 0,
    "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=PnH4j0pG2ORp2JLx3mxNSnJ%2BB20%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=UgkqJIpsDkqYA%2FD7plEOu742CoM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
    "time": 1790052600,
    "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
    "region": "kr"
@@ -317,7 +317,7 @@
   {
    "account": "tictok_ent",
    "title": "아이브(IVE) 레이, 러블리한 현실 콩순이 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토어 오픈을 ",
-   "views": 3558,
+   "views": 3562,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oACVDEgjE1qAyHCSIC8AecFApvCUYBfGnqAmEp~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=GCLwc6XZnjNpvO48Dckq3llJ%2Fak%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -328,7 +328,7 @@
   {
    "account": "tictok_ent",
    "title": "서강준, 감탄 나오는 비현실적 잘생김 / 몽블랑(MONTBLANC) 팝업 포토월 럭셔리 라이프스타일 브랜드 몽블랑(MONTBLANC)의 'Let's Write' 팝업스토어 오픈을 기념한 포토행사가 1일 오전 서울 송",
-   "views": 1414,
+   "views": 1420,
    "likes": 0,
    "cmts": 0,
    "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMIRpcqAcpS2mpR9DBEb5vFCvAACfgf4EyEAum~tplv-tiktokx-origin.image?dr=14575&x-expires=1791043200&x-signature=VxuYlwgAjM3%2BNaZ7UZgAKkvYKZs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
@@ -393,15 +393,6 @@
    "url": "https://www.reddit.com/r/gachagaming/comments/1wuy5fa/gacha_revenue_monthly_report_september_2026/"
   },
   {
-   "sub": "TopCharacterTropes",
-   "title": "(risky trope) A show changes genres mid way",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/qm7whrsdgrsh1.jpg?width=140&height=93&auto=webp&s=e924decdd5c465121d727a08d4a19684ec4ddc23",
-   "time": 1790819023,
-   "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1wumxpd/risky_trope_a_show_changes_genres_mid_way/"
-  },
-  {
    "sub": "dashcams",
    "title": "Freeway bumping Cars",
    "score": 0,
@@ -411,6 +402,15 @@
    "url": "https://www.reddit.com/r/dashcams/comments/1wujfv3/freeway_bumping_cars/"
   },
   {
+   "sub": "TopCharacterTropes",
+   "title": "(risky trope) A show changes genres mid way",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/qm7whrsdgrsh1.jpg?width=140&height=93&auto=webp&s=e924decdd5c465121d727a08d4a19684ec4ddc23",
+   "time": 1790819023,
+   "url": "https://www.reddit.com/r/TopCharacterTropes/comments/1wumxpd/risky_trope_a_show_changes_genres_mid_way/"
+  },
+  {
    "sub": "mildlyinfuriating",
    "title": "My insurance keeps denying my RX for my allergic reaction due to lack of “medical necessity”",
    "score": 0,
@@ -418,15 +418,6 @@
    "thumb": "https://preview.redd.it/mie08si6bvsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=c6446a66e46e6a36291e274a087e9f2f6e99786e",
    "time": 1790865699,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wv18na/my_insurance_keeps_denying_my_rx_for_my_allergic/"
-  },
-  {
-   "sub": "AbsoluteUnits",
-   "title": "of a Sand Dune",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/aHprbGRhcWRqdXNoMY19_UMbdgYYT9UmX4F715hbhEk63buQAad6qGwNDr_r.jpeg?width=320&crop=smart&auto=webp&s=d7c1a79f2d2d3e64e972ec1209abc29d97dcbe6a",
-   "time": 1790856357,
-   "url": "https://www.reddit.com/r/AbsoluteUnits/comments/1wuxonm/of_a_sand_dune/"
   },
   {
    "sub": "pics",
@@ -445,6 +436,15 @@
    "thumb": "https://external-preview.redd.it/rsPj26yNtRo-3xA2rs1a-zykA1jNiQ2IoBuyVZiD7wg.jpeg?width=320&crop=smart&auto=webp&s=7d62e2a26af5cfcdee4166fa1a5930ba8824835d",
    "time": 1790815595,
    "url": "https://www.reddit.com/r/videos/comments/1wulrkj/hegseth_announces_elon_musk_and_newt_gingrich/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "Everyone is too happy around this guy",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/anE0b3A5M3A4cnNoMUPEpX0cwZoeNoAOcao6CxTymyFFGz2B6NOUY12P8cuB.png?width=320&crop=smart&auto=webp&s=b6cdfdf98ad2eb5b3ad9cc2221a709354447f77d",
+   "time": 1790816455,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wum2c9/everyone_is_too_happy_around_this_guy/"
   }
  ],
  "disaster": [],
@@ -458,52 +458,40 @@
    "rank": 2
   },
   {
-   "query": "인천 동춘동 초등학생 유괴 살인사건",
+   "query": "닛몰캐쉬",
    "rank": 3
   },
   {
-   "query": "닛몰캐쉬",
+   "query": "암살자(들)",
    "rank": 4
   },
   {
-   "query": "치이카와",
+   "query": "인천 동춘동 초등학생 유괴 살인사건",
    "rank": 5
   },
   {
-   "query": "봉누도2",
+   "query": "시지프 백화점",
    "rank": 6
   },
   {
-   "query": "암살자(들)",
+   "query": "봉누도2",
    "rank": 7
   },
   {
-   "query": "맨시티",
+   "query": "치이카와",
    "rank": 8
   },
   {
-   "query": "시지프 백화점",
+   "query": "잔느(Project Moon 세계관)",
    "rank": 9
   },
   {
-   "query": "잔느(Project Moon 세계관)",
+   "query": "맨시티",
    "rank": 10
   }
  ],
  "_cover": {
   "ok": {
-   "x": [
-    "1992__j",
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "mugmulree",
-    "tech_meow"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -520,10 +508,10 @@
   },
   "why": {},
   "landing": {
-   "at": "2026-10-02T00:31:22",
+   "at": "2026-10-02T01:06:22",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-02T01:06:14.906387+09:00"
+ "updated": "2026-10-02T01:31:22.453845+09:00"
 }
