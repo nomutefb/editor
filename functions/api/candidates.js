@@ -40,15 +40,19 @@ export async function onRequestGet({ env, request }) {
     'https://raw.githubusercontent.com/nomutefb/editor/main/viewer/candidates.json',
     { 'user-agent': 'nomute-viewer' },
   ]);
+  // x-nm-try = 앞 소스가 왜 실패했나(예 `api=403 raw=429 r2=miss`) — 뷰어 알림 리포트 「후보api」에 그대로 찍힌다(261001: 사유를 버려 서버 원인을 추측으로만 갈랐다).
+  const tried = [];
   for (const [url, headers] of tries) {
+    const name = url.includes('api.github.com') ? 'api' : 'raw';
     try {
       const r = await fetch(url, { headers, cf: { cacheTtl: 30, cacheEverything: true } });
       if (r.ok) {
         const body = await r.text();
         JSON.parse(body);   // 유효 JSON 확인 — 깨진 응답이면 throw → 다음 소스
-        return reply(request, body, { ...H, 'x-nm-src': 'gh' });
+        return reply(request, body, { ...H, 'x-nm-src': 'gh', ...(tried.length ? { 'x-nm-try': tried.join(' ') } : {}) });
       }
-    } catch { /* 다음 소스 */ }
+      tried.push(name + '=' + r.status);
+    } catch (e) { tried.push(name + '=' + ((e && e.name) || 'err')); /* 다음 소스 */ }
   }
   // ── 2차: R2 live/ 미러(맥 레인이 굽는 사본) = 원본 전멸 시의 보험.
   //    ⚠ 낡았을 수 있다 — 그래도 빈 화면보다 낫다. 얼마나 낡았는지를 헤더로 같이 낸다
@@ -61,9 +65,11 @@ export async function onRequestGet({ env, request }) {
         JSON.parse(b);
         const up = o.uploaded ? new Date(o.uploaded).getTime() : 0;
         const age = up ? Math.round((Date.now() - up) / 60000) : -1;
-        return reply(request, b, { ...H, 'x-nm-src': 'r2', 'x-nm-age-min': String(age) });
+        return reply(request, b, { ...H, 'x-nm-src': 'r2', 'x-nm-age-min': String(age), 'x-nm-try': tried.join(' ') });
       }
-    }
-  } catch { /* 낼 게 없다 */ }
-  return new Response('[]', { status: 200, headers: { ...H, 'x-nm-src': 'none' } });
+      tried.push('r2=miss');
+    } else tried.push('r2=unbound');
+  } catch (e) { tried.push('r2=' + ((e && e.name) || 'err')); /* 낼 게 없다 */ }
+  // no-store = 실패 응답을 브라우저가 60초 재사용하면 뷰어의 10초 재시도가 서버에 안 가고 같은 [] 를 다시 읽는다(실패 1회가 2회로 세짐)
+  return new Response('[]', { status: 200, headers: { ...H, 'cache-control': 'no-store', 'x-nm-src': 'none', 'x-nm-try': tried.join(' ') } });
 }

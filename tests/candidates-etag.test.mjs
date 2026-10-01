@@ -38,3 +38,20 @@ test('원본 실패 → R2 미러 폴백도 ETag·304', async () => {
   const r2 = await onRequestGet({env, request: req(r1.headers.get('etag'))});
   assert.equal(r2.status, 304);
 });
+
+test('전 소스 실패 = [] · no-store(재시도가 캐시를 다시 읽지 않게) · x-nm-try 소스별 사유', async () => {
+  globalThis.fetch = async u => (String(u).includes('api.github.com') ? {ok: false, status: 403} : {ok: false, status: 429});
+  const r = await onRequestGet({env: {GH_TOKEN: 't', R2: {get: async () => null}}, request: req()});
+  assert.equal(await r.text(), '[]');
+  assert.equal(r.headers.get('x-nm-src'), 'none');
+  assert.equal(r.headers.get('cache-control'), 'no-store');
+  assert.equal(r.headers.get('x-nm-try'), 'api=403 raw=429 r2=miss');
+});
+
+test('앞 소스 실패 후 성공 = 성공 응답에도 x-nm-try', async () => {
+  globalThis.fetch = async u => (String(u).includes('api.github.com') ? {ok: false, status: 401} : {ok: true, text: async () => body});
+  const r = await onRequestGet({env: {GH_TOKEN: 't'}, request: req()});
+  assert.equal(r.status, 200);
+  assert.equal(r.headers.get('x-nm-src'), 'gh');
+  assert.equal(r.headers.get('x-nm-try'), 'api=401');
+});

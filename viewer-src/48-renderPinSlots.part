@@ -318,7 +318,7 @@ async function pickFromReq(r, tries = 0) {
   if (!c) {
     if (tries < 8) { await new Promise(z => setTimeout(z, Math.min(1200 + tries * 600, 4500))); try { await loadCandidates(true); } catch (_) {} return pickFromReq(r, tries + 1); }
     showTab('scrap');
-    qFlash(!CAND_LIVE ? 'PICK 못 함 — 수집함 최신 목록을 못 받았어(접속 확인 뒤 수집함에서 PICK)' : 'PICK 못 함 — 수집함에 아직 없어(수집 지연 · 잠시 뒤 수집함에서 PICK)');
+    qFlash(!CAND_LIVE || CAND_MISS > 0 ? 'PICK 못 함 — 수집함 최신 목록을 못 받았어(접속 확인 뒤 수집함에서 PICK)' : 'PICK 못 함 — 수집함에 아직 없어(수집 지연 · 잠시 뒤 수집함에서 PICK)');
     return;
   }
   pickFromPush(c, r.kind);

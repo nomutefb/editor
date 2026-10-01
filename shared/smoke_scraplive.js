@@ -11,7 +11,7 @@
 //   P1 SW 보관 요청 = api/pick 1발 · 카드 Picking… · P2 재처리 = 중복 0 · P3 같은 묶음표 후보 여럿 = 보류
 //   P4 주소 쿼리 act=pick 만으로는 발사 0(외부 링크 무확인 과금 차단)
 //   F1~F4 불러오기 실패(회선·서버·로그인 만료) = 조용한 공백 대신 사유 1줄 + 조치 버튼 · 회복 뒤 목록 복귀
-//   L1~L4 라이브 api 한 번 끊김 = 즉시 노란 알림 0(10초 재시도) · 연속 2회부터 점등 · 라이브 보유 중엔 더 낡은 정적 사본으로 강등 0
+//   L1~L6 라이브 api 한 번 끊김 = 즉시 노란 알림 0(10초 재시도 · 유예는 횟수 아닌 시간) · 10초 넘는 연속 실패부터 점등 · 라이브 보유 중엔 더 낡은 정적 사본으로 강등 0 · 숨김 뒤 복귀 첫 실패 = 새 연속
 //   C1 페이지 에러 0
 // 원커맨드:  node shared/smoke_scraplive.js   (종료코드 0 = 전부 PASS)
 // 리스크 통제: 네트워크 0(api·후보 전부 route 스텁) · 라이브 데이터 무관(합성 후보) · 포트대 8940~8944.
@@ -186,9 +186,12 @@ const mk = (i, t, h, cross, extra = {}) => ({ id: 'https://x.kr/' + i, url: 'htt
     await p4.waitForFunction(() => typeof CAND_MISS !== 'undefined' && CAND_MISS >= 1 && CANDS.length >= 2 && !SCRAP_LOADING, null, { timeout: 15000 });
     let l = await lst();
     ok('L1 부팅 직후 api 1회 실패 = 정적 사본 표시 · 노란 알림·기어 보류(빠른 재시도 대기)', !l.live && l.miss === 1 && !l.stale && !l.gear && /HTTP 503/.test(l.api), JSON.stringify(l));
-    await p4.waitForFunction(() => CAND_MISS >= 2 && !SCRAP_LOADING, null, { timeout: 15000 }).catch(() => {});
+    await p4.evaluate(async () => { for (let i = 0; i < 2; i++) { while (SCRAP_LOADING) await new Promise(r => setTimeout(r, 50)); await loadCandidates(true); } });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     l = await lst();
-    ok('L2 10초 재시도도 실패 = 연속 2회 → 노란 알림 점등(진짜 고장은 숨기지 않음)', l.miss >= 2 && l.stale, JSON.stringify(l));
+    ok('L1b 10초 안 연달아 재호출(알림 딥링크 대기 루프) = 횟수가 늘어도 유예 유지', !l.live && l.miss >= 3 && !l.stale && !l.gear, JSON.stringify(l));
+    await p4.waitForFunction(() => CAND_MISS >= 4 && !SCRAP_LOADING, null, { timeout: 15000 }).catch(() => {});
+    l = await lst();
+    ok('L2 10초 재시도도 실패 = 연속 실패 10초 초과 → 노란 알림 점등(진짜 고장은 숨기지 않음)', l.miss >= 4 && l.stale, JSON.stringify(l));
     amode = 'ok';
     await p4.evaluate(async () => { while (SCRAP_LOADING) await new Promise(r => setTimeout(r, 50)); await loadCandidates(true); });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     l = await lst();
@@ -197,6 +200,12 @@ const mk = (i, t, h, cross, extra = {}) => ({ id: 'https://x.kr/' + i, url: 'htt
     await p4.evaluate(async () => { while (SCRAP_LOADING) await new Promise(r => setTimeout(r, 50)); await loadCandidates(true); });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
     l = await lst();
     ok('L4 라이브 보유 중 api 1회 실패 = 더 낡은 정적 사본으로 강등 0 · 알림 0', l.live && l.ids === '11,12' && !l.stale && !l.gear && l.miss === 1, JSON.stringify(l));
+    await p4.evaluate(async () => { while (SCRAP_LOADING) await new Promise(r => setTimeout(r, 50)); CAND_MISS_AT = Date.now() - 200000; CAND_TS = Date.now() - 3 * 3600e3; await loadCandidates(true); });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    l = await lst();
+    ok('L5 몇 시간 숨김 뒤 복귀 첫 요청 실패 = 새 연속(1회) · 유예 = 알림 0', l.live && l.miss === 1 && !l.stale && !l.gear, JSON.stringify(l));
+    await p4.evaluate(async () => { while (SCRAP_LOADING) await new Promise(r => setTimeout(r, 50)); CAND_MISS0 = Date.now() - CAND_RETRY_MS - 1000; await loadCandidates(true); });   // seal-ok: 브라우저 스모크 표준 하네스(smoke_chan 계승) — 브라우저 비기동 형제(thumbapi·sbflow·favtab)는 비대상
+    l = await lst();
+    ok('L6 이어서 10초 넘게 연속 실패 = 낡은 화면 점등(라이브 보유분도 숨기지 않음) · 강등 0', l.live && l.miss === 2 && l.stale && l.gear && l.ids === '11,12', JSON.stringify(l));
     await ctx3.close();
     ok('C1 페이지 에러 0', errs.length === 0, errs.length ? errs.slice(0, 3).join(' · ') : '콘솔 pageerror 0건');
   } catch (e) {

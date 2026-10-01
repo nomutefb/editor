@@ -262,6 +262,7 @@ async function startServer() {
     checkFreshLane(); await nap();
     const freshFires = window.__show();                                    // 대조군: 방금 받은 데이터면 종전대로 발화
     CAND_TS = Date.now() - (CAND_STALE_MS + 60e3);                         // 수신 경과 = 임계+1분(fetch 연속 실패 재현)
+    CAND_MISS = 20; CAND_MISS0 = Date.now() - CAND_STALE_MS; CAND_MISS_AT = Date.now();   // 같은 재현의 실패 원장(261001 — 노란 알림은 한 번 끊김 유예[candGrace]를 거치므로 '20분 연속 실패'면 연속 실패 기록도 20분이어야 정직한 입력 · 판정 기준은 무변경)
     checkFreshLane(); syncStaleMsg(); await nap();
     const staleSilent = !window.__show();                                  // ⓐ 붉은 경보(원인 주장) = 자격미달로 침묵
     const gearKept = document.body.classList.contains('has-freshbad');     // ⓐ' 기어(상태 표시)는 **유지** — 같이 끄면 "진짜 고장 + 서빙 사망"에서 화면 표시가 0이 된다(staleDataMsg는 id·_sys가 없어 배지·기어에 안 잡힘 · 260725 "해결될 때까지 출력" 보존)
@@ -281,7 +282,7 @@ async function startServer() {
     try { localStorage.removeItem('nmFreshAck'); } catch (e) {}
     TF_SRV.s = new Set(); _freshAckTs = 0; _freshMute = false;
     CANDS = window.__mk('q', 120, (FAST_MAX_H + 1) * 3600e3);
-    CAND_TS = Date.now();
+    CAND_TS = Date.now(); CAND_MISS = 0;   // 다음 폴 성공 = 실패 원장도 0(loadCandidates api 성공 분기와 동일)
     checkFreshLane(); syncStaleMsg(); await nap();
     return { freshFires, staleSilent, gearKept, yellowOn, rearmZero, ackKept,
              refireAfterRecv: window.__show(), yellowOff: !(typeof staleDataMsg === 'function' && staleDataMsg()) };

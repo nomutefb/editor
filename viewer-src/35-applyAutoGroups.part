@@ -22,7 +22,7 @@ function applyMerges(pool) {
   const liveId = new Set(CANDS.map(candId));
   let pruned = false;
   const _prunedKeys = [];
-  if (CAND_LIVE && CANDS.length) for (const a of Object.keys(M)) { if (!liveId.has(a) && !_mems(a).some(m => liveId.has(m))) { delete M[a]; _prunedKeys.push(a); pruned = true; } }   // 라이브 후보에서만 판정(260923 평의회 — 오프라인·만료 부팅의 빈 CANDS·낡은 정적 폴백으로 전 병합을 '죽음' 판정하던 것 차단)
+  if (candFresh() && CAND_MISS === 0 && CANDS.length) for (const a of Object.keys(M)) { if (!liveId.has(a) && !_mems(a).some(m => liveId.has(m))) { delete M[a]; _prunedKeys.push(a); pruned = true; } }   // 라이브 후보에서만 판정(260923 평의회 — 오프라인·만료 부팅의 빈 CANDS·낡은 정적 폴백으로 전 병합을 '죽음' 판정하던 것 차단)   // 261001: 마지막 api가 성공한 신선한 라이브에서만 — 강등 금지로 api가 끊겨도 CAND_LIVE가 남아 얼어붙은 목록이 다른 기기의 새 병합을 '죽음'으로 지우던 경로 차단(미러 r2 낡은 사본도 candFresh에서 걸러짐)
   if (pruned) saveMerges(M, { del: _prunedKeys }, true);   // GC도 계정 동기 — 전 기기 동일 결정(liveId 기반 결정적이라 어느 기기가 먼저 지워도 같은 결과) · once = 큐 밖 1회 전송
   const byId = new Map(pool.map(c => [candId(c), c]));
   const anchorSet = new Set(Object.keys(M).filter(a => byId.has(a)));   // pool에 실존하는 앵커만 = 앵커 부재면 멤버 안 접음(그룹 통째 실종 방지)
