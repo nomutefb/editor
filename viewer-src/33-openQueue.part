@@ -409,7 +409,7 @@ async function loadCandidates(quiet) {   // quiet=라이브 폴링: CANDS·속�
           if (api) why = '빈 응답(src=' + (r.headers.get('x-nm-src') || '?') + ')';
         } else if (api) why = 'HTTP ' + r.status;
       } catch (e) { if (isNetErr(e)) netFail = true; if (api) why = e && (e.name === 'TimeoutError' || e.name === 'AbortError') ? '시간초과 12s' : isNetErr(e) ? '회선 오류' : '응답 오류 ' + ((e && e.name) || ''); /* 다음 소스 */ }
-      if (api) { CAND_MISS++; CAND_API = why; if (CAND_MISS === 1) setTimeout(() => loadCandidates(true), CAND_RETRY_MS); }   // 첫 실패만 빠른 재시도 1발(연속 실패는 1분 폴이 이어받음 = 재시도 폭주 0)
+      if (api) { CAND_MISS++; CAND_API = why; if (CAND_MISS === 1) setTimeout(() => { if (document.visibilityState === 'visible' && !isComposingModalOpen()) loadCandidates(true); }, CAND_RETRY_MS); }   // 첫 실패만 빠른 재시도 1발(연속 실패는 1분 폴이 이어받음 = 재시도 폭주 0) · 가드 = livePoll 형제 그대로(안 보임·작성 모달 = 쉼 → 복귀·닫은 뒤 폴이 따라잡음 · smoke_studioshell C16 유휴 정숙)
     }
     const _prevErr = SCRAP_ERR;
     if (!CANDS.length) { const k = await nmAuthNote(); SCRAP_ERR = k === 'auth' ? 'auth' : (netFail || k === 'net') ? 'net' : 'srv'; }   // 보여줄 것 0 = 원인 확정(Access 만료 302→CORS reject·회선·서버 [] 응답) · last-good 이 있으면 종전대로 그걸 유지(사유 줄 없음 = 신선도 알림 몫)
