@@ -303,7 +303,7 @@ if _haveclaude; then
     BREAKING_MODEL="${BREAKING_MODEL:-claude-opus-5-5}" BREAKING_EFFORT="${BREAKING_EFFORT:-high}" \
     BREAKING_TIMEOUT="${BREAKING_TIMEOUT:-900}" BREAKING_SAFE="${BREAKING_SAFE:-1}" \
     "$PY" .github/scripts/breaking_judge.py || _land "judge-b-fail" "breaking_judge rc≠0(로그인·쿼터)"
-    _push "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json
+    _push "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json scraper/obs/recap_check.jsonl   # 되새김 검토 원장 동반(recap_check.py · 261001)
   fi
   if [ "${ng:-0}" != "0" ] && [ "$(_left)" -ge 420 ]; then
     GATE_MODEL="${GATE_MODEL:-claude-opus-5-5}" GATE_EFFORT="${GATE_EFFORT:-high}" \

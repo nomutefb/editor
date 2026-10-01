@@ -25,6 +25,11 @@ sys.path.insert(0, str(ROOT / "shared"))
 from claude_py import run_claude   # 쿼터 한도 시 대체 계정 자동 전환(account failover · SSOT)  # noqa: E402
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from brk_gates import gate_reason   # 결정적 후처리 게이트 3축(인명 문턱·연예·사법 · 운영자 260917 · 정본 = brk_gates.py)  # noqa: E402
+try:
+    from recap_check import check as recap_check   # 되새김 검토(운영자 261001 · 정본 = recap_check.py) — 새 YES 의 원문이 지난 사건 재탕이면 X  # noqa: E402
+except Exception as _e:  # noqa: BLE001 — 검토 모듈 부재 = 종전 판정(fail-open) · 소리는 낸다
+    recap_check = None
+    print(f"::warning::breaking_judge: 되새김 검토 모듈 import 실패 — 검토 없이 판정: {type(_e).__name__}: {_e}", file=sys.stderr)
 sys.path.append(str(ROOT / "scraper"))   # 뒤에 붙인다 = .github/scripts·shared 모듈 이름이 먼저(가림 0)
 try:
     from live_signal import tail as _live_tail   # 〔확산 강|중|약 «이름»: …〕 꼬리표 표기 정본(260929 · scraper/live_signal.py)  # noqa: E402
@@ -728,6 +733,7 @@ def main():
     lb_row = {i: rid for rid, _, i, k in rows if k == "lb"}
     nbreak = 0
     shadow = []
+    yes = []   # 이번 런 YES 엔트리 = 되새김 검토 대상(아래 · 도장 뒤 강등만 = 재판정 경로 불변)
     for i, c in enumerate(pending):
         rv = verdicts.get(str(rep_row[i]))
         if rv is None:
@@ -757,6 +763,23 @@ def main():
         c["breaking_rubric"] = _stamp(c)   # 판정 도장(이 규칙 + 이 제목(+lb)으로 판정됨 — 제목·lb 가 갈리면 다음 런이 재판정)
         if v:
             nbreak += 1
+            yes.append(c)
+    # 되새김 검토(운영자 261001 «알람 직전에 되새김 글이 아닌지 한번 검토») — 판정기는 제목만 봐서
+    #   「수학여행 중학생 등 46명 사망…」(꼬꼬무 1970년 참사 방송 예고)를 국내 사망 46명 = YES 로 냈다.
+    #   이번 런 YES(재판정 포함)만 원문 앞부분으로 「지난 사건을 다시 꺼낸 글」인지 AI 1콜로 묻고 RECAP 이면 X — 이 쓰기가 조기 커밋 전이라
+    #   화면 🚨·웹푸시·자동 요약이 전부 강등된 값을 읽는다. 실패·애매 = 종전 판정(fail-open). 도장은 위에서 이미 찍힘 = 같은 제목 재검토 0 ·
+    #   제목만 갈린 재판정은 같은 원문의 48h 판정을 재사용(recap_check._cache = 내린 되새김이 재검토 실패 한 번에 되살아나지 않게).
+    if yes and recap_check:
+        try:
+            flags = recap_check(yes)
+        except Exception as e:  # noqa: BLE001 — 검토가 죽어도 이번 런 판정·도장은 아래 _write 로 남긴다(fail-open)
+            flags = {}
+            print(f"::warning::되새김 검토 예외 — 종전 판정 유지: {type(e).__name__}: {e}")
+        for j, is_recap in flags.items():
+            if is_recap and 0 <= j < len(yes) and yes[j].get("breaking"):
+                yes[j]["breaking"] = False
+                nbreak -= 1
+                print(f"  ⊘ 되새김 X: {(yes[j].get('title') or '')[:40]} — 원문이 지난 사건을 다시 꺼낸 글")
     _write(cands)                                # 원자 쓰기(공통 헬퍼)
     _shadow_log(shadow)
     print(f"판정 완료: 🚨속보 {nbreak}건 / 후보 {len(pending)}건 (rubric {RUBRIC_VER} · lb행 {nlb} · lb기록 {len(shadow)})")

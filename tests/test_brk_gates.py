@@ -351,7 +351,8 @@ class JudgeIntegration(unittest.TestCase):
                  patch.object(bj, "needs_judging", return_value=pending), \
                  patch.object(bj, "judge", side_effect=lambda items: ({k: True for k, _ in items}, 0, "")), \
                  patch.object(bj, "_shadow_log"), patch.object(sys, "argv", ["breaking_judge.py"]), \
-                 contextlib.redirect_stdout(io.StringIO()):
+                 patch.object(bj, "recap_check", None), \
+                 contextlib.redirect_stdout(io.StringIO()):   # 되새김 검토 = 원문 회수·실제 AI 콜 → 이 시험 밖(정본 시험 = test_recap_check)
                 bj.main()
             return json.loads(path.read_text(encoding="utf-8"))
 

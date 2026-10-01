@@ -167,7 +167,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          for f in viewer/candidates.json scraper/obs/lb_shadow.jsonl; do [ -e "$f" ] && git add "$f"; done   # 파일별 add(Q980 · 결측 경로가 전체 스테이징을 무음 abort 못 하게) · lb_shadow = lb 2행 판정 원장(append · git_land 줄 합집합 축 · 260913)
+          for f in viewer/candidates.json scraper/obs/lb_shadow.jsonl scraper/obs/recap_check.jsonl; do [ -e "$f" ] && git add "$f"; done   # 파일별 add(Q980 · 결측 경로가 전체 스테이징을 무음 abort 못 하게) · lb_shadow = lb 2행 판정 원장(append · git_land 줄 합집합 축 · 260913)
           if git diff --cached --quiet; then echo "속보 변동 없음 — 조기 커밋 생략"; exit 0; fi
           # ⚠⚠ 260817 봉합 — 선행 `git commit` 제거(pick.yml 과 같은 병 · 그쪽 주석이 정본).
           # ⚠⚠ 260816 봉합 — 구판 `pull --rebase -X ours` 는 리베이스에서 ours = **upstream** 이라 충돌 시
@@ -177,7 +177,7 @@ jobs:
           #   원장 축의 유일 무손실이 이 방식이다(`-X theirs` 는 남의 줄을 지운다 = 샌드박스 실측).
           #   PAGES_COALESCE=0 = 이 축들은 코얼레싱 금지 축이라 접두를 끈다(pc_lane `_push` 문법 사본).
           git reset -q HEAD -- . 2>/dev/null || true
-          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json scraper/obs/lb_shadow.jsonl
+          PAGES_COALESCE=0 bash .github/scripts/git_land.sh "AI 판정: 속보 breaking 조기 반영" viewer/candidates.json scraper/obs/lb_shadow.jsonl scraper/obs/recap_check.jsonl
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # 조기 반영은 지연 단축용이라 실패해도 red 로 세우지 않는다 — 아래 최종 Commit(경중·묶기 포함) 스텝이
@@ -230,7 +230,7 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          for f in viewer/candidates.json scraper/obs/lb_shadow.jsonl; do [ -e "$f" ] && git add "$f"; done   # 파일별 add(Q980) · lb_shadow 동반(조기 커밋이 실패했을 때 회수 · 260913)
+          for f in viewer/candidates.json scraper/obs/lb_shadow.jsonl scraper/obs/recap_check.jsonl; do [ -e "$f" ] && git add "$f"; done   # 파일별 add(Q980) · lb_shadow 동반(조기 커밋이 실패했을 때 회수 · 260913)
           git add metrics 2>/dev/null || true   # 토큰 계측 shard(claude_meter·gate/breaking) 동반 커밋 — 있을 때만
           if git diff --cached --quiet; then echo "변동 없음 — 커밋 생략"; exit 0; fi
           # ⚠⚠ 260817 복구 — 이 스텝(과 아래 3스텝)은 260816 일괄 편집에서 파일 뒤쪽이 잘려 통째로 사라져 있었다.
@@ -241,7 +241,7 @@ jobs:
           # ⚠ 접두는 여기만 ON(PAGES_COALESCE 미지정 = 워크플로 env 그대로) — 「경중 grade 갱신」이
           #   _PAGES_SKIP_ALLOW 등재 축이고, 짝(빌드 우회 라이브 서빙)은 functions/api/candidates.js 가 담당한다.
           git reset -q HEAD -- . 2>/dev/null || true
-          bash .github/scripts/git_land.sh "AI 판정: 속보 breaking · 경중 grade 갱신" viewer/candidates.json metrics scraper/obs/lb_shadow.jsonl
+          bash .github/scripts/git_land.sh "AI 판정: 속보 breaking · 경중 grade 갱신" viewer/candidates.json metrics scraper/obs/lb_shadow.jsonl scraper/obs/recap_check.jsonl
           git fetch -q origin main 2>/dev/null || true
           pushed=0; git merge-base --is-ancestor HEAD origin/main 2>/dev/null && pushed=1
           # git_land 는 rc 항상 0(fail-soft)이라 착지 판정을 따로 세운다 — 안 세우면 채점 결과가 통째로

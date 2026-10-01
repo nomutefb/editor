@@ -136,6 +136,7 @@
 | `check_disaster_lm_stale` | ⑭-e 랜드마크 판정 = **박제 필드** → 코드 봉합만으론 화면이 안 낫는다(260805 2차 실사고 봉합). |
 | `check_rubric_regress` | 루브릭 회귀 게이트(하드 · 운영자 260803 승인 — «대구 40.1도» 오발 봉합의 재발 방지 축). |
 | `check_style_ratchet` | 요약 문체 회귀 래칫(WARN·비차단 · 운영자 260810 "ㄱㄱ" · 평의회 6 설계안 1안). |
+| `check_recap_regress` | 되새김 검토 회귀 게이트(하드 · 운영자 261001 — 긴급 YES 직후 원문으로 지난 사건 재탕을 거르는 recap_check 프롬프트 개정 = 정답지 재판정 통과 도장 필수). |
 | `check_grade_regress` | grade 룰북 회귀 게이트(하드 · 운영자 260807 "전부 반영" — 평의회 8인 · check_rubric_regress[breaking 전용]의 짝). |
 | `check_gate_docs` | 구현의 검사 조건 참조 |
 | `check_ssot_linkage` | 공유 부품 SSOT 링크 연결성 게이트(WARN·비차단 · 운영자 260723 Q466 · 디자인기틀 §0-17 5축 등재의 얕은 기계 보조). |

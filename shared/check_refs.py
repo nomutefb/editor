@@ -2606,7 +2606,7 @@ def check_judge_bare():
             return ''
 
     # judge(py): '--bare' emit(코드경로)면 = OAuth 인증 즉사. 주석 속 설명('--safe-mode: … --bare 아님')은 따옴표 없어 미매칭.
-    for n in ('gate_judge.py', 'breaking_judge.py'):
+    for n in ('gate_judge.py', 'breaking_judge.py', 'recap_check.py'):   # recap_check = 판정 직후 되새김 검토(261001 · 같은 OAuth 축)
         txt = _read('.github/scripts/' + n)
         if re.search(r'"--bare"', txt):
             bad.append('%s (judge에 --bare emit = OAuth 안 읽어 인증 즉사 → --safe-mode 사용)' % n)
@@ -9462,6 +9462,39 @@ def check_rubric_regress():
     return 0
 
 
+
+def check_recap_regress():
+    """되새김 검토 회귀 게이트(하드 · 운영자 261001 «알람 직전에 되새김 글이 아닌지 한번 검토» · check_rubric_regress 의 짝).
+    recap_check(긴급 YES 직후 원문으로 「지난 사건 재탕」을 가르는 AI 검토)의 프롬프트·조립부는 RUBRIC 밖이라
+    regress_ver(RUBRIC+judge)가 못 본다 — 고쳐도 회귀 0회로 라이브에 나가는 사각. 정답지(recap_regress_cases.json ·
+    실발송 원문 스냅샷 + 경계 사례)를 `python3 .github/scripts/recap_regress.py` 로 다시 판정해 전건 통과해야 도장이 찍힌다.
+    게이트 자체는 정적 해시 대조(네트워크·LLM 0) · 케이스 개수도 본다(케이스만 추가하고 안 돌린 지뢰 차단 = 짝과 같은 교훈)."""
+    import importlib.util as _ilu
+    rp = os.path.join(ROOT, '.github', 'scripts', 'recap_regress.py')
+    cs_p = os.path.join(ROOT, '.github', 'scripts', 'recap_regress_cases.json')
+    st_p = os.path.join(ROOT, '.github', 'scripts', 'recap_regress_stamp.json')
+    try:
+        spec = _ilu.spec_from_file_location('recap_regress_gate', rp)
+        mod = _ilu.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        want = mod.regress_ver()
+        cases = json.loads(_FilePath(cs_p).read_text(encoding='utf-8'))['cases']
+        assert cases and all(c.get('t') and c.get('expect') in ('RECAP', 'FRESH') for c in cases)
+    except Exception as e:
+        print('❌ 되새김 회귀 게이트 — 실행기/케이스 원장 로드 실패(%s): %s' % (os.path.basename(cs_p), e))
+        return 1
+    try:
+        st = json.loads(_FilePath(st_p).read_text(encoding='utf-8'))
+    except Exception:
+        st = {}
+    if st.get('regress_ver') != want or st.get('cases') != len(cases):
+        print('❌ 되새김 회귀 게이트 — recap_check 프롬프트/조립부/케이스 변경 후 회귀 미실행(지난 사건 판정 뒤집힘 미확인 = 커밋 차단).')
+        print('   → python3 .github/scripts/recap_regress.py 실행(케이스 %d건 · 전건 통과 시 도장) 후 스탬프 함께 커밋. (stamp=%s · now=%s)'
+              % (len(cases), st.get('regress_ver'), want))
+        return 1
+    print('✅ 되새김 회귀 게이트 — 프롬프트+조립부 %s = 회귀 도장 일치(케이스 %d건).' % (want, len(cases)))
+    return 0
+
 _STYLE_BASE = {           # 260810 실측 스냅샷(queue 최근 60건) — 늘면 WARN · 줄면 낮추라고 알린다
     'lead_date': 35.0,    # IG 🔎 리드가 날짜·시각으로 열림 (21/60)
     'gloss': 1.7,         # 용어 풀이 문장 「~는 …하는 제도다」 (1/60)
@@ -10932,6 +10965,11 @@ def main():
             rc = 1
     except Exception as e:
         print('⚠️ 루브릭 회귀 게이트 스킵:', e)
+    try:
+        if check_recap_regress() != 0:   # 되새김 검토 회귀 도장(운영자 261001 — recap_check 프롬프트 개정 = 정답지 재판정 통과 도장 필수 · 게이트 자체는 정적 해시 대조 = LLM 0)
+            rc = 1
+    except Exception as e:
+        print('⚠️ 되새김 회귀 게이트 스킵:', e)
     try:
         if check_grade_regress() != 0:   # grade 회귀 도장(운영자 260807 — gate_judge RUBRIC 개정 = 운영자 재채점 정답지 드라이런 통과 도장 필수 · 게이트 자체는 정적 해시 대조 = LLM 0)
             rc = 1
