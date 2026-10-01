@@ -154,10 +154,12 @@ function chk(name, pass, detail) { R.push({ name, pass, detail }); console.log((
       ON.screen = true; P.ar = '16:9'; render(); r.land = P.size; P.ar = '4:5'; render(); r.r45 = P.size;
       ON.screen = false; _vw = 0; _vh = 0; render(); r.unk = P.size; r.autoUnk = buildOpts(false).size_auto === true;
       _vw = sv[0]; _vh = sv[1]; P.sizeman = true; P.size = 70; ON.screen = true; P.ar = '9:16'; render(); r.man = P.size; r.autoMan = buildOpts(false).size_auto === true;
-      P.sizeman = false; ON.screen = false; render(); return r; });
-    chk('C12 자막 기본 크기(세로 53·가로 94·4:5 75 · 비율 모름 = size_auto · 손댐 = 고정)',
-      sz.port === 53 && sz.land === 94 && sz.r45 === 75 && sz.unk === 94 && !sz.autoKnown && sz.autoUnk && sz.man === 70 && !sz.autoMan,
-      '세로 ' + sz.port + ' · 16:9 ' + sz.land + ' · 4:5 ' + sz.r45 + ' · 모름 ' + sz.unk + '(auto ' + sz.autoUnk + ') · 손댐 ' + sz.man + '(auto ' + sz.autoMan + ')');
+      P.sizeman = false; ON.screen = true; P.ar = '16:9'; const sl = [LY_ID, RES_AR];   // 재입히기 = 그 작업 결과 비율만(다른 작업 결과면 현재 폼 기준)
+      RES_AR = { id: 'job-a', ar: 9 / 16 }; LY_ID = 'job-a'; r.reMine = lyOptsNow().size; LY_ID = 'job-b'; r.reOther = lyOptsNow().size;
+      LY_ID = sl[0]; RES_AR = sl[1]; ON.screen = false; render(); return r; });
+    chk('C12 자막 기본 크기(세로 53·가로 94·4:5 75 · 비율 모름 = size_auto · 손댐 = 고정 · 재입히기 = 그 작업 결과 비율)',
+      sz.port === 53 && sz.land === 94 && sz.r45 === 75 && sz.unk === 94 && !sz.autoKnown && sz.autoUnk && sz.man === 70 && !sz.autoMan && sz.reMine === 0.053 && sz.reOther === 0.094,
+      '세로 ' + sz.port + ' · 16:9 ' + sz.land + ' · 4:5 ' + sz.r45 + ' · 모름 ' + sz.unk + '(auto ' + sz.autoUnk + ') · 손댐 ' + sz.man + '(auto ' + sz.autoMan + ') · 재입히기 같은 작업 ' + sz.reMine + ' / 다른 작업 ' + sz.reOther);
 
     // C10 자막 미리보기 = 러너 미러(운영자 260923 "미리보기 글자 크기 맞춰줘") — 글자 = 크기 ÷ 폰트 줄 높이 비(libass 윈 정규화) · 굵기 = 러너 Bold ·
     //   강조어 = 줄과 같은 굵기 · 박스 = 높이 fs×(1+pad)(보이는 경계 = 그라데 잘라낸 뒤) — 구 산식(font-size = fs · 800)으로 돌아가면 여기서 잡힌다

@@ -3291,7 +3291,8 @@ async function lyVidFetch(outPath) {   // video.json 1회 fetch — SPA 폴백(H
   });
 })();
 /* ── 어댑터(배치 B-2 신규 · 유일한 비원문 코드): 편집기 작업 ↔ 이식 자막 편집기 배선 ── */
-const lyReSize=()=>{ if(P.sizeman) return P.size; const v=document.querySelector('#vwrap video'); return (v&&v.videoWidth&&v.videoHeight)?sizeFor(v.videoWidth/v.videoHeight):(sizeAuto(),P.size); };   // (261001 2차) 재입히기 = 완성 영상 비율로 기본 크기(러너가 직전 편집 축 승계 = 출력 비율 그대로 · api/ly 화이트리스트 무접촉)
+let RES_AR={id:'', ar:0};   // 완성 영상(showResult) 출력 비율 + 그 작업 id — #vwrap 은 작업 내역 이동·대기 화면으로 다른 작업 영상일 수 있어 id 로 묶는다(독립 검토 261001)
+const lyReSize=()=>{ if(P.sizeman) return P.size; return (RES_AR.id&&RES_AR.id===LY_ID&&RES_AR.ar)?sizeFor(RES_AR.ar):(sizeAuto(),P.size); };   // (261001 2차) 재입히기 = **그 작업** 완성 영상 비율로 기본 크기(러너가 직전 편집 축 승계 = 출력 비율 그대로 · api/ly 화이트리스트 무접촉) · 모르면 현재 폼 기준
 const lyOptsNow=()=>({ lang:(ON.trn?'dual':P.lang), tone:P.tone, filler:P.filler, style:P.style, pos:P.pos, size:Math.round(lyReSize())/1000, bg:P.bg, karaoke:P.karaoke, hi:P.hi, pop:P.pop, keyword:P.keyword, cut:ON.cut, cutlv:P.cutlv, bgm:ON.bgm,
   outline:Math.round(P.sh*10)/1000, pad:Math.min(.5,Math.max(0,Math.round(P.sh)/1000)), shtype:P.shtype, oc:P.shc, font:P.font, fg:P.fg, kwc:P.kwc||'green', glow:Math.round(P.glow||0), ...(ON.trn?{dual_small:Math.round(srcRatio()*100)/100, dual_gap:Math.round(Math.max(0,Math.min(60,+P.lgap||0)))/100}:{}) });   // 번역 토글 = 재입히기도 dual+50%(운영자 260728 Q06 · api/ly.js dual_small 화이트리스트 짝)   // +글자색·글로우(운영자 260721 — 재입히기도 카드 설정 그대로 · api/ly.js 화이트리스트 짝)   // 다시 입히기 옵션 = 스택 카드(P/ON)가 정본(운영자 260711 "관련된 거에 카테고라이징" — ly 행 덩어리를 카드 분류로 대체) · buildOpts 자막 축과 동일 규칙(음영·색·폰트 포함 = 재입히기도 카드 설정 그대로 · api/ly.js 화이트리스트 짝)
 let EDIT_SUB=false;   // 이번 작업이 자막 산출(subs.md) 동반인가 — 완성 영상 표시를 vstage↔lyBurn 중 하나로 라우팅(이중 표시 방지)
@@ -3362,7 +3363,9 @@ function showResult(d, sec){
   const _v=vw.querySelector('video');
   try{ if(d.url&&window.nmRail) nmRail.add({ url:String(d.url), poster:String(d.poster||''), cap:'편집', varStr:vMetaStr(_v,d), dlname:String(d.url).split('/').pop()||'video.mp4',
     src: jobCfgGet(EDIT_ID)? { app:'edit', id:String(EDIT_ID), v:String(d.src||'') } : null }); }catch(e){}   /* v = 그 작업이 쓴 **원본 영상 주소**(러너가 결과 쪽지에 적어 준다) — 연필을 누르면 설정과 함께 이 원본을 다시 붙여 바로 생성이 되게 한다(운영자 260811) */   /* ⚠ 화면 주인(포커스) 완료의 결과 레일 착지 — 이 줄이 **없어서** 정상 제작분이 이력에 한 건도 안 쌓였다(운영자 260810 "방금거가 유실된다") · 강등분(bgLand·pollEditBg)과 짝. ⚠ **여기서 바로** 얹는다 — 영상 메타를 기다렸다 얹으면 메타가 안 오는 회선에서 통째로 유실된다(표기보다 적재가 위) · src = 그 작업 설정이 남아 있을 때만(운영자 260811 "원본을 가지고 있다면") = 그 타일에만 수정 연필이 뜬다 */
-  const _paint=()=>{ const s=vMetaStr(_v,d); if(!s) return; const el=document.getElementById('vMeta'); if(el){ el.textContent=s; el.hidden=false; }
+  const _rid=EDIT_ID;   // (261001 2차) 이 결과의 작업 id — 메타가 늦게 와도(1.5s 폴백) 그때의 EDIT_ID 가 아니라 이 결과에 묶는다
+  const _paint=()=>{ if(_v&&_v.videoWidth&&_v.videoHeight) RES_AR={id:_rid, ar:_v.videoWidth/_v.videoHeight};   // 재입히기 기본 크기용 출력 비율(lyReSize)
+    const s=vMetaStr(_v,d); if(!s) return; const el=document.getElementById('vMeta'); if(el){ el.textContent=s; el.hidden=false; }
     try{ if(window.nmRail&&nmRail.meta) nmRail.meta(d.url,s); }catch(e){} };   // 값 세 개는 영상 메타가 와야 완성된다 → 화면 칩과 타일 값 칩을 **같은 문자열로** 함께 갱신(두 자리가 갈릴 여지 0)
   if(_v) _v.addEventListener('loadedmetadata',_paint,{once:true});
   setTimeout(_paint,1500);   /* raw-ok: 메타 대기 상한(ms — 지속시간 토큰 아님) · 이벤트를 놓친 회선의 마지막 기회 */
