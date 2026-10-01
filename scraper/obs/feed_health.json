@@ -1,8 +1,44 @@
 {
- "ok": 185,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 181,
+ "dead": 4,
+ "dead_feeds": [
+  {
+   "publisher": "이투데이",
+   "title": "전체기사",
+   "url": "http://rss.etoday.co.kr/eto/etoday_news_all.xml"
+  },
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
+  },
+  {
+   "publisher": "스타뉴스",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/st_news.xml"
+  }
+ ],
  "zombie_feeds": [
+  {
+   "publisher": "동아일보",
+   "title": "레져",
+   "url": "https://rss.donga.com/leisure.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "여성",
+   "url": "https://rss.donga.com/woman.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "생활정보",
+   "url": "https://rss.donga.com/lifeinfo.xml"
+  },
   {
    "publisher": "미디어오늘",
    "title": "경제",
