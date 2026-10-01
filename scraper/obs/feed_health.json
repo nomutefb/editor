@@ -1,7 +1,18 @@
 {
- "ok": 185,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 183,
+ "dead": 2,
+ "dead_feeds": [
+  {
+   "publisher": "머니투데이",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/mt_news.xml"
+  },
+  {
+   "publisher": "스타뉴스",
+   "title": "전체기사",
+   "url": "https://rss.mt.co.kr/st_news.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "동아일보",
