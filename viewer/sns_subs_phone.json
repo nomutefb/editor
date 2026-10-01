@@ -3,9 +3,29 @@
  "insta": [],
  "threads": [
   {
+   "account": "daily_ai_star",
+   "text": "이전에는 코딩 모델의 품질과 응답 속도를 먼저 비교했습니다.\n\n이제는 긴 작업을 단일 모델에 맡길지, GPT-6.1 Sol이 서브에이전트로 분할할지까지 비용표에 넣어야 합니다. 입력·출력·캐시·호출 횟수가 각각 다른 비용을 만들기 때문입니다.\n\n모델이 좋아졌다는 발표보다 중요한 변화는 따로 있습니다. 에이전트의 경쟁력이 답변 한 번의 정확도에서 작업 단위의 총비용과 병렬 실행 구조로 옮겨가고 있습니다.\n\nhttps://developers.openai.com/api/docs/changelog",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790812839,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd7kpvLAQXx",
+   "region": "kr"
+  },
+  {
+   "account": "daily_ai_star",
+   "text": "GPT-6.1 Sol이 9월 29일 API에 추가됐습니다.\n\n복잡한 코딩과 전문 작업용 모델인데, 입력 100만 토큰당 2달러, 출력은 10달러입니다. 캐시 입력은 0.10달러, 캐시 쓰기는 2.50달러입니다.\n\nGPT-6.1 Sol은 멀티 에이전트도 베타로 지원합니다. 한 번의 Responses API 요청에서 서브에이전트에 작업을 나눌 수 있습니다.\n\n모델 선택의 기준이 “가장 강한 모델인가”에서 “이 작업을 몇 개로 나눠 얼마에 끝내는가”로 이동했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790812830,
+   "thumb": "",
+   "url": "https://www.threads.com/@daily_ai_star/post/Dd7kohFgZBr",
+   "region": "kr"
+  },
+  {
    "account": "choi.openai",
    "text": "기사 :\nhttps://www.bloomberg.com/news/articles/2026-09-30/google-grapples-with-employee-skepticism-about-new-gemini-model",
-   "likes": 1,
+   "likes": 3,
    "cmts": 0,
    "time": 1790811081,
    "thumb": "",
@@ -15,10 +35,10 @@
   {
    "account": "choi.openai",
    "text": "Gemini 4 Argon이 공개되자마자 또 ‘벤치마크용 모델 아니냐’는 이야기가 나오고 있습니다.\n\n구글 딥마인드는 코딩·기업 업무·사이버 보안에 초점을 맞춘 Gemini 4 Argon을 일부 테스터에게 공개했는데요.\n\n하지만 Bloomberg는 내부 직원들을 인용해 Gemini 4가 벤치마크에서는 좋은 성능을 보였지만, 실제 업무에서는 코딩 등 일부 영역의 성능이 기대에 미치지 못한다는 평가가 있다고 보도했습니다.",
-   "likes": 7,
-   "cmts": 2,
+   "likes": 25,
+   "cmts": 3,
    "time": 1790811057,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831641759_17989463718112832_4699870485074328618_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkzNTM3Nzc1NDI1NTM0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=SumcQGth_fMQ7kNvwFctiZE&_nc_oc=AdoTkbbrDsBSBByjcswqvJZvX2BI7MXhihvaLADsJ0w12xbZABB8Clf2I9Kgi0_Vg0Q&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5ycu3GZhM5cKmQ50gqDjNg&_nc_ss=7a20f&oh=00_AQOJfjIdSvHegquwDSZhcuZcuBeW2C2Xyo_8bUj-ZqmCXA&oe=6AC368AA",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831641759_17989463718112832_4699870485074328618_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkzNTM3Nzc1NDI1NTM0MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuODk4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=SumcQGth_fMQ7kNvwGhVFNs&_nc_oc=AdoT36UErI4SXvDT2M-ftV7iLxV-Dui6kMMoSDhs1sanXGf3KWkE4DAZr_1wai8wZro&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Mu_yIynijk-R-1JmpGbQ7w&_nc_ss=7a20f&oh=00_AQMMYPtJyD_gRja_VvRzJKkmU94MTdY3-4Cqsx43JV-T7w&oe=6AC368AA",
    "url": "https://www.threads.com/@choi.openai/post/Dd7hQtKAm_t",
    "region": "kr"
   },
@@ -38,7 +58,7 @@
    "likes": 1,
    "cmts": 1,
    "time": 1790809315,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830681722_18090854228407306_5512840358055849330_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NzkyMDY5NzQzMjEzMjk5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bqJJ1_QGGBcQ7kNvwFL8A9f&_nc_oc=AdqJbs4GaEsnqSlM1cohDLkKo0wjArgz6HeOJw9miXowAkJzBPvYyClHIHixpZ_ys4Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YId4nO8GpGJlg9oDYAcgWA&_nc_ss=7a20f&oh=00_AQMB6vFvgba7J6FR0ml5-9g5_yYR5xdnOwCs-i3JkcXg4Q&oe=6AC3860D",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830681722_18090854228407306_5512840358055849330_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5NzkyMDY5NzQzMjEzMjk5Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=bqJJ1_QGGBcQ7kNvwFKw03U&_nc_oc=AdobIVNqP-MjxvXsun8XvkY6Gbt7rZdrceud9iaNZDpqse_xacbAp5pHmTo7zLnpos4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=h16bZg6IxIwuzThKkTWgCA&_nc_ss=7a20f&oh=00_AQNIRIdS_BvQxQLKBS1k9OJPYeVZ-64XoP0I-HRgn70jtA&oe=6AC3860D",
    "url": "https://www.threads.com/@aipeekme/post/Dd7d7FCn82F",
    "region": "kr"
   },
@@ -58,14 +78,14 @@
    "likes": 8,
    "cmts": 1,
    "time": 1790809221,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829320765_17959663389232485_1198139729214991290_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkxOTk3Nzc3MTQzMzYzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F_HVVMMqwwQ7kNvwFG4CrK&_nc_oc=AdqrGBBXtQSg0CnPwdFAQyYlIttAWMvRxb_8E-6udSx2rsSgJ6JajjygTn-9nHMwcPI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=DPFAMt4NBMzeJgoKm3KP5A&_nc_ss=7a20f&oh=00_AQMNkCopuvgbqHxW2yCbpIv8FZ5N6UIifOvFmfPygOUrJw&oe=6AC359C3",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829320765_17959663389232485_1198139729214991290_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5NzkxOTk3Nzc3MTQzMzYzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIyMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=2F_HVVMMqwwQ7kNvwH8Oirw&_nc_oc=AdoUDTOi7pnukAIKKLnsiI4RAzJUBuM0xnSE539vSg_Y-6Q1Da53BGQbW3jOPhXRdpY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=8k7H0gTEE-IHUV0xWMNW4Q&_nc_ss=7a20f&oh=00_AQOGdaAO-qm070K8TnoSz4RcujvvUsZ6jWN0DTiyIIpxAw&oe=6AC359C3",
    "url": "https://www.threads.com/@aicoffeechat/post/Dd7dwmzgP6h",
    "region": "kr"
   },
   {
    "account": "choi.openai",
    "text": "작년엔 전 국민 대상 신청자가 약 3,000명 몰려 신청 하루 만에 마감, 올 상반기 고등학생·대학생 대상 CAMPUS 대회에도 3,000명이 신청했습니다.\n\n📌 대회 일정\n- 참가 신청: 2026년 10월 1일 오전 10시~10월 21일\n선착순 모집으로 조기 마감될 수 있습니다.\n\n- 온라인 예선: 10/31(토)\n- 오프라인 본선: 11/21(토), 카카오 AI 캠퍼스\n\n📌 참가 신청 링크\nhttps://bit.ly/4rvIIw7",
-   "likes": 11,
+   "likes": 12,
    "cmts": 0,
    "time": 1790805620,
    "thumb": "",
@@ -78,7 +98,7 @@
    "likes": 8,
    "cmts": 4,
    "time": 1790796644,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/830729309_1802322597464792_6248759910379488708_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NzgxNDIxNjA2NDY4NjIzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZwRSc4zmpsUQ7kNvwHFKlgk&_nc_oc=AdrsHKs6UPGsyU4S8jl1RQ_YrYRmV2v-Qp5qoUm1iWDv3R7j-e89zSxxx-EFHtDDV6k&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GoYKeiBLbZJQX4mC4_fjSg&_nc_ss=7a20f&oh=00_AQNNB00aS1NuPJIzYmsDQhTMxGdMWti5-Fi0SzjinI47PQ&oe=6AC37947",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830729309_1802322597464792_6248759910379488708_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5NzgxNDIxNjA2NDY4NjIzOQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZwRSc4zmpsUQ7kNvwHeBjqo&_nc_oc=AdoaMK9zDZv3PuRdPjpmMWkK82cwfCx1CD-I_Y_nrnzZ2E1xHlxQCyXlTOHUrTiQJoc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=04_Ags4PR5VmAUu3qYIzcQ&_nc_ss=7a20f&oh=00_AQNJTVURb6bcicazslmmCVwu6kGnVYoxiFE9O60qC_xbwA&oe=6AC37947",
    "url": "https://www.threads.com/@kopp/post/Dd7Ftkiitif",
    "region": "kr"
   },
@@ -108,7 +128,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1790761099,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829492100_17939159217362958_7660079184825155377_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=109&ig_cache_key=Mzk5NzUxNjI5Njc1NzY3MzQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nCXM5EHykFAQ7kNvwFDzptO&_nc_oc=Ado5u5I8Giv1Q58yQmMg59BZRTXt3FgxHDo5lyIi8T2FVzh1aH7AxgTVgPi94Tze-PE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=vOtMBYq5rY5KzxfNpftr7g&_nc_ss=7a20f&oh=00_AQMHNIXgKo76I2zMus4dvK8cwcNfcklWhyLxLeEQ_XjDVA&oe=6AC379F4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829492100_17939159217362958_7660079184825155377_n.webp?stp=dst-webp_p640x640_sh2.08&_nc_cat=109&ig_cache_key=Mzk5NzUxNjI5Njc1NzY3MzQwOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=nCXM5EHykFAQ7kNvwFOm2O5&_nc_oc=AdqKQqR9Cys3JmmJBgTzFVabLiJy6nv5rhDIsjrdwARmagDrqv8VzD8zTYrwYF8LQvE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=JNy2yzNPG8eKZyLrljdizg&_nc_ss=7a20f&oh=00_AQP9UQWxx_NGtKDqOYtsqP1vscp1ReTa_NJXdM5XgGFgOQ&oe=6AC379F4",
    "url": "https://www.threads.com/@takepage_/post/Dd6B-RkE33A",
    "region": "kr"
   },
@@ -128,7 +148,7 @@
    "likes": 2,
    "cmts": 1,
    "time": 1790746207,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829631781_1771175987486420_4721813965134096515_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM5MTE0MTg3MjEwNzQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4WfoVRwT68wQ7kNvwHbnT5r&_nc_oc=AdpWtZBrqYeXWKEtbhsRG-BcPzqjO8hRu9f8FgvcM0o12AEqFx5gLEqDih4PBVrffdI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=GoYKeiBLbZJQX4mC4_fjSg&_nc_ss=7a20f&oh=00_AQOcI3HDmPcydkLy468M4Yj640LVEZHTq0nwpgKmD_8F0g&oe=6AC35C94",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/829631781_1771175987486420_4721813965134096515_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM5MTE0MTg3MjEwNzQ3MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4WfoVRwT68wQ7kNvwHWe4kc&_nc_oc=AdrXyD_Um3MJanl6-eM337olntjOs_MwETt7zx7FBOPrABmppSRXuJPT1iCNEFQt8zQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=04_Ags4PR5VmAUu3qYIzcQ&_nc_ss=7a20f&oh=00_AQONPJ6VYfh8BGeoX1oQhMzzjHG6YSRLGPUknvnW9Slztg&oe=6AC35C94",
    "url": "https://www.threads.com/@kopp/post/Dd5lhB_lH_O",
    "region": "kr"
   },
@@ -153,42 +173,12 @@
    "region": "kr"
   },
   {
-   "account": "daily_ai_star",
-   "text": "OpenAI의 시스템 카드에는 Dots가 GPT-6 Astra 기반이며, 자체 클라우드 컴퓨터에서 도구와 서브에이전트를 사용한다고 적혀 있습니다.\n\n이제 코딩 에이전트의 비교표에 모델 점수만 남기기 어렵습니다. 얼마나 오래 일하는지, 어디서 후속 작업을 시작하는지, 사람이 언제 멈출 수 있는지가 같은 항목이 됩니다.\n\n상시 실행은 편의 기능처럼 보이지만, 운영팀에는 상시 감독해야 할 실행면을 하나 더 만드는 변화입니다 ⭐\n\nhttps://deploymentsafety.openai.com/gpt-6-astra/evaluating-auto-review",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790730926,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd5IaWSGdfv",
-   "region": "kr"
-  },
-  {
-   "account": "daily_ai_star",
-   "text": "OpenAI Dots가 9월 29일 공개됐습니다.\n\n각 Dots는 클라우드 컴퓨터와 브라우저를 갖고, 연결된 도구를 사용하며, 반복 업무를 처리합니다. ChatGPT·문자·이메일·Slack에서 후속 작업도 이어갑니다.\n\n코딩 에이전트가 요청을 받았을 때만 움직이는 도구였다면, Dots는 작업이 끝난 뒤에도 다음 행동을 계속 맡기는 실행 계층에 가깝습니다.\n\n문제는 더 똑똑한 답변이 아닙니다. 에이전트가 계속 켜져 있을 때 권한, 기록, 중단 조건을 어디까지 설계했는지가 기준이 됩니다.\n\nhttps://apnews.com/article/sam-altman-openai-conference-dots-agent-77b6b8888145869206996d7509d24256",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790730914,
-   "thumb": "",
-   "url": "https://www.threads.com/@daily_ai_star/post/Dd5IY6AmbL6",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "해당 프롬프트가 정말 사용된 앤트로픽 블로그 사례 :\n\nhttps://claude.dev/blog/how-we-made-claude-ai-faster/",
-   "likes": 5,
-   "cmts": 0,
-   "time": 1790725316,
-   "thumb": "",
-   "url": "https://www.threads.com/@aicoffeechat/post/Dd49uQaE3QZ",
-   "region": "kr"
-  },
-  {
    "account": "choi.openai",
    "text": "🚨 AI 잘한다는 분들 실력 검증 한 번 해보세요.\n\n카카오임팩트의 AI_TOP_100, 이번 대회는 방식 자체가 바뀌었습니다.\n\n정답이 정해진 문제를 푸는 게 아니라, 참가자가 직접 AI 에이전트를 설계·구축해서 겨루는 방식으로 진행됩니다.\n\n저도 작년 대회에 직접 참가했는데, 카카오 팀이 준비를 정말 잘했다고 느꼈습니다.\n\n여러 AI 에이전트를 엮어 워크플로우를 직접 설계·구축해보고 문제를 정의·검증까지 해본 분이라면, 이번 대회에서 실력을 제대로 발휘해 볼 수 있을 것 같습니다.\n\n만 14세 이상이라면 누구나 참가 가능하고, 예선만 통과해도 본선에서 사용할 AI 도구 지원금 50만원이 제공됩니다. 총 상금 규모는 1억 2천 500만원이라고 하니 한 번쯤 도전해볼 만합니다.\n\n예선 모집은 선착순 5,000명. 10월 1일 오전 10시에 접수가 시작됩니다.\n\n일정과 신청 링크는 댓글에 남깁니다. 👇",
-   "likes": 60,
+   "likes": 68,
    "cmts": 1,
    "time": 1790805607,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/827677794_17989312212112832_7963523964870637140_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Nzg4OTY1MzM0MDE5OTcxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=s0Ei2Jmf53UQ7kNvwGZbkg0&_nc_oc=AdonGYVKmZ6QkS2AwbZgFVdMeLEAT2486Ob9qZM-Z00-SwoH7rdUY4nNQDqruH5wtQc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=5ycu3GZhM5cKmQ50gqDjNg&_nc_ss=7a20f&oh=00_AQOWhHgb8twM025_3zodmL5uHm4RAh5H3dmxMCnt37YekQ&oe=6AC35711",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/827677794_17989312212112832_7963523964870637140_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5Nzg4OTY1MzM0MDE5OTcxNw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTI0NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=s0Ei2Jmf53UQ7kNvwGR-NPO&_nc_oc=AdpEbV7DaQZvqjx-ITYoqjB0xgChCFNjV3RMj0EzxfNr3G-CqL9bvEUvIlByoZHiKKM&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Mu_yIynijk-R-1JmpGbQ7w&_nc_ss=7a20f&oh=00_AQM4UbU09wLGSypN8vmNaDb8abIcV_OcExnT86FRDSP_BA&oe=6AC38F51",
    "url": "https://www.threads.com/@choi.openai/post/Dd7W3U-jVsl",
    "region": "kr"
   },
@@ -198,124 +188,32 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790769684,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829155584_18090748184407306_8931453179508692423_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NzU4ODI0MDIwMzc1MzI5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Vw0WFeldjk4Q7kNvwEzEc7r&_nc_oc=AdoI8LQGN00XRMl2G-eIMUfHRLxhSdHmunE86WvsO1JE21GKG6jtBty2ocaaW3_Ovdw&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=YId4nO8GpGJlg9oDYAcgWA&_nc_ss=7a20f&oh=00_AQN1X_rW97B_TVyRJd7LpGR5-WfeSx_BslzqiGgssjO1PQ&oe=6AC369B9",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829155584_18090748184407306_8931453179508692423_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5NzU4ODI0MDIwMzc1MzI5OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Vw0WFeldjk4Q7kNvwGOR0vx&_nc_oc=AdrMnvtjOVlNMHWSl14LMZhjo6I9WXALfnYt9oAz1zn2_nUr5QZplNscVw_HHqiVa4s&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=h16bZg6IxIwuzThKkTWgCA&_nc_ss=7a20f&oh=00_AQP-Aj9pL3jXRVg1FiQlgbIuKZepPtuqmbvBwoVYB3SuLQ&oe=6AC369B9",
    "url": "https://www.threads.com/@aipeekme/post/Dd6SVMHn6dT",
    "region": "kr"
-  }
- ],
- "tiktok": [
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
-   "views": 4000000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=PH%2BBICdwt77FSOR7tCqpTUAU8MM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790240939,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
-   "region": "kr"
   },
   {
-   "account": "jaemyung_lee",
-   "title": "하나된 비전으로, 함께 열어갈 미래 #이재명 #대통령 #Mexico",
-   "views": 1300000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=l2HtXTvpep53J64Nc%2BJR1Stt5B4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790294103,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 872500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=hQX95uML5tnPU9IX9lQwC64Yjf0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790285661,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 607700,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=A%2FCwTWKg147oh%2BrsxV5p7RtzZCA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790316395,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 559200,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=R8vr6vdcOLI6KlHuyhbp1TovRzM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789537496,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 300300,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=6BCkWkuzQK4%2BjbkiXnzeofzU7gU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789536283,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 194900,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=WY%2FIWFYhder%2BXRJq18w0bv%2FFeJk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790384214,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 143900,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=hIaguYtXFuVAH2ZxR%2BxxgOzDztU%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790052600,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 94400,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=zaHAMZue5Yp0Bivi%2F7LwCScpiHY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789981488,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 81500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1790982000&x-signature=4Jki3up7Q5VEzPIUmDVTjRDPO1Q%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1789605105,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
+   "account": "takepage_",
+   "text": "방금 들어온 6.1sol 과 dot (이름은 '복'이)\n6.1 sol이 6 sol과는 다른 진짜 모델이라는데\n\n참 새로운 모델이 빠르게빠르게 나오는 것 같습니다\n6 sol 나온지 1~2주 뿐인것 같은데 그새 또 6.1sol이 나왔네요\n\n결국 도구나 환경은 계속 좋아질테니\n내 업무에 어떻게 적용할 수 있느냐가\n더 중요한 시대가 되어가는 것 같습니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1790743567,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829585637_17939134113362958_8798613075038473755_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=106&ig_cache_key=Mzk5NzM2OTA5NDQyOTE4NjMyMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMzE4LnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=vj5RIi5sCssQ7kNvwGVc1Hn&_nc_oc=AdoXCKhzYcNXiIW9EqMz7twkyF1WxfylHNBvcwrrhU8bKpNFuaquQh18HkvSNEurb3A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=JNy2yzNPG8eKZyLrljdizg&_nc_ss=7a20f&oh=00_AQO-53zP3p14GhOGeWJ8V-rzSk0iGz3zPVLlxIQwj2EYfQ&oe=6AC37477",
+   "url": "https://www.threads.com/@takepage_/post/Dd5giMME2r2",
    "region": "kr"
   }
  ],
+ "tiktok": [],
  "reddit": [
+  {
+   "sub": "mildlyinfuriating",
+   "title": "I havent had a Crunch in 5 years and it literally tastes like eating Chemicals.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/16ehiozm4osh1.jpeg?width=640&crop=smart&auto=webp&s=ac37eb94d95dcfc28140b4bbddec753a578f9711",
+   "time": 1790778752,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wu6in8/i_havent_had_a_crunch_in_5_years_and_it_literally/"
+  },
   {
    "sub": "bald",
    "title": "It's done, I've joined the bald gang!",
@@ -324,15 +222,6 @@
    "thumb": "https://preview.redd.it/at09z0c4xpsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=cb6f67c543712a4bf216fba842e1178ba39e3729",
    "time": 1790800440,
    "url": "https://www.reddit.com/r/bald/comments/1wug0vh/its_done_ive_joined_the_bald_gang/"
-  },
-  {
-   "sub": "comics",
-   "title": "[oc] crimes",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/j69g3kg5qpsh1.jpg?width=140&height=140&auto=webp&s=6f7dc23d56920045076ffbde5bd36fc1b0571bbd",
-   "time": 1790798094,
-   "url": "https://www.reddit.com/r/comics/comments/1wuf0uj/oc_crimes/"
   },
   {
    "sub": "pics",
@@ -344,13 +233,22 @@
    "url": "https://www.reddit.com/r/pics/comments/1wuhddc/hero_captain_smit_machchhar_whose_quick_thinking/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "I havent had a Crunch in 5 years and it literally tastes like eating Chemicals.",
+   "sub": "interestingasfuck",
+   "title": "The new US Passport reveal akin to Apple product reveal.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/16ehiozm4osh1.jpeg?width=640&crop=smart&auto=webp&s=ac37eb94d95dcfc28140b4bbddec753a578f9711",
-   "time": 1790778752,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wu6in8/i_havent_had_a_crunch_in_5_years_and_it_literally/"
+   "thumb": "https://external-preview.redd.it/a3k1c3g0NmM1cHNoMR2D_KWmSQv_1rOTHsXh26CSJLAEbl5E0CrWjhKJ82g6.jpeg?width=640&crop=smart&auto=webp&s=65df8ec823db6f365bb9ea0cfb4621e0a2f37f48",
+   "time": 1790791096,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wubxdy/the_new_us_passport_reveal_akin_to_apple_product/"
+  },
+  {
+   "sub": "comics",
+   "title": "[oc] crimes",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/j69g3kg5qpsh1.jpg?width=140&height=140&auto=webp&s=6f7dc23d56920045076ffbde5bd36fc1b0571bbd",
+   "time": 1790798094,
+   "url": "https://www.reddit.com/r/comics/comments/1wuf0uj/oc_crimes/"
   },
   {
    "sub": "todayilearned",
@@ -362,13 +260,31 @@
    "url": "https://www.reddit.com/r/todayilearned/comments/1wucilq/til_charles_darwin_once_caught_two_rare_beetles/"
   },
   {
-   "sub": "interestingasfuck",
-   "title": "The new US Passport reveal akin to Apple product reveal.",
+   "sub": "news",
+   "title": "Hegseth confirms that the US military will cut 20% of its generals and admirals",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/a3k1c3g0NmM1cHNoMR2D_KWmSQv_1rOTHsXh26CSJLAEbl5E0CrWjhKJ82g6.jpeg?width=640&crop=smart&auto=webp&s=65df8ec823db6f365bb9ea0cfb4621e0a2f37f48",
-   "time": 1790791096,
-   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wubxdy/the_new_us_passport_reveal_akin_to_apple_product/"
+   "thumb": "",
+   "time": 1790796795,
+   "url": "https://www.reddit.com/r/news/comments/1wuegus/hegseth_confirms_that_the_us_military_will_cut_20/"
+  },
+  {
+   "sub": "law",
+   "title": "Appeals court backs finding Trump colluded with IRS, Treasury",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/3NYLYTby1-e4ONrO2tzrsCK25UnA5TCNQeRAzRBQ0Lw.jpeg?width=640&crop=smart&auto=webp&s=11d663ee5e84014bd1da5a4d0a8144b8e6dbe272",
+   "time": 1790795652,
+   "url": "https://www.reddit.com/r/law/comments/1wudye3/appeals_court_backs_finding_trump_colluded_with/"
+  },
+  {
+   "sub": "PoursTea",
+   "title": "Absolutely love this...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/ic3ct8km3psh1.jpeg?width=640&crop=smart&auto=webp&s=a9bb0275067962cb36768425f42e1822b5585070",
+   "time": 1790790517,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wubnv3/absolutely_love_this/"
   },
   {
    "sub": "ChatGPT",
@@ -378,15 +294,6 @@
    "thumb": "https://external-preview.redd.it/aTIwbGdiemQybnNoMVc_2klF_fKx6ss7SiFgA_eqDeD7JGZInRuC2tqje4y9.png?width=640&crop=smart&auto=webp&s=a0b67f51ee3c42932f88bbb7c0d11b0bd96d8bd8",
    "time": 1790765913,
    "url": "https://www.reddit.com/r/ChatGPT/comments/1wu1w1q/q_who_should_be_held_accountable_when_the_ai/"
-  },
-  {
-   "sub": "news",
-   "title": "Hegseth confirms that the US military will cut 20% of its generals and admirals",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790796795,
-   "url": "https://www.reddit.com/r/news/comments/1wuegus/hegseth_confirms_that_the_us_military_will_cut_20/"
   },
   {
    "sub": "whoathatsinteresting",
@@ -407,22 +314,31 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wu66dl/anything_but_lowering_the_prices_classic/"
   },
   {
-   "sub": "justincaseyoumissedit",
-   "title": "Can someone explain to me why Israelis destroy aid supplies?",
+   "sub": "korea",
+   "title": "Information regarding Winston Lee, urgent post",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/cjh4a3g0eGxobnNoMQhEaK7UcUqxGMAPv4jTEl88XtjuDEchltLKwq-CYUAv.png?width=640&crop=smart&auto=webp&s=91f7c4dea282d04a8e1af8243e702cd4139b3ea3",
-   "time": 1790771063,
-   "url": "https://www.reddit.com/r/justincaseyoumissedit/comments/1wu3jjc/can_someone_explain_to_me_why_israelis_destroy/"
+   "thumb": "",
+   "time": 1790757795,
+   "url": "https://www.reddit.com/r/korea/comments/1wtzq53/information_regarding_winston_lee_urgent_post/"
   },
   {
-   "sub": "PoursTea",
-   "title": "Absolutely love this...",
+   "sub": "korea",
+   "title": "Trump says it’s fine for Kim Jong Un to have nuclear weapons because ‘he likes me’",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/ic3ct8km3psh1.jpeg?width=640&crop=smart&auto=webp&s=a9bb0275067962cb36768425f42e1822b5585070",
-   "time": 1790790517,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1wubnv3/absolutely_love_this/"
+   "thumb": "https://external-preview.redd.it/QBOq7UeDEARXuxNfEUCJFqtiFaA69et4lOWmvofijYI.jpeg?width=640&crop=smart&auto=webp&s=7462d0743796bfb49c16521c4c9ef1c45e714975",
+   "time": 1790782657,
+   "url": "https://www.reddit.com/r/korea/comments/1wu86es/trump_says_its_fine_for_kim_jong_un_to_have/"
+  },
+  {
+   "sub": "korea",
+   "title": "S Koreans break Chinese hearts to reach soccer final",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/ecWTm0m-zc3J2RMFQRzC-p5SqTHQZ_gYywexdy9gnhY.jpeg?width=640&crop=smart&auto=webp&s=a74cb47f5420e07272299eed34367b809943d4a8",
+   "time": 1790805276,
+   "url": "https://www.reddit.com/r/korea/comments/1wuhzyp/s_koreans_break_chinese_hearts_to_reach_soccer/"
   }
  ],
  "disaster": [],
@@ -436,23 +352,23 @@
    "rank": 2
   },
   {
-   "query": "암살자(들)",
+   "query": "악역영애 말포이",
    "rank": 3
   },
   {
-   "query": "이홍구",
+   "query": "암살자(들)",
    "rank": 4
   },
   {
-   "query": "호날두",
+   "query": "이홍구",
    "rank": 5
   },
   {
-   "query": "닛몰캐쉬",
+   "query": "호날두",
    "rank": 6
   },
   {
-   "query": "악역영애 말포이",
+   "query": "닛몰캐쉬",
    "rank": 7
   },
   {
@@ -460,28 +376,16 @@
    "rank": 8
   },
   {
-   "query": "맨시티",
+   "query": "이동진",
    "rank": 9
   },
   {
-   "query": "이동진",
+   "query": "아시안 게임 롤",
    "rank": 10
   }
  ],
  "_cover": {
   "ok": {
-   "x": [
-    "1992__j",
-    "64bitcoinkr",
-    "awaken_eyes",
-    "economysniper0",
-    "freedom_73x",
-    "globalbrief_now",
-    "jajaja7878uu",
-    "kyunghyang",
-    "mugmulree",
-    "tech_meow"
-   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -490,21 +394,19 @@
     "kopp",
     "promppy_com",
     "takepage_"
-   ],
-   "tiktok": [
-    "jaemyung_lee"
    ]
   },
   "why": {
    "tiktok": {
+    "jaemyung_lee": "err",
     "tictok_ent": 503
    }
   },
   "landing": {
-   "at": "2026-10-01T08:01:29",
+   "at": "2026-10-01T08:36:17",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-01T08:36:09.702494+09:00"
+ "updated": "2026-10-01T09:02:09.177847+09:00"
 }
