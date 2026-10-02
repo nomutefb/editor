@@ -1,7 +1,97 @@
 {
- "ok": 183,
- "dead": 2,
+ "ok": 165,
+ "dead": 20,
  "dead_feeds": [
+  {
+   "publisher": "동아일보",
+   "title": "정치",
+   "url": "https://rss.donga.com/politics.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "사회",
+   "url": "https://rss.donga.com/national.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "경제",
+   "url": "https://rss.donga.com/economy.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "국제",
+   "url": "https://rss.donga.com/international.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "사설칼럼",
+   "url": "https://rss.donga.com/editorials.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "의학과학",
+   "url": "https://rss.donga.com/science.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "문화연예",
+   "url": "https://rss.donga.com/culture.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "스포츠",
+   "url": "https://rss.donga.com/sports.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "사람속으로",
+   "url": "https://rss.donga.com/inmul.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "건강",
+   "url": "https://rss.donga.com/health.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "레져",
+   "url": "https://rss.donga.com/leisure.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "도서",
+   "url": "https://rss.donga.com/book.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "공연",
+   "url": "https://rss.donga.com/show.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "여성",
+   "url": "https://rss.donga.com/woman.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "여행",
+   "url": "https://rss.donga.com/travel.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "생활정보",
+   "url": "https://rss.donga.com/lifeinfo.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "전체기사",
+   "url": "https://rss.donga.com/total.xml"
+  },
+  {
+   "publisher": "일다",
+   "title": "전체",
+   "url": "https://www.ildaro.com/rss/rss_news.php"
+  },
   {
    "publisher": "머니투데이",
    "title": "전체기사",
@@ -14,16 +104,6 @@
   }
  ],
  "zombie_feeds": [
-  {
-   "publisher": "동아일보",
-   "title": "레져",
-   "url": "https://rss.donga.com/leisure.xml"
-  },
-  {
-   "publisher": "동아일보",
-   "title": "여성",
-   "url": "https://rss.donga.com/woman.xml"
-  },
   {
    "publisher": "미디어오늘",
    "title": "국제",
@@ -48,6 +128,11 @@
    "publisher": "시사저널",
    "title": "국제",
    "url": "http://www.sisajournal.com/rss/S1N59.xml"
+  },
+  {
+   "publisher": "에이블뉴스",
+   "title": "정보세상",
+   "url": "https://www.ablenews.co.kr/rss/S1N1.xml"
   },
   {
    "publisher": "에이블뉴스",
