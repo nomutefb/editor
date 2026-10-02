@@ -4,32 +4,52 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "발표내용 :\nhttps://microsoft.ai/news/our-first-streaming-transcription-model/",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790913608,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-k3KPCSZo",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "마이크로소프트가 실시간 음성 AI를 위한 모델 3종을 공개했습니다.\n\nMAI-Transcribe-2-Streaming은 60개 언어를 실시간으로 받아쓰며, 음성을 받은 뒤 약 100ms 만에 첫 텍스트를 생성합니다.\n사람이 말을 끝내기 전부터 AI가 내용을 이해하고 작업을 시작할 수 있습니다.\n\nMAI-Voice-2.1은 23개 언어를 같은 목소리로 자연스럽게 말할 수 있고, MAI-Voice-2.1-Flash는 45초 분량 음성을 약 150ms의 지연시간으로 생성합니다.\n\n듣고→판단하고→말하는 전 과정을 빠르게 연결해 실시간 음성 에이전트를 만드는 데 초점을 맞췄습니다.",
+   "likes": 3,
+   "cmts": 1,
+   "time": 1790913599,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/831254235_1832395327757900_7310001025318231050_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5ODc5NTU2MjY0Nzg5MTM0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=2LV_gpKznIsQ7kNvwHZjukr&_nc_oc=AdpLPIZZ5qYejJUUzJSYwrSaR7nqrZHFF3M4mqWSrW2-wMbllQdHTHWRvLRA8UBVQt2w3tsRNiZuaHnS3_nGzWo2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=X9-eN9tBPhxShfhiI_6sQw&_nc_ss=7a20f&oh=00_AQPlg5nd5n9bKVUNl2nnFmvYBDfElJiQuUHzYulfxlrCOg&oe=6AC4F702",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-k2CxCS2O",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/nvidia/Kumo-Tabular",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790911925,
+   "thumb": "",
+   "url": "https://www.threads.com/@aipeekme/post/Dd-hpEQH9X5",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "엔비디아가 분류와 회귀를 위한 사전 훈련된 정형 데이터 기초 모델인 쿠모 타뷸라를 공개했습니다.\n구조화 데이터 모델 라이브러리를 설치해 추론에 활용할 수 있습니다.\n라벨이 붙은 예시를 문맥으로 삼아 새로운 데이터의 클래스 확률을 예측하는 방식입니다.\n일반적인 모델과 달리 정형 데이터 자체를 문맥 기반으로 다룬다는 점이 특징입니다.\n가중치는 오픈엠디더블유 1.1 버전으로 출시되었습니다.\n테이블 구조가 제각각인 현업 데이터에서 얼마나 유연하게 성능을 낼지가 관건이라고 봅니다.\n정형 데이터 영역에서 파운데이션 모델이 얼마나 실효성을 거둘지 확인해 볼 수 있는 사례인 것 같습니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1790911913,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830151327_18091098557407306_4803761875583699439_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5ODc4MTM0NDYwNDY4OTQ3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tuBUcx85TMcQ7kNvwFkuZYz&_nc_oc=AdrpLcngBkabhbTU4lrOGx5lHneUotMaH-MzPSs3msUw28MC9nGnxdAd2ZQjDNlWvRlcrUzegLgCInNzIB9NtIoS&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=OCfS65WIspZ1dm0aRtNlMA&_nc_ss=7a22e&oh=00_AQNvFbmt4fTHbvkFG5xBaWbcuuFXPI7MxDcwITeJrmxGuQ&oe=6AC4EB18",
+   "url": "https://www.threads.com/@aipeekme/post/Dd-hnJLnxRH",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "Comfy Agent :\nhttps://comfy.org/agent",
    "likes": 0,
    "cmts": 0,
    "time": 1790910064,
    "thumb": "",
    "url": "https://www.threads.com/@choi.openai/post/Dd-eGcgk1GC",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "ComfyUI가 이제 워크플로우 자체를 AI에게 맡길 수 있게 됐습니다.\n\nComfy Cloud에 Comfy Agent가 정식 공개됐습니다. 원하는 작업을 말하면 현재 캔버스와 이미지 등 사용자가 보고 있는 자료를 함께 확인하면서 워크플로우를 계획하고, 노드를 구성하고, 문제가 생기면 직접 수정합니다.\n\n직접 만든 Skills나 공개된 Skills도 사용할 수 있어 복잡한 노드 연결을 처음부터 배울 필요도 줄어듭니다.\n\n현재는 Comfy Cloud에서 이용할 수 있으며, Comfy Desktop에도 몇 주 안에 추가될 예정입니다.",
-   "likes": 13,
-   "cmts": 1,
-   "time": 1790910053,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829528647_1076960181895770_7234587881936151275_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5ODc2NTgxNTEyNjI2MjY1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DKb8-tqtbwoQ7kNvwFq1vmf&_nc_oc=AdpFkmBY2av8-npW95XbFhr1YZ866H50gXnQ4kLKnzJGRxkaxqzr_nU46SHzWDmMSjU4TbG68oQe3z21oNlULgqX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=odTt20IWeY0j97PP0Mc_Yw&_nc_ss=7a20f&oh=00_AQNA2S1_iyvyxxpVA9DMVfOSFMDOKjhV8RxWyZzoJTplmA&oe=6AC5128B",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-eFKOk4OD",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "한국시간으로는 내일 새벽 2시\n티보타임 고려하면 5-6시.",
-   "likes": 25,
-   "cmts": 6,
-   "time": 1790907473,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-ZKPlD6YK",
    "region": "kr"
   },
   {
@@ -40,26 +60,6 @@
    "time": 1790904682,
    "thumb": "",
    "url": "https://www.threads.com/@aipeekme/post/Dd-T09NHxey",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "코파일럿킷이 오픈소스 AI 동료인 오픈봇을 깃허브에 공개했습니다.\n챗지피티나 클로드와 같은 형태를 지니고 있지만, 기업이 자체 인프라에서 직접 구동할 수 있다는 점이 다릅니다.\n각 AI 동료는 전용 브라우저와 파일, 권한이 부여된 도구를 갖춘 가상의 컴퓨터를 하나씩 배정받습니다.\n모든 행동은 실행되기 전에 결정되고 끝난 뒤에 기록되는 방식을 취했습니다.\n직접 작성했거나 프레임워크로 만든 에이전트를 데려와서 전용 채널을 부여하면 동료처럼 일하기 시작합니다.\n에이전트가 화면에서 작업하는 모습을 실시간으로 지켜보다가 개입이 필요할 때 직접 조종권을 넘겨받을 수 있습니다.\n글로만 대답하는 형태에서 벗어나 UI 컴포넌트를 직접 활용해 결과를 내놓는 구조입니다.\n완제품 형태라기보다는 기업의 필요에 맞춰 고쳐 쓸 수 있는 템플릿에 가깝습니다.\n개인적으로는 외부 서버가 아닌 내부 인프라에서 에이전트를 돌릴 수 있다는 점이 가장 실용적이라고 봅니다.\n\n📷 사진 출처: github.com",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790904671,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830695310_18091079636407306_6615843965111203479_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5ODcyMDU5MTIzNTM3NzA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HMULFAv5gXYQ7kNvwHcj1I9&_nc_oc=AdrJ49GV6XT_l0G7CxHHuj7JVI3CDAU-IYH8yFcQiUEBidY19A0Ksi0vJe5GuuSbt0LmmfLTvNSSzeVSzrMW6kda&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=V8tma34nuUcdKztMxqZYVw&_nc_ss=7a20f&oh=00_AQN6fdS25A1cHhRNsmpdXTvMMkSISM9rCbft8WM-mHowQA&oe=6AC4F873",
-   "url": "https://www.threads.com/@aipeekme/post/Dd-TzEMn-ey",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://blog.google/innovation-and-ai/products/gemini-app/guided-vision-gemini-live/",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790895744,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd-Cxz7kklZ",
    "region": "kr"
   },
   {
@@ -108,28 +108,28 @@
    "likes": 15,
    "cmts": 1,
    "time": 1790836425,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829363455_2179041276322060_1573348961615240804_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5ODE0NzkyODc5MTUwNjIxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ILhx9dRbhYQQ7kNvwFkqSsJ&_nc_oc=AdrdchO--AFP1ucAh_iTLyJ6ii-5MlMJdBAJ1FYx90uSD5xWTFOxK9wi-UfEvFYmL9tirhWT8CI8V0wm0tOnoL6A&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kuKLu69dKefFCPeZkOuZNw&_nc_ss=7a22e&oh=00_AQOK40CkAsq7v7KL3spjibjxUl3b9uD6R4BpcOqtXerrpA&oe=6AC4FBCF",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829363455_2179041276322060_1573348961615240804_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5ODE0NzkyODc5MTUwNjIxMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ILhx9dRbhYQQ7kNvwG926dw&_nc_oc=AdotXD42yh51088RbfdBEltdViBe3aOQv0KQH-MfVjdzUbVYkW7f6t2IWnNOQDPIQEbjeyXM75sTlBqjp0SsC5nA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=kkmNefZ0SswjMOLNyXWNgg&_nc_ss=7a22e&oh=00_AQPeENQFrWApcR88Z6VDJmczahFk7jRUl4TVh4NoRanPwQ&oe=6AC4FBCF",
    "url": "https://www.threads.com/@kopp/post/Dd8RluvFN0j",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "🚨 속보) 챗GPT 리셋 예정",
-   "likes": 109,
-   "cmts": 38,
-   "time": 1790907328,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830681627_17989636125112832_3189418990791020108_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5ODc0Mjk1MTMzNzM0MzQ2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IydMksZ0abAQ7kNvwGXQTbS&_nc_oc=AdpU_YqTJJNYukdneQJJJhYWiu_EAx0uRZjL2Vs7aOm0HCQgpTa9cFbRVMnkPtzAo1dHiXZXNyjpU6G7XUaZT0TP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=odTt20IWeY0j97PP0Mc_Yw&_nc_ss=7a20f&oh=00_AQPWDEB4JKJLXOQokeGu-gpRJImuFxaEf1ssjO9mMu8a4Q&oe=6AC50762",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-Y4cqjznq",
+   "text": "ComfyUI가 이제 워크플로우 자체를 AI에게 맡길 수 있게 됐습니다.\n\nComfy Cloud에 Comfy Agent가 정식 공개됐습니다. 원하는 작업을 말하면 현재 캔버스와 이미지 등 사용자가 보고 있는 자료를 함께 확인하면서 워크플로우를 계획하고, 노드를 구성하고, 문제가 생기면 직접 수정합니다.\n\n직접 만든 Skills나 공개된 Skills도 사용할 수 있어 복잡한 노드 연결을 처음부터 배울 필요도 줄어듭니다.\n\n현재는 Comfy Cloud에서 이용할 수 있으며, Comfy Desktop에도 몇 주 안에 추가될 예정입니다.",
+   "likes": 20,
+   "cmts": 1,
+   "time": 1790910053,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/829528647_1076960181895770_7234587881936151275_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5ODc2NTgxNTEyNjI2MjY1OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=DKb8-tqtbwoQ7kNvwG8mhyP&_nc_oc=AdoOLL-7UnS8y6zhg0ncmVMYBrFyZjhbe3IOw735H1QAqC1GYR_RG5anTZ0rvoMdZ8gBX6S4zlZo9Rhip32I9mjW&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=X9-eN9tBPhxShfhiI_6sQw&_nc_ss=7a20f&oh=00_AQPLSrDWf4DHSANEw8OIxTbMTfUm2bUuAxfaT1pGv83-dQ&oe=6AC5128B",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-eFKOk4OD",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "구글이 시각장애인과 저시력자를 지원하기 위해 제미나이 라이브에 가이드드 비전을 출시했습니다.\n호환되는 안드로이드 기기에서 실시간 음성 비주얼 안내 기능을 제공합니다.\n시각 접근성 커뮤니티와 긴밀하게 협력하여 음성 기반의 환경 탐색 기능을 구현했습니다.\n카메라를 공유하면 실시간 오디오 설명과 자연스러운 구도 조절 큐를 받을 수 있습니다.\n이 기능은 단순히 이미지를 읽어주는 것을 넘어 대화형 파트너처럼 주변 환경을 설명합니다.\n개발 과정에서 에이라와 협력하여 수만 시간에 걸쳐 데이터를 시각적으로 해석했으며, 신뢰할 수 있는 테스터 네트워크 소속 1,000명 이상이 모델 스트레스 테스트와 개선을 도왔습니다.\n개인적으로는 현장의 변수가 많은 상황에서 얼마나 정확한 묘사가 나올지 지켜보고 싶습니다.\n\n📷 사진 출처: blog.google",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790895733,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829544179_18091060118407306_2630931339595127551_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODY0NTYzMjc2NDEyNjc0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UJgs9MfNw4gQ7kNvwH0PvfK&_nc_oc=Adq-EX0e5Nkfkpez532T21Tr6d_tLqmWW7NxhxXBVwzQ_oiD52c2r24EIGrywNZzGP8mC7E8rPOU6KS2wbikDg01&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=V8tma34nuUcdKztMxqZYVw&_nc_ss=7a20f&oh=00_AQN0vwicPwn3e9hbKjaJ_1FpXmR9I06zYhkwDFFQDGrs6Q&oe=6AC4E544",
-   "url": "https://www.threads.com/@aipeekme/post/Dd-CwRrkqYZ",
+   "text": "코파일럿킷이 오픈소스 AI 동료인 오픈봇을 깃허브에 공개했습니다.\n챗지피티나 클로드와 같은 형태를 지니고 있지만, 기업이 자체 인프라에서 직접 구동할 수 있다는 점이 다릅니다.\n각 AI 동료는 전용 브라우저와 파일, 권한이 부여된 도구를 갖춘 가상의 컴퓨터를 하나씩 배정받습니다.\n모든 행동은 실행되기 전에 결정되고 끝난 뒤에 기록되는 방식을 취했습니다.\n직접 작성했거나 프레임워크로 만든 에이전트를 데려와서 전용 채널을 부여하면 동료처럼 일하기 시작합니다.\n에이전트가 화면에서 작업하는 모습을 실시간으로 지켜보다가 개입이 필요할 때 직접 조종권을 넘겨받을 수 있습니다.\n글로만 대답하는 형태에서 벗어나 UI 컴포넌트를 직접 활용해 결과를 내놓는 구조입니다.\n완제품 형태라기보다는 기업의 필요에 맞춰 고쳐 쓸 수 있는 템플릿에 가깝습니다.\n개인적으로는 외부 서버가 아닌 내부 인프라에서 에이전트를 돌릴 수 있다는 점이 가장 실용적이라고 봅니다.\n\n📷 사진 출처: github.com",
+   "likes": 1,
+   "cmts": 2,
+   "time": 1790904671,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830695310_18091079636407306_6615843965111203479_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5ODcyMDU5MTIzNTM3NzA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HMULFAv5gXYQ7kNvwE9Jcap&_nc_oc=Adrz4cxgRhnLrZ8EZEp2_pJRK1DVv4Ln2R9LZh6KNoiADvKZG5ZcRxV_blHESr9_cBJzDWtTn7A5RJcAMKoZRJ0d&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=OCfS65WIspZ1dm0aRtNlMA&_nc_ss=7a22e&oh=00_AQPsJpx7Oe3cpZpDWfx1y_l4aAIwpsUS0L9nuDUcefAUlg&oe=6AC4F873",
+   "url": "https://www.threads.com/@aipeekme/post/Dd-TzEMn-ey",
    "region": "kr"
   },
   {
@@ -138,28 +138,28 @@
    "likes": 2,
    "cmts": 5,
    "time": 1790836633,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831119033_17939286939362958_3367264805012017365_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5ODE0OTkyMjM5NDQzMTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KC0eUsvXG24Q7kNvwFjepg4&_nc_oc=AdqYKQZajjfxniPJY-KsyTrltsdV3ghUN8azg2RmeJ_Pcz92akxqQjQL6q-lN_LYtzgMHd5agIH4wHzyLGMJHUlP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=ms7GWPmjzQNYvGAJxw8SgA&_nc_ss=7a20f&oh=00_AQPjNJKj77zu-jJFBgZFBKt7MIY4To-kTTON9MfYl9uU0w&oe=6AC4EA61",
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/831119033_17939286939362958_3367264805012017365_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5ODE0OTkyMjM5NDQzMTUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMjAwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=KC0eUsvXG24Q7kNvwEyuFi2&_nc_oc=AdpDSuCe8DKhHCkpWR4ZKq8JdV_AgKWXfheQtHyXZhQP8QMv4pG-4Y9XHi39mfaGLCqKJvyqhjYoT1TlrJ1pjXJh&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=pGUvaNS8h4bWEsNAFiFPLQ&_nc_ss=7a22e&oh=00_AQMzFsUZTudZJJvltWEXYDuCnTcD6D5VYydzZHvIYIm1Xg&oe=6AC4EA61",
    "url": "https://www.threads.com/@takepage_/post/Dd8SCvbE2Aa",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "레전드.. \n\n영상통화로 대화한 사람의 절반이 AI인지 눈치채지 못했습니다.\n\nTavus가 최초의 Human Interaction Model(HIM) Griffin을 공개했습니다.\n실제 실시간 대화 테스트에서 48%가 Griffin을 사람이라고 판단했으며, 기존 시스템은 3% 미만이었다고 합니다.\n\nGriffin은 영상통화 중 상대방을 보고 듣는 동시에 말하고, 표정과 몸짓으로 반응합니다. 상대가 말을 끝낼 때까지 기다리지 않고 웃거나 끼어들며, 카메라에 물건을 보여주면 대화에 바로 반영합니다.\n\nTavus는 사람으로 오인될 수 있다는 점 때문에 안전 대책이 필요하다며 아직 공개 배포하지 않았습니다.\n\n이제 영상통화 화면 속 상대가 사람인지 AI인지 구분하기 어려운 단계까지 오고 있습니다.",
-   "likes": 38,
-   "cmts": 3,
-   "time": 1790906442,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.71878-15/830095169_2502968053529669_6050393813800949940_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=105&ig_cache_key=Mzk5ODczNTUyMzgwMjgwMjg3Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=sawNZNc6Vd0Q7kNvwG2tXIl&_nc_oc=AdoSrSWxJGk9DUNI7Irm5KcqlMjFlUV2Tl_ArWdg2YPGvXLcdYCmjL4JD1zsbOC21HIF248XXdlruCCv6S-dLYBu&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=odTt20IWeY0j97PP0Mc_Yw&_nc_ss=7a20f&oh=00_AQOjNcxF_IbfaxVkiI4cFPTVtpJAy3C_76c6tAqQfTGOSA&oe=6AC51307",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-XMXPAGq5",
+   "text": "한국시간으로는 내일 새벽 2시\n티보타임 고려하면 5-6시.",
+   "likes": 33,
+   "cmts": 7,
+   "time": 1790907473,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-ZKPlD6YK",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/well9472/Nanosaur2-670M",
+   "text": "🔗 원문·자세히 보기\nhttps://blog.google/innovation-and-ai/products/gemini-app/guided-vision-gemini-live/",
    "likes": 0,
    "cmts": 0,
-   "time": 1790856255,
+   "time": 1790895744,
    "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd83daPH0pb",
+   "url": "https://www.threads.com/@aipeekme/post/Dd-Cxz7kklZ",
    "region": "kr"
   },
   {
@@ -174,22 +174,22 @@
   },
   {
    "account": "choi.openai",
-   "text": "내용 :\nhttps://bfl.ai/models/flux-3-image",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790902829,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-QTS6AQSo",
+   "text": "🚨 속보) 챗GPT 리셋 예정",
+   "likes": 132,
+   "cmts": 41,
+   "time": 1790907328,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830681627_17989636125112832_3189418990791020108_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5ODc0Mjk1MTMzNzM0MzQ2Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTE3OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=IydMksZ0abAQ7kNvwGpzTjL&_nc_oc=AdrVFNsI1tw4F2obqQbiBuqjOl82JHcp4wFduFuQakycrD0GabXyK9v9ra2F93vK2hwII41f0rdzXTJnC1cIeQ4n&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=X9-eN9tBPhxShfhiI_6sQw&_nc_ss=7a20f&oh=00_AQNvlxuEWntYoVszlFz1qDWVAD2esbWLCVRTo8iOzR2fkg&oe=6AC50762",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-Y4cqjznq",
    "region": "kr"
   },
   {
    "account": "aipeekme",
-   "text": "개발자가 6억 7천만 파라미터 규모의 일러스트 생성 모델 나노소어2를 허깅페이스에 공개했습니다.\n텍스트를 입력해 이미지를 만드는 디퓨전 트랜스포머 구조이며 총 훈련 비용은 600달러가 소모됐습니다.\n연구 목적으로 제작된 모델이라 아니마 같은 대형 모델과 인물 지식이나 세부 묘사에서 경쟁하기는 어렵습니다.\n최소한의 연산 자원으로 어디까지 가능한지 확인하는 것이 제작의 주된 목적이었습니다.\n컴피유아이를 공식 지원하며 PNG 파일에 워크플로가 포함되어 있어 곧바로 불러올 수 있습니다.\n태그 방식과 자연어 프롬프트를 모두 지원하며 오일러 샘플러를 기준 설정으로 사용합니다.\n적은 비용으로 모델을 직접 훈련해 보려는 시도 자체가 흥미롭다고 생각합니다.\n다만 일상적인 작업에 쓰기에는 기능적 한계가 명확해서 실제 활용성은 직접 검증해 봐야 겠습니다.\n\n📷 사진 출처: huggingface.co",
+   "text": "구글이 시각장애인과 저시력자를 지원하기 위해 제미나이 라이브에 가이드드 비전을 출시했습니다.\n호환되는 안드로이드 기기에서 실시간 음성 비주얼 안내 기능을 제공합니다.\n시각 접근성 커뮤니티와 긴밀하게 협력하여 음성 기반의 환경 탐색 기능을 구현했습니다.\n카메라를 공유하면 실시간 오디오 설명과 자연스러운 구도 조절 큐를 받을 수 있습니다.\n이 기능은 단순히 이미지를 읽어주는 것을 넘어 대화형 파트너처럼 주변 환경을 설명합니다.\n개발 과정에서 에이라와 협력하여 수만 시간에 걸쳐 데이터를 시각적으로 해석했으며, 신뢰할 수 있는 테스터 네트워크 소속 1,000명 이상이 모델 스트레스 테스트와 개선을 도왔습니다.\n개인적으로는 현장의 변수가 많은 상황에서 얼마나 정확한 묘사가 나올지 지켜보고 싶습니다.\n\n📷 사진 출처: blog.google",
    "likes": 0,
    "cmts": 1,
-   "time": 1790856244,
-   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/830701369_18090954236407306_2588320708183623998_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5ODMxNDM2MzMzODM0OTY3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HARH9thU3b8Q7kNvwGkI4NT&_nc_oc=AdpjrmHMRxZ--1234BeVy-2-C3ihhek6DaOOTBFJoxW_briUciSseJ_taWROGRnjsf4PUx1dnKjqIGG8W8Scnx-J&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=V8tma34nuUcdKztMxqZYVw&_nc_ss=7a20f&oh=00_AQPKdp23QVdYFRWA3qLL98UJskZIPqotfmaPJktVGm9xBg&oe=6AC4EB36",
-   "url": "https://www.threads.com/@aipeekme/post/Dd83bq_H9xu",
+   "time": 1790895733,
+   "thumb": "https://scontent-ssn1-1.cdninstagram.com/v/t51.82787-15/829544179_18091060118407306_2630931339595127551_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODY0NTYzMjc2NDEyNjc0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UJgs9MfNw4gQ7kNvwFMAKRJ&_nc_oc=AdrZ2q_HVx3qiYihZblUc9lwwBi0kcDf7j6XdOXa25EhRYgl-9dR-aYFaXzcfa2KFCDKWhOu0dj8EtGLWTfKrFtP&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_gid=OCfS65WIspZ1dm0aRtNlMA&_nc_ss=7a22e&oh=00_AQMreUGrNOaOZho4nunZlHtV0oE8IaRHrhFarDYv-l1xcw&oe=6AC4E544",
+   "url": "https://www.threads.com/@aipeekme/post/Dd-CwRrkqYZ",
    "region": "kr"
   },
   {
@@ -203,128 +203,8 @@
    "region": "kr"
   }
  ],
- "tiktok": [
-  {
-   "account": "tictok_ent",
-   "title": "아이브(IVE) 레이, 러블리한 현실 콩순이 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토어 오픈을 ",
-   "views": 3623,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oACVDEgjE1qAyHCSIC8AecFApvCUYBfGnqAmEp~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=k7BupB1E1D6llypFZlakUa4Fr9U%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790730567,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691129224370998548",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "서강준, 감탄 나오는 비현실적 잘생김 / 몽블랑(MONTBLANC) 팝업 포토월 럭셔리 라이프스타일 브랜드 몽블랑(MONTBLANC)의 'Let's Write' 팝업스토어 오픈을 기념한 포토행사가 1일 오전 서울 송",
-   "views": 1485,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMIRpcqAcpS2mpR9DBEb5vFCvAACfgf4EyEAum~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=UI96LGaRuw7CLMp2b6VufOfQBT4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790823053,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691526446161874177",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "김도연, 모델 뺨치는 늘씬한 몸매 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일 오후 서울",
-   "views": 1007,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okAAgBw1UiGAAKtI2X8fBi2XCBF0TmE7Srs5yw~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=y1xmPq5pbCK8kzJZ16l4F5UY3SA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790761741,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691263113437531410",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "임윤아, 오늘도 변함없는 ‘융프로디테’ 미모 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일",
-   "views": 884,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYPafADvi2CB1FV5qHoStAUCgEL8CxKIAAfNEv~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=1cu0y7RZYLPUjBDlXL50ehYLFF4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790761810,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691263412822625543",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "몬스타엑스(MONSTA X) 민혁, 밥 챙기는 몬베베들 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토",
-   "views": 872,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAqAkwxxrKXQMALWAGXgXerAAeJKAfeLcHgGIk~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=4eTzJ8cbKc09bD5lIIXQmabex88%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790730511,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691128981734640917",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "존박, 제철 맞은 가을 남자 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일 오후 서울 성동",
-   "views": 841,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oowK6XiCxAxsG8UzBG2Y2GwEBfAFigAgXBA1mI~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=ClOzlQNLSUAX9GPzIxlIPAdEMKg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790761773,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691263253326269704",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "빈지노♥미초바, 성수동 뜬 사랑꾼 부부 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일 오후",
-   "views": 814,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oANqC8GAEruFnC2AGgVEv6cAVr7eDBAqCftICU~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=RCVkk7MUxV7AmAP%2Bl9XBLJ2JPb8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790761705,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691262959569390855",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "정은채, 잘생쁨의 정석 / 몽블랑(MONTBLANC) 팝업 포토월 럭셔리 라이프스타일 브랜드 몽블랑(MONTBLANC)의 'Let's Write' 팝업스토어 오픈을 기념한 포토행사가 1일 오전 서울 송파구 신천동에 ",
-   "views": 743,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/os9p1iBIOB1CXrCUywALA5k3EfCglHAi4RIAuA~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=trhe9fGs2M4WY4HLD4DIvP7Nexg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790822982,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691526141982608647",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "강훈, 여심 저격하는 스윗 손키스 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토어 오픈을 기념하는 포",
-   "views": 138,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8qAcN8B6CAEGAFVeBcIkHqAAvC3gWfCCBYDER~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=rE5V03973sE843iIp7IuCO3RSAc%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790730453,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691128731833830676",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "톰크루즈, 13번째 내한! / 디거 내한 기자간담회 꼰대 괴짜 재벌 ‘디거 록웰’의 그린란드 빙하 시추 시설에서 발생한 작은 균열이 전 세계를 뒤흔들 역대급 대재앙이 되면서 벌어지는 이야기를 담은 영화 ‘디거’의 내",
-   "views": 1,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU7CA9DAAQqAFFYeqQfJW7yX7wnIffJWAEGyZI~tplv-tiktokx-origin.image?dr=14575&x-expires=1791082800&x-signature=bv3OIbLknqegeU9Qb4IsgywwHx8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
-   "time": 1790836765,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691585338774490376",
-   "region": "kr"
-  }
- ],
+ "tiktok": [],
  "reddit": [
-  {
-   "sub": "PoursTea",
-   "title": "He's got 86 witnesses but a Democrat ain't one.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6y4m56457ysh1.jpeg?width=640&crop=smart&auto=webp&s=4ff57179f4c299051cad4f3be7d5ccf5ce71da52",
-   "time": 1790900661,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1wvfqxa/hes_got_86_witnesses_but_a_democrat_aint_one/"
-  },
   {
    "sub": "humor",
    "title": "Make it make sense",
@@ -353,6 +233,15 @@
    "url": "https://www.reddit.com/r/BunnyTrials/comments/1wvdvv6/you_vs_prime_mike_tyson/"
   },
   {
+   "sub": "PoursTea",
+   "title": "He's got 86 witnesses but a Democrat ain't one.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/6y4m56457ysh1.jpeg?width=640&crop=smart&auto=webp&s=4ff57179f4c299051cad4f3be7d5ccf5ce71da52",
+   "time": 1790900661,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wvfqxa/hes_got_86_witnesses_but_a_democrat_aint_one/"
+  },
+  {
    "sub": "clevercomebacks",
    "title": "Yes. Next question",
    "score": 0,
@@ -371,24 +260,6 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wuxlzu/how_can_people_enjoy_that/"
   },
   {
-   "sub": "whatisit",
-   "title": "Is this a condom wrapper?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/1rbvbg5jcxsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=00d5597fb1e877786833a48090aaa4c97271806d",
-   "time": 1790890368,
-   "url": "https://www.reddit.com/r/whatisit/comments/1wvby8f/is_this_a_condom_wrapper/"
-  },
-  {
-   "sub": "bald",
-   "title": "First time going fully bald",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/alfphgkb0xsh1.jpeg?width=640&crop=smart&auto=webp&s=bd11e08eb903497331a6c0e6daa21971f2420b32",
-   "time": 1790886261,
-   "url": "https://www.reddit.com/r/bald/comments/1wva9w8/first_time_going_fully_bald/"
-  },
-  {
    "sub": "whoathatsinteresting",
    "title": "A South African compares pictures of Johannesburg in 2010 vs 2025",
    "score": 0,
@@ -396,6 +267,15 @@
    "thumb": "https://external-preview.redd.it/ZDM1MzdiYXNwdnNoMRIWw2dtKKdKD9DySATjzPX0VuIz_g4v_lPu5i0fMpgV.png?width=320&crop=smart&auto=webp&s=38340c3f4bfbb17c85e4087565088aedbb9e3558",
    "time": 1790870634,
    "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1wv3dzv/a_south_african_compares_pictures_of_johannesburg/"
+  },
+  {
+   "sub": "whatisit",
+   "title": "Is this a condom wrapper?",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/1rbvbg5jcxsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=00d5597fb1e877786833a48090aaa4c97271806d",
+   "time": 1790890368,
+   "url": "https://www.reddit.com/r/whatisit/comments/1wvby8f/is_this_a_condom_wrapper/"
   },
   {
    "sub": "interestingasfuck",
@@ -407,6 +287,24 @@
    "url": "https://www.reddit.com/r/interestingasfuck/comments/1wuwe7m/the_humanoid_robotics_company_figure_made_their/"
   },
   {
+   "sub": "icast",
+   "title": "I cast! Show me your last saved image",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/8wrb03g9hxsh1.jpeg?width=320&crop=smart&auto=webp&s=6b7c49e784bc562372938b29fd76dc3ab5253e23",
+   "time": 1790892005,
+   "url": "https://www.reddit.com/r/icast/comments/1wvckws/i_cast_show_me_your_last_saved_image/"
+  },
+  {
+   "sub": "sportsgossips",
+   "title": "BREAKING: A’ja Wilson will not face any additional discipline after the Game 2 incident involving a Fever fan. The WNBA determined Wilson did not leave the court area, so no suspension or fine will be",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/cDdiYTB1cXM5d3NoMRGeZEvaDI5XO7vj79MgkWRhr4l-AIvV3eD-g5Xo6Y0Q.png?width=640&crop=smart&auto=webp&s=336766ecb1ad7c0b5b0158d0ebaf45e52b6b8a51",
+   "time": 1790877358,
+   "url": "https://www.reddit.com/r/sportsgossips/comments/1wv6d84/breaking_aja_wilson_will_not_face_any_additional/"
+  },
+  {
    "sub": "meirl",
    "title": "meirl",
    "score": 0,
@@ -414,15 +312,6 @@
    "thumb": "https://preview.redd.it/4uu859k44xsh1.jpeg?width=640&crop=smart&auto=webp&s=df58df0771478390f934fd0700a00b0b4534a1bb",
    "time": 1790887541,
    "url": "https://www.reddit.com/r/meirl/comments/1wvaszf/meirl/"
-  },
-  {
-   "sub": "news",
-   "title": "Pentagon launches Office of Religious Affairs, will report directly to Hegseth",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790886133,
-   "url": "https://www.reddit.com/r/news/comments/1wva821/pentagon_launches_office_of_religious_affairs/"
   }
  ],
  "disaster": [],
@@ -432,15 +321,15 @@
    "rank": 1
   },
   {
-   "query": "탑",
+   "query": "메가데스",
    "rank": 2
   },
   {
-   "query": "아시안 게임 롤",
+   "query": "탑",
    "rank": 3
   },
   {
-   "query": "암살자(들)",
+   "query": "아시안 게임 롤",
    "rank": 4
   },
   {
@@ -448,19 +337,19 @@
    "rank": 5
   },
   {
-   "query": "봉누도2",
+   "query": "암살자들",
    "rank": 6
   },
   {
-   "query": "김상욱",
+   "query": "암살자(들)",
    "rank": 7
   },
   {
-   "query": "호날두",
+   "query": "봉누도2",
    "rank": 8
   },
   {
-   "query": "공소청",
+   "query": "닛몰캐쉬",
    "rank": 9
   },
   {
@@ -470,6 +359,18 @@
  ],
  "_cover": {
   "ok": {
+   "x": [
+    "1992__j",
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "mugmulree",
+    "tech_meow"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -478,21 +379,19 @@
     "kopp",
     "promppy_com",
     "takepage_"
-   ],
-   "tiktok": [
-    "tictok_ent"
    ]
   },
   "why": {
    "tiktok": {
-    "jaemyung_lee": 503
+    "jaemyung_lee": 503,
+    "tictok_ent": 503
    }
   },
   "landing": {
-   "at": "2026-10-02T12:02:16",
+   "at": "2026-10-02T12:31:39",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-02T12:31:31.791613+09:00"
+ "updated": "2026-10-02T13:06:16.646664+09:00"
 }
