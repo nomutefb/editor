@@ -4,8 +4,18 @@
  "threads": [
   {
    "account": "choi.openai",
+   "text": "AI 에이전트가 이제 시키기 전에 먼저 할 일을 찾아줍니다.\n\nGrok Bot에 ‘Primary Bot’ 기능이 추가됐습니다.\n사용자의 업무를 살펴보다가 자신이 처리할 수 있는 일을 발견하면 먼저 “이걸 대신 해드릴까요?”라고 제안합니다.\n\nPrimary Bot은 다른 Bot에 적절한 업무를 나눠주는 관리자 역할도 할 수 있습니다. 제안 자체는 사용량에도 포함되지 않습니다.\n\n지금까지 AI는 사람이 먼저 명령해야 움직였다면, 이제는 AI가 상황을 보고 먼저 할 일을 찾아 제안하는 방향으로 바뀌고 있습니다.",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790927999,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/832131099_2085499098746601_954026594935253666_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5ODkxNjM1OTA5MDAzODM3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=4FAMPhWcJkkQ7kNvwGcKJl6&_nc_oc=AdquKeWMzpSTghLFwxNBHFGaKzQZMjhqt3HctAFDKLIR704PcmWXHdADuPYvTvUUOfE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=P0KRc4r26zU4RZrUDMoPtQ&_nc_ss=7a22e&oh=00_AQM_QQk9uQqtIMBNVP-3aM_HXRCf28nrB47HpqFU1qnLiQ&oe=6AC521D1",
+   "url": "https://www.threads.com/@choi.openai/post/Dd_AT3OD2Zj",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
    "text": "허깅페이스 :\nhttps://huggingface.co/perplexity-ai/pplx-decider-v1-27b",
-   "likes": 2,
+   "likes": 3,
    "cmts": 0,
    "time": 1790924462,
    "thumb": "",
@@ -15,10 +25,10 @@
   {
    "account": "choi.openai",
    "text": "정말 모든 게 Jev가 되고 있습니다.\n\n이번에는 퍼플렉시티가 Decisions API와 멀티모달 의사결정 모델 pplx-decider-v1-27b를 공개했습니다.\n\nQwen3.8-27B를 미세 조정한 모델로, 답변을 길게 생성하는 대신 정해진 선택지별 확률을 바로 출력합니다.\n고객 문의 분류나 에이전트 라우팅 같은 작업에 활용할 수 있습니다.\n\n가격은 입력 100만 토큰당 $0.04, 출력 토큰은 무료입니다. 모델 가중치까지 공개됐습니다.\n\nJev가 등장한 뒤 오픈AI, Ollama, 리퀴드 AI, 인셉션에 이어 퍼플렉시티까지 뛰어들었습니다. 새로운 AI 구조 하나가 몇 주 만에 하나의 시장이 되어가고 있습니다.",
-   "likes": 25,
-   "cmts": 1,
+   "likes": 36,
+   "cmts": 2,
    "time": 1790924451,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829671752_17989625385112832_6877125197534882733_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5ODg4NjU5NDgwNjMxNzU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTYwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=by8X-w1lGfwQ7kNvwEMwwwu&_nc_oc=Adq49QNJaOqYW8cZh9cWIWoksrfd978mfPJ7XKucFplvas6v1H766aPcioVJnyRoquk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jiBOZvNgSzpms6QQRtzDzQ&_nc_ss=7a22e&oh=00_AQNW7xzm2auIKlSxXtHN7MZJ6r4imrTnSLXsSWOh49awbw&oe=6AC53949",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829671752_17989625385112832_6877125197534882733_n.jpg?stp=dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5ODg4NjU5NDgwNjMxNzU0Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuOTYwLnNkci5yZWd1bGFyX3Bob3RvLkMzIn0%3D&_nc_ohc=by8X-w1lGfwQ7kNvwEMwwwu&_nc_oc=Adq49QNJaOqYW8cZh9cWIWoksrfd978mfPJ7XKucFplvas6v1H766aPcioVJnyRoquk&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=P0KRc4r26zU4RZrUDMoPtQ&_nc_ss=7a22e&oh=00_AQOni9lghU6dgKn3DtrNHhW7UrpG-0UW3Rn0gavwrpa2Rw&oe=6AC53949",
    "url": "https://www.threads.com/@choi.openai/post/Dd-5ivEgIHr",
    "region": "kr"
   },
@@ -38,18 +48,8 @@
    "likes": 1,
    "cmts": 1,
    "time": 1790922903,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831399914_18091125260407306_761865763219181961_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODg3MzUzNDE2NTA5NTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ccgj5OlqhH4Q7kNvwEryOR7&_nc_oc=Adppqa0edcek9JELkb0Vah1a1kpYirjRRjG6ezkNIg_MNkBECS1XMhmscYZxhwr5ruI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=DEAcZcUoIlu3Mo4Umsu2aQ&_nc_ss=7a22e&oh=00_AQOI9YBMKW_JWTRXQD6_2P5gJngcHZjUE_btvbVfMkssVw&oe=6AC530F4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831399914_18091125260407306_761865763219181961_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODg3MzUzNDE2NTA5NTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ccgj5OlqhH4Q7kNvwEryOR7&_nc_oc=Adppqa0edcek9JELkb0Vah1a1kpYirjRRjG6ezkNIg_MNkBECS1XMhmscYZxhwr5ruI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=OBd97vzQQ1dsIcHwuMsQMA&_nc_ss=7a22e&oh=00_AQNRMJbuOuto_jINQgsyrOudHFfXA6mylF6Q6RQ4O8rn4Q&oe=6AC530F4",
    "url": "https://www.threads.com/@aipeekme/post/Dd-2krZnxXF",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "상세내용 :\nhttps://blog.google/innovation-and-ai/models-and-research/google-research/google-project-suncatcher-facts",
-   "likes": 4,
-   "cmts": 0,
-   "time": 1790920851,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-yrPXiDcM",
    "region": "kr"
   },
   {
@@ -68,7 +68,7 @@
    "likes": 3,
    "cmts": 1,
    "time": 1790917415,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/831453697_29082994864694048_4391416154935463658_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5ODgyNzMzMjUxMjgxNzcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=v6C3lHGLTz8Q7kNvwFtbOao&_nc_oc=AdrCbIPEtI8qnj01J_9Et2Am2DuXgIvk5Z985Lo7gw-XhjrYnm4aTPa-7ySpejN_1Oc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=NePLZdzZmkRbxVY2sMWn5Q&_nc_ss=7a22e&oh=00_AQOmWjErgY4jbfI75q7-ylWpLgaJoLmK6g-yppoYSnd0fQ&oe=6AC5154C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/831453697_29082994864694048_4391416154935463658_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5ODgyNzMzMjUxMjgxNzcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=v6C3lHGLTz8Q7kNvwFtbOao&_nc_oc=AdrCbIPEtI8qnj01J_9Et2Am2DuXgIvk5Z985Lo7gw-XhjrYnm4aTPa-7ySpejN_1Oc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=acf2_u6DDtpwORKBruWegA&_nc_ss=7a22e&oh=00_AQN3LOCsr0SIi-4P9YUHZllK_FfiXbQlYA5YJh-pNh6nlw&oe=6AC54D8C",
    "url": "https://www.threads.com/@kopp/post/Dd-sEWwjKI9",
    "region": "kr"
   },
@@ -84,12 +84,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "이제 AI 데이터센터가 우주로 나아갑니다!\n\n구글이 Project Suncatcher의 첫 실험으로 TPU 4개를 탑재한 위성을 스페이스X 로켓으로 실제 궤도에 올렸습니다.\n\n목표는 장기적으로 우주에 AI 컴퓨팅 인프라를 구축하는 것입니다. 저궤도에서는 지상보다 최대 8배 많은 태양광 발전이 가능하다고 합니다.\n\n이번에는 TPU가 발사 충격과 방사선, 극심한 온도 변화를 견디는지 확인하고, 2027년에는 위성 2대를 레이저로 연결하는 실험도 진행합니다.",
-   "likes": 43,
-   "cmts": 3,
-   "time": 1790920830,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/833701721_4443824065931687_9017318281178666409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5ODg1NjIxOTY3NDAzOTE3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9d2Bhc6GiBYQ7kNvwEf4Ke0&_nc_oc=AdqS-PSYzzBf--2UcnWbyI9E9Lq7vgVTW33tYpwp99cO4t5iG04ubaGEGiEwIwSeSm8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jiBOZvNgSzpms6QQRtzDzQ&_nc_ss=7a22e&oh=00_AQPm_FIyi1eIbVc645WNdbsz5fy3lokgaqH93XHFqByAGw&oe=6AC5474D",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-youBiFOK",
+   "text": "상세내용 :\nhttps://blog.google/innovation-and-ai/models-and-research/google-research/google-project-suncatcher-facts",
+   "likes": 4,
+   "cmts": 0,
+   "time": 1790920851,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-yrPXiDcM",
    "region": "kr"
   },
   {
@@ -98,18 +98,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790911913,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830151327_18091098557407306_4803761875583699439_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5ODc4MTM0NDYwNDY4OTQ3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tuBUcx85TMcQ7kNvwERuvjQ&_nc_oc=Ado27Wr0FX5kffNVM54Ps6y_1vh_Ae8M-0zSxrL7KzSI5wSqZxD6qt8VFF3aTQNHV3w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=DEAcZcUoIlu3Mo4Umsu2aQ&_nc_ss=7a22e&oh=00_AQOdLZuJUigrQnbBpvt70ECTaYhX2eYphRXXWoXGhPNBnQ&oe=6AC52358",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830151327_18091098557407306_4803761875583699439_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5ODc4MTM0NDYwNDY4OTQ3OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=tuBUcx85TMcQ7kNvwERuvjQ&_nc_oc=Ado27Wr0FX5kffNVM54Ps6y_1vh_Ae8M-0zSxrL7KzSI5wSqZxD6qt8VFF3aTQNHV3w&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=OBd97vzQQ1dsIcHwuMsQMA&_nc_ss=7a22e&oh=00_AQNkE_Cw0b-GsEOF4JAna8hOnYzja_6xYLVd86AYlWv7Vw&oe=6AC52358",
    "url": "https://www.threads.com/@aipeekme/post/Dd-hnJLnxRH",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "Claude Code를 원하는 대로 개조할 수 있게 됐습니다.\n\n앤트로픽이 Claude Code에 Mods를 추가했습니다.\n몇 줄의 TypeScript로 동작 방식과 UI를 바꾸거나 새로운 기능을 직접 넣을 수 있으며, Claude에게 Mod 제작을 맡기는 것도 가능합니다.\n\n예를 들어 Token Weather는 남은 컨텍스트를 보여주고, Blast Radius는 `rm -rf` 같은 위험한 명령을 실행 전에 잡아냅니다. Replay Theater는 Claude가 수정한 파일을 순서대로 다시 확인할 수 있습니다.\n\nMods는 플러그인에 포함되며 `/plugin`으로 설치할 수 있고, 직접 만든 Mods를 Claude directory에 공개할 수도 있습니다.",
-   "likes": 54,
-   "cmts": 1,
-   "time": 1790917206,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/832777930_1755268192353963_2517177716374812477_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5ODgyNTgyMTUwNjgzODE0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZsT3OlObPbIQ7kNvwF4S5fK&_nc_oc=AdoO3beg8eXjd-zVs3MXJIFh-1gGYHk7D6Nx4P7wzXU1_zui0QlSyb908cMtuuRYbj8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jiBOZvNgSzpms6QQRtzDzQ&_nc_ss=7a22e&oh=00_AQNcURz11uA1iT_2IUaliXp_4Eu5Uit6n_Toczep8huNvw&oe=6AC5356F",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-ruXhkx6C",
+   "text": "이제 AI 데이터센터가 우주로 나아갑니다!\n\n구글이 Project Suncatcher의 첫 실험으로 TPU 4개를 탑재한 위성을 스페이스X 로켓으로 실제 궤도에 올렸습니다.\n\n목표는 장기적으로 우주에 AI 컴퓨팅 인프라를 구축하는 것입니다. 저궤도에서는 지상보다 최대 8배 많은 태양광 발전이 가능하다고 합니다.\n\n이번에는 TPU가 발사 충격과 방사선, 극심한 온도 변화를 견디는지 확인하고, 2027년에는 위성 2대를 레이저로 연결하는 실험도 진행합니다.",
+   "likes": 50,
+   "cmts": 3,
+   "time": 1790920830,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/833701721_4443824065931687_9017318281178666409_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=100&ig_cache_key=Mzk5ODg1NjIxOTY3NDAzOTE3OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=9d2Bhc6GiBYQ7kNvwEf4Ke0&_nc_oc=AdqS-PSYzzBf--2UcnWbyI9E9Lq7vgVTW33tYpwp99cO4t5iG04ubaGEGiEwIwSeSm8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=P0KRc4r26zU4RZrUDMoPtQ&_nc_ss=7a22e&oh=00_AQNsZQXLmcf4qPalhyhEahMVyscGE8vIch8uw8yc7_bqUg&oe=6AC5474D",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-youBiFOK",
    "region": "kr"
   },
   {
@@ -124,12 +124,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "발표내용 :\nhttps://microsoft.ai/news/our-first-streaming-transcription-model/",
-   "likes": 2,
-   "cmts": 0,
-   "time": 1790913608,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-k3KPCSZo",
+   "text": "Claude Code를 원하는 대로 개조할 수 있게 됐습니다.\n\n앤트로픽이 Claude Code에 Mods를 추가했습니다.\n몇 줄의 TypeScript로 동작 방식과 UI를 바꾸거나 새로운 기능을 직접 넣을 수 있으며, Claude에게 Mod 제작을 맡기는 것도 가능합니다.\n\n예를 들어 Token Weather는 남은 컨텍스트를 보여주고, Blast Radius는 `rm -rf` 같은 위험한 명령을 실행 전에 잡아냅니다. Replay Theater는 Claude가 수정한 파일을 순서대로 다시 확인할 수 있습니다.\n\nMods는 플러그인에 포함되며 `/plugin`으로 설치할 수 있고, 직접 만든 Mods를 Claude directory에 공개할 수도 있습니다.",
+   "likes": 58,
+   "cmts": 1,
+   "time": 1790917206,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/832777930_1755268192353963_2517177716374812477_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=109&ig_cache_key=Mzk5ODgyNTgyMTUwNjgzODE0Ng%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ZsT3OlObPbIQ7kNvwF4S5fK&_nc_oc=AdoO3beg8eXjd-zVs3MXJIFh-1gGYHk7D6Nx4P7wzXU1_zui0QlSyb908cMtuuRYbj8&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=P0KRc4r26zU4RZrUDMoPtQ&_nc_ss=7a22e&oh=00_AQNu-BwjKAMAtDU-T5w0epg_Q4Ve_TYpA6clqoeqvYFyTA&oe=6AC5356F",
+   "url": "https://www.threads.com/@choi.openai/post/Dd-ruXhkx6C",
    "region": "kr"
   },
   {
@@ -138,18 +138,8 @@
    "likes": 1,
    "cmts": 2,
    "time": 1790904671,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830695310_18091079636407306_6615843965111203479_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5ODcyMDU5MTIzNTM3NzA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HMULFAv5gXYQ7kNvwENDODH&_nc_oc=AdoHeOcd3JmPKqNFZ6DvCdJJjMDEoCKpYhKMe-kYs1pZx41hlIJv1-2m73waXw-wc2I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=DEAcZcUoIlu3Mo4Umsu2aQ&_nc_ss=7a22e&oh=00_AQMlPAChN4Dv-iEMI0OaZhyFA47jI4FsF8d-uTQU-CGnPw&oe=6AC530B3",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830695310_18091079636407306_6615843965111203479_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=100&ig_cache_key=Mzk5ODcyMDU5MTIzNTM3NzA3NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=HMULFAv5gXYQ7kNvwENDODH&_nc_oc=AdoHeOcd3JmPKqNFZ6DvCdJJjMDEoCKpYhKMe-kYs1pZx41hlIJv1-2m73waXw-wc2I&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=OBd97vzQQ1dsIcHwuMsQMA&_nc_ss=7a22e&oh=00_AQOca8tf5_2DLQbsFsXr-f33DRF0N8ZP-_ytvq1vw81gJw&oe=6AC530B3",
    "url": "https://www.threads.com/@aipeekme/post/Dd-TzEMn-ey",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "마이크로소프트가 실시간 음성 AI를 위한 모델 3종을 공개했습니다.\n\nMAI-Transcribe-2-Streaming은 60개 언어를 실시간으로 받아쓰며, 음성을 받은 뒤 약 100ms 만에 첫 텍스트를 생성합니다.\n사람이 말을 끝내기 전부터 AI가 내용을 이해하고 작업을 시작할 수 있습니다.\n\nMAI-Voice-2.1은 23개 언어를 같은 목소리로 자연스럽게 말할 수 있고, MAI-Voice-2.1-Flash는 45초 분량 음성을 약 150ms의 지연시간으로 생성합니다.\n\n듣고→판단하고→말하는 전 과정을 빠르게 연결해 실시간 음성 에이전트를 만드는 데 초점을 맞췄습니다.",
-   "likes": 24,
-   "cmts": 1,
-   "time": 1790913599,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/831254235_1832395327757900_7310001025318231050_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=103&ig_cache_key=Mzk5ODc5NTU2MjY0Nzg5MTM0Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O0ilc9HJ9wMQ7kNvwF_6EcO&_nc_oc=AdoR0FkXMgicytG-AGmkNI4J3WzpApl8rn2SYAA0B3iM2lBgb59Av6SLSsfGjYcTO6c&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=jiBOZvNgSzpms6QQRtzDzQ&_nc_ss=7a22e&oh=00_AQMAxr6I6qFL6rUWet49wxXsW6NhNrJR1Q3KY-xWyCxA_A&oe=6AC52F42",
-   "url": "https://www.threads.com/@choi.openai/post/Dd-k2CxCS2O",
    "region": "kr"
   },
   {
@@ -168,142 +158,13 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790895733,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829544179_18091060118407306_2630931339595127551_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODY0NTYzMjc2NDEyNjc0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UJgs9MfNw4gQ7kNvwHBrsoL&_nc_oc=AdrTxi_pIZqyQMQ0sGsMCSHStOEFHzbXfzhJcF8r9t4q-3pTSP90rDV7OxlahyCCxrY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=DEAcZcUoIlu3Mo4Umsu2aQ&_nc_ss=7a22e&oh=00_AQPHo0rbhrVtPdvUjjBTp8cuZ6iJ4xLfUU_IpDFK1wif1Q&oe=6AC51D84",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829544179_18091060118407306_2630931339595127551_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODY0NTYzMjc2NDEyNjc0NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=UJgs9MfNw4gQ7kNvwHBrsoL&_nc_oc=AdrTxi_pIZqyQMQ0sGsMCSHStOEFHzbXfzhJcF8r9t4q-3pTSP90rDV7OxlahyCCxrY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=OBd97vzQQ1dsIcHwuMsQMA&_nc_ss=7a22e&oh=00_AQOrQxNQVxAzOIPBl83t3KbRanYn_gVE7R_4gOxmUMUf0g&oe=6AC51D84",
    "url": "https://www.threads.com/@aipeekme/post/Dd-CwRrkqYZ",
    "region": "kr"
   }
  ],
- "tiktok": [
-  {
-   "account": "tictok_ent",
-   "title": "아이브(IVE) 레이, 러블리한 현실 콩순이 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토어 오픈을 ",
-   "views": 3662,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oACVDEgjE1qAyHCSIC8AecFApvCUYBfGnqAmEp~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=tXWvaSd2ZT74uWrsF6rNPfLRTk0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790730567,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691129224370998548",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "서강준, 감탄 나오는 비현실적 잘생김 / 몽블랑(MONTBLANC) 팝업 포토월 럭셔리 라이프스타일 브랜드 몽블랑(MONTBLANC)의 'Let's Write' 팝업스토어 오픈을 기념한 포토행사가 1일 오전 서울 송",
-   "views": 1532,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMIRpcqAcpS2mpR9DBEb5vFCvAACfgf4EyEAum~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=vgAzwv3PCK6GwS8Tic9yQU7S%2FKQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790823053,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691526446161874177",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "김도연, 모델 뺨치는 늘씬한 몸매 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일 오후 서울",
-   "views": 1040,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okAAgBw1UiGAAKtI2X8fBi2XCBF0TmE7Srs5yw~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=EB7%2FN0Ar4uVOBj9hHdpC1Kh%2FVck%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790761741,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691263113437531410",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "임윤아, 오늘도 변함없는 ‘융프로디테’ 미모 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일",
-   "views": 897,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oYPafADvi2CB1FV5qHoStAUCgEL8CxKIAAfNEv~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=N1nsJDuBo5YRI0UDVY2ccXOXEAM%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790761810,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691263412822625543",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "몬스타엑스(MONSTA X) 민혁, 밥 챙기는 몬베베들 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토",
-   "views": 875,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oAqAkwxxrKXQMALWAGXgXerAAeJKAfeLcHgGIk~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=eOCGJUZVDG5JiaEJkijvw%2BgOy9I%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790730511,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691128981734640917",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "존박, 제철 맞은 가을 남자 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일 오후 서울 성동",
-   "views": 841,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oowK6XiCxAxsG8UzBG2Y2GwEBfAFigAgXBA1mI~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=ELdQd6UV2suj0cE%2B6IARjeR%2Fgqo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790761773,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691263253326269704",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "빈지노♥미초바, 성수동 뜬 사랑꾼 부부 / 설화수 자음생 60주년 포토월 아모레퍼시픽 설화수가 자음생 60주년을 맞이해 ‘Secret Garden, Crafted in Time’ 전시를 기념한 포토행사를 30일 오후",
-   "views": 816,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oANqC8GAEruFnC2AGgVEv6cAVr7eDBAqCftICU~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=uYc49k3Rv4HHvVNmMbReqCN3%2FQY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790761705,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691262959569390855",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "정은채, 잘생쁨의 정석 / 몽블랑(MONTBLANC) 팝업 포토월 럭셔리 라이프스타일 브랜드 몽블랑(MONTBLANC)의 'Let's Write' 팝업스토어 오픈을 기념한 포토행사가 1일 오전 서울 송파구 신천동에 ",
-   "views": 778,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/os9p1iBIOB1CXrCUywALA5k3EfCglHAi4RIAuA~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=y4wUKCmVPd7lVs6cU7pPmzrJU54%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790822982,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691526141982608647",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "강훈, 여심 저격하는 스윗 손키스 / 루나(LUNA) 팝업스토어 포토월 애경 산업의 메이크업 전문 브랜드 ‘루나(LUNA)’​의 ‘루나 클라우드 레이어(LUNA CLOUD LAYER)’ 팝업스토어 오픈을 기념하는 포",
-   "views": 138,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8qAcN8B6CAEGAFVeBcIkHqAAvC3gWfCCBYDER~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=g7yX0ieRqb%2BqZ8NzgrBECyVAaJE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790730453,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691128731833830676",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "톰크루즈, 13번째 내한! / 디거 내한 기자간담회 꼰대 괴짜 재벌 ‘디거 록웰’의 그린란드 빙하 시추 시설에서 발생한 작은 균열이 전 세계를 뒤흔들 역대급 대재앙이 되면서 벌어지는 이야기를 담은 영화 ‘디거’의 내",
-   "views": 1,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU7CA9DAAQqAFFYeqQfJW7yX7wnIffJWAEGyZI~tplv-tiktokx-origin.image?dr=14575&x-expires=1791097200&x-signature=AJpFrADsvBU5MAe%2FK%2FXXq3NOcUQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790836765,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691585338774490376",
-   "region": "kr"
-  }
- ],
+ "tiktok": [],
  "reddit": [
-  {
-   "sub": "humor",
-   "title": "Make it make sense",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790856173,
-   "url": "https://www.reddit.com/r/humor/comments/1wuxmhh/make_it_make_sense/"
-  },
-  {
-   "sub": "PoursTea",
-   "title": "He's got 86 witnesses but a Democrat ain't one.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/6y4m56457ysh1.jpeg?width=640&crop=smart&auto=webp&s=4ff57179f4c299051cad4f3be7d5ccf5ce71da52",
-   "time": 1790900661,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1wvfqxa/hes_got_86_witnesses_but_a_democrat_aint_one/"
-  },
   {
    "sub": "HistoryMemes",
    "title": "The origin of the famous figure in this respective country",
@@ -312,6 +173,24 @@
    "thumb": "https://preview.redd.it/vnuk38samzsh1.jpeg?width=640&crop=smart&auto=webp&s=ad53775bac98463b65ef2238cfe4233de80eae32",
    "time": 1790917867,
    "url": "https://www.reddit.com/r/HistoryMemes/comments/1wvlast/the_origin_of_the_famous_figure_in_this/"
+  },
+  {
+   "sub": "Damnthatsinteresting",
+   "title": "Figure retired six Figure 02 robots in the most Terminator way possible: training them to jump into a furnace. The idea came from Arnold Schwarzenegger and is inspired by the iconic Terminator 2 scene",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/a3lrYndiaWJ2enNoMR1sMX1p1wHixv9U6H9D1q0Lr1VNPabXmu3TQVPkGqs_.png?width=640&crop=smart&auto=webp&s=d1a9cd29b0837e9be8d7940cb891d99d5114f1b3",
+   "time": 1790920945,
+   "url": "https://www.reddit.com/r/Damnthatsinteresting/comments/1wvm5ek/figure_retired_six_figure_02_robots_in_the_most/"
+  },
+  {
+   "sub": "humor",
+   "title": "Make it make sense",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790856173,
+   "url": "https://www.reddit.com/r/humor/comments/1wuxmhh/make_it_make_sense/"
   },
   {
    "sub": "TierlistFills",
@@ -323,6 +202,15 @@
    "url": "https://www.reddit.com/r/TierlistFills/comments/1wvhl93/companies_whats_your_opinion_on_nestlé_thisll_be/"
   },
   {
+   "sub": "PoursTea",
+   "title": "He's got 86 witnesses but a Democrat ain't one.",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/6y4m56457ysh1.jpeg?width=640&crop=smart&auto=webp&s=4ff57179f4c299051cad4f3be7d5ccf5ce71da52",
+   "time": 1790900661,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1wvfqxa/hes_got_86_witnesses_but_a_democrat_aint_one/"
+  },
+  {
    "sub": "mildlyinfuriating",
    "title": "My dad purchased these water guns for my sons",
    "score": 0,
@@ -330,24 +218,6 @@
    "thumb": "https://preview.redd.it/d7n3fubuuxsh1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=066cb50aa7a471f9b673264662d30be7c9523544",
    "time": 1790896530,
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wve9oc/my_dad_purchased_these_water_guns_for_my_sons/"
-  },
-  {
-   "sub": "mildlyinteresting",
-   "title": "I have two different sized legs",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/w5m5btvsoysh1.jpeg?width=640&crop=smart&auto=webp&s=b73c0a24fa126c2804928633d1d110f3ee6fdb59",
-   "time": 1790906600,
-   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wvht1d/i_have_two_different_sized_legs/"
-  },
-  {
-   "sub": "BunnyTrials",
-   "title": "You vs Prime Mike Tyson",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790895495,
-   "url": "https://www.reddit.com/r/BunnyTrials/comments/1wvdvv6/you_vs_prime_mike_tyson/"
   },
   {
    "sub": "KidsAreFuckingStupid",
@@ -359,6 +229,15 @@
    "url": "https://www.reddit.com/r/KidsAreFuckingStupid/comments/1wvig9s/classic_stupid_kid_move/"
   },
   {
+   "sub": "BunnyTrials",
+   "title": "You vs Prime Mike Tyson",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790895495,
+   "url": "https://www.reddit.com/r/BunnyTrials/comments/1wvdvv6/you_vs_prime_mike_tyson/"
+  },
+  {
    "sub": "SipsTea",
    "title": "How can people enjoy that?",
    "score": 0,
@@ -366,6 +245,15 @@
    "thumb": "https://external-preview.redd.it/em9ma2huanBpdXNoMfwhDNjxmggjWSVlSRs0wfcH3kb-cR1EBxQxzwbue1zT.jpeg?width=320&crop=smart&auto=webp&s=e8967e3b2f4097221a4f62e9912737c0e852e0bf",
    "time": 1790856135,
    "url": "https://www.reddit.com/r/SipsTea/comments/1wuxlzu/how_can_people_enjoy_that/"
+  },
+  {
+   "sub": "mildlyinteresting",
+   "title": "I have two different sized legs",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/w5m5btvsoysh1.jpeg?width=640&crop=smart&auto=webp&s=b73c0a24fa126c2804928633d1d110f3ee6fdb59",
+   "time": 1790906600,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1wvht1d/i_have_two_different_sized_legs/"
   },
   {
    "sub": "SipsTea",
@@ -384,25 +272,16 @@
    "thumb": "https://external-preview.redd.it/ZDM1MzdiYXNwdnNoMRIWw2dtKKdKD9DySATjzPX0VuIz_g4v_lPu5i0fMpgV.png?width=320&crop=smart&auto=webp&s=38340c3f4bfbb17c85e4087565088aedbb9e3558",
    "time": 1790870634,
    "url": "https://www.reddit.com/r/whoathatsinteresting/comments/1wv3dzv/a_south_african_compares_pictures_of_johannesburg/"
-  },
-  {
-   "sub": "mildlyinfuriating",
-   "title": "My insurance on a 34 year old car at 18",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/axzub66y6zsh1.jpeg?width=640&crop=smart&auto=webp&s=47c562a736cbaf1ed52edb14cc703407d4568c6f",
-   "time": 1790912704,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wvjr18/my_insurance_on_a_34_year_old_car_at_18/"
   }
  ],
  "disaster": [],
  "namu": [
   {
-   "query": "아시안 게임 롤",
+   "query": "나나",
    "rank": 1
   },
   {
-   "query": "나나",
+   "query": "아시안 게임 롤",
    "rank": 2
   },
   {
@@ -410,11 +289,11 @@
    "rank": 3
   },
   {
-   "query": "탑",
+   "query": "암살자들",
    "rank": 4
   },
   {
-   "query": "암살자들",
+   "query": "탑",
    "rank": 5
   },
   {
@@ -426,7 +305,7 @@
    "rank": 7
   },
   {
-   "query": "페이커",
+   "query": "시지프 백화점",
    "rank": 8
   },
   {
@@ -434,7 +313,7 @@
    "rank": 9
   },
   {
-   "query": "오세훈",
+   "query": "암살자(들)",
    "rank": 10
   }
  ],
@@ -448,21 +327,19 @@
     "kopp",
     "promppy_com",
     "takepage_"
-   ],
-   "tiktok": [
-    "tictok_ent"
    ]
   },
   "why": {
    "tiktok": {
-    "jaemyung_lee": 503
+    "jaemyung_lee": "err",
+    "tictok_ent": 503
    }
   },
   "landing": {
-   "at": "2026-10-02T16:06:23",
+   "at": "2026-10-02T16:31:23",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-02T16:31:20.913228+09:00"
+ "updated": "2026-10-02T17:01:52.321762+09:00"
 }
