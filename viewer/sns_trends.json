@@ -7594,8 +7594,14 @@
   {
    "query": "보이콧",
    "traffic": "10000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/707e501bb8.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016355068",
+     "source": ""
+    }
+   ],
    "vol": 10000,
    "started": "2026-10-03T14:10:00+09:00",
    "delta": -3,
@@ -7674,8 +7680,14 @@
   {
    "query": "노벨상",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/3e0b16a90c.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/001/0016352297",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-10-03T13:50:00+09:00",
    "delta": -6,
@@ -7712,8 +7724,14 @@
   {
    "query": "부산 kcc 대 창원 lg",
    "traffic": "1000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/0fcc80ab5f.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014228929",
+     "source": ""
+    }
+   ],
    "vol": 1000,
    "started": "2026-10-03T13:50:00+09:00",
    "isNew": true,
@@ -7725,8 +7743,14 @@
   {
    "query": "티빙",
    "traffic": "2000+",
-   "picture": "",
-   "news": [],
+   "picture": "https://pub-6121e8a6f6194091b5502a72ed28a87b.r2.dev/trend/633085cac3.jpg",
+   "news": [
+    {
+     "title": "",
+     "url": "https://n.news.naver.com/mnews/article/003/0014229258",
+     "source": ""
+    }
+   ],
    "vol": 2000,
    "started": "2026-10-03T13:50:00+09:00",
    "delta": -8,
@@ -7859,7 +7883,7 @@
  ],
  "gtrends_pool_updated": "2026-10-03T17:40:41+09:00",
  "_trend_img": {
-  "tried": "2026-10-03T17:05:37+09:00",
+  "tried": "2026-10-03T17:40:41+09:00",
   "fail": {
    "kia 대 lg": "2026-10-03T16:13:51+09:00"
   }
@@ -18635,7 +18659,10 @@
     "rh": [
      1
     ],
-    "first_seen": "2026-10-03T17:40:41+09:00"
+    "first_seen": "2026-10-03T17:40:41+09:00",
+    "kw": "볼트, 링크 모음",
+    "sum": "작성자가 자료를 한곳에 모은 볼트 링크를 공개했다",
+    "sv": 1
    },
    {
     "account": "kopp",
@@ -18650,7 +18677,10 @@
     "rh": [
      2
     ],
-    "first_seen": "2026-10-03T17:40:41+09:00"
+    "first_seen": "2026-10-03T17:40:41+09:00",
+    "kw": "컴포넌트, 제작",
+    "sum": "작성자가 이번 주 만든 컴포넌트를 소개했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18665,7 +18695,10 @@
     "rh": [
      3
     ],
-    "first_seen": "2026-10-03T17:40:41+09:00"
+    "first_seen": "2026-10-03T17:40:41+09:00",
+    "kw": "슈워츠, Claude, 양자장론",
+    "sum": "슈워츠가 Claude의 강점에 맞는 문제를 찾는 방식으로 바꿨다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18680,7 +18713,10 @@
     "rh": [
      4
     ],
-    "first_seen": "2026-10-03T17:40:41+09:00"
+    "first_seen": "2026-10-03T17:40:41+09:00",
+    "kw": "슈워츠, 임피던스 불일치, 리만 가설",
+    "sum": "슈워츠가 AI 성과와 연구 현실의 격차를 임피던스 불일치로 설명했다",
+    "sv": 1
    },
    {
     "account": "choi.openai",
@@ -18695,7 +18731,10 @@
     "rh": [
      5
     ],
-    "first_seen": "2026-10-03T17:40:41+09:00"
+    "first_seen": "2026-10-03T17:40:41+09:00",
+    "kw": "슈워츠, BootLoops, 앤트로픽",
+    "sum": "슈워츠가 Claude와 18개 분야 논문 36편을 만들었다",
+    "sv": 1
    },
    {
     "account": "takepage_",
@@ -18865,7 +18904,10 @@
     "rh": [
      13
     ],
-    "first_seen": "2026-10-03T17:40:41+09:00"
+    "first_seen": "2026-10-03T17:40:41+09:00",
+    "kw": "하버드 교수, Claude, 다학제 연구",
+    "sum": "하버드 교수가 18개 분야에서 Claude로 논문 36편을 냈다",
+    "sv": 1
    },
    {
     "account": "aicoffeechat",
