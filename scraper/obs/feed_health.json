@@ -1,7 +1,13 @@
 {
- "ok": 185,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 184,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -87,6 +93,11 @@
    "publisher": "프레시안",
    "title": "스포츠",
    "url": "https://www.pressian.com/api/v3/site/rss/section/70"
+  },
+  {
+   "publisher": "텐아시아",
+   "title": "영화",
+   "url": "https://www.tenasia.co.kr/rss/movie/"
   }
  ]
 }
