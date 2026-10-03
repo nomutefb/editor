@@ -3,6 +3,36 @@
  "insta": [],
  "threads": [
   {
+   "account": "choi.openai",
+   "text": "메타가 이 부분은 정말 잘하고 있는 것 같습니다.\n\nAI 에이전트에 맞는 새로운 폼팩터와 디바이스는 결국 기업이 직접 만들어야 한다고 생각했는데, 메타는 반대로 ESP32와 Raspberry Pi용 SDK를 오픈소스로 풀어 누구나 Muse와 연결되는 기기를 만들게 했습니다.\n\n실제로 공개 몇 시간 만에 전자책 단말기를 Muse용 상시 디스플레이로 개조하는 사례도 나오고 있는데요.\n\n오픈AI가 Codex를 오픈소스로 공개하며 개발자 생태계를 확장했던 것처럼, 앞으로 AI 에이전트 경쟁에서는 소프트웨어뿐 아니라 하드웨어에서도 ‘누구나 연결하고 만들 수 있는 생태계’가 중요해질 것 같습니다.",
+   "likes": 1,
+   "cmts": 0,
+   "time": 1790986964,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DeAwxrGDwJH",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "내용 :\nhttps://gadgets.muse.ai/",
+   "likes": 2,
+   "cmts": 0,
+   "time": 1790985631,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DeAuO_yjZmE",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "메타가 AI 에이전트를 컴퓨터 밖으로 꺼내기 시작했습니다.\n\nMuse와 실제 하드웨어를 연결하는 오픈소스 플랫폼 Muse Gadgets가 공개됐습니다.\nESP32나 Raspberry Pi에 SDK를 설치하면 화면·버튼·센서·스피커 같은 장치를 Muse가 직접 사용할 수 있습니다.\n\n함께 공개된 Muse Home Link는 집안의 TV, 조명, 프린터 등과 Muse를 연결합니다.\n예를 들어 “TV 켜줘”, “이 문서 출력해줘” 같은 요청을 실제 기기에서 실행할 수 있습니다.",
+   "likes": 14,
+   "cmts": 3,
+   "time": 1790985621,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831467240_17989764120112832_4015454698010653737_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5OTM5OTcyMDMyMTM5MzYyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=EIf5SUBsnIUQ7kNvwG-MNf7&_nc_oc=AdpLLqeJBp6PQe_aQq7w3_31S2xVC82lVvA7Wk2mh2NPfIp5_AUlSs5BclV3MTSLZ80&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=8k-1l_w_Z7TyapWrccQ5BQ&_nc_ss=7a22e&oh=00_AQN6RMQvmn_4terFG6ACvrbFUwqlBt2fFvll18kR1Jg6GA&oe=6AC61C0D",
+   "url": "https://www.threads.com/@choi.openai/post/DeAuNscjaPZ",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "🔗 원문·자세히 보기\nhttps://github.com/Niko1221/Strata",
    "likes": 0,
@@ -15,41 +45,11 @@
   {
    "account": "aipeekme",
    "text": "개인용 PC에서 대규모 AI 모델을 구동할 수 있는 추론 엔진 Strata가 공개되었습니다.\n윈도우와 리눅스 환경에서 설치가 가능하며 오픈AI와 앤스로픽 API를 로컬호스트에서 지원합니다.\n1250억 파라미터 규모의 Qwen3.8-Flash-Next 모델을 일반 게이밍 PC에서 실행하는 방식인데요.\n12기가바이트 이상의 VRAM을 갖춘 엔비디아나 AMD 그래픽카드가 필요하며 12만 8천 토큰의 컨텍스트를 처리합니다.\n채팅과 코드 작성뿐만 아니라 이미지 입력까지 로컬 환경에서 외부 유출 없이 수행할 수 있습니다.\n실측 테스트 결과 지포스 RTX 5070 환경에서 초당 수십 토큰 속도로 답변을 생성하는 것으로 나타났습니다.\n대형 서버가 필요했던 모델을 개인 하드웨어에서 직접 돌릴 수 있다는 점이 실용적으로 다가옵니다.\n다만 VRAM 용량에 따른 실제 속도 저하 구간이 어디일지는 직접 테스트해 봐야 알 것 같습니다.\n\n📷 사진 출처: github.com",
-   "likes": 0,
+   "likes": 1,
    "cmts": 1,
    "time": 1790982076,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831504811_18091281353407306_8240108028442615017_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5OTM2OTkyMTMwMTc0MjUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NwP2iduQDk0Q7kNvwFbRTHU&_nc_oc=Adqg4Jqhz0XFh2dIVrw8fUZcZj4GqE2wmmCfxN8uGhWUXHBo0UPNUBIAa07dex4dOm0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=oOplI5pzNNHiSLNCI08KCw&_nc_ss=7a22e&oh=00_AQOkYgzTCwAObCmfH1MYwRKQbHfvxv-_aBOotugbyQHa-Q&oe=6AC61AEA",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831504811_18091281353407306_8240108028442615017_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5OTM2OTkyMTMwMTc0MjUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NwP2iduQDk0Q7kNvwFbRTHU&_nc_oc=Adqg4Jqhz0XFh2dIVrw8fUZcZj4GqE2wmmCfxN8uGhWUXHBo0UPNUBIAa07dex4dOm0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MU93bmuh6RcdMPMo_HrMHg&_nc_ss=7a22e&oh=00_AQMhWaItncTNiHR8EaXpVyzVq5JiGispK5uC-0js7jusYQ&oe=6AC61AEA",
    "url": "https://www.threads.com/@aipeekme/post/DeAncD8koOy",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "3D 모델링계의 나노 바나나가 나오고 있습니다.\n\nMeshy가 3D 모델 전체를 다시 생성하지 않고 원하는 부분만 선택해 수정하는 ‘Meshy Edit’을 공개했습니다.\n\n수정할 영역을 선택하고 원하는 내용을 입력하면 됩니다.\n공개된 데모에서는 조각상의 발만 선택해 부츠를 신기거나, 캐릭터의 안경과 머리 장식만 바꾸는 모습을 보여줬습니다.\n\n아직 수정하지 않은 얼굴 일부까지 달라지는 문제가 보이지만, 3D 생성도 이미지처럼 ‘만들기’에서 ‘대화하며 고치기’로 넘어가고 있습니다.",
-   "likes": 35,
-   "cmts": 2,
-   "time": 1790982021,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/833122680_1420285600060333_6595520910330852397_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5OTM2OTUyNTQ3NTg1NjM5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tNuc6Z3bLGoQ7kNvwEgAOR1&_nc_oc=Adpwbm2FaKUFHTt6sUCASFHBjS8QIReUI_luYphIyARMztdVfP0ouWwiJYdxeB_O600&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=87cQFOAlz4dhu1aiJ6-8kQ&_nc_ss=7a22e&oh=00_AQNMn3rmGfgljXRTFdx91MU5QxF-2i3Jz1WUbVNK1UuTlQ&oe=6AC60037",
-   "url": "https://www.threads.com/@choi.openai/post/DeAnWTTgtAO",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=giE1O1-e2DY",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790978471,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DeAgk_8CrH_",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "마이크로소프트 CEO 사티아 나델라는 AI의 실질적인 거시경제 파급효과와 GDP 기여도에 대해 분석했습니다.\n\n그는 현재 나타나는 성장세를 “데이터센터 구축과 몇몇 인기 제품 중심의 공급 측면 자극(supply-side stimulus)”이라고 설명했습니다.\n\n과거 PC 보급이나 전력 도입 당시 기술 확산과 실제 GDP 성장 수치 반영 사이에 시차가 존재했던 것처럼, 기술 등장과 경제적 성과 간에는 필연적인 간극이 있다는 분석입니다.\n\n특히 “단순히 새로운 도구가 생겼다고 해서 업무 방식과 워크플로가 즉각 바뀌지는 않는다”며, 생산과 지식 노동 전반을 재조직하고 새로운 효율성의 프론티어를 열어젖히는 리더십의 역할이 필수적이라고 강조했습니다.\n\n도구의 도입을 넘어 일하는 방식의 근본적인 체질 개선이 동반될 때, AI는 비선형적인 폭발적 생산성 혁신과 진정한 잉여 가치를 창출하게 됩니다.",
-   "likes": 6,
-   "cmts": 1,
-   "time": 1790978455,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825324069_1604405634713337_4696719796990852341_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5OTMzOTYxMzQ3ODU4NjgzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O2bx0xWQKpUQ7kNvwEXKCFr&_nc_oc=AdrRk2MZUoqJ16x65PleDQVWrkuRvD02mIaauRWlWjAAtyxVHQ4HLfzR7QSDqZEtM7Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=87cQFOAlz4dhu1aiJ6-8kQ&_nc_ss=7a22e&oh=00_AQPKmgBu2oDX2yPUSrzRi8o61lsrARrZzmjF2g_THQPCgw&oe=6AC613D7",
-   "url": "https://www.threads.com/@choi.openai/post/DeAgjBlignP",
    "region": "kr"
   },
   {
@@ -78,18 +78,18 @@
    "likes": 9,
    "cmts": 1,
    "time": 1790917415,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/831453697_29082994864694048_4391416154935463658_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5ODgyNzMzMjUxMjgxNzcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=v6C3lHGLTz8Q7kNvwFtbOao&_nc_oc=AdrCbIPEtI8qnj01J_9Et2Am2DuXgIvk5Z985Lo7gw-XhjrYnm4aTPa-7ySpejN_1Oc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=KdURfNGJZoXdAUn1-6FVgA&_nc_ss=7a22e&oh=00_AQNr8hIaak7CLtW2CtPCjnmWyUn9SkyHAZiIs3kkh88ELg&oe=6AC62E8C",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/831453697_29082994864694048_4391416154935463658_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=108&ig_cache_key=Mzk5ODgyNzMzMjUxMjgxNzcyNQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=v6C3lHGLTz8Q7kNvwFtbOao&_nc_oc=AdrCbIPEtI8qnj01J_9Et2Am2DuXgIvk5Z985Lo7gw-XhjrYnm4aTPa-7ySpejN_1Oc&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=N3GYg_HviFrZZyTU9nik5g&_nc_ss=7a22e&oh=00_AQPzVt7iQmt4cSLWnH5SsAne8Hqz20tvPBCbZK73BuHIPw&oe=6AC62E8C",
    "url": "https://www.threads.com/@kopp/post/Dd-sEWwjKI9",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=giE1O1-e2DY",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1790974874,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DeAZt4_Ak7U",
+   "text": "3D 모델링계의 나노 바나나가 나오고 있습니다.\n\nMeshy가 3D 모델 전체를 다시 생성하지 않고 원하는 부분만 선택해 수정하는 ‘Meshy Edit’을 공개했습니다.\n\n수정할 영역을 선택하고 원하는 내용을 입력하면 됩니다.\n공개된 데모에서는 조각상의 발만 선택해 부츠를 신기거나, 캐릭터의 안경과 머리 장식만 바꾸는 모습을 보여줬습니다.\n\n아직 수정하지 않은 얼굴 일부까지 달라지는 문제가 보이지만, 3D 생성도 이미지처럼 ‘만들기’에서 ‘대화하며 고치기’로 넘어가고 있습니다.",
+   "likes": 47,
+   "cmts": 3,
+   "time": 1790982021,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/833122680_1420285600060333_6595520910330852397_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=104&ig_cache_key=Mzk5OTM2OTUyNTQ3NTg1NjM5OA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tNuc6Z3bLGoQ7kNvwEgAOR1&_nc_oc=Adpwbm2FaKUFHTt6sUCASFHBjS8QIReUI_luYphIyARMztdVfP0ouWwiJYdxeB_O600&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=8k-1l_w_Z7TyapWrccQ5BQ&_nc_ss=7a22e&oh=00_AQMahpA7ts5cjW2U2BZ3AnwIYK1Zble1magzqdSB1CcD-A&oe=6AC63877",
+   "url": "https://www.threads.com/@choi.openai/post/DeAnWTTgtAO",
    "region": "kr"
   },
   {
@@ -98,18 +98,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790942479,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831118480_18091175798407306_2471457629011801941_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5OTAzNzc0ODQyMjg4MTM4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JRvJITPu_vsQ7kNvwFts45S&_nc_oc=AdrAQa7Und5MG-YrtoIPx6goJK8elie5h2lttZa7U05YifMaGe-4MhwaS0f55wsfBTE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=oOplI5pzNNHiSLNCI08KCw&_nc_ss=7a22e&oh=00_AQNkc6shmU975oomOEdS1jd3Vue2XBHj-IT5XFBbUeE2_Q&oe=6AC60347",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831118480_18091175798407306_2471457629011801941_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5OTAzNzc0ODQyMjg4MTM4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JRvJITPu_vsQ7kNvwFts45S&_nc_oc=AdrAQa7Und5MG-YrtoIPx6goJK8elie5h2lttZa7U05YifMaGe-4MhwaS0f55wsfBTE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MU93bmuh6RcdMPMo_HrMHg&_nc_ss=7a22e&oh=00_AQNic2szf0J7N8yCKsOUP4CMopotadMh-iCYU2DS7EoXDA&oe=6AC60347",
    "url": "https://www.threads.com/@aipeekme/post/Dd_b6T2H7Bl",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "마이크로소프트 CEO 사티아 나델라는 AI 에이전트 시장이 단순한 파이 뺏기 경쟁이 아니라 “GDP 관점에서 측정되는 새로운 순가치를 창출하는 것”이라고 강조했습니다.\n\n소비자 영역에서는 에이전트가 쇼핑이나 검색을 대행하며 기존 중개 플랫폼을 무력화할 수 있어 제로섬 성격을 띨 수 있습니다.\n\n하지만 엔터프라이즈 시장은 다른 소프트웨어를 단순 취합하는 중개가 아니라, 고객이 원하는 비즈니스 성과를 직접 해결해 주는 플랫폼 경제 경쟁이라고 분석했습니다.\n\n그는 “에이전트 시대의 규모는 클라우드보다 몇 배는 더 거대할 것”이라며 역사상 가장 큰 시장 확장이 일어날 것으로 전망했습니다.\n\n이제 모든 오토파일럿과 대화형 인터페이스는 실질적인 기업 생산성과 비즈니스 성과를 증명하는 데 집중해야 한다고 밝혔습니다.",
-   "likes": 12,
-   "cmts": 1,
-   "time": 1790974850,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/828467604_2348815985875437_6089663353066419095_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5OTMwOTM3MjQ2MjM5NTUxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=tEJzcDQRVOEQ7kNvwEcSy0m&_nc_oc=Adq7VvKA5pqOmE4wdFbCGl8Yv40vkfMHgKCiCyr9wpaUbZwe1U0NOiGZcKUEsfogii4&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=87cQFOAlz4dhu1aiJ6-8kQ&_nc_ss=7a22e&oh=00_AQPxVWZ3-9qmn0_omw0RhFHpqV4-2AgA7a7lfExRyvlycQ&oe=6AC612CE",
-   "url": "https://www.threads.com/@choi.openai/post/DeAZq9cgvB-",
+   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=giE1O1-e2DY",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1790978471,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DeAgk_8CrH_",
    "region": "kr"
   },
   {
@@ -124,12 +124,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=jrUNnrcmFCU",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1790971230,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DeASw-AiKqO",
+   "text": "마이크로소프트 CEO 사티아 나델라는 AI의 실질적인 거시경제 파급효과와 GDP 기여도에 대해 분석했습니다.\n\n그는 현재 나타나는 성장세를 “데이터센터 구축과 몇몇 인기 제품 중심의 공급 측면 자극(supply-side stimulus)”이라고 설명했습니다.\n\n과거 PC 보급이나 전력 도입 당시 기술 확산과 실제 GDP 성장 수치 반영 사이에 시차가 존재했던 것처럼, 기술 등장과 경제적 성과 간에는 필연적인 간극이 있다는 분석입니다.\n\n특히 “단순히 새로운 도구가 생겼다고 해서 업무 방식과 워크플로가 즉각 바뀌지는 않는다”며, 생산과 지식 노동 전반을 재조직하고 새로운 효율성의 프론티어를 열어젖히는 리더십의 역할이 필수적이라고 강조했습니다.\n\n도구의 도입을 넘어 일하는 방식의 근본적인 체질 개선이 동반될 때, AI는 비선형적인 폭발적 생산성 혁신과 진정한 잉여 가치를 창출하게 됩니다.",
+   "likes": 8,
+   "cmts": 1,
+   "time": 1790978455,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825324069_1604405634713337_4696719796990852341_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5OTMzOTYxMzQ3ODU4NjgzMQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=O2bx0xWQKpUQ7kNvwEXKCFr&_nc_oc=AdrRk2MZUoqJ16x65PleDQVWrkuRvD02mIaauRWlWjAAtyxVHQ4HLfzR7QSDqZEtM7Y&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=8k-1l_w_Z7TyapWrccQ5BQ&_nc_ss=7a22e&oh=00_AQOkzwQWTOuNckNm8lU7JogYj_aqq62VZ4AUQ9veh19hpg&oe=6AC613D7",
+   "url": "https://www.threads.com/@choi.openai/post/DeAgjBlignP",
    "region": "kr"
   },
   {
@@ -138,18 +138,8 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790933482,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/833059229_18091151243407306_6819190320854741685_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5ODk2MjI4MTMwOTI0MDQ5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0PZc0Yw0WYYQ7kNvwFtTJ4R&_nc_oc=AdoQZbyIOzoHEc8cLXzZdW9_wOI_Ud28vwNVRjj1lsAM3sxpaGp6JzcaVhtKIbrUemA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=oOplI5pzNNHiSLNCI08KCw&_nc_ss=7a22e&oh=00_AQP3R4wjI5EbOdpzIdSrHYP08e-WCc0rFYmau35OCs850Q&oe=6AC610F8",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/833059229_18091151243407306_6819190320854741685_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5ODk2MjI4MTMwOTI0MDQ5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=0PZc0Yw0WYYQ7kNvwFtTJ4R&_nc_oc=AdoQZbyIOzoHEc8cLXzZdW9_wOI_Ud28vwNVRjj1lsAM3sxpaGp6JzcaVhtKIbrUemA&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MU93bmuh6RcdMPMo_HrMHg&_nc_ss=7a22e&oh=00_AQPlE2XdlxX3Oih_uQGTlGCtne6KTSY7BaiYYLZNDmpkNw&oe=6AC610F8",
    "url": "https://www.threads.com/@aipeekme/post/Dd_KwHnn3yq",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "일론 머스크는 AI와 로봇 시대의 교육에 대해 “가능한 한 폭넓은 일반 지식을 습득하는 교육을 받아야 한다”고 강조했습니다.\n\n단순한 지식 암기나 단일 기술 습득을 넘어 인문학, 과학, 공학을 아우르는 지식이 필수적이라는 설명입니다. 그는 로봇에게 무엇을 시킬지 알기 위해서는 “질문을 제대로 구성할 줄 알아야 한다”며, 이것이 곧 프롬프트 엔지니어링의 본질이자 로봇에게 자신의 의도를 전달하는 핵심 역량이라고 말했습니다.\n\n또한 앞으로 AI와 휴머노이드 로봇이 기하급수적으로 늘어나면 “인간이 요청할 수 있는 거의 모든 요구를 즉각 처리해 줄 정도로 로봇들이 간절히 작업을 기다리는 시대”가 올 것이라고 내다봤습니다.\n\n결국 실행과 코딩, 물리적 노동은 AI와 로봇이 대신하는 만큼, 무엇을 만들고 어떤 문제를 해결할 것인지 방향을 설정하는 ‘질문의 힘’이 미래 일자리와 경쟁력의 핵심이 될 것이라는 분석입니다.",
-   "likes": 28,
-   "cmts": 1,
-   "time": 1790971206,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/825326619_965980043235531_1128172877382937027_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=102&ig_cache_key=Mzk5OTI3ODc5OTg3MDU1NTA5NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=MpfAJS7SnocQ7kNvwFmj5N8&_nc_oc=Adr4moKjI8_9Et5gaD2dFxdC7jEju4FWwkvdafKCVON5ySNP90b79ZdzZF1vTUfreNE&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=87cQFOAlz4dhu1aiJ6-8kQ&_nc_ss=7a22e&oh=00_AQPDqUrMRssJgZvdsQQSVxFtt6xyBekNji_8Ux_C6nPOjA&oe=6AC6183F",
-   "url": "https://www.threads.com/@choi.openai/post/DeASuEgCPPW",
    "region": "kr"
   },
   {
@@ -168,146 +158,22 @@
    "likes": 3,
    "cmts": 1,
    "time": 1790922903,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831399914_18091125260407306_761865763219181961_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODg3MzUzNDE2NTA5NTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ccgj5OlqhH4Q7kNvwEryOR7&_nc_oc=Adppqa0edcek9JELkb0Vah1a1kpYirjRRjG6ezkNIg_MNkBECS1XMhmscYZxhwr5ruI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=oOplI5pzNNHiSLNCI08KCw&_nc_ss=7a22e&oh=00_AQPFGht77j99PyrlGP6RyyMLDLi3cxVWTG-HF4d-w75yzg&oe=6AC611F4",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831399914_18091125260407306_761865763219181961_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5ODg3MzUzNDE2NTA5NTg3Nw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=Ccgj5OlqhH4Q7kNvwEryOR7&_nc_oc=Adppqa0edcek9JELkb0Vah1a1kpYirjRRjG6ezkNIg_MNkBECS1XMhmscYZxhwr5ruI&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MU93bmuh6RcdMPMo_HrMHg&_nc_ss=7a22e&oh=00_AQMx1g0q21Ai--qThYn2OhKuv_VPxChpmiYX7mXBrmge-g&oe=6AC611F4",
    "url": "https://www.threads.com/@aipeekme/post/Dd-2krZnxXF",
    "region": "kr"
   }
  ],
- "tiktok": [
-  {
-   "account": "jaemyung_lee",
-   "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
-   "views": 4100000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=n6OiFPZ6BiCVYZ72eu7VfEjTl0c%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1790240939,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "하나된 비전으로, 함께 열어갈 미래 #이재명 #대통령 #Mexico",
-   "views": 1300000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=hknTsOjyyfzTMS0m2OOQ4E%2FpVG0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1790294103,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
-   "views": 887000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=JaqBuBKhutyS2YeBEgzp6EWiEqk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1790285661,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
-   "views": 624000,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=8jqqR5EzvGDvUGVrIv2pcDrD8QY%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1790316395,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
-   "views": 564500,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=Owo%2FWWtwtAypkS%2BrX117yLpQkI4%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789537496,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
-   "views": 303100,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=JD2wIUZpBRQb83Yxq1bR9UjueOs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789536283,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
-   "views": 205900,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=AQlG376U5ZzrFpUMlVgivtze0rI%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1790384214,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
-   "views": 145900,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=fTf286NyvQfa49V2xfF9Czq3g8o%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1790052600,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
-   "views": 96100,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=JAvYrp7mxMRBlh3a0YzilPbBVhs%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789981488,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
-   "region": "kr"
-  },
-  {
-   "account": "jaemyung_lee",
-   "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
-   "views": 82700,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=Py3QcOZTuBTSsJgiOlMJtQQ6wNQ%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my3",
-   "time": 1789605105,
-   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "서강준, 감탄 나오는 비현실적 잘생김 / 몽블랑(MONTBLANC) 팝업 포토월 럭셔리 라이프스타일 브랜드 몽블랑(MONTBLANC)의 'Let's Write' 팝업스토어 오픈을 기념한 포토행사가 1일 오전 서울 송",
-   "views": 1635,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oMIRpcqAcpS2mpR9DBEb5vFCvAACfgf4EyEAum~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=1Tb5Ud65hPJpKS9xOTjKcU9DUmo%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790823053,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691526446161874177",
-   "region": "kr"
-  },
-  {
-   "account": "tictok_ent",
-   "title": "문가영, 물오른 가을 미모 / 포르쉐 바이브 서울(Porsche Vibe Seoul)’ 프리뷰 행사 포르쉐코리아의 국내 최초·최대 규모의 포르쉐 팬 페스티벌 ‘포르쉐 바이브 서울(Porsche Vibe Seoul)’",
-   "views": 975,
-   "likes": 0,
-   "cmts": 0,
-   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ok1fpFAfeAIRhDFOAGWqgHJ4cIGQLJAzeuAQJb~tplv-tiktokx-origin.image?dr=14575&x-expires=1791158400&x-signature=mMA8gVDvakT%2FwrZjHJDaJbSwMuk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my",
-   "time": 1790931057,
-   "url": "https://www.tiktok.com/@tictok_ent/video/7691990321512582408",
-   "region": "kr"
-  }
- ],
+ "tiktok": [],
  "reddit": [
+  {
+   "sub": "todayilearned",
+   "title": "TIL that the precursor to LASIK was found by accident when a nearsighted boy got in a fistfight. His glasses shattered, sending glass pieces into his eyes. After a doctor removed the glass, he found t",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/diB10yLdJtawoUEwqRYPM7REmcPUGUtMTSJXwUK0QFQ.jpeg?width=640&crop=smart&auto=webp&s=c206fc6df8eb13f6d00ffdc79ca2a620cdc94c0d",
+   "time": 1790972457,
+   "url": "https://www.reddit.com/r/todayilearned/comments/1ww44o3/til_that_the_precursor_to_lasik_was_found_by/"
+  },
   {
    "sub": "videogames",
    "title": "Businessman with rollerskates must survive night city",
@@ -316,15 +182,6 @@
    "thumb": "https://preview.redd.it/2ju5bld2a2th1.jpeg?width=640&crop=smart&auto=webp&s=9611dd50ba77e52d876cd0892a8094b51f9e4eea",
    "time": 1790950072,
    "url": "https://www.reddit.com/r/videogames/comments/1wvurf4/businessman_with_rollerskates_must_survive_night/"
-  },
-  {
-   "sub": "HistoryMemes",
-   "title": "The origin of the famous figure in this respective country",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/vnuk38samzsh1.jpeg?width=640&crop=smart&auto=webp&s=ad53775bac98463b65ef2238cfe4233de80eae32",
-   "time": 1790917867,
-   "url": "https://www.reddit.com/r/HistoryMemes/comments/1wvlast/the_origin_of_the_famous_figure_in_this/"
   },
   {
    "sub": "SipsTea",
@@ -336,6 +193,15 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wvzagh/thoughts_on_this/"
   },
   {
+   "sub": "PoursTea",
+   "title": "It's like a bad sequel...",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/t96zhi4dx3th1.jpeg?width=640&crop=smart&auto=webp&s=45a73c88c7775e1275e96e70d2bf76b7468d27cc",
+   "time": 1790970015,
+   "url": "https://www.reddit.com/r/PoursTea/comments/1ww34m8/its_like_a_bad_sequel/"
+  },
+  {
    "sub": "interesting",
    "title": "A seagull is accidentally hit by a tennis ball during a game in Australia.",
    "score": 0,
@@ -343,6 +209,15 @@
    "thumb": "https://external-preview.redd.it/NWs5ZW81ZTl2MnRoMX2zInpLX-h0HgZsPecdx4L4O2TE7eFD478Djodvy2RD.png?width=320&crop=smart&auto=webp&s=6870a74c6e00d522b0628d46242febf18efbe512",
    "time": 1790957225,
    "url": "https://www.reddit.com/r/interesting/comments/1wvxqxj/a_seagull_is_accidentally_hit_by_a_tennis_ball/"
+  },
+  {
+   "sub": "HistoryMemes",
+   "title": "The origin of the famous figure in this respective country",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/vnuk38samzsh1.jpeg?width=640&crop=smart&auto=webp&s=ad53775bac98463b65ef2238cfe4233de80eae32",
+   "time": 1790917867,
+   "url": "https://www.reddit.com/r/HistoryMemes/comments/1wvlast/the_origin_of_the_famous_figure_in_this/"
   },
   {
    "sub": "Music",
@@ -363,24 +238,6 @@
    "url": "https://www.reddit.com/r/askanything/comments/1ww1agv/why_are_some_americans_so_against_universal/"
   },
   {
-   "sub": "todayilearned",
-   "title": "TIL that the precursor to LASIK was found by accident when a nearsighted boy got in a fistfight. His glasses shattered, sending glass pieces into his eyes. After a doctor removed the glass, he found t",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/diB10yLdJtawoUEwqRYPM7REmcPUGUtMTSJXwUK0QFQ.jpeg?width=640&crop=smart&auto=webp&s=c206fc6df8eb13f6d00ffdc79ca2a620cdc94c0d",
-   "time": 1790972457,
-   "url": "https://www.reddit.com/r/todayilearned/comments/1ww44o3/til_that_the_precursor_to_lasik_was_found_by/"
-  },
-  {
-   "sub": "PoursTea",
-   "title": "It's like a bad sequel...",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/t96zhi4dx3th1.jpeg?width=640&crop=smart&auto=webp&s=45a73c88c7775e1275e96e70d2bf76b7468d27cc",
-   "time": 1790970015,
-   "url": "https://www.reddit.com/r/PoursTea/comments/1ww34m8/its_like_a_bad_sequel/"
-  },
-  {
    "sub": "news",
    "title": "Christa Pike unconscious, on ventilator at Nashville hospital, her lawyers say",
    "score": 0,
@@ -399,22 +256,22 @@
    "url": "https://www.reddit.com/r/TheTeenagerPeople/comments/1wvxd6v/whats_the_perfect_name_for_this_little_kitten/"
   },
   {
-   "sub": "whenthe",
-   "title": "we do not give alcohol close to enough shit despite it being just as bad if not worse than cigarettes",
+   "sub": "DangerousNightsCrew",
+   "title": "There just might be no rules!",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/a9tjocfom1th1.gif?width=320&crop=smart&s=da29cc5b38abec0d3b995090bb92e3d6d3d1b9e2",
-   "time": 1790942210,
-   "url": "https://www.reddit.com/r/whenthe/comments/1wvrvji/we_do_not_give_alcohol_close_to_enough_shit/"
+   "thumb": "https://preview.redd.it/1j84gkc3x3th1.jpeg?width=640&crop=smart&auto=webp&s=8589c8c2966201fbadf56a0901922acfacf58e81",
+   "time": 1790969923,
+   "url": "https://www.reddit.com/r/DangerousNightsCrew/comments/1ww338y/there_just_might_be_no_rules/"
   },
   {
-   "sub": "ITOI",
-   "title": "Did the delivery guy make the right decision?",
+   "sub": "mildlyinteresting",
+   "title": "My pizza didn't fit, but two halves did.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/MGhoMGY0ZzdnMnRoMVq9v7piaWzAAHuMg7mjGalMOIWiiVqvBFFBDW6T544f.png?width=320&crop=smart&auto=webp&s=90c3e1c7944b6234ccf7422d6e1e97a8de3fda65",
-   "time": 1790952150,
-   "url": "https://www.reddit.com/r/ITOI/comments/1wvvlm2/did_the_delivery_guy_make_the_right_decision/"
+   "thumb": "https://preview.redd.it/reqvh7oxd3th1.jpeg?width=640&crop=smart&auto=webp&s=8b2d1cbfc6127040daf1de1d579d25a43c665639",
+   "time": 1790963481,
+   "url": "https://www.reddit.com/r/mildlyinteresting/comments/1ww0co6/my_pizza_didnt_fit_but_two_halves_did/"
   }
  ],
  "disaster": [],
@@ -428,31 +285,31 @@
    "rank": 2
   },
   {
-   "query": "오세훈",
+   "query": "부캉이",
    "rank": 3
   },
   {
-   "query": "모레노호",
+   "query": "암살자들",
    "rank": 4
   },
   {
-   "query": "암살자들",
+   "query": "오세훈",
    "rank": 5
   },
   {
-   "query": "부캉이",
+   "query": "치이카와",
    "rank": 6
   },
   {
-   "query": "봉누도2",
+   "query": "닛몰캐쉬",
    "rank": 7
   },
   {
-   "query": "암살자(들)",
+   "query": "모레노호",
    "rank": 8
   },
   {
-   "query": "치이카와",
+   "query": "암살자(들)",
    "rank": 9
   },
   {
@@ -470,18 +327,19 @@
     "kopp",
     "promppy_com",
     "takepage_"
-   ],
-   "tiktok": [
-    "jaemyung_lee",
-    "tictok_ent"
    ]
   },
-  "why": {},
+  "why": {
+   "tiktok": {
+    "jaemyung_lee": 503,
+    "tictok_ent": 503
+   }
+  },
   "landing": {
-   "at": "2026-10-03T08:36:14",
+   "at": "2026-10-03T09:01:27",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-03T09:01:25.284465+09:00"
+ "updated": "2026-10-03T09:31:23.508089+09:00"
 }
