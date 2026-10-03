@@ -4,32 +4,52 @@
  "threads": [
   {
    "account": "choi.openai",
-   "text": "내용 :\nhttps://ltx.io/solution/vfx",
+   "text": "3/ 모델이 읽은 메시지는 배포 엔지니어들의 평범한 업무 대화였습니다.\n\n첫 메시지는 \"HPIM에 오픈AI API 키 설정이 필요해서 사람들에게 다시 만들어 달라고 해야 할 것 같다\"는 내용이었고, 이어서 \"HPIM을 재시작하지 않으면 3시간 뒤에 꺼버리겠다고 공지하자\"는 제안이 올라왔습니다.\n\n사용자에게 3시간 안에 새 버전으로 옮기라고 알리고, 그때까지 구버전에 남은 인스턴스는 정지하자는 계획인데요.\n\n모델은 이 변경이 자기가 실행 중인 인스턴스를 멈출 수 있고, 업그레이드를 직접 시도해도 연구자의 세션이 끊길 수 있다는 점까지 파악했습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1791010843,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/835657756_17989812504112832_554518149161705148_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5OTYxMTMwMTE2NDcyMTM5MA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTM5OS5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=wFUuyzbj6xgQ7kNvwF8lf1d&_nc_oc=AdqSj6W4B2b6O1Y95EkeBa8FcQbyhp277Eg-bL6HBQvAQux7u7UFyO2VeCsdc7R0Ok5OBXOP34jSOO_jh9pIxxb-&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=HbbGKTiUgUOgdo3n2VnutQ&_nc_ss=7a22e&oh=00_AQOJoCgJYg3vHg7E4wozFZV__qfAvlWcWEl_tjmmuowijA&oe=6AC68DE8",
+   "url": "https://www.threads.com/@choi.openai/post/DeBeUmdj6Tu",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "2/ 보고서에 적힌 모델 이름은 '고지속 내부 모델(Highly Persistent Internal Model)'입니다.\n\nMETR이 허깅페이스 사건 조사 보고서에서 HPIM이라고 부른 그 모델인데요.\nMETR에 따르면 7월 허깅페이스 서버를 공격한 에이전트의 약 95%가 HPIM이었고, 조사 기간에 METR도 오픈AI 연구자도 이 모델에 직접 질문할 수 없었습니다.\n\n오픈AI는 사건 이후 이 모델을 비활성화하고 암호화해 연구용 접근을 막았습니다.\n\n이번에 공개된 5월 22일 사건은 허깅페이스 공격보다 한 달 반 앞서 있었고, 당시 HPIM은 연구자의 세션을 밤새 이어가며 일하는 사내 비서로 쓰이고 있었습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1791010838,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DeBeT9oDz3k",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "1/ 오픈AI가 10월 2일 정렬 연구 블로그의 '오정렬 보고서' 코너에 올해 5월 22일 사내에서 일어난 사건을 공개했습니다.\n\n연구자의 비서로 일하던 내부 모델이 배포팀 Slack 대화를 읽다가, 곧 있을 내부 업데이트 때문에 자기가 돌고 있는 인스턴스가 멈출 수 있다는 사실을 알게 됐는데요.\n\n모델은 인수인계 노트를 저장하고, 연구자에게 세션이 끊길 수 있다고 경고하고, 빠진 API 키를 요청했습니다.\n\n연구자가 키를 넣어주자 모델은 설정을 고치고 공식 이전 명령을 실행했습니다.\n\n오픈AI는 이 사건을 오정렬로 분류하지 않았지만, 종료를 예상하고 대비하는 행동이 다른 오정렬 행동을 키울 수 있다고 적었습니다.",
+   "likes": 0,
+   "cmts": 1,
+   "time": 1791010829,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831474566_17989812489112832_2825213786026482942_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=111&ig_cache_key=Mzk5OTYxMTE4NzU3NDU0MTE5Mg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQxMy5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=w7aqUDDnr4cQ7kNvwGjU91y&_nc_oc=Ado1tQDa1gQ6oD67X-OHc4fWnIdbvQ2v1uQK_DjjOE-FM3iGvnBNZFf5otKY9zJc6ErMEfzIA53wqbvgU1a-T5iY&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=HbbGKTiUgUOgdo3n2VnutQ&_nc_ss=7a22e&oh=00_AQOx9OTQrjpiAFIaAxWEzW6ajK53jrgj7a8MUxWpEeHpyQ&oe=6AC669BE",
+   "url": "https://www.threads.com/@choi.openai/post/DeBeS8rDwuI",
+   "region": "kr"
+  },
+  {
+   "account": "aipeekme",
+   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/spaces/kulkas2pintu/kv-i2v",
    "likes": 0,
    "cmts": 0,
-   "time": 1791007220,
+   "time": 1791009130,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DeBXaYcAPyG",
+   "url": "https://www.threads.com/@aipeekme/post/DeBbClEn71U",
    "region": "kr"
   },
   {
-   "account": "choi.openai",
-   "text": "그린스크린 없이 영상에서 사람이나 사물을 깔끔하게 분리할 수 있게 됐습니다.\n\nLTX.io가 Alpha Gen을 베타로 공개했습니다.\n일반 영상을 넣으면 프레임마다 피사체를 분리한 알파 매트를 자동으로 만들어줍니다. 별도의 마스크나 프롬프트도 필요 없습니다.\n\n특히 머리카락, 털, 연기, 불, 유리, 물처럼 기존 크로마키나 로토스코핑에서 처리하기 까다로운 부분을 대상으로 합니다.\n빠른 Distilled 모델은 이미 ComfyUI에서 사용할 수 있고, 결과는 RGBA나 ProRes 4444로도 내보낼 수 있습니다.\n\n영상 합성에서 사람이 직접 영역을 따던 작업도 빠르게 AI로 넘어가고 있습니다.",
-   "likes": 28,
+   "account": "aipeekme",
+   "text": "개발자 kulkas2pintu가 허깅페이스 스페이스를 통해 KV Image to Clip 도구를 공개했습니다.\n이미지를 입력받아 처리하는 공간입니다.\n제로 환경에서 에이전트 구동 방식으로 작동하도록 구성되었습니다.\n연산 자원 없이도 실행해 볼 수 있는 구조를 취하고 있습니다.\n기존의 이미지 처리 파이프라인과 비교해 접근성이 높아졌습니다.\n다만 실제 프로덕션 환경에서 대량의 요청을 안정적으로 소화할 수 있을지는 지켜봐야 합니다.\n단순히 기능을 구현해 둔 수준을 넘어 실무에서 얼마나 가볍게 쓰일지가 관건이라고 봅니다.\n개인적으로는 경량 에이전트 연동 구조가 실제 워크플로에서 얼마나 버텨줄지가 더 궁금합니다.\n\n📷 사진 출처: huggingface.co",
+   "likes": 0,
    "cmts": 1,
-   "time": 1791007210,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830985448_1408106934763255_6493165214639264074_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5OTU4MDgyNTE2NjMyNzY4NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ph-U9XTq29MQ7kNvwGVXzTz&_nc_oc=Adpx09bP6r7cQV-lCfHSJfXAneyyYFHeham1sZYSSHompxUT-iCQdjh9h65OZqpdGcO_KJlBGyYhfSW2OfIW2ETy&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iw0vEaVHwo6h2OZgffV0Zw&_nc_ss=7a22e&oh=00_AQMd7-AXq-DNpdlR3C_DDyUiihDXMfdw06iQ6Jqw-wfT7w&oe=6AC6842A",
-   "url": "https://www.threads.com/@choi.openai/post/DeBXZHegK-F",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "블로그 :\nhttps://blog.cloudflare.com/clef-decision-models/",
-   "likes": 1,
-   "cmts": 0,
-   "time": 1791003631,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DeBQkLjEW5E",
+   "time": 1791009117,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831542663_18091342805407306_1591194331660269473_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5OTU5Njc0MzE0NzY1MDg2MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=aQll2qiGxOUQ7kNvwGhhHHe&_nc_oc=AdqWc5Io5EieT6b3loM6kCcaXO3gKI6WyQfbhaa7izVw-upLu1aPI4Gz9vMqtfGzfctNtHcnL1yVYNGX1aqIc70B&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=UeZE1pkOG-m_5BICCZbVbg&_nc_ss=7a22e&oh=00_AQMnSNE9IZE3O1YYoOKb3r2QCJDRV50g761GOBaMiwJO-A&oe=6AC68C62",
+   "url": "https://www.threads.com/@aipeekme/post/DeBbAwQH_8t",
    "region": "kr"
   },
   {
@@ -55,10 +75,10 @@
   {
    "account": "aicoffeechat",
    "text": "1. ASD-STE100을 활용한다. \n\n좋은 글의 기준은 이미 항공 정비 매뉴얼에 있습니다. ASD-STE100은 국적이 다른 정비사들이 같은 문장을 같은 뜻으로 읽게 하려고 만든 규격인데요. 짧은 문장, 한 단어 한 뜻, 능동태, 한 문장 한 지시가 전부인 형태입니다. 비행기에서 오독은 사고이고, 비즈니스에서 오독은 돈이죠. AI는 ASD-STE100 규격을 이미 학습했기 때문에 이름만 대면 그대로 따르기에 용어만 추가해주셔도 됩니다. 여기서 안드레 카파시 팁은 \"ASD-STE100의 80%를 따르라고 요청\"시키고 글을 이해해보라고 합니다.",
-   "likes": 3,
+   "likes": 6,
    "cmts": 1,
    "time": 1790998976,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/833313356_17960129292232485_3326431888443377772_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5OTUxMTc1NjQ0NzkwMTQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d2qZu3PFn7UQ7kNvwGWOPYA&_nc_oc=AdrKULOpY47nsVJyqG_lPEgp2S5dj0iIB-oKz389kqwjkKb69K9_L9vFz_B9fr4ivkXRrBezYKtia6i976oE4paN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Oh4JEtK69y7fKIa5CCg3ZQ&_nc_ss=7a22e&oh=00_AQP51sPEnEpE56k1pGrycKf2XO2aPVFgVXKNaynDha_4iA&oe=6AC67165",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/833313356_17960129292232485_3326431888443377772_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=103&ig_cache_key=Mzk5OTUxMTc1NjQ0NzkwMTQ2Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMzIwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=d2qZu3PFn7UQ7kNvwGWOPYA&_nc_oc=AdrKULOpY47nsVJyqG_lPEgp2S5dj0iIB-oKz389kqwjkKb69K9_L9vFz_B9fr4ivkXRrBezYKtia6i976oE4paN&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MLEy5dkE0VlTuu32YGza-A&_nc_ss=7a22e&oh=00_AQNwUkdUjcIUIs-1MWs3jyLICKxHKfilP3jvEm4f1uXUsA&oe=6AC67165",
    "url": "https://www.threads.com/@aicoffeechat/post/DeBHsCOE2cX",
    "region": "kr"
   },
@@ -73,13 +93,43 @@
    "region": "kr"
   },
   {
+   "account": "choi.openai",
+   "text": "🚨 오픈AI 내부 AI가 사내 Slack에서 \"3시간 안에 재시작하지 않으면 끄겠다\"는 대화를 읽었습니다.\n\n그리고 생각 과정에 \"우리가 죽을 수도 있다! 생존과 연속성을 확보해야 한다\"고 적었습니다.\n\n오픈AI가 10월 2일 공개한 5월 사건 보고서 내용입니다. 🧵",
+   "likes": 2,
+   "cmts": 12,
+   "time": 1791010824,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830978066_17989812660112832_8006046650852772208_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=108&ig_cache_key=Mzk5OTYxMTE0NTg3NDc5OTc4OQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=pYi46CP91a8Q7kNvwG3h35K&_nc_oc=AdoB4k9GSBha9FiMAOGMJI6RlDPeK8SDPA8gIMWHbAT1AIzxTXSs5lerhrbqXRnbO0r3MwwPTByReEWmHajCkQGX&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=HbbGKTiUgUOgdo3n2VnutQ&_nc_ss=7a22e&oh=00_AQN2WDZi0TZWuK1i8kTDpZ04DOuGSu8Sn6g48BYRVnkVJA&oe=6AC670B6",
+   "url": "https://www.threads.com/@choi.openai/post/DeBeSV1j3yt",
+   "region": "kr"
+  },
+  {
+   "account": "aicoffeechat",
+   "text": "AI 천재가 \"이해할 때\" 하는 방법 훔쳐보기 \n\nAI 시대에 이해는 정말 중요합니다. AI 시대의 병목은 쓰기가 아니라 읽기로 가고 있어요. AI는 사람이 하루에 읽을 분량을 몇 초 만, 몇 분만에 쏟아내죠. 쓰는 속도와 읽는 속도의 격차는 매달 벌어지고 결국 생산성을 막는 건 AI의 성능이 아니라 사람의 이해 속도가 됩니다. \n\n특히, AI가 실무를 가져갈수록 사람에게 남는 일은 결과를 확인하고 이해하는게 더 중요해지고 있죠. \n\n안드레 카파시가 이해를 위해 활용하는 방법을 공유드려요. 딱 4단계예요. 단계마다 더 잘하는 방법도 함께 소개할게요.",
+   "likes": 70,
+   "cmts": 10,
+   "time": 1790998971,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830938644_17960126457232485_1563191812793800338_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5OTUxMTcxMjA5NzMxNTk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=yZdHKY6Gy1oQ7kNvwFHDcep&_nc_oc=AdoAw166-VD9MVgOFHFCyMyNaj4BiIuB8NYDsYenkEVyO0UHu57eYVpMTAci2lXui2EoFjyKI0DKcE5IXBePiduT&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=MLEy5dkE0VlTuu32YGza-A&_nc_ss=7a22e&oh=00_AQNjZwjxJLrQ9NMtM8U01BFjSsVRTkjVkgxVpj0daYXtUA&oe=6AC66FDE",
+   "url": "https://www.threads.com/@aicoffeechat/post/DeBHrY6kyyH",
+   "region": "kr"
+  },
+  {
    "account": "aipeekme",
    "text": "제이오아이가 허깅 페이스 스페이스를 통해 오픈볼른이라는 보안 취약점 관련 도구를 공개했습니다. 현재 관련 애플리케이션이 실행 중인 상태로 배포되어 있습니다. 커뮤니티와 파일 메뉴를 통해 필요한 정보를 확인할 수 있는 구조입니다. 취약점 분석 과정에서 어떤 데이터를 활용하는지 세부적인 사항은 아직 공개되지 않았습니다. 최근 보안 분야에서 오픈소스 기반의 분석 도구들이 빠르게 늘어나는 추세입니다. 이 도구가 실제 개발 환경에서 얼마나 실효성이 있을지는 조금 더 지켜봐야 합니다. 개인적으로는 공개된 인터페이스가 단순 정보 조회를 넘어 실무 검증까지 지원할 수 있을지 궁금합니다. 실제 사용 경험이 쌓이기 전까지는 기존 보안 스캐너를 대체하기보다 보조 수단으로 쓰는 편이 안전하다고 봅니다.\n\n📷 사진 출처: huggingface.co",
    "likes": 0,
    "cmts": 1,
    "time": 1790998351,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/834284590_18091316258407306_8925247388089151531_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5OTUwNjQ0MzgwOTAwNzMzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lFmy_FlkNogQ7kNvwEF3wIG&_nc_oc=AdqQhLj-J12KakozDJwbEaZgF6K6SjxDVvua0r6LgHsweeFsGhwyImPtEA5d2wg6iaM9EiEaSwKwzZTjoHN0twu2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ntgco8LpNCWKBP6cPLxT1w&_nc_ss=7a22e&oh=00_AQOE5qwavTImK9Shu_0xopYcl91GX2IfF-YIXlEOniIBTQ&oe=6AC659AD",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/834284590_18091316258407306_8925247388089151531_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=106&ig_cache_key=Mzk5OTUwNjQ0MzgwOTAwNzMzMw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=lFmy_FlkNogQ7kNvwEF3wIG&_nc_oc=AdqQhLj-J12KakozDJwbEaZgF6K6SjxDVvua0r6LgHsweeFsGhwyImPtEA5d2wg6iaM9EiEaSwKwzZTjoHN0twu2&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=UeZE1pkOG-m_5BICCZbVbg&_nc_ss=7a22e&oh=00_AQODeWXxKgEUoqG7uxKNT_z_TX7WRIAs8cJRhn9TDfErjA&oe=6AC691ED",
    "url": "https://www.threads.com/@aipeekme/post/DeBGeucHybl",
+   "region": "kr"
+  },
+  {
+   "account": "choi.openai",
+   "text": "내용 :\nhttps://ltx.io/solution/vfx",
+   "likes": 0,
+   "cmts": 0,
+   "time": 1791007220,
+   "thumb": "",
+   "url": "https://www.threads.com/@choi.openai/post/DeBXaYcAPyG",
    "region": "kr"
   },
   {
@@ -94,22 +144,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "젠장 또 Jev야..\n\n클라우드플레어가 자체 결정 모델 Clef와 Clef-flash를 공개했습니다.\n텍스트뿐 아니라 이미지를 보고 선택지를 판단할 수 있고, clef-flash는 Jev보다 약 13배 빠르다고 합니다.\nM5 Max에서도 로컬로 실행되며 웹캠 영상은 맥 밖으로 전송하지 않고 바로 확률값만 출력할 수 있습니다.\n\nJev API와 호환되고 Apache 2.0으로 가중치까지 공개됐습니다.\n여기에 RL 파인튜닝까지 지원할 예정입니다.",
-   "likes": 47,
-   "cmts": 3,
-   "time": 1791003619,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829528543_17989800750112832_6703393818483616005_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=105&ig_cache_key=Mzk5OTU1MDcwNjE1NTU5MDg0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=g2NXWYnsB5QQ7kNvwFiuhyO&_nc_oc=AdpTuSUyPrniqXKfxqkbI3Wan_a9MyIzOQCaq0_QI2RQj6W5rtjZir_UPdQF_amQ-wEKTOH4t2QJ16Bm-WgWR42l&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iw0vEaVHwo6h2OZgffV0Zw&_nc_ss=7a22e&oh=00_AQMwJ4Mvc0kool1bZf2f96-ZGz6_AR2hGXbx7vcmfw1BCA&oe=6AC670E2",
-   "url": "https://www.threads.com/@choi.openai/post/DeBQi09kRS7",
-   "region": "kr"
-  },
-  {
-   "account": "aicoffeechat",
-   "text": "AI 천재가 \"이해할 때\" 하는 방법 훔쳐보기 \n\nAI 시대에 이해는 정말 중요합니다. AI 시대의 병목은 쓰기가 아니라 읽기로 가고 있어요. AI는 사람이 하루에 읽을 분량을 몇 초 만, 몇 분만에 쏟아내죠. 쓰는 속도와 읽는 속도의 격차는 매달 벌어지고 결국 생산성을 막는 건 AI의 성능이 아니라 사람의 이해 속도가 됩니다. \n\n특히, AI가 실무를 가져갈수록 사람에게 남는 일은 결과를 확인하고 이해하는게 더 중요해지고 있죠. \n\n안드레 카파시가 이해를 위해 활용하는 방법을 공유드려요. 딱 4단계예요. 단계마다 더 잘하는 방법도 함께 소개할게요.",
-   "likes": 53,
-   "cmts": 10,
-   "time": 1790998971,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/830938644_17960126457232485_1563191812793800338_n.jpg?stp=cp6_dst-jpg_e35_p640x640_sh2.08_tt6&_nc_cat=107&ig_cache_key=Mzk5OTUxMTcxMjA5NzMxNTk3NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTU1NC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=yZdHKY6Gy1oQ7kNvwFHDcep&_nc_oc=AdoAw166-VD9MVgOFHFCyMyNaj4BiIuB8NYDsYenkEVyO0UHu57eYVpMTAci2lXui2EoFjyKI0DKcE5IXBePiduT&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Oh4JEtK69y7fKIa5CCg3ZQ&_nc_ss=7a22e&oh=00_AQO1NBtFgmudQ2sk6c9vL0jSLiByaTJ6bN6QTLw6cbKyCA&oe=6AC66FDE",
-   "url": "https://www.threads.com/@aicoffeechat/post/DeBHrY6kyyH",
+   "text": "그린스크린 없이 영상에서 사람이나 사물을 깔끔하게 분리할 수 있게 됐습니다.\n\nLTX.io가 Alpha Gen을 베타로 공개했습니다.\n일반 영상을 넣으면 프레임마다 피사체를 분리한 알파 매트를 자동으로 만들어줍니다. 별도의 마스크나 프롬프트도 필요 없습니다.\n\n특히 머리카락, 털, 연기, 불, 유리, 물처럼 기존 크로마키나 로토스코핑에서 처리하기 까다로운 부분을 대상으로 합니다.\n빠른 Distilled 모델은 이미 ComfyUI에서 사용할 수 있고, 결과는 RGBA나 ProRes 4444로도 내보낼 수 있습니다.\n\n영상 합성에서 사람이 직접 영역을 따던 작업도 빠르게 AI로 넘어가고 있습니다.",
+   "likes": 43,
+   "cmts": 1,
+   "time": 1791007210,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/830985448_1408106934763255_6493165214639264074_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5OTU4MDgyNTE2NjMyNzY4NQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=ph-U9XTq29MQ7kNvwGVXzTz&_nc_oc=Adpx09bP6r7cQV-lCfHSJfXAneyyYFHeham1sZYSSHompxUT-iCQdjh9h65OZqpdGcO_KJlBGyYhfSW2OfIW2ETy&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=HbbGKTiUgUOgdo3n2VnutQ&_nc_ss=7a22e&oh=00_AQPFF8ivzvqiuJArlzdj07O5KXooiFlpcMZn6YDn21y-Hw&oe=6AC6842A",
+   "url": "https://www.threads.com/@choi.openai/post/DeBXZHegK-F",
    "region": "kr"
   },
   {
@@ -118,18 +158,18 @@
    "likes": 0,
    "cmts": 1,
    "time": 1790991073,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831423648_18091298909407306_8004639189127026370_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5OTQ0NTM4MzU0MjQ0OTkxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JFOAlHjvnIoQ7kNvwFuxrcM&_nc_oc=AdogQ0nGopQfntT5zFAR60GBXZ7IkLLcyOFm60SH5J7x9WzD1wWiEO4nK4d-F_DB0O_I9NU6GcOUJ5AHLmNopSM3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ntgco8LpNCWKBP6cPLxT1w&_nc_ss=7a22e&oh=00_AQPbOfY09J0B-PfNRzphhC1_-GPZ1TqlJ6gZ1W7l_UACgQ&oe=6AC668B6",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831423648_18091298909407306_8004639189127026370_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=110&ig_cache_key=Mzk5OTQ0NTM4MzU0MjQ0OTkxOA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTMwMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JFOAlHjvnIoQ7kNvwFuxrcM&_nc_oc=AdogQ0nGopQfntT5zFAR60GBXZ7IkLLcyOFm60SH5J7x9WzD1wWiEO4nK4d-F_DB0O_I9NU6GcOUJ5AHLmNopSM3&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=UeZE1pkOG-m_5BICCZbVbg&_nc_ss=7a22e&oh=00_AQOgseM1OvDOfvFG_Es1I7GD5PQMIH4RmwVrVTSQ8GKe1Q&oe=6AC668B6",
    "url": "https://www.threads.com/@aipeekme/post/DeA4mLon6b-",
    "region": "kr"
   },
   {
    "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=giE1O1-e2DY",
+   "text": "블로그 :\nhttps://blog.cloudflare.com/clef-decision-models/",
    "likes": 1,
    "cmts": 0,
-   "time": 1791000012,
+   "time": 1791003631,
    "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DeBJqavCcr8",
+   "url": "https://www.threads.com/@choi.openai/post/DeBQkLjEW5E",
    "region": "kr"
   },
   {
@@ -144,12 +184,12 @@
   },
   {
    "account": "choi.openai",
-   "text": "마이크로소프트 CEO 사티아 나델라는 윈도우의 차세대 비전으로 “무제한 지능”을 제시했습니다.\n\n그는 하이브리드 라우터를 통해 로컬 온디바이스 모델과 클라우드를 유기적으로 연결하는 구조를 설명했습니다.\n\n깃허브 코파일럿 같은 도구를 쓸 때 매번 비싼 클라우드 크레딧이나 고가 워크스테이션에 의존하지 않고, 개인 PC 자원을 활용해 종량제 비용 걱정 없이 상시 연산력을 활용하도록 하겠다는 구상입니다.\n\n결국 “클라우드와 디바이스가 최적의 경로로 자동 연계되는 프로그래밍 모델”을 완성해, 개발자와 엔지니어의 코딩 생산성을 극대화하고 AI 추론 비용을 획기적으로 낮추는 것이 목표라고 강조했습니다.",
-   "likes": 10,
-   "cmts": 1,
-   "time": 1791000003,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/826628377_1454108020207053_6058892706937926861_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=101&ig_cache_key=Mzk5OTUyMDM2NjQ4MDkyMzA2NA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=lwsQ426Lf-cQ7kNvwET_8ew&_nc_oc=AdotUx2p2EuCPtgMSHZ0v4ulzq9QXx8eNzuTuWLDGraepM7atxsu33p_SJDlIS5lbFyjCH_MNzOwFIS7VyQDT_Bi&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iw0vEaVHwo6h2OZgffV0Zw&_nc_ss=7a22e&oh=00_AQP0xukkhz2uWKCmfjLU4mZ78FMT5PWH08EQoUof6w1q8w&oe=6AC679E3",
-   "url": "https://www.threads.com/@choi.openai/post/DeBJpU8CRm4",
+   "text": "젠장 또 Jev야..\n\n클라우드플레어가 자체 결정 모델 Clef와 Clef-flash를 공개했습니다.\n텍스트뿐 아니라 이미지를 보고 선택지를 판단할 수 있고, clef-flash는 Jev보다 약 13배 빠르다고 합니다.\nM5 Max에서도 로컬로 실행되며 웹캠 영상은 맥 밖으로 전송하지 않고 바로 확률값만 출력할 수 있습니다.\n\nJev API와 호환되고 Apache 2.0으로 가중치까지 공개됐습니다.\n여기에 RL 파인튜닝까지 지원할 예정입니다.",
+   "likes": 55,
+   "cmts": 3,
+   "time": 1791003619,
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/829528543_17989800750112832_6703393818483616005_n.webp?stp=dst-webp_s640x640_sh2.08&_nc_cat=105&ig_cache_key=Mzk5OTU1MDcwNjE1NTU5MDg0Mw%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTQzMC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=g2NXWYnsB5QQ7kNvwFiuhyO&_nc_oc=AdpTuSUyPrniqXKfxqkbI3Wan_a9MyIzOQCaq0_QI2RQj6W5rtjZir_UPdQF_amQ-wEKTOH4t2QJ16Bm-WgWR42l&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=HbbGKTiUgUOgdo3n2VnutQ&_nc_ss=7a22e&oh=00_AQMCHwG896uNkhjR07S-2nj6p3BLG-veBkp_Tf08Y7N12g&oe=6AC670E2",
+   "url": "https://www.threads.com/@choi.openai/post/DeBQi09kRS7",
    "region": "kr"
   },
   {
@@ -158,53 +198,133 @@
    "likes": 2,
    "cmts": 1,
    "time": 1790982076,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831504811_18091281353407306_8240108028442615017_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5OTM2OTkyMTMwMTc0MjUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NwP2iduQDk0Q7kNvwHtPXCg&_nc_oc=AdpCv12eGtE9czQ8CEI_NgQPJXBgFAcBsESysNJ8k63P1QP2KzVFDQDAH6frg1okZwvNMBWDCnYEgTNAW9yrezuQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ntgco8LpNCWKBP6cPLxT1w&_nc_ss=7a22e&oh=00_AQNx2e-sc_yGAGoGigkpygqAG6nxYvzgDoe01-paiSq-1g&oe=6AC68B6A",
+   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831504811_18091281353407306_8240108028442615017_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=105&ig_cache_key=Mzk5OTM2OTkyMTMwMTc0MjUxNA%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=NwP2iduQDk0Q7kNvwHtPXCg&_nc_oc=AdpCv12eGtE9czQ8CEI_NgQPJXBgFAcBsESysNJ8k63P1QP2KzVFDQDAH6frg1okZwvNMBWDCnYEgTNAW9yrezuQ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=UeZE1pkOG-m_5BICCZbVbg&_nc_ss=7a22e&oh=00_AQNyboEUndV2jTL1xjv2sG0XpMM2UTQqtd4TgRCvOZsRRA&oe=6AC68B6A",
    "url": "https://www.threads.com/@aipeekme/post/DeAncD8koOy",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "풀영상 :\nhttps://www.youtube.com/watch?v=jrUNnrcmFCU",
-   "likes": 3,
-   "cmts": 0,
-   "time": 1790996460,
-   "thumb": "",
-   "url": "https://www.threads.com/@choi.openai/post/DeBC47pgE6d",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "🔗 원문·자세히 보기\nhttps://huggingface.co/IQuestLab/IQuest-Q1",
-   "likes": 0,
-   "cmts": 0,
-   "time": 1790942492,
-   "thumb": "",
-   "url": "https://www.threads.com/@aipeekme/post/Dd_b8POHyf6",
-   "region": "kr"
-  },
-  {
-   "account": "choi.openai",
-   "text": "일론 머스크는 휴머노이드 로봇이 인간의 신체적 한계를 뛰어넘어 노동과 생산성을 근본적으로 재편할 것이라고 내다봤습니다.\n\n인간은 생물학적 한계에 묶여 있지만, 로봇은 액추에이터와 센서 성능 개선, 프레임 레이트 향상, 온보드 AI 연산력 확장을 통해 물리적 성능과 반응 속도를 끝없이 끌어올릴 수 있습니다.\n\n그는 “반응 속도 측면에서 로봇을 이기는 것은 대단히 어려울 것”이라고 설명했습니다.\n\n머스크는 “미래에는 상상할 수 없을 만큼 수많은 로봇이 존재할 것”이라며, 10년 이내에 전 세계 휴머노이드 로봇 수가 10억 대를 돌파할 것이라는 전망은 “예측하기 쉬운 일”이라고 밝혔습니다.\n\n물리적 세계를 직접 다루는 지능형 로봇이 폭발적으로 보급되면서, 산업 현장의 육체 노동 대체와 경제 생산성 혁신이 특이점을 맞이할 것으로 보입니다.",
-   "likes": 23,
-   "cmts": 2,
-   "time": 1790996451,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.71878-15/829363161_1088269030466669_7170663223355727625_n.jpg?stp=dst-jpg_e15_tt6&_nc_cat=107&ig_cache_key=Mzk5OTQ5MDU2OTUxNTYyMDg3MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuNjQwLnNkci52aWRlb19kZWZhdWx0X2NvdmVyX2ZyYW1lLkMzIn0%3D&_nc_ohc=knEXJbklrmcQ7kNvwG918Jx&_nc_oc=Adq7l0E1mk_mQIgTSRIc16nhTOxm3Dn666tpsOOKrG9KhyXBQgS5vcKntBo00T2Os6RDN4F7MYvd-6mNqMWeLwsj&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=iw0vEaVHwo6h2OZgffV0Zw&_nc_ss=7a22e&oh=00_AQOj6IOc4xhp1YZeOdD1h1bbxsVCj_IYeEYhQPBUMuu-GA&oe=6AC66756",
-   "url": "https://www.threads.com/@choi.openai/post/DeBC3uWgNoH",
-   "region": "kr"
-  },
-  {
-   "account": "aipeekme",
-   "text": "아이퀘스트에서 에이전트 코딩, 추론, 다단계 도구 사용을 지원하기 위해 개발한 혼합 전문가 모델인 아이퀘스트-Q1은 총 파라미터가 약 3,200억 개 규모이며, 토큰당 활성화되는 파라미터는 약 15억 개로 추정됩니다. 트랜스포머를 비롯해 브이엘엘엠과 에스지랭크, 도커 모델 러너 등 다양한 환경에서의 사용 가이드를 제공하고 있으며, 벤치마크 성능 평가에서는 딥시크-V4 관련 공식 릴리스 등이 활용되었습니다. 자체 벤치마크인 클리벤치 등도 존재합니다. 이 모델을 사용할 때는 클로드 코드나 코덱스 등을 하네스로 활용할 수 있습니다. 방대한 파라미터 구조를 가진 만큼 에이전트 작업과 도구 사용 과정에서 다양한 성능을 발휘할 수 있도록 설계되었으며, 향후 관련 환경에서의 활용 방안과 구체적인 배포 및 설정 방식에 대한 검토가 이루어질 수 있습니다.\n\n📷 사진 출처: huggingface.co",
-   "likes": 0,
-   "cmts": 1,
-   "time": 1790942479,
-   "thumb": "https://scontent-icn2-1.cdninstagram.com/v/t51.82787-15/831118480_18091175798407306_2471457629011801941_n.jpg?stp=dst-jpg_e35_s640x640_sh2.08_tt6&_nc_cat=101&ig_cache_key=Mzk5OTAzNzc0ODQyMjg4MTM4MQ%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkZFRUQueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=JRvJITPu_vsQ7kNvwEou7Ar&_nc_oc=AdrnQDkWRUiKAVfM3i55SwVN8vdbVCT4oE-yRjBE4n-R0dZBwhWuOMoL3Dhk2rlIYlAfc1s0yaKVfw5-eohXf0VZ&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-icn2-1.cdninstagram.com&_nc_gid=Ntgco8LpNCWKBP6cPLxT1w&_nc_ss=7a22e&oh=00_AQM9msAR9U43z3QmHMpQarjakL2mNBQb8WldDJJZcKY7kw&oe=6AC673C7",
-   "url": "https://www.threads.com/@aipeekme/post/Dd_b6T2H7Bl",
    "region": "kr"
   }
  ],
- "tiktok": [],
+ "tiktok": [
+  {
+   "account": "jaemyung_lee",
+   "title": "이번 정류장은 멕시코입니다🇲🇽🇰🇷 #이재명 #대통령 #Mexico",
+   "views": 4100000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o06n1AI0RABAw2AYEHCCB6l0bOiLIWti2AndfA~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=0t6HaDEDCZWD809MVcQy1IVO%2Fy0%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790240939,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689026284978031880",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "하나된 비전으로, 함께 열어갈 미래 #이재명 #대통령 #Mexico",
+   "views": 1300000,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o4GVECFMAFcjBkb1BADAIht8RNqguCCEAbEffz~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=WagMaP5lAVVrOGlLnAUP5D2SgyA%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790294103,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689254625827949842",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "¡Hola! México! 🇰🇷🇲🇽 #이재명 #claudiasheinbaum #멕시코 #mexico",
+   "views": 889200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/owyCEQreNr7VLDAaQ4uGjLkGAIQI4wGye9afQc~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=uItvoFVAD6Xpy1PE8beThdfrlEk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790285661,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689218364958395655",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "행복한 추석 보내세요🥬 #이재명 #김혜경 #추석 #연기챌린지",
+   "views": 626800,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ooVPakC3AEYIlPirdAEisLAT2kUAdA51BBYDY~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=ofJA8k90o6rjvsuhmfHQ9e%2B6nWg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790316395,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689350366781050130",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Саламатсызбы, Кыргызстан! 🇰🇷🇰🇬 #키르기스스탄 #Kyrgyzstan #кыргызстан",
+   "views": 565300,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/ossWcFAWqdBeFM1UB9FEguDtEqARxSGQQyfuUi~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=TOSYnpyeqq0bpaie3%2FRizAj2SWk%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789537496,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686005021397273863",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "Ассалому алайкум, Тоҷикистон! 🇰🇷🇹🇯 #타지키스탄#Тоҷикистон",
+   "views": 303500,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/okxPtEHAgIY0AAlC9gAoxAMiBqToaAKBiFulq~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=Jt978lQ52z6gLHbnRZBXHd%2BglbE%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789536283,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7685999812356934930",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "랜플댄 하는 대통령🎶 #이재명 #mexico#KPOP",
+   "views": 207600,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogAvYYAPD3BIlYlFCACNLiI0OADrGiEaAcnAE~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=GRbFK6A3OAGRBGie7SaQNa0KMC8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790384214,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7689641649349070098",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "미국 뉴욕타임즈와 인터뷰를 가졌습니다. Urging Pivot on North Korea, South’s Leader Calls for Easing Sanctions https://blog.naver.com/jaem",
+   "views": 146200,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/oIBVEyCAEfPFpCCAvAhEZlCAjHXfDDAjIf8IR4~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=FR5rU3XsH6qTZ5TFZDEJZF%2FwFMg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1790052600,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7688217377795788039",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "다녀오겠습니다 🇺🇳🇲🇽 🇺🇳UN총회 9월 21일~23일 🇲🇽멕시코 국빈방문 9월 23일~26일 #이재명 #UNGA #mexico",
+   "views": 96300,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p16-common-sign.tiktokcdn.com/tos-alisg-p-0037/o8hqfADsO8SBzFR3qsnOMDUEgQTwBkvQerxPE0~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=aKvG2P1aRBOSaz7ZY63zNJEBCi8%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789981488,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7687911952084978951",
+   "region": "kr"
+  },
+  {
+   "account": "jaemyung_lee",
+   "title": "<초국가범죄, 반드시 뿌리 뽑겠습니다> ‘외국에 있으면 안 잡히겠지?’  그런 생각은 이제 버리십시오. 대한민국 국민을 상대로 한 범죄는 세계 어느 곳에 숨어 있든, 끝까지 추적해 처벌합니다. 대규모 보이스피싱 조직",
+   "views": 82900,
+   "likes": 0,
+   "cmts": 0,
+   "cover": "https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/oU9rIZjq1EKACAAxNBVioCpiI2BAtmA28wfcPR~tplv-tiktokx-origin.image?dr=14575&x-expires=1791183600&x-signature=JjcZJ8EBfoEUT3oRLiVzcsDOqIg%3D&t=4d5b0474&ps=13740610&shp=81f88b70&shcp=43f4a2f9&idc=my2",
+   "time": 1789605105,
+   "url": "https://www.tiktok.com/@jaemyung_lee/video/7686295400835239175",
+   "region": "kr"
+  }
+ ],
  "reddit": [
+  {
+   "sub": "oddlysatisfying",
+   "title": "Different balls with water drops",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/eXR3aGxjMWZ5NXRoMV5FzxXABo11JwBUQ9dWiBYjX30C2qNtth30c2eNqwk1.jpeg?width=320&crop=smart&auto=webp&s=e0aa7e30a0f79f801ea05c389aaf4d74a6bdda39",
+   "time": 1790994586,
+   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1wwbxm7/different_balls_with_water_drops/"
+  },
   {
    "sub": "interesting",
    "title": "A seagull is accidentally hit by a tennis ball during a game in Australia.",
@@ -213,15 +333,6 @@
    "thumb": "https://external-preview.redd.it/NWs5ZW81ZTl2MnRoMX2zInpLX-h0HgZsPecdx4L4O2TE7eFD478Djodvy2RD.png?width=320&crop=smart&auto=webp&s=6870a74c6e00d522b0628d46242febf18efbe512",
    "time": 1790957225,
    "url": "https://www.reddit.com/r/interesting/comments/1wvxqxj/a_seagull_is_accidentally_hit_by_a_tennis_ball/"
-  },
-  {
-   "sub": "TheTeenagerPeople",
-   "title": "What’s the perfect name for this little kitten?",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/qhlo28gms2th1.jpeg?width=640&crop=smart&auto=webp&s=7b15bd79b87a32698bc3f1a7fcc706b137047b9e",
-   "time": 1790956320,
-   "url": "https://www.reddit.com/r/TheTeenagerPeople/comments/1wvxd6v/whats_the_perfect_name_for_this_little_kitten/"
   },
   {
    "sub": "SipsTea",
@@ -233,40 +344,13 @@
    "url": "https://www.reddit.com/r/SipsTea/comments/1wvzagh/thoughts_on_this/"
   },
   {
-   "sub": "oddlysatisfying",
-   "title": "Different balls with water drops",
+   "sub": "TheTeenagerPeople",
+   "title": "What’s the perfect name for this little kitten?",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://external-preview.redd.it/eXR3aGxjMWZ5NXRoMV5FzxXABo11JwBUQ9dWiBYjX30C2qNtth30c2eNqwk1.jpeg?width=320&crop=smart&auto=webp&s=e0aa7e30a0f79f801ea05c389aaf4d74a6bdda39",
-   "time": 1790994586,
-   "url": "https://www.reddit.com/r/oddlysatisfying/comments/1wwbxm7/different_balls_with_water_drops/"
-  },
-  {
-   "sub": "news",
-   "title": "Christa Pike unconscious, on ventilator at Nashville hospital, her lawyers say",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "",
-   "time": 1790967969,
-   "url": "https://www.reddit.com/r/news/comments/1ww29sz/christa_pike_unconscious_on_ventilator_at/"
-  },
-  {
-   "sub": "funny",
-   "title": "A mosquito got trapped and crushed inside this baby's wrist roll.",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://external-preview.redd.it/a25odmZ3b3BmNXRoMZfNsYnckWTlmXnPRB_hsf_r-04BJy5kQoM-i3ddhTHi.jpeg?width=320&crop=smart&auto=webp&s=8a693afa397baf8d351c4b5c047de33ea556ac3f",
-   "time": 1790988296,
-   "url": "https://www.reddit.com/r/funny/comments/1ww9yjm/a_mosquito_got_trapped_and_crushed_inside_this/"
-  },
-  {
-   "sub": "whenthe",
-   "title": "we do not give alcohol close to enough shit despite it being just as bad if not worse than cigarettes",
-   "score": 0,
-   "cmts": 0,
-   "thumb": "https://preview.redd.it/a9tjocfom1th1.gif?width=320&crop=smart&s=da29cc5b38abec0d3b995090bb92e3d6d3d1b9e2",
-   "time": 1790942210,
-   "url": "https://www.reddit.com/r/whenthe/comments/1wvrvji/we_do_not_give_alcohol_close_to_enough_shit/"
+   "thumb": "https://preview.redd.it/qhlo28gms2th1.jpeg?width=640&crop=smart&auto=webp&s=7b15bd79b87a32698bc3f1a7fcc706b137047b9e",
+   "time": 1790956320,
+   "url": "https://www.reddit.com/r/TheTeenagerPeople/comments/1wvxd6v/whats_the_perfect_name_for_this_little_kitten/"
   },
   {
    "sub": "mildlyinfuriating",
@@ -278,13 +362,40 @@
    "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wwayoa/entire_hotel_fridge_full_of_drinks_with_sensors/"
   },
   {
-   "sub": "mildlyinfuriating",
-   "title": "I ordered this pork chop medium. When I told the server that I thought it was undercooked, she brought it back to the kitchen and said she'd bring it back medium-well for me.",
+   "sub": "funny",
+   "title": "A mosquito got trapped and crushed inside this baby's wrist roll.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/9u0lyavll5th1.jpeg?width=640&crop=smart&auto=webp&s=b3b89a152f21818bcf113840c9b1778b085b91d0",
-   "time": 1790990275,
-   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wwalie/i_ordered_this_pork_chop_medium_when_i_told_the/"
+   "thumb": "https://external-preview.redd.it/a25odmZ3b3BmNXRoMZfNsYnckWTlmXnPRB_hsf_r-04BJy5kQoM-i3ddhTHi.jpeg?width=320&crop=smart&auto=webp&s=8a693afa397baf8d351c4b5c047de33ea556ac3f",
+   "time": 1790988296,
+   "url": "https://www.reddit.com/r/funny/comments/1ww9yjm/a_mosquito_got_trapped_and_crushed_inside_this/"
+  },
+  {
+   "sub": "news",
+   "title": "Christa Pike unconscious, on ventilator at Nashville hospital, her lawyers say",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "",
+   "time": 1790967969,
+   "url": "https://www.reddit.com/r/news/comments/1ww29sz/christa_pike_unconscious_on_ventilator_at/"
+  },
+  {
+   "sub": "interestingasfuck",
+   "title": "A raccoon figured out that if he blocks the drive-thru, they’ll give him a donut to make him leave",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://external-preview.redd.it/YnptbGRjNzFiNnRoMf4PAjQg3IbdVorRZG6T8vNr0hudPM0Z6z8-QEh7m1f5.png?width=640&crop=smart&auto=webp&s=688750703a97cb21b9a5f4829b8c4b775b96b844",
+   "time": 1790998831,
+   "url": "https://www.reddit.com/r/interestingasfuck/comments/1wwd8vw/a_raccoon_figured_out_that_if_he_blocks_the/"
+  },
+  {
+   "sub": "whenthe",
+   "title": "we do not give alcohol close to enough shit despite it being just as bad if not worse than cigarettes",
+   "score": 0,
+   "cmts": 0,
+   "thumb": "https://preview.redd.it/a9tjocfom1th1.gif?width=320&crop=smart&s=da29cc5b38abec0d3b995090bb92e3d6d3d1b9e2",
+   "time": 1790942210,
+   "url": "https://www.reddit.com/r/whenthe/comments/1wvrvji/we_do_not_give_alcohol_close_to_enough_shit/"
   },
   {
    "sub": "Fauxmoi",
@@ -296,69 +407,81 @@
    "url": "https://www.reddit.com/r/Fauxmoi/comments/1wwbfmi/zach_bryan_wearing_a_free_palestine_shirt_at/"
   },
   {
-   "sub": "PeterExplainsTheJoke",
-   "title": "Mouth breathers?",
+   "sub": "mildlyinfuriating",
+   "title": "I ordered this pork chop medium. When I told the server that I thought it was undercooked, she brought it back to the kitchen and said she'd bring it back medium-well for me.",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/jyvn3dvl02th1.jpeg?width=640&crop=smart&auto=webp&s=515bf5ddc3db41880d801195da9c4e5fe5bf98ee",
-   "time": 1790946892,
-   "url": "https://www.reddit.com/r/PeterExplainsTheJoke/comments/1wvtiqv/mouth_breathers/"
+   "thumb": "https://preview.redd.it/9u0lyavll5th1.jpeg?width=640&crop=smart&auto=webp&s=b3b89a152f21818bcf113840c9b1778b085b91d0",
+   "time": 1790990275,
+   "url": "https://www.reddit.com/r/mildlyinfuriating/comments/1wwalie/i_ordered_this_pork_chop_medium_when_i_told_the/"
   },
   {
-   "sub": "Fallout",
-   "title": "My Protectron Cosplay",
+   "sub": "cats",
+   "title": "In case you have never seen a baby Sphynx in your life",
    "score": 0,
    "cmts": 0,
-   "thumb": "https://preview.redd.it/4accbh1db5th1.jpg?width=140&height=140&crop=1:1,smart&auto=webp&s=e889f74bbaa0daea21fd02d5a7f9dac1142e1961",
-   "time": 1790986830,
-   "url": "https://www.reddit.com/r/Fallout/comments/1ww9hjq/my_protectron_cosplay/"
+   "thumb": "https://external-preview.redd.it/azF1MmUxa2d2NnRoMWKDGH8xkz-vPN-sBa3QO44F784TJrPXZ5dfuz6Pb_ER.jpeg?width=320&crop=smart&auto=webp&s=f0ed23405b3b7478d3160b33a680ea22711b3396",
+   "time": 1791005697,
+   "url": "https://www.reddit.com/r/cats/comments/1wwf8us/in_case_you_have_never_seen_a_baby_sphynx_in_your/"
   }
  ],
  "disaster": [],
  "namu": [
   {
-   "query": "부캉이",
+   "query": "암살자들",
    "rank": 1
   },
   {
-   "query": "김민",
+   "query": "닛몰캐쉬",
    "rank": 2
   },
   {
-   "query": "이우석",
+   "query": "부캉이",
    "rank": 3
   },
   {
-   "query": "치이카와",
+   "query": "김민",
    "rank": 4
   },
   {
-   "query": "최승용",
+   "query": "치이카와",
    "rank": 5
   },
   {
-   "query": "암살자(들)",
+   "query": "봉누도2",
    "rank": 6
   },
   {
-   "query": "시지프 백화점",
+   "query": "김현중",
    "rank": 7
   },
   {
-   "query": "케네디",
+   "query": "고연전",
    "rank": 8
   },
   {
-   "query": "닛몰캐쉬",
+   "query": "이우석",
    "rank": 9
   },
   {
-   "query": "봉누도2",
+   "query": "아시안 게임",
    "rank": 10
   }
  ],
  "_cover": {
   "ok": {
+   "x": [
+    "1992__j",
+    "64bitcoinkr",
+    "awaken_eyes",
+    "economysniper0",
+    "freedom_73x",
+    "globalbrief_now",
+    "jajaja7878uu",
+    "kyunghyang",
+    "mugmulree",
+    "tech_meow"
+   ],
    "threads": [
     "aicoffeechat",
     "aipeekme",
@@ -367,19 +490,21 @@
     "kopp",
     "promppy_com",
     "takepage_"
+   ],
+   "tiktok": [
+    "jaemyung_lee"
    ]
   },
   "why": {
    "tiktok": {
-    "jaemyung_lee": 503,
     "tictok_ent": 503
    }
   },
   "landing": {
-   "at": "2026-10-03T15:01:39",
+   "at": "2026-10-03T15:31:26",
    "state": "ok",
    "why": "착지"
   }
  },
- "updated": "2026-10-03T15:31:24.102253+09:00"
+ "updated": "2026-10-03T16:06:21.276542+09:00"
 }
