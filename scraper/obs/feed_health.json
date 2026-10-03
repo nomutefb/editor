@@ -1,7 +1,13 @@
 {
- "ok": 185,
- "dead": 0,
- "dead_feeds": [],
+ "ok": 184,
+ "dead": 1,
+ "dead_feeds": [
+  {
+   "publisher": "전자신문",
+   "title": "IT·산업전반",
+   "url": "https://rss.etnews.com/Section901.xml"
+  }
+ ],
  "zombie_feeds": [
   {
    "publisher": "경향신문",
@@ -12,6 +18,26 @@
    "publisher": "국민일보",
    "title": "연예",
    "url": "https://www.kmib.co.kr/rss/data/kmibEntRss.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "레져",
+   "url": "https://rss.donga.com/leisure.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "공연",
+   "url": "https://rss.donga.com/show.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "여성",
+   "url": "https://rss.donga.com/woman.xml"
+  },
+  {
+   "publisher": "동아일보",
+   "title": "생활정보",
+   "url": "https://rss.donga.com/lifeinfo.xml"
   },
   {
    "publisher": "매일노동뉴스",
